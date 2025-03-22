@@ -1,21 +1,18 @@
-import express , {Express, Request, Response} from 'express';
-import dotenv from "dotenv";
+import { Request, Response } from 'express';
+import app from './app'
 
-dotenv.config();
-
-const app = express();
-const port = process.env.PORT ? parseInt(process.env.PORT, 10) : undefined;
-
-if (port === undefined) {
-  throw new Error("PORT is not defined in the .env file");
-}
-
-app.use(express.json());
-
+/**
+ * Port config
+*/
+// TODO config
+const port = 8080;
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
 })
 
+/**
+ * Random shit
+ */
 app.get("/", (req: Request, res: Response) => {
     res.send("HELO!11!!!!");
 })
