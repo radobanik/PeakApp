@@ -32,10 +32,19 @@ const deleteUser = async (id: string) => {
     });
 }
 
+const exists = async (id: string) => {
+    const count =  await userClient.count({
+        where: { id }
+    });
+    return count > 0;
+}
+
+
 export default { 
     getAllUsers, 
     getUserById, 
     createUser, 
     updateUser, 
-    deleteUser 
+    deleteUser,
+    exists
 };
