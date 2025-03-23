@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { UserCreate, UserUpdate } from "../model/user";
 
 const userClient = new PrismaClient().user;
 
@@ -12,14 +13,13 @@ const getUserById = async (id: string) => {
     });
 }
 
-const createUser = async (userData: any) => {
+const createUser = async (userData: UserCreate) => {
     return userClient.create({
         data: userData
     });
 }
 
-const updateUser = async (id: string, userData: any) => {
-    userData.id = id; // to not overwrite id
+const updateUser = async (id: string, userData: UserUpdate) => {
     return userClient.update({
         where: { id },
         data: userData

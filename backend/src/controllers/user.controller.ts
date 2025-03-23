@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "../utils/httpStatusCodes";
 import UserRepository from "../repositories/user.repository";
+import { UserCreate, UserUpdate } from "../model/user";
 
 const getAllUsers = async (req: Request, res: Response) => {
     try {
@@ -26,9 +27,9 @@ const getUserById = async (req: Request, res: Response) => {
     }
 }
 
-const createUser = async (req: Request, res: Response) => {
+const createUser = async (req: Request<UserCreate>, res: Response) => {
     try {
-        const userData = req.body;
+        const userData: UserCreate = req.body;
         const user = await UserRepository.createUser(userData);
         res.status(HTTP_STATUS.CREATED_201).json({ data: user });
     } catch (e) {
@@ -36,7 +37,7 @@ const createUser = async (req: Request, res: Response) => {
     }
 }
 
-const updateUser = async (req: Request, res: Response) => {
+const updateUser = async (req: Request<{ id: string }, {},  UserUpdate>, res: Response) => {
     try {
         const userData = req.body;
         const userId = req.params.id;
