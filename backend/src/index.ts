@@ -1,13 +1,12 @@
 import { Request, Response } from 'express';
 import app from './app'
+import config from './core/config';
 
 /**
  * Port config
 */
-// TODO config
-const port = 8080;
-app.listen(port, () => {
-    console.log(`listening on port ${port}`);
+app.listen(config.port, () => {
+    console.log(`listening on port ${config.port}`);
 })
 
 /**

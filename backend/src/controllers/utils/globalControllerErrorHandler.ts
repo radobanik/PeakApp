@@ -33,4 +33,4 @@ function getErrorMessage(error: unknown): string {
     return '';
 }
   
-  export default globalErrorHandler;
+export default globalErrorHandler;

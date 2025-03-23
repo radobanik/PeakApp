@@ -1,9 +1,10 @@
 import { Router } from "express";
 import { v1Router } from "./v1";
+import config from "../core/config";
 
 const mainRouter = Router();
 
-// TODO use congfig
-mainRouter.use("/api/v1", v1Router);
+const apiPrefix = config.apiPrefix;
+mainRouter.use(`${apiPrefix}/v1`, v1Router);
 
 export { mainRouter };
