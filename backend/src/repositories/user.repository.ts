@@ -9,7 +9,10 @@ const getAllUsers = async () => {
 
 const getUserById = async (id: string) => {
     return userClient.findUnique({
-        where: { id }
+        where: { 
+            id : id,
+            deleted: false
+        }
     });
 }
 
@@ -22,23 +25,32 @@ const createUser = async (userData: UserCreate) => {
 const updateUser = async (id: string, userData: UserUpdate) => {
     return userClient.update({
         where: { id },
-        data: userData
+        data: {
+            ...userData,
+            updated: new Date(),
+        }
     });
 }
 
 const deleteUser = async (id: string) => {
-    return userClient.delete({
-        where: { id }
+    return userClient.update({
+        where: { id },
+        data: {
+            deleted: true,
+            updated: new Date(),
+        }
     });
 }
 
 const exists = async (id: string) => {
     const count =  await userClient.count({
-        where: { id }
+        where: { 
+            id : id,
+            deleted: false
+        }
     });
     return count > 0;
 }
-
 
 export default { 
     getAllUsers, 

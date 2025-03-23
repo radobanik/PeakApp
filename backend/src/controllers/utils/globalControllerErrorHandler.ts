@@ -15,6 +15,8 @@ const globalErrorHandler = (
       return;
     }
 
+    // TODO hadle prisma DB constaints: it is not server error, but user error
+    
     res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR_500).json({
       error: {
         message: "Internal server error",
