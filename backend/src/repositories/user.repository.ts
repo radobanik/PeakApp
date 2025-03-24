@@ -1,11 +1,10 @@
-import { PrismaClient } from "@prisma/client";
-import { UserCreate, UserUpdate } from "../model/user";
+import { Prisma, PrismaClient } from "@prisma/client";
+import { UserCreate, UserUpdate, UserList } from "../model/user";
 
 const userClient = new PrismaClient().user;
 
-const getAllUsers = async () => {
-    return userClient.findMany();
-}
+type UserWhere = Prisma.UserWhereInput;
+type UserOrder = Prisma.UserOrderByWithRelationInput;
 
 const getUserById = async (id: string) => {
     return userClient.findUnique({
@@ -14,6 +13,25 @@ const getUserById = async (id: string) => {
             deleted: false
         }
     });
+}
+
+const listUsers = async (where: UserWhere, orderBy: UserOrder[], pageNum : number, pageSize : number) : Promise<UserList> => {
+    const users = await userClient.findMany({
+        where,
+        orderBy,
+        skip: (pageNum - 1) * pageSize,
+        take: pageSize,
+      });
+  
+    const totalUsers = await userClient.count({ where });
+
+    return {
+        items: users,
+        total: totalUsers,
+        page: pageNum,
+        pageSize: pageSize,
+        totalPages: Math.ceil(totalUsers / pageSize),
+    }
 }
 
 const createUser = async (userData: UserCreate) => {
@@ -52,11 +70,16 @@ const exists = async (id: string) => {
     return count > 0;
 }
 
-export default { 
-    getAllUsers, 
+export default {  
     getUserById, 
+    listUsers,
     createUser, 
     updateUser, 
     deleteUser,
-    exists
+    exists,
+};
+
+export {
+    UserWhere,
+    UserOrder,
 };

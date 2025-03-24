@@ -13,6 +13,8 @@ const envVarsSchema = Joi.object()
       .required(),
     API_PREFIX: Joi.string().default('api'),
     DB_URL: Joi.string().required().description('Database URL'),
+    DEFAULT_LIST_LIMIT: Joi.number().required(),
+    USER_LIST_LIMIT: Joi.number(),
   })
   .unknown();
 
@@ -29,4 +31,8 @@ export default {
     environment: envVars.ENVIRONMENT,
     apiPrefix: envVars.API_PREFIX,
     databaseUrl: envVars.DB_URL,
+    listLimit: {
+        default: envVars.DEFAULT_LIST_LIMIT,
+        user: envVars.USER_LIST_LIMIT || envVars.DEFAULT_LIST_LIMIT
+    }
 };

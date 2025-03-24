@@ -32,4 +32,24 @@ const validateUserUpdate = (entity: UserUpdate) => z.object({
     lastName: z.string().min(1, 'Last name must not be empty'),
   }).strict().safeParse(entity);
 
-export { User, UserCreate, UserUpdate, validateUserUpdate, validateUserCreate };
+interface UserList {
+  items: User[];
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+}
+
+const validSortFields = ['firstName', 'lastName', 'email'];
+
+export { 
+  User,
+  UserCreate,
+  UserUpdate,
+  UserList,
+
+  validateUserUpdate,
+  validateUserCreate,
+
+  validSortFields,
+};

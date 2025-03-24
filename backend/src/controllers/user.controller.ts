@@ -1,12 +1,8 @@
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "./utils/httpStatusCodes";
-import UserRepository from "../repositories/user.repository";
-import { User, UserCreate, UserUpdate, validateUserCreate, validateUserUpdate } from "../model/user";
-
-const getAllUsers = async (req: Request, res: Response) => {
-    const allUsers = await UserRepository.getAllUsers();
-    res.status(HTTP_STATUS.OK_200).json({ data: allUsers });
-}
+import UserRepository, { UserOrder, UserWhere } from "../repositories/user.repository";
+import { User, UserCreate, UserUpdate, validateUserCreate, validateUserUpdate, validSortFields } from "../model/user";
+import config from "../core/config";
 
 const getUserById = async (req: Request, res: Response) => {
     const userId = req.params.id;
@@ -15,8 +11,52 @@ const getUserById = async (req: Request, res: Response) => {
     if (user == null) {
         res.status(HTTP_STATUS.NOT_FOUND_404).json({ error: "User not found" });
     } else {
-        res.status(HTTP_STATUS.OK_200).json({ data: user });
+        res.status(HTTP_STATUS.OK_200).json(user);
     }
+}
+
+const userList = async (req: Request, res: Response) => {
+    const { 
+        firstName = '', lastName = '', email = '',
+        sort, order = 'asc',
+        page = '1', pageSize = '10'
+    } = req.query;
+
+    const pageNum = parseInt(page as string);
+    const size = Math.min(parseInt(pageSize as string), config.listLimit.user);
+
+    const where: UserWhere = {
+        AND: [
+          {
+            AND: [
+              { firstName: { contains: firstName as string, mode: "insensitive" } },
+              { lastName: { contains: lastName as string, mode: "insensitive" } },
+              { email: { contains: email as string, mode: "insensitive" } },
+            ],
+          },
+          {
+            deleted: false,
+          },
+        ],
+      };
+
+    const sortFields = (sort as string)?.split(',') || [];
+    const orderFields = (order as string)?.split(',') || [];
+
+    const orderBy: UserOrder[] = sortFields
+    .map((field, index) => {
+      if (validSortFields.includes(field)) {
+        return { [field]: orderFields[index] === 'desc' ? 'desc' : 'asc' } as UserOrder;
+      }
+      return null;
+    })
+    .filter((order): order is UserOrder => order !== null);
+
+    // Default sort if none provided
+    if (orderBy.length === 0) orderBy.push({ id: 'asc' });
+
+    const userListResult = await UserRepository.listUsers(where, orderBy, pageNum, size);
+    res.status(HTTP_STATUS.OK_200).json(userListResult);
 }
 
 const createUser = async (req: Request<UserCreate>, res: Response) => {
@@ -36,7 +76,7 @@ const createUser = async (req: Request<UserCreate>, res: Response) => {
     }
 
     const user = await UserRepository.createUser(validationResult.data);
-    res.status(HTTP_STATUS.CREATED_201).json({ data: user });
+    res.status(HTTP_STATUS.CREATED_201).json(user);
 }
 
 const updateUser = async (req: Request<{ id: string }, {},  UserUpdate>, res: Response) => {
@@ -69,7 +109,7 @@ const updateUser = async (req: Request<{ id: string }, {},  UserUpdate>, res: Re
     };
 
     const user = await UserRepository.updateUser(userId, updatedUser);
-    res.status(HTTP_STATUS.OK_200).json({ data: user });
+    res.status(HTTP_STATUS.OK_200).json(user);
 }
 
 const deleteUser = async (req: Request, res: Response) => {
@@ -85,8 +125,8 @@ const deleteUser = async (req: Request, res: Response) => {
 }
 
 export default { 
-    getAllUsers, 
     getUserById, 
+    userList,
     createUser, 
     updateUser, 
     deleteUser 
