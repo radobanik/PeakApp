@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@common/*": ["packages/common/src/*"]
+    },
+    "strict": true,
+    "moduleResolution": "node",
+    "target": "ESNext"
+  }
+}
