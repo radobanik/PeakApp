@@ -1,11 +1,17 @@
-const express = require("express");
-const app = express();
-const port = 4000;
+import { Request, Response } from 'express';
+import app from './app'
+import config from './core/config';
 
-app.get("/", (_: any, res: any) => {
-  res.send("Hello World!");
-});
+/**
+ * Port config
+*/
+app.listen(config.port, () => {
+    console.log(`listening on port ${config.port}`);
+})
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+/**
+ * Random shit
+ */
+app.get("/", (req: Request, res: Response) => {
+    res.send("HELO!11!!!!");
+})
