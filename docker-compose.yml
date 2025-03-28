@@ -1,10 +1,8 @@
-version: '3.8'
-
 services:
   db:
     container_name: peak_app_db
     build:
-      context: ./backend/db
+      context: ./apps/backend/db
       dockerfile: Dockerfile
     ports:
       - 5432:5432
