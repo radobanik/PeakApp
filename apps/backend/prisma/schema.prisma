@@ -8,11 +8,22 @@ datasource db {
 }
 
 model User {
-  id                String      @id @default(uuid())
-  firstName         String
-  lastName          String
-  email             String      @unique
-  created           DateTime    @default(now())
-  updated           DateTime?    
-  deleted           Boolean     @default(false)
+  id          String   @id @default(uuid())
+  userName    String   @unique
+  password    String
+  email       String   @unique
+  firstName   String
+  lastName    String
+
+  birthdayAt  DateTime?
+  height      Int?
+  weight      Float?
+
+  city        String?
+  state       String?
+  countryCode String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime?
+  deleted     Boolean  @default(false)
 }

@@ -9,9 +9,12 @@
     "dev:frontend": "npm --workspace apps/frontend run dev",
     "dev:backend": "npm --workspace apps/backend run dev",
     "dev": "concurrently --kill-others-on-fail -n frontend,backend -c blue,green \"npm run dev:frontend\" \"npm run dev:backend\""
-
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
+  },
+  "dependencies": {
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   }
 }
