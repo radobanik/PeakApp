@@ -1,5 +1,5 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import { UserCreate, UserUpdate, UserList, userDetailSelector, UserDetail, User, userListSelector } from "../model/user/index";
+import { UserCreate, UserUpdate, UserList, userDetailSelector, UserDetail, userListSelector } from "../model/user/index";
 import { createListResponse, ListResponse } from "../model/common/listResponse";
 
 type UserWhere = Prisma.UserWhereInput;

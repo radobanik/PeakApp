@@ -26,18 +26,5 @@ const validate = (entity: UserUpdate) =>
         countryCode: z.string().length(2, 'Country code must be exactly 2 characters').nullable(),
     }).strict().safeParse(entity);
 
-const mapUserToUserUpdate = (user: User): UserUpdate => {
-    return {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        birthdayAt: user.birthdayAt,
-        height: user.height,
-        weight: user.weight,
-        city: user.city,
-        state: user.state,
-        countryCode: user.countryCode,
-    };
-};
-
 export type { UserUpdate };
-export { validate, mapUserToUserUpdate };
+export { validate };
