@@ -1,8 +1,10 @@
 import { Router } from "express";
 import { UserController } from "../../controllers/index";
 import checkRoles from "../../middlewares/checkRoles";
+import checkAdminOrOwner from "../../middlewares/checkAdminOrOwner";
 import passport from "passport";
 import { Role } from "@prisma/client";
+
 
 const userRouter = Router();
 
@@ -37,7 +39,7 @@ userRouter.get("/",
 userRouter.get(
     "/:id",
     passport.authenticate("jwt", { session: false }),
-    checkRoles([Role.ADMIN]),
+    checkAdminOrOwner(),
     UserController.getUserById
 );
 
@@ -71,7 +73,7 @@ userRouter.post("/",
  */
 userRouter.put("/:id",
     passport.authenticate("jwt", { session: false }),
-    checkRoles([Role.ADMIN]),
+    checkAdminOrOwner(),
     UserController.getUserById
 );
 
