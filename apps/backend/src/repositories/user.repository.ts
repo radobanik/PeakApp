@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
 import { UserCreate, UserUpdate, UserList, userDetailSelector, UserDetail, userListSelector } from "../model/user/index";
 import { createListResponse, ListResponse } from "../model/common/listResponse";
 
@@ -25,16 +26,20 @@ const listUsers = async (where : UserWhere, orderBy : UserOrder[], pageNum : num
         skip: (pageNum - 1) * pageSize,
         take: pageSize,
         select: userListSelector,
-      });
-  
+    });
+
     const totalUsers = await userClient.count({ where });
 
     return createListResponse(users, totalUsers, pageNum, pageSize);
 }
 
 const createUser = async (userData: UserCreate) : Promise<UserDetail> => {
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
     return await userClient.create({
-        data: userData,
+        data: {
+            ...userData,
+            password: hashedPassword,
+        },
         select: userDetailSelector,
     });
 }
@@ -73,6 +78,26 @@ const exists = async (id: string) => {
     return count > 0;
 }
 
+const validateUser = async (username: string, password: string): Promise<UserDetail | null> => {
+    const user = await userClient.findFirst({
+        where: {
+            userName: username,
+            deleted: false,
+        },
+        select: {
+            ...userDetailSelector,
+            password: true, 
+        },
+    });
+
+    if (user && await bcrypt.compare(password, user.password)) {
+        const { password, ...userWithoutPassword } = user;
+        return userWithoutPassword as UserDetail;
+    }
+
+    return null;
+};
+
 export default {  
     getUserById, 
     listUsers,
@@ -80,6 +105,7 @@ export default {
     updateUser, 
     deleteUser,
     exists,
+    validateUser
 };
 
 export {
