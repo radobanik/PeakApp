@@ -1,0 +1,24 @@
+.Header--Header {
+    display: flex;
+    justify-content: left;
+    width: 100vw;
+    padding: 12px;
+    border-bottom: 2px solid var(--color-gray-light);
+}
+
+.Header--Nav {
+    flex: auto;
+    display: flex;
+    justify-content: right;
+}
+
+.Header--Entry {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 48px;
+    font-size: 2em;
+    font-weight: 600;
+    color: var(--color-white);
+    text-decoration: none;
+}
