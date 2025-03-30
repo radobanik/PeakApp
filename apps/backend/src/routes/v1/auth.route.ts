@@ -24,6 +24,7 @@ const authRouter = Router();
  *         description: JWT token returned
  */
 authRouter.post("/login", AuthController.login);
+// TODO: Set redirect URL after login
 
 /**
  * @swagger
@@ -52,5 +53,6 @@ authRouter.post("/login", AuthController.login);
  *         description: User registered successfully
  */
 authRouter.post("/register", AuthController.register);
+// TODO: Set redirect URL after register
 
 export default authRouter;
