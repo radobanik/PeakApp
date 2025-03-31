@@ -12,7 +12,7 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     env_file:
-      - .env
+      - ./apps/backend/.env
     ports:
       - "5050:80"
 
