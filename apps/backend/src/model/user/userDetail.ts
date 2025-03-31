@@ -1,3 +1,5 @@
+import { Role } from "@prisma/client";
+
 type UserDetail = {
     id: string;
     userName: string;
@@ -5,6 +7,8 @@ type UserDetail = {
     
     firstName: string;
     lastName: string;
+
+    roles: Role[];
 
     birthdayAt: Date | null;
     height: Number | null;
@@ -25,6 +29,8 @@ const selector = {
 
     firstName: true,
     lastName: true,
+
+    roles: true,
 
     birthdayAt: true,
     height: true,

@@ -1,12 +1,14 @@
 import express from 'express';
 // import cors from 'cors';
 import helmet from 'helmet';
+import passport from "passport";
 import { mainRouter } from './routes';
 import globalControllerErrorHandler from './controllers/utils/globalControllerErrorHandler';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import path from 'path';
 import config from './core/config';
+import configureJwtStrategy from "./auth/jwtStrategy";
 
 const app = express();
 
@@ -14,6 +16,10 @@ app.use(express.json());
 // TODO cors does not work
 // app.use(cors());
 app.use(helmet());
+
+
+app.use(passport.initialize());
+configureJwtStrategy(passport);
 
 // swagger
 const swaggerSpec = swaggerJSDoc({

@@ -1,5 +1,10 @@
 import { Router } from "express";
 import { UserController } from "../../controllers/index";
+import checkRoles from "../../middlewares/checkRoles";
+import checkAdminOrOwner from "../../middlewares/checkAdminOrOwner";
+import passport from "passport";
+import { Role } from "@prisma/client";
+
 
 const userRouter = Router();
 
@@ -12,7 +17,11 @@ const userRouter = Router();
  *       200:
  *         description: List of users
  */
-userRouter.get("/", UserController.userList);
+userRouter.get("/",
+    passport.authenticate("jwt", { session: false }),
+    checkRoles([Role.ADMIN]),
+    UserController.getUserById
+);
 
 /**
  * @swagger
@@ -27,7 +36,12 @@ userRouter.get("/", UserController.userList);
  *       200:
  *         description: User found
  */
-userRouter.get("/:id", UserController.getUserById);
+userRouter.get(
+    "/:id",
+    passport.authenticate("jwt", { session: false }),
+    checkAdminOrOwner(),
+    UserController.getUserById
+);
 
 /**
  * @swagger
@@ -38,7 +52,11 @@ userRouter.get("/:id", UserController.getUserById);
  *       201:
  *         description: User created
  */
-userRouter.post("/", UserController.createUser);
+userRouter.post("/",
+    passport.authenticate("jwt", { session: false }),
+    checkRoles([Role.ADMIN]),
+    UserController.getUserById
+);
 
 /**
  * @swagger
@@ -53,7 +71,11 @@ userRouter.post("/", UserController.createUser);
  *       200:
  *         description: User updated
  */
-userRouter.put("/:id", UserController.updateUser);
+userRouter.put("/:id",
+    passport.authenticate("jwt", { session: false }),
+    checkAdminOrOwner(),
+    UserController.getUserById
+);
 
 /**
  * @swagger
@@ -68,6 +90,10 @@ userRouter.put("/:id", UserController.updateUser);
  *       200:
  *         description: User deleted
  */
-userRouter.delete("/:id", UserController.deleteUser);
+userRouter.delete("/:id",
+    passport.authenticate("jwt", { session: false }),
+    checkRoles([Role.ADMIN]),
+    UserController.getUserById
+);
 
 export default userRouter;
