@@ -8,5 +8,9 @@ const refObjectSchema = z.object({
     id: z.string().uuid(),
 }).strict();
 
+const refObjectSelector = {
+    id: true,
+};
+
 export type { RefObject };
-export { refObjectSchema };
+export { refObjectSchema, refObjectSelector };

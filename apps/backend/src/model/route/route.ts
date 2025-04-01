@@ -3,6 +3,7 @@ import { Grade } from "../grade";
 import { PeakFile } from "../peakFile";
 import { User } from "../user";
 import { OverlayPoint } from "./overlayPoint/overlayPoint";
+import { ClimbingObject } from "../climbingObject";
 
 type Route = {
     id: string;
@@ -23,6 +24,8 @@ type Route = {
     image: PeakFile | null;
     additionalImages: PeakFile[];
     overlay: OverlayPoint;
+
+    climbingObject: ClimbingObject;
 }
 
 export type { Route };

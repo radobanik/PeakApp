@@ -15,6 +15,8 @@ type RouteCreate = {
     image: RefObject | null;
     additionalImages: RefObject[];
     overlay: OverlayPoint[];
+    
+    climbingObject: RefObject;
 }
 
 const validate = (entity: RouteCreate) => z.object({
@@ -27,6 +29,7 @@ const validate = (entity: RouteCreate) => z.object({
     image: refObjectSchema.nullable(),
     additionalImages: z.array(refObjectSchema),
     overlay: overlayPointSchema.array(),
+    climbingObject: refObjectSchema,
   }).strict().safeParse(entity);
 
 export type { RouteCreate };

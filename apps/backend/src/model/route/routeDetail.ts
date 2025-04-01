@@ -3,6 +3,7 @@ import { GradeDetail, gradeDetailSelector } from "../grade";
 import { PeakFile, peakFileSelector } from "../peakFile";
 import { UserLabeled, userLabeledSelector } from "../user";
 import { OverlayPoint } from "./overlayPoint/overlayPoint";
+import { ClimbingObjectNoRoutes, climbingObjectNoRoutesSelector } from "../climbingObject";
 
 type RouteDetail = {
     id: string;
@@ -22,6 +23,8 @@ type RouteDetail = {
     image: PeakFile | null;
     additionalImages: PeakFile[];
     overlay: OverlayPoint[];
+
+    climbingObject: ClimbingObjectNoRoutes;
 }
 
 const selector = {
@@ -51,6 +54,9 @@ const selector = {
         }
     },
     overlay: true,
+    climbingObject: {
+        select: climbingObjectNoRoutesSelector,
+    },
 };
 
 export type { RouteDetail };

@@ -8,7 +8,8 @@ import {
     NonNullRouteListParams,
     RouteList,
     selector as routeListSelector,
-    validateRouteListParams 
+    validateRouteListParams,
+    getRouteWhere,
 } from "./routeList";
 
 export type {
@@ -26,6 +27,7 @@ export {
     routeUpdateValidate,
     validateRouteListParams,
     defaultRouteListParams,
+    getRouteWhere,
 
     routeDetailSelector,
     routeListSelector,

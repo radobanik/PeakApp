@@ -35,6 +35,8 @@ model User {
   files       PeakFile[]
   routeCreatedBy Route[] @relation(name: "RouteCreatedBy")
   routeUpdatedBy Route[] @relation(name: "RouteUpdatedBy")
+  climbingStructureCreatedBy ClimbingObject[] @relation(name: "ClimbingObjectCreatedBy")
+  climbingStructureUpdatedBy ClimbingObject[] @relation(name: "ClimbingObjectUpdatedBy")
 }
 
 model PeakFile {
@@ -95,6 +97,9 @@ model Route {
   additionalImages RoutePeakFile[]
   overlay     Json      @default("[]")
 
+  climbingObjectId String
+  climbingObject   ClimbingObject @relation(fields: [climbingObjectId], references: [id])
+
   /* SAVED RELATIONSHIP */
   savedBy     User[]    @relation("RouteSaves")
 }
@@ -114,4 +119,22 @@ enum ClimbingStructureType {
   OVERHANG
   SLAB
   WALL
+}
+
+model ClimbingObject {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime?
+  deleted     Boolean  @default(false)
+
+  createdById String
+  createdBy   User     @relation(name: "ClimbingObjectCreatedBy", fields: [createdById], references: [id])
+  updatedById String?
+  updatedBy   User?    @relation(name: "ClimbingObjectUpdatedBy", fields: [updatedById], references: [id])
+
+  name        String
+  longitude   Float
+  latitude    Float
+
+  routes      Route[]
 }

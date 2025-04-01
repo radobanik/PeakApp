@@ -27,7 +27,7 @@ const flattenAdditionalImages = (entity: RouteDetailDeepImage): RouteDetail => {
     };
 };
 
-const listRoutes = async (where: RouteWhere, orderBy: RouteOrder[], pageNum: number, pageSize: number) : Promise<ListResponse<RouteList>> => {
+const list = async (where: RouteWhere, orderBy: RouteOrder[], pageNum: number, pageSize: number) : Promise<ListResponse<RouteList>> => {
     const routes : RouteList[] = await routeClient.findMany({
         where,
         orderBy,
@@ -62,6 +62,7 @@ const create = async (route: RouteCreate) : Promise<RouteDetail> => {
 
             createdAt: new Date(),
             createdBy : toConnector(authUserProvide()),
+            climbingObject: toConnector(route.climbingObject),
         },
         select: routeDetailSelector,
     });
@@ -79,6 +80,7 @@ const update = async (id: string, route: RouteUpdate) : Promise<RouteDetail>  =>
 
             updatedAt: new Date(),
             updatedBy : toConnector(authUserProvide()),
+            climbingObject: toConnector(route.climbingObject),
         },
         select: routeDetailSelector,
     });
@@ -112,7 +114,7 @@ export type {
 };
 
 export default {
-    listRoutes,
+    list,
     getById,
     create,
     update,

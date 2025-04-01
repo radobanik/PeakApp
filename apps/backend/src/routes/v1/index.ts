@@ -4,6 +4,7 @@ import authRouter from "./auth.route";
 import peakFileRouter from "./peakFile.route";
 import gradeRouter from "./grade.route";
 import routeRouter from "./route.route";
+import climbingObjectRouter from "./climbingObject.route";
 
 const v1Router = Router();
 
@@ -27,6 +28,10 @@ const routes = [
     {
         path: '/route',
         route: routeRouter,
+    },
+    {
+        path: '/climbing-object',
+        route: climbingObjectRouter,
     },
 ];
 

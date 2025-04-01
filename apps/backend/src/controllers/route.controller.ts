@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "./utils/httpStatusCodes";
 import { RouteRepository } from "../repositories";
-import { defaultRouteListParams, IncommingRouteListParams, Route, RouteCreate, routeCreateValidate, RouteUpdate, routeUpdateValidate } from "../model/route";
+import { defaultRouteListParams, IncommingRouteListParams, NonNullRouteListParams, Route, RouteCreate, routeCreateValidate, RouteUpdate, routeUpdateValidate } from "../model/route";
 import requestValidator from "../model/common/validator";
 import { RouteOrder, RouteWhere } from "../repositories/route.repository";
 import { parseSortAndOrderBy } from "../model/common/listParams";
@@ -19,7 +19,7 @@ const getById = async (req: Request, res: Response) => {
 
 const list = async (req: Request, res: Response) => {
     const params = req.query as unknown as IncommingRouteListParams;
-    const normalizedParams = defaultRouteListParams(params);
+    const normalizedParams: NonNullRouteListParams = defaultRouteListParams(params);
 
     const where : RouteWhere = {
         AND: [
@@ -41,7 +41,7 @@ const list = async (req: Request, res: Response) => {
     const orderBy: RouteOrder[] = parseSortAndOrderBy(normalizedParams.sort, normalizedParams.order);
     orderBy.push({ id: 'asc' });
 
-    const routeListResult = await RouteRepository.listRoutes(where, orderBy, normalizedParams.page, normalizedParams.pageSize);
+    const routeListResult = await RouteRepository.list(where, orderBy, normalizedParams.page, normalizedParams.pageSize);
     res.status(HTTP_STATUS.OK_200).json(routeListResult);
 }
 

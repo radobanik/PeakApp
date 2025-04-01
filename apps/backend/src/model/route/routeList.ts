@@ -2,6 +2,7 @@ import config from "../../core/config";
 import { ClimbingStructureType } from "@prisma/client";
 import { IncommingListParams, NonNullListParams, parseArray, toNotNullListParams, validateListParams } from "../common/listParams";
 import { GradeDetail, gradeDetailSelector } from "../grade";
+import { RouteWhere } from "../../repositories/route.repository";
 
 type RouteList = {
     id: string;
@@ -53,6 +54,10 @@ const validateRouteListParams = (params: NonNullRouteListParams) => {
     validateListParams(params, validSortFields);
 }
 
+const validateRouteListParamsWithSort = (params: NonNullRouteListParams, moreSortFields: string[]) => {
+    validateListParams(params, [...validSortFields, ...moreSortFields] );
+}
+
 const defaultRouteListParams = (params: IncommingRouteListParams): NonNullRouteListParams => {
     const { name, ratingFrom, ratingTo, longitudeFrom, longitudeTo, latitudeFrom, latitudeTo, climbingStructureTypes, ...listParams } = params;
 
@@ -79,5 +84,24 @@ const defaultRouteListParams = (params: IncommingRouteListParams): NonNullRouteL
     };
 }
 
+const getRouteWhere = (params: NonNullRouteListParams): RouteWhere => {
+    return {
+      AND: [
+        {
+          AND: [
+            { name: { contains: params.name as string, mode: "insensitive" } },
+            { longitude: { gte: params.longitudeFrom, lte: params.longitudeTo } },
+            { latitude: { gte: params.latitudeFrom, lte: params.latitudeTo } },
+            { climbingStructureType: { in: params.climbingStructureTypes } },
+            { grade: { rating: { gte: params.ratingFrom, lte: params.ratingTo } } },
+          ],
+        },
+        {
+          deleted: false,
+        },
+      ],
+    }
+  }
+
 export type { RouteList, IncommingRouteListParams, NonNullRouteListParams };
-export { selector, defaultRouteListParams, validateRouteListParams };
+export { selector, defaultRouteListParams, validateRouteListParams, validateRouteListParamsWithSort, getRouteWhere };
