@@ -3,9 +3,9 @@ import { UserCreate, validate as userCreateValidate} from "./userCreate";
 import { UserUpdate, validate as userUpdateValidate } from "./userUpdate";
 import { defaultUserListParams, UserList, selector as userListSelector, validateUserListParams } from "./userList";
 import { UserDetail, selector as userDetailSelector } from "./userDetail";
-import { UserRef, selector as userRefSelector } from "./userRef";
+import { UserLabeled, selector as userLabeledSelector } from "./userLabeled";
 
-export type { UserCreate, UserUpdate, User, UserList, UserDetail, UserRef };
+export type { UserCreate, UserUpdate, User, UserList, UserDetail, UserLabeled };
 export { 
     userUpdateValidate,
     userCreateValidate,
@@ -14,5 +14,5 @@ export {
     
     userListSelector,
     userDetailSelector,
-    userRefSelector,
+    userLabeledSelector,
  };

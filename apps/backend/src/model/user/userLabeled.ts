@@ -1,4 +1,4 @@
-type UserRef = {
+type UserLabeled = {
     id: string;
     userName: string;
     
@@ -14,5 +14,5 @@ const selector = {
     lastName: true,
 }
 
-export type { UserRef };
+export type { UserLabeled };
 export { selector };

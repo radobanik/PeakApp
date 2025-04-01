@@ -1,4 +1,4 @@
-import { UserRef, userRefSelector } from "../user";
+import { UserLabeled, userLabeledSelector } from "../user";
 import { PeakFileCreate } from "./peakFileCreate";
 
 type PeakFile = {
@@ -7,7 +7,7 @@ type PeakFile = {
   name: string;
   contentType: string;
   path: string;
-  createdBy: UserRef;
+  createdBy: UserLabeled;
 };
 
 const selector = {
@@ -17,7 +17,7 @@ const selector = {
   contentType: true,
   path: true,
   createdBy: {
-    select: userRefSelector,
+    select: userLabeledSelector,
   },
 }
 
