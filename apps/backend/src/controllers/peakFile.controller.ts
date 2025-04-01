@@ -1,7 +1,8 @@
 import { HTTP_STATUS } from "./utils/httpStatusCodes";
 import { PeakFileRepository } from "../repositories/index";
 import { Request, Response } from "express";
-import { PeakFileCreate } from "../model/peakFile/peakFileCreate";
+import { PeakFileCreate, peakCreateValidate } from "../model/peakFile";
+import requestValidator from "../model/common/validator";
 
 const getById = async (req : Request, res : Response) => {
     const fileId = req.params.id;
@@ -18,7 +19,11 @@ const getById = async (req : Request, res : Response) => {
  */
 const create = async (req : Request<PeakFileCreate>, res : Response) =>  {
     const fileData: PeakFileCreate = req.body;
-    const file = await PeakFileRepository.create(fileData);
+    
+    const validatedData = requestValidator(() => peakCreateValidate(fileData), res);
+    if (!validatedData) return;
+
+    const file = await PeakFileRepository.create(validatedData);
     res.status(HTTP_STATUS.CREATED_201).json(file);
 }
 
