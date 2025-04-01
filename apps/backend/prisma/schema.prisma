@@ -27,10 +27,114 @@ model User {
   createdAt   DateTime @default(now())
   updatedAt   DateTime?
   deleted     Boolean  @default(false)
+
+  /* SAVED RELATIONSHIP */
+  savedRoutes Route[]   @relation("RouteSaves")
+
+  /* FOREIGN RELATIONSHIPS */
+  files       PeakFile[]
+  routeCreatedBy Route[] @relation(name: "RouteCreatedBy")
+  routeUpdatedBy Route[] @relation(name: "RouteUpdatedBy")
+  climbingStructureCreatedBy ClimbingObject[] @relation(name: "ClimbingObjectCreatedBy")
+  climbingStructureUpdatedBy ClimbingObject[] @relation(name: "ClimbingObjectUpdatedBy")
+}
+
+model PeakFile {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  name        String
+  contentType String
+  path        String
+
+  createdById String
+  createdBy   User     @relation(fields: [createdById], references: [id])
+
+  /* FOREIGN RELATIONSHIPS */
+  routeImage Route?   @relation(name: "RouteImage")
+  additionalRouteImages RoutePeakFile[] @relation(name: "AdditionalRouteImages")
+}
+
+model Grade {
+  id          String   @id @default(uuid())
+  deleted     Boolean  @default(false)
+  rating      Int
+  name        String
+  color       String
+
+  /* FOREIGN RELATIONSHIPS */
+  routes      Route[]
 }
 
 enum Role {
   ADMIN
   MAINTANER
   USER
+}
+
+model Route {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime?
+  deleted     Boolean  @default(false)
+
+  createdById String
+  createdBy   User     @relation(name: "RouteCreatedBy", fields: [createdById], references: [id])
+  updatedById String?
+  updatedBy   User?    @relation(name: "RouteUpdatedBy", fields: [updatedById], references: [id])
+  
+  name        String
+  description String   @default("")
+  climbingStructureType ClimbingStructureType
+
+  gradeId     String
+  grade       Grade    @relation(fields: [gradeId], references: [id])
+
+  longitude   Float
+  latitude    Float
+
+  imageId     String?   @unique
+  image       PeakFile? @relation(name: "RouteImage", fields: [imageId], references: [id])
+  additionalImages RoutePeakFile[]
+  overlay     Json      @default("[]")
+
+  climbingObjectId String
+  climbingObject   ClimbingObject @relation(fields: [climbingObjectId], references: [id])
+
+  /* SAVED RELATIONSHIP */
+  savedBy     User[]    @relation("RouteSaves")
+}
+
+model RoutePeakFile {
+  routeId   String
+  peakFileId String
+
+  route     Route    @relation(fields: [routeId], references: [id])
+  peakFile  PeakFile @relation(name: "AdditionalRouteImages",fields: [peakFileId], references: [id])
+
+  @@id([routeId, peakFileId])
+}
+
+enum ClimbingStructureType {
+  TRAVERSE
+  OVERHANG
+  SLAB
+  WALL
+}
+
+model ClimbingObject {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime?
+  deleted     Boolean  @default(false)
+
+  createdById String
+  createdBy   User     @relation(name: "ClimbingObjectCreatedBy", fields: [createdById], references: [id])
+  updatedById String?
+  updatedBy   User?    @relation(name: "ClimbingObjectUpdatedBy", fields: [updatedById], references: [id])
+
+  name        String
+  longitude   Float
+  latitude    Float
+
+  routes      Route[]
 }

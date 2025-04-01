@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { User } from './user';
 
 type UserUpdate = {
     firstName: string;

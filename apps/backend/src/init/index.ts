@@ -1,10 +1,16 @@
+import initGrades from "./grade.init";
+import initRoutes from "./route.init";
 import initUsers from "./user.init";
+import initClimbingObjects from "./climbingObject.init";
 
 /**
  * must be in the right order!
  */
 const initFunctions = [
-    initUsers
+    initUsers,
+    initGrades,
+    initClimbingObjects,
+    initRoutes,
 ];
 
 async function initAll() {
