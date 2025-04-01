@@ -1,6 +1,7 @@
 import { RouteWhere } from "../../repositories/route.repository";
+import { validateListParams } from "../common/listParams";
 import { IncommingRouteListParams, NonNullRouteListParams } from "../route";
-import { defaultRouteListParams, validateRouteListParamsWithSort } from "../route/routeList";
+import { defaultRouteListParams } from "../route/routeList";
 
 type ClimbingObjectList = {
     id: string;
@@ -42,10 +43,10 @@ type NonNullClimbingObjectListParams = {
     climbingObjectName: string;
 } & NonNullRouteListParams; // it is basically the same as route list params
 
-const validSortFields = ['climbingObjectName'];
+const validSortFields = ['name'];
 
 const validateClimbingObjectListParams = (params: NonNullClimbingObjectListParams) => {
-    validateRouteListParamsWithSort(params, validSortFields);
+    validateListParams(params, validSortFields);
 }
 
 const defaultClimbingObjectListParams = (params: IncommingClimbingObjectListParams): NonNullClimbingObjectListParams => {

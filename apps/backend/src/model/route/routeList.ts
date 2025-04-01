@@ -2,7 +2,7 @@ import config from "../../core/config";
 import { ClimbingStructureType } from "@prisma/client";
 import { IncommingListParams, NonNullListParams, parseArray, toNotNullListParams, toNumber, validateListParams } from "../common/listParams";
 import { GradeDetail, gradeDetailSelector } from "../grade";
-import { RouteWhere } from "../../repositories/route.repository";
+import { RouteOrder, RouteWhere } from "../../repositories/route.repository";
 
 type RouteList = {
     id: string;
@@ -54,10 +54,6 @@ const validateRouteListParams = (params: NonNullRouteListParams) => {
     validateListParams(params, validSortFields);
 }
 
-const validateRouteListParamsWithSort = (params: NonNullRouteListParams, moreSortFields: string[]) => {
-    validateListParams(params, [...validSortFields, ...moreSortFields] );
-}
-
 const defaultRouteListParams = (params: IncommingRouteListParams): NonNullRouteListParams => {
     const { name, ratingFrom, ratingTo, longitudeFrom, longitudeTo, latitudeFrom, latitudeTo, climbingStructureTypes, ...listParams } = params;
 
@@ -103,5 +99,21 @@ const getRouteWhere = (params: NonNullRouteListParams): RouteWhere => {
     }
   }
 
+
+const getOrderBy = (sortFields: string[], orderDirections: string[]): RouteOrder[] => {
+  return sortFields.map((field, index) => {
+    const direction = orderDirections[index]?.toLowerCase() === 'desc' ? 'desc' : 'asc';
+    
+    switch (field) {
+      case 'rating':
+        return { grade: { rating: direction } };
+      case 'name':
+        return { name : direction };
+      default:
+        return { [field]: direction };
+    }
+  });
+};
+
 export type { RouteList, IncommingRouteListParams, NonNullRouteListParams };
-export { selector, defaultRouteListParams, validateRouteListParams, validateRouteListParamsWithSort, getRouteWhere};
+export { selector, defaultRouteListParams, validateRouteListParams, getRouteWhere, getOrderBy};

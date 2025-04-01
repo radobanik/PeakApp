@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "./utils/httpStatusCodes";
 import { RouteRepository } from "../repositories";
-import { defaultRouteListParams, IncommingRouteListParams, NonNullRouteListParams, RouteCreate, routeCreateValidate, RouteUpdate, routeUpdateValidate } from "../model/route";
+import { defaultRouteListParams, getOrderBy, IncommingRouteListParams, NonNullRouteListParams, RouteCreate, routeCreateValidate, RouteUpdate, routeUpdateValidate } from "../model/route";
 import requestValidator from "../model/common/validator";
 import { RouteOrder, RouteWhere } from "../repositories/route.repository";
-import { parseSortAndOrderBy } from "../model/common/listParams";
 import { provideUserRefFromToken, returnUnauthorized } from "../auth/authUtils";
 
 const getById = async (req: Request, res: Response) => {
@@ -39,7 +38,7 @@ const list = async (req: Request, res: Response) => {
         ],
     }
 
-    const orderBy: RouteOrder[] = parseSortAndOrderBy(normalizedParams.sort, normalizedParams.order);
+    const orderBy: RouteOrder[] = getOrderBy(normalizedParams.sort, normalizedParams.order);
     orderBy.push({ id: 'asc' });
 
     const routeListResult = await RouteRepository.list(where, orderBy, normalizedParams.page, normalizedParams.pageSize);
@@ -51,16 +50,11 @@ const create = async (req: Request<RouteCreate>, res: Response) => {
     if (userRef === null) { returnUnauthorized(res); return; }
     
     const routeData: RouteCreate = req.body;
-    console.log("route0");
 
-    console.log("route");
     const validatedData = requestValidator(() => routeCreateValidate(routeData), res);
-    console.log("route2");
     if (!validatedData) return;
     
-    console.log("route3");
     const route = await RouteRepository.create(validatedData, userRef);
-    console.log("route4");
     res.status(HTTP_STATUS.CREATED_201).json(route);
 }
 

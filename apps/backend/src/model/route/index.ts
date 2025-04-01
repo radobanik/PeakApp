@@ -10,6 +10,7 @@ import {
     selector as routeListSelector,
     validateRouteListParams,
     getRouteWhere,
+    getOrderBy,
 } from "./routeList";
 
 export type {
@@ -28,6 +29,7 @@ export {
     validateRouteListParams,
     defaultRouteListParams,
     getRouteWhere,
+    getOrderBy,
 
     routeDetailSelector,
     routeListSelector,
