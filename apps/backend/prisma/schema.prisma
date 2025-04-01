@@ -27,6 +27,20 @@ model User {
   createdAt   DateTime @default(now())
   updatedAt   DateTime?
   deleted     Boolean  @default(false)
+
+  /* FOREIGN RELATIONSHIPS */
+  files       PeakFile[]
+}
+
+model PeakFile {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  name        String
+  contentType String
+  path        String
+
+  createdById String   @unique
+  createdBy   User     @relation(fields: [createdById], references: [id])
 }
 
 enum Role {

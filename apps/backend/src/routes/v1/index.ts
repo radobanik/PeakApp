@@ -1,6 +1,7 @@
 import { Router } from "express";
 import userRouter from "./user.route";
 import authRouter from "./auth.route";
+import peakFileRouter from "./peakFile.route";
 
 const v1Router = Router();
 
@@ -12,7 +13,11 @@ const routes = [
     {
         path: '/auth',
         route: authRouter
-    }
+    },
+    {
+        path: '/file',
+        route: peakFileRouter
+    },
 ];
 
 routes.forEach((route) => {
