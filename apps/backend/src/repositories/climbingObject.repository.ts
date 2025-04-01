@@ -4,11 +4,20 @@ import { authUserProvide } from "../services";
 import { toConnector } from "./utils/connector";
 import { createListResponse, ListResponse } from "../model/common/listResponse";
 import { RouteWhere } from "./route.repository";
+import { routeListSelector } from "../model/route";
 
 type ClimbingObjectWhere = Prisma.ClimbingObjectWhereInput;
 type ClimbingObjectOrder = Prisma.ClimbingObjectOrderByWithRelationInput;
 
 const climbingObjectClient = new PrismaClient().climbingObject;
+
+// idk why, but this redefinition worked (it is the same!!!), otherwise routeListSelector was selecting all fields
+const detailSelector = {
+    ...climbingObjectDetailSelector,
+    routes: {
+        select: routeListSelector,
+    },
+}
 
 const list = async (where: ClimbingObjectWhere, routeWhere: RouteWhere, orderBy: ClimbingObjectOrder[], pageNum: number, pageSize: number) : Promise<ListResponse<ClimbingObjectList>> => {
     const routes : ClimbingObjectListQueryOutput[] = await climbingObjectClient.findMany({
@@ -30,7 +39,7 @@ const getById = async (id: string): Promise<ClimbingObjectDetail | null> => {
             id: id,
             deleted: false,
         },
-        select: climbingObjectDetailSelector,
+        select: detailSelector,
     });
 }
 
@@ -41,7 +50,7 @@ const create = async (climbingObject: ClimbingObjectCreate): Promise<ClimbingObj
             createdAt: new Date(),
             createdBy: toConnector(authUserProvide()),
         },
-        select: climbingObjectDetailSelector,
+        select: detailSelector,
     });
 }
 
@@ -53,7 +62,7 @@ const update = async (id: string, climbingObject: ClimbingObjectCreate): Promise
             updatedAt: new Date(),
             updatedBy: toConnector(authUserProvide()),
         },
-        select: climbingObjectDetailSelector,
+        select: detailSelector,
     });
 }
 

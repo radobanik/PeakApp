@@ -1,6 +1,6 @@
 import config from "../../core/config";
 import { ClimbingStructureType } from "@prisma/client";
-import { IncommingListParams, NonNullListParams, parseArray, toNotNullListParams, validateListParams } from "../common/listParams";
+import { IncommingListParams, NonNullListParams, parseArray, toNotNullListParams, toNumber, validateListParams } from "../common/listParams";
 import { GradeDetail, gradeDetailSelector } from "../grade";
 import { RouteWhere } from "../../repositories/route.repository";
 
@@ -72,12 +72,12 @@ const defaultRouteListParams = (params: IncommingRouteListParams): NonNullRouteL
     
     return {
         name: name || '',
-        ratingFrom: ratingFrom || 0,
-        ratingTo: ratingTo || 69696969,
-        longitudeFrom: longitudeFrom || -180,
-        longitudeTo: longitudeTo || 180,
-        latitudeFrom: latitudeFrom || -90,
-        latitudeTo: latitudeTo || 90,
+        ratingFrom: toNumber(ratingFrom, 0),
+        ratingTo: toNumber(ratingTo, 69696969),
+        longitudeFrom: toNumber(longitudeFrom, -180),
+        longitudeTo: toNumber(longitudeTo, 180),
+        latitudeFrom: toNumber(latitudeFrom, -90),
+        latitudeTo: toNumber(latitudeTo, 90),
         // all types if none are provided
         climbingStructureTypes: types.length > 0 ? types : Object.values(ClimbingStructureType),
         ...toNotNullListParams(listParams, config.listLimit.route),
@@ -104,4 +104,4 @@ const getRouteWhere = (params: NonNullRouteListParams): RouteWhere => {
   }
 
 export type { RouteList, IncommingRouteListParams, NonNullRouteListParams };
-export { selector, defaultRouteListParams, validateRouteListParams, validateRouteListParamsWithSort, getRouteWhere };
+export { selector, defaultRouteListParams, validateRouteListParams, validateRouteListParamsWithSort, getRouteWhere};

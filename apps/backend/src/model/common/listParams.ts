@@ -11,12 +11,14 @@ type NonNullListParams = {
   page: number;
   pageSize: number;
 }
+const toNumber = (value: number | string | null, defaultVal: number) : number =>
+  value != null ? Number(value) : defaultVal;
 
 const toNotNullListParams = (params : IncommingListParams, listLimit : number) : NonNullListParams => {
   return {
     sort: parseArray(params.sort),
     order: parseArray(params.order),
-    page: Number(params.page) || 1,
+    page: toNumber(params.page, 1),
     pageSize: Math.min(params.pageSize || listLimit, listLimit),
   };
 }
@@ -54,4 +56,4 @@ const parseSortAndOrderBy = (sort: string[], order : string[]) => {
 }
 
 export type { IncommingListParams, NonNullListParams };
-export { toNotNullListParams, validateListParams, parseSortAndOrderBy, parseArray };
+export { toNotNullListParams, validateListParams, parseSortAndOrderBy, parseArray, toNumber };
