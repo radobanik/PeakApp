@@ -14,11 +14,16 @@ type NonNullListParams = {
 
 const toNotNullListParams = (params : IncommingListParams, listLimit : number) : NonNullListParams => {
   return {
-    sort: params.sort?.split(",") || [],
-    order: params.order?.split(",") || [],
+    sort: parseArray(params.sort),
+    order: parseArray(params.order),
     page: Number(params.page) || 1,
     pageSize: Math.min(params.pageSize || listLimit, listLimit),
   };
+}
+
+const parseArray = (array: string | null) => {
+  if (array == null) return [];
+  return array.split(",").map(item => item.trim()).filter(item => item !== '');
 }
 
 const validateListParams = (params: NonNullListParams, validSortFields: string[]): void => {
@@ -49,4 +54,4 @@ const parseSortAndOrderBy = (sort: string[], order : string[]) => {
 }
 
 export type { IncommingListParams, NonNullListParams };
-export { toNotNullListParams, validateListParams, parseSortAndOrderBy };
+export { toNotNullListParams, validateListParams, parseSortAndOrderBy, parseArray };

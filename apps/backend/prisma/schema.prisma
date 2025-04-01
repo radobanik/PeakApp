@@ -28,8 +28,13 @@ model User {
   updatedAt   DateTime?
   deleted     Boolean  @default(false)
 
+  /* SAVED RELATIONSHIP */
+  savedRoutes Route[]   @relation("RouteSaves")
+
   /* FOREIGN RELATIONSHIPS */
   files       PeakFile[]
+  routeCreatedBy Route[] @relation(name: "RouteCreatedBy")
+  routeUpdatedBy Route[] @relation(name: "RouteUpdatedBy")
 }
 
 model PeakFile {
@@ -41,6 +46,10 @@ model PeakFile {
 
   createdById String   @unique
   createdBy   User     @relation(fields: [createdById], references: [id])
+
+  /* FOREIGN RELATIONSHIPS */
+  routeImage Route?   @relation(name: "RouteImage")
+  additionalRouteImages RoutePeakFile[] @relation(name: "AdditionalRouteImages")
 }
 
 model Grade {
@@ -49,10 +58,60 @@ model Grade {
   rating      Int
   name        String
   color       String
+
+  /* FOREIGN RELATIONSHIPS */
+  routes      Route[]
 }
 
 enum Role {
   ADMIN
   MAINTANER
   USER
+}
+
+model Route {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime?
+  deleted     Boolean  @default(false)
+
+  createdById String
+  createdBy   User     @relation(name: "RouteCreatedBy", fields: [createdById], references: [id])
+  updatedById String?
+  updatedBy   User?    @relation(name: "RouteUpdatedBy", fields: [updatedById], references: [id])
+  
+  name        String
+  description String   @default("")
+  climbingStructureType ClimbingStructureType
+
+  gradeId     String
+  grade       Grade    @relation(fields: [gradeId], references: [id])
+
+  longitude   Float
+  latitude    Float
+
+  imageId     String?   @unique
+  image       PeakFile? @relation(name: "RouteImage", fields: [imageId], references: [id])
+  additionalImages RoutePeakFile[]
+  overlay     Json      @default("[]")
+
+  /* SAVED RELATIONSHIP */
+  savedBy     User[]    @relation("RouteSaves")
+}
+
+model RoutePeakFile {
+  routeId   String
+  peakFileId String
+
+  route     Route    @relation(fields: [routeId], references: [id])
+  peakFile  PeakFile @relation(name: "AdditionalRouteImages",fields: [peakFileId], references: [id])
+
+  @@id([routeId, peakFileId])
+}
+
+enum ClimbingStructureType {
+  TRAVERSE
+  OVERHANG
+  SLAB
+  WALL
 }
