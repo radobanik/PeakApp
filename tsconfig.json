@@ -6,6 +6,11 @@
     },
     "strict": true,
     "moduleResolution": "node",
-    "target": "ESNext"
-  }
+    "target": "ESNext",
+  },
+  "references": [
+    { "path": "apps/frontend" },
+    { "path": "apps/backend" },
+    { "path": "packages/common" }
+  ]
 }
