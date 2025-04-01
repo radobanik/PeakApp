@@ -53,9 +53,13 @@ const sampleUsers = [
 ];
 
 async function initUsers() {
-    await userClient.createMany({
-        data: sampleUsers
-    });
+  sampleUsers.forEach((user) => {
+     userClient.upsert({
+      where: { id: user.id },
+      update: user,
+      create: user,
+    }) 
+  });
 };
 
 export default initUsers;

@@ -1,10 +1,12 @@
+import initGrades from "./grade.init";
 import initUsers from "./user.init";
 
 /**
  * must be in the right order!
  */
 const initFunctions = [
-    initUsers
+    initUsers,
+    initGrades,
 ];
 
 async function initAll() {
