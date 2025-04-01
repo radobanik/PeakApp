@@ -2,6 +2,7 @@ import { Router } from "express";
 import userRouter from "./user.route";
 import authRouter from "./auth.route";
 import peakFileRouter from "./peakFile.route";
+import gradeRouter from "./grade.route";
 
 const v1Router = Router();
 
@@ -17,6 +18,10 @@ const routes = [
     {
         path: '/file',
         route: peakFileRouter
+    },
+    {
+        path: '/grade',
+        route: gradeRouter
     },
 ];
 

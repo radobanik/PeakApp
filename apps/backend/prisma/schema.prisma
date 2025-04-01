@@ -43,6 +43,14 @@ model PeakFile {
   createdBy   User     @relation(fields: [createdById], references: [id])
 }
 
+model Grade {
+  id          String   @id @default(uuid())
+  deleted     Boolean  @default(false)
+  rating      Int
+  name        String
+  color       String
+}
+
 enum Role {
   ADMIN
   MAINTANER
