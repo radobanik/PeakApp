@@ -3,6 +3,7 @@ import { PeakFileRepository } from "../repositories/index";
 import { Request, Response } from "express";
 import { PeakFileCreate, peakCreateValidate } from "../model/peakFile";
 import requestValidator from "../model/common/validator";
+import { provideUserRefFromToken, returnUnauthorized } from "../auth/authUtils";
 
 const getById = async (req : Request, res : Response) => {
     const fileId = req.params.id;
@@ -18,12 +19,15 @@ const getById = async (req : Request, res : Response) => {
  * TODO creating actual resource is not implemented yet
  */
 const create = async (req : Request<PeakFileCreate>, res : Response) =>  {
+    const userRef = provideUserRefFromToken(req as unknown as Request)
+    if (userRef === null) { returnUnauthorized(res); return; }
+
     const fileData: PeakFileCreate = req.body;
     
     const validatedData = requestValidator(() => peakCreateValidate(fileData), res);
     if (!validatedData) return;
 
-    const file = await PeakFileRepository.create(validatedData);
+    const file = await PeakFileRepository.create(validatedData, userRef);
     res.status(HTTP_STATUS.CREATED_201).json(file);
 }
 
@@ -42,3 +46,4 @@ const deleteById = async (req : Request, res : Response) => {
 }
 
 export default { getById, create, deleteById };
+

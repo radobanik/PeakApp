@@ -1,10 +1,10 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { ClimbingObjectCreate, ClimbingObjectDetail, climbingObjectDetailSelector, ClimbingObjectList, ClimbingObjectListQueryOutput, climbingObjectListSelector, toClimbingObjectList } from "../model/climbingObject";
-import { authUserProvide } from "../services";
-import { toConnector } from "./utils/connector";
+import { toConnector, toConnectorNullable } from "./utils/connector";
 import { createListResponse, ListResponse } from "../model/common/listResponse";
 import { RouteWhere } from "./route.repository";
 import { routeListSelector } from "../model/route";
+import { RefObject } from "../model/common/refObject";
 
 type ClimbingObjectWhere = Prisma.ClimbingObjectWhereInput;
 type ClimbingObjectOrder = Prisma.ClimbingObjectOrderByWithRelationInput;
@@ -43,36 +43,36 @@ const getById = async (id: string): Promise<ClimbingObjectDetail | null> => {
     });
 }
 
-const create = async (climbingObject: ClimbingObjectCreate): Promise<ClimbingObjectDetail> => {
+const create = async (climbingObject: ClimbingObjectCreate, userRef: RefObject): Promise<ClimbingObjectDetail> => {
     return await climbingObjectClient.create({
         data: {
             ...climbingObject,
             createdAt: new Date(),
-            createdBy: toConnector(authUserProvide()),
+            createdBy: toConnector(userRef),
         },
         select: detailSelector,
     });
 }
 
-const update = async (id: string, climbingObject: ClimbingObjectCreate): Promise<ClimbingObjectDetail> => {
+const update = async (id: string, climbingObject: ClimbingObjectCreate, userRef: RefObject): Promise<ClimbingObjectDetail> => {
     return await climbingObjectClient.update({
         where: { id },
         data: {
             ...climbingObject,
             updatedAt: new Date(),
-            updatedBy: toConnector(authUserProvide()),
+            updatedBy: toConnector(userRef),
         },
         select: detailSelector,
     });
 }
 
-const deleteById = async (id: string): Promise<void> => {
+const deleteById = async (id: string, userRef: RefObject): Promise<void> => {
     await climbingObjectClient.update({
         where: { id },
         data: {
             deleted: true,
             updatedAt: new Date(),
-            updatedBy: toConnector(authUserProvide()),
+            updatedBy: toConnector(userRef),
         },
     });
 }

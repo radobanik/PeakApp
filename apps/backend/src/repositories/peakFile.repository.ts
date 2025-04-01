@@ -1,7 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import { PeakFile, peakFileSelector } from "../model/peakFile/index";
 import { PeakFileCreate } from "../model/peakFile/peakFileCreate";
-import { authUserProvide } from "../services";
+import { RefObject } from "../model/common/refObject";
+import { toConnector } from "./utils/connector";
 
 const peakFileClient = new PrismaClient().peakFile;
 
@@ -18,12 +19,12 @@ const deleteById = async (id: string) : Promise<void> => {
     });
 }
 
-const create = async (data: PeakFileCreate) : Promise<PeakFile> => {
+const create = async (data: PeakFileCreate, userRef: RefObject) : Promise<PeakFile> => {
     return await peakFileClient.create({
         data: {
             ...data,
             createdAt: new Date(),
-            createdById: authUserProvide().id,
+            createdBy: toConnector(userRef),
         },
         select: peakFileSelector,
     });

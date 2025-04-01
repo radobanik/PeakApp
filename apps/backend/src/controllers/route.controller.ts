@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "./utils/httpStatusCodes";
 import { RouteRepository } from "../repositories";
-import { defaultRouteListParams, IncommingRouteListParams, NonNullRouteListParams, Route, RouteCreate, routeCreateValidate, RouteUpdate, routeUpdateValidate } from "../model/route";
+import { defaultRouteListParams, IncommingRouteListParams, NonNullRouteListParams, RouteCreate, routeCreateValidate, RouteUpdate, routeUpdateValidate } from "../model/route";
 import requestValidator from "../model/common/validator";
 import { RouteOrder, RouteWhere } from "../repositories/route.repository";
 import { parseSortAndOrderBy } from "../model/common/listParams";
+import { provideUserRefFromToken, returnUnauthorized } from "../auth/authUtils";
 
 const getById = async (req: Request, res: Response) => {
     const routeId = req.params.id;
@@ -46,16 +47,27 @@ const list = async (req: Request, res: Response) => {
 }
 
 const create = async (req: Request<RouteCreate>, res: Response) => {
+    const userRef = provideUserRefFromToken(req as unknown as Request)
+    if (userRef === null) { returnUnauthorized(res); return; }
+    
     const routeData: RouteCreate = req.body;
+    console.log("route0");
 
+    console.log("route");
     const validatedData = requestValidator(() => routeCreateValidate(routeData), res);
+    console.log("route2");
     if (!validatedData) return;
-
-    const route = await RouteRepository.create(validatedData);
+    
+    console.log("route3");
+    const route = await RouteRepository.create(validatedData, userRef);
+    console.log("route4");
     res.status(HTTP_STATUS.CREATED_201).json(route);
 }
 
 const update = async (req: Request<{ id: string }, {}, RouteUpdate>, res: Response) => {
+    const userRef = provideUserRefFromToken(req as unknown as Request)
+    if (userRef === null) { returnUnauthorized(res); return; }
+
     const routeData = req.body;
     const routeId = req.params.id
 
@@ -68,11 +80,14 @@ const update = async (req: Request<{ id: string }, {}, RouteUpdate>, res: Respon
         return;
     }
 
-    const route = await RouteRepository.update(routeId, validatedData);
+    const route = await RouteRepository.update(routeId, validatedData, userRef);
     res.status(HTTP_STATUS.OK_200).json(route);
 }
 
 const deleteById = async (req: Request, res: Response) => {
+    const userRef = provideUserRefFromToken(req as unknown as Request)
+    if (userRef === null) { returnUnauthorized(res); return; }
+
     const routeId = req.params.id;
     const exists = await RouteRepository.exists(routeId);
     if (!exists) {
@@ -80,7 +95,7 @@ const deleteById = async (req: Request, res: Response) => {
         return;
     }
 
-    await RouteRepository.deleteById(routeId);
+    await RouteRepository.deleteById(routeId, userRef);
     res.status(HTTP_STATUS.NO_CONTENT_204).send();
 }
 
@@ -91,3 +106,4 @@ export default {
     deleteById,
     list,
 };
+

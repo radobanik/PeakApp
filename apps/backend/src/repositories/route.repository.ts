@@ -1,6 +1,5 @@
 import { PeakFile, Prisma, PrismaClient, User } from "@prisma/client";
 import { RouteCreate, RouteDetail, routeDetailSelector, RouteList, routeListSelector, RouteUpdate } from "../model/route";
-import { authUserProvide } from "../services";
 import { toConnector, toConnectorDisconnector, toConnectorNullable, xToManyCreator, xToManyUpdater } from "./utils/connector";
 import { RefObject } from "../model/common/refObject";
 import { createListResponse, ListResponse } from "../model/common/listResponse";
@@ -52,7 +51,7 @@ const getById = async (id: string) : Promise<RouteDetail> => {
     return flattenAdditionalImages(nestedDetail as RouteDetailDeepImage);
 }
 
-const create = async (route: RouteCreate) : Promise<RouteDetail> => {
+const create = async (route: RouteCreate, userRef: RefObject) : Promise<RouteDetail> => {
     const nestedDetail = await routeClient.create({
         data: {
             ...route,
@@ -61,7 +60,7 @@ const create = async (route: RouteCreate) : Promise<RouteDetail> => {
             additionalImages: xToManyCreator(route.additionalImages, peakFileConnector),
 
             createdAt: new Date(),
-            createdBy : toConnector(authUserProvide()),
+            createdBy : toConnector(userRef),
             climbingObject: toConnector(route.climbingObject),
         },
         select: routeDetailSelector,
@@ -69,7 +68,7 @@ const create = async (route: RouteCreate) : Promise<RouteDetail> => {
     return flattenAdditionalImages(nestedDetail as RouteDetailDeepImage);
 }
 
-const update = async (id: string, route: RouteUpdate) : Promise<RouteDetail>  => {
+const update = async (id: string, route: RouteUpdate, userRef: RefObject) : Promise<RouteDetail>  => {
     const nestedDetail = await routeClient.update({
         where: { id },
         data: {
@@ -79,21 +78,20 @@ const update = async (id: string, route: RouteUpdate) : Promise<RouteDetail>  =>
             additionalImages: xToManyUpdater(route.additionalImages, peakFileConnector),
 
             updatedAt: new Date(),
-            updatedBy : toConnector(authUserProvide()),
-            climbingObject: toConnector(route.climbingObject),
+            updatedBy : toConnector(userRef),
         },
         select: routeDetailSelector,
     });
     return flattenAdditionalImages(nestedDetail as RouteDetailDeepImage);
 }
 
-const deleteById = async (id: string) : Promise<void> => {
+const deleteById = async (id: string, userRef: RefObject) : Promise<void> => {
     await routeClient.update({
         where: { id },
         data: {
             deleted: true,
             updatedAt: new Date(),
-            updatedBy : toConnector(authUserProvide()),
+            updatedBy : toConnector(userRef),
         },
     });
 }

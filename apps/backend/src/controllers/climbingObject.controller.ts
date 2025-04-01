@@ -7,6 +7,8 @@ import { ClimbingObjectOrder, ClimbingObjectWhere } from "../repositories/climbi
 import { parseSortAndOrderBy } from "../model/common/listParams";
 import { getRouteWhere, } from "../model/route";
 import { RouteWhere } from "../repositories/route.repository";
+import { provideUserRefFromToken, returnUnauthorized } from "../auth/authUtils";
+import { send } from "process";
 
 const getById = async (req: Request, res: Response) => {
     const climbingObjectId = req.params.id;
@@ -46,16 +48,22 @@ const list = async (req: Request, res: Response) => {
 }
 
 const create = async (req: Request<ClimbingObjectCreate>, res: Response) => {
+    const userRef = provideUserRefFromToken(req as unknown as Request)
+    if (userRef === null) { returnUnauthorized(res); return; }
+    
     const climbingObjectData: ClimbingObjectCreate = req.body;
 
     const validatedData = requestValidator(() => climbingObjectCreateValidate(climbingObjectData), res);
     if (!validatedData) return;
 
-    const climbingObject = await ClimbingObjectRepository.create(validatedData);
+    const climbingObject = await ClimbingObjectRepository.create(validatedData, userRef);
     res.status(HTTP_STATUS.CREATED_201).json(climbingObject);
 }
 
 const update = async (req: Request<{ id: string }, {}, ClimbingObjectUpdate>, res: Response) => {
+    const userRef = provideUserRefFromToken(req as unknown as Request)
+    if (userRef === null) { returnUnauthorized(res); return; }
+
     const climbingObjectData = req.body;
     const climbingObjectId = req.params.id
 
@@ -68,11 +76,14 @@ const update = async (req: Request<{ id: string }, {}, ClimbingObjectUpdate>, re
         return;
     }
 
-    const climbingObject = await ClimbingObjectRepository.update(climbingObjectId, validatedData);
+    const climbingObject = await ClimbingObjectRepository.update(climbingObjectId, validatedData, userRef);
     res.status(HTTP_STATUS.OK_200).json(climbingObject);
 }
 
 const deleteById = async (req: Request, res: Response) => {
+    const userRef = provideUserRefFromToken(req as unknown as Request)
+    if (userRef === null) { returnUnauthorized(res); return; }
+
     const climbingObjectId = req.params.id;
     const exists: boolean = await ClimbingObjectRepository.exists(climbingObjectId);
     if (!exists) {
@@ -80,7 +91,7 @@ const deleteById = async (req: Request, res: Response) => {
         return;
     }
 
-    await ClimbingObjectRepository.deleteById(climbingObjectId);
+    await ClimbingObjectRepository.deleteById(climbingObjectId, userRef);
     res.status(HTTP_STATUS.NO_CONTENT_204).send();
 }
 
@@ -91,3 +102,4 @@ export default {
     deleteById,
     list,
 };
+
