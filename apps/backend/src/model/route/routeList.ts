@@ -2,7 +2,7 @@ import config from "../../core/config";
 import { ClimbingStructureType } from "@prisma/client";
 import { IncommingListParams, NonNullListParams, parseArray, toNotNullListParams, toNumber, validateListParams } from "../common/listParams";
 import { GradeDetail, gradeDetailSelector } from "../grade";
-import { RouteOrder, RouteWhere } from "../../repositories/route.repository";
+import { RouteOrder } from "../../repositories/route.repository";
 
 type RouteList = {
     id: string;
@@ -54,51 +54,34 @@ const validateRouteListParams = (params: NonNullRouteListParams) => {
     validateListParams(params, validSortFields);
 }
 
-const defaultRouteListParams = (params: IncommingRouteListParams): NonNullRouteListParams => {
-    const { name, ratingFrom, ratingTo, longitudeFrom, longitudeTo, latitudeFrom, latitudeTo, climbingStructureTypes, ...listParams } = params;
+const parseClimbingStructureTypes = (climbingStructureTypes : string | null) =>  {
+  const types = parseArray(climbingStructureTypes).map((value) => {
+    if (Object.values(ClimbingStructureType).includes(value as ClimbingStructureType)) {
+      return value as ClimbingStructureType;
+    } else {
+      throw new Error(`Invalid climbing structure type: ${value}`);
+    }
+  });
 
-    // String -> Enum
-    const types : ClimbingStructureType[] = parseArray(climbingStructureTypes).map((value) => {
-        if (Object.values(ClimbingStructureType).includes(value as ClimbingStructureType)) {
-          return value as ClimbingStructureType;
-        } else {
-          throw new Error(`Invalid climbing structure type: ${value}`);
-        }
-      });
-    
-    return {
-        name: name || '',
-        ratingFrom: toNumber(ratingFrom, 0),
-        ratingTo: toNumber(ratingTo, 69696969),
-        longitudeFrom: toNumber(longitudeFrom, -180),
-        longitudeTo: toNumber(longitudeTo, 180),
-        latitudeFrom: toNumber(latitudeFrom, -90),
-        latitudeTo: toNumber(latitudeTo, 90),
-        // all types if none are provided
-        climbingStructureTypes: types.length > 0 ? types : Object.values(ClimbingStructureType),
-        ...toNotNullListParams(listParams, config.listLimit.route),
-    };
+  // all types if none are provided
+  return types.length > 0 ? types : Object.values(ClimbingStructureType);
 }
 
-const getRouteWhere = (params: NonNullRouteListParams): RouteWhere => {
-    return {
-      AND: [
-        {
-          AND: [
-            { name: { contains: params.name as string, mode: "insensitive" } },
-            { longitude: { gte: params.longitudeFrom, lte: params.longitudeTo } },
-            { latitude: { gte: params.latitudeFrom, lte: params.latitudeTo } },
-            { climbingStructureType: { in: params.climbingStructureTypes } },
-            { grade: { rating: { gte: params.ratingFrom, lte: params.ratingTo } } },
-          ],
-        },
-        {
-          deleted: false,
-        },
-      ],
-    }
-  }
 
+const defaultRouteListParams = (params: IncommingRouteListParams): NonNullRouteListParams => {
+  const { name, ratingFrom, ratingTo, longitudeFrom, longitudeTo, latitudeFrom, latitudeTo, climbingStructureTypes, ...listParams } = params;
+  return {
+      name: name || '',
+      ratingFrom: toNumber(ratingFrom, 0),
+      ratingTo: toNumber(ratingTo, 69696969),
+      longitudeFrom: toNumber(longitudeFrom, -180),
+      longitudeTo: toNumber(longitudeTo, 180),
+      latitudeFrom: toNumber(latitudeFrom, -90),
+      latitudeTo: toNumber(latitudeTo, 90),
+      climbingStructureTypes: parseClimbingStructureTypes(climbingStructureTypes),
+      ...toNotNullListParams(listParams, config.listLimit.route),
+  };
+}
 
 const getOrderBy = (sortFields: string[], orderDirections: string[]): RouteOrder[] => {
   return sortFields.map((field, index) => {
@@ -116,4 +99,4 @@ const getOrderBy = (sortFields: string[], orderDirections: string[]): RouteOrder
 };
 
 export type { RouteList, IncommingRouteListParams, NonNullRouteListParams };
-export { selector, defaultRouteListParams, validateRouteListParams, getRouteWhere, getOrderBy};
+export { selector, defaultRouteListParams, validateRouteListParams, getOrderBy, parseClimbingStructureTypes};

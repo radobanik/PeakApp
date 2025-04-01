@@ -1,7 +1,6 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { ClimbingObjectCreate, ClimbingObjectDetail, climbingObjectDetailSelector, ClimbingObjectList, ClimbingObjectListQueryOutput, climbingObjectListSelector, toClimbingObjectList } from "../model/climbingObject";
-import { toConnector, toConnectorNullable } from "./utils/connector";
-import { createListResponse, ListResponse } from "../model/common/listResponse";
+import { toConnector } from "./utils/connector";
 import { RouteWhere } from "./route.repository";
 import { routeListSelector } from "../model/route";
 import { RefObject } from "../model/common/refObject";
@@ -19,18 +18,14 @@ const detailSelector = {
     },
 }
 
-const list = async (where: ClimbingObjectWhere, routeWhere: RouteWhere, orderBy: ClimbingObjectOrder[], pageNum: number, pageSize: number) : Promise<ListResponse<ClimbingObjectList>> => {
+const list = async (where: ClimbingObjectWhere, routeWhere: RouteWhere, orderBy: ClimbingObjectOrder[]) : Promise<ClimbingObjectList[]> => {
     const routes : ClimbingObjectListQueryOutput[] = await climbingObjectClient.findMany({
         where,
         orderBy,
-        skip: (pageNum - 1) * pageSize,
-        take: pageSize,
         select: climbingObjectListSelector(routeWhere),
     });
 
-    const totalRoutes = await climbingObjectClient.count({ where });
-
-    return createListResponse(routes.map(toClimbingObjectList), totalRoutes, pageNum, pageSize);
+    return routes.map(toClimbingObjectList);
 }
 
 const getById = async (id: string): Promise<ClimbingObjectDetail | null> => {

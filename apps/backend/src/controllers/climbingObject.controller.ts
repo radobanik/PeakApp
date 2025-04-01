@@ -4,11 +4,8 @@ import { ClimbingObjectRepository } from "../repositories";
 import { defaultClimbingObjectListParams, IncommingClimbingObjectListParams, ClimbingObjectCreate, climbingObjectCreateValidate, ClimbingObjectUpdate, climbingObjectUpdateValidate, NonNullClimbingObjectListParams } from "../model/climbingObject";
 import requestValidator from "../model/common/validator";
 import { ClimbingObjectOrder, ClimbingObjectWhere } from "../repositories/climbingObject.repository";
-import { parseSortAndOrderBy } from "../model/common/listParams";
-import { getRouteWhere, } from "../model/route";
 import { RouteWhere } from "../repositories/route.repository";
 import { provideUserRefFromToken, returnUnauthorized } from "../auth/authUtils";
-import { send } from "process";
 
 const getById = async (req: Request, res: Response) => {
     const climbingObjectId = req.params.id;
@@ -25,12 +22,21 @@ const list = async (req: Request, res: Response) => {
     const params = req.query as unknown as IncommingClimbingObjectListParams;
     const normalizedParams : NonNullClimbingObjectListParams = defaultClimbingObjectListParams(params);
 
-    const routeWhere: RouteWhere = getRouteWhere(normalizedParams);
+    const routeWhere: RouteWhere = { 
+        AND : [
+            { climbingStructureType: { in: normalizedParams.climbingStructureTypes } },
+            { grade: { rating: { gte: normalizedParams.ratingFrom, lte: normalizedParams.ratingTo } } },
+            { name: { contains: normalizedParams.routeName as string, mode: "insensitive" } },
+        ]
+    };
+
     const where: ClimbingObjectWhere = {
         AND: [
             {
                 AND: [
-                    { name: { contains: normalizedParams.climbingObjectName as string, mode: "insensitive" } },
+                    { name: { contains: normalizedParams.name as string, mode: "insensitive" } },
+                    { longitude: { gte: normalizedParams.longitudeFrom, lte: normalizedParams.longitudeTo } },
+                    { latitude: { gte: normalizedParams.latitudeFrom, lte: normalizedParams.latitudeTo } },
                     { routes : { some: routeWhere } } ,
                 ],
             },
@@ -40,10 +46,11 @@ const list = async (req: Request, res: Response) => {
         ],
     }
 
-    const orderBy: ClimbingObjectOrder[] = parseSortAndOrderBy(normalizedParams.sort, normalizedParams.order);
-    orderBy.push({ id: 'asc' });
+    console.log(JSON.stringify(where, null, 2));
 
-    const climbingObjectListResult = await ClimbingObjectRepository.list(where, routeWhere, orderBy, normalizedParams.page, normalizedParams.pageSize);
+    const orderBy: ClimbingObjectOrder[] = [{id: 'asc'}];
+
+    const climbingObjectListResult = await ClimbingObjectRepository.list(where, routeWhere, orderBy);
     res.status(HTTP_STATUS.OK_200).json(climbingObjectListResult);
 }
 

@@ -1,7 +1,7 @@
+import { ClimbingStructureType } from "@prisma/client";
 import { RouteWhere } from "../../repositories/route.repository";
-import { validateListParams } from "../common/listParams";
-import { IncommingRouteListParams, NonNullRouteListParams } from "../route";
-import { defaultRouteListParams } from "../route/routeList";
+import { toNumber } from "../common/listParams";
+import { parseClimbingStructureTypes } from "../route";
 
 type ClimbingObjectList = {
     id: string;
@@ -36,23 +36,40 @@ const selector = (routeWhere: RouteWhere) => ({
 });
 
 type IncommingClimbingObjectListParams = {
-    climbingObjectName: string | null;
-} & IncommingRouteListParams; // it is basically the same as route list params
+    name: string | null;
+    routeName: string | null;
+    ratingFrom: number | null;
+    ratingTo: number | null;
+    latitudeFrom: number | null;
+    latitudeTo: number | null;  
+    longitudeFrom: number | null;
+    longitudeTo: number | null;
+    climbingStructureTypes: string | null;
+};
 
 type NonNullClimbingObjectListParams = {
-    climbingObjectName: string;
-} & NonNullRouteListParams; // it is basically the same as route list params
-
-const validSortFields = ['name'];
-
-const validateClimbingObjectListParams = (params: NonNullClimbingObjectListParams) => {
-    validateListParams(params, validSortFields);
+    name: string;
+    routeName: string;
+    ratingFrom: number;
+    ratingTo: number;
+    latitudeFrom: number;
+    latitudeTo: number;  
+    longitudeFrom: number;
+    longitudeTo: number;
+    climbingStructureTypes: ClimbingStructureType[];
 }
 
 const defaultClimbingObjectListParams = (params: IncommingClimbingObjectListParams): NonNullClimbingObjectListParams => {
     return {
-        climbingObjectName: params.climbingObjectName || '',
-        ...defaultRouteListParams(params),
+        name: params.name || '',
+        routeName: params.routeName || '',
+        ratingFrom: toNumber(params.ratingFrom, 0),
+        ratingTo: toNumber(params.ratingTo, 10000000),
+        latitudeFrom: toNumber(params.latitudeFrom, -90),
+        latitudeTo: toNumber(params.latitudeTo, 90),
+        longitudeFrom: toNumber(params.longitudeFrom, -180),
+        longitudeTo: toNumber(params.longitudeTo, 180),
+        climbingStructureTypes: parseClimbingStructureTypes(params.climbingStructureTypes),
     }
 }
 
@@ -72,4 +89,4 @@ export type {
     IncommingClimbingObjectListParams,
     NonNullClimbingObjectListParams
 };
-export { selector, toClimbingObjectList, validateClimbingObjectListParams, defaultClimbingObjectListParams };
+export { selector, toClimbingObjectList, defaultClimbingObjectListParams };

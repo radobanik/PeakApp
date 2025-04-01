@@ -9,8 +9,8 @@ import {
     RouteList,
     selector as routeListSelector,
     validateRouteListParams,
-    getRouteWhere,
     getOrderBy,
+    parseClimbingStructureTypes,
 } from "./routeList";
 
 export type {
@@ -28,8 +28,8 @@ export {
     routeUpdateValidate,
     validateRouteListParams,
     defaultRouteListParams,
-    getRouteWhere,
     getOrderBy,
+    parseClimbingStructureTypes,
 
     routeDetailSelector,
     routeListSelector,

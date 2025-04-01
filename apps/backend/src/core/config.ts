@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-import e from 'express';
 import Joi from 'joi';
 import path from 'path';
 
