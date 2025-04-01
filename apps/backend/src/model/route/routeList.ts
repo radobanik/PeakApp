@@ -64,7 +64,6 @@ const defaultRouteListParams = (params: IncommingRouteListParams): NonNullRouteL
           throw new Error(`Invalid climbing structure type: ${value}`);
         }
       });
-
     
     return {
         name: name || '',
@@ -74,7 +73,8 @@ const defaultRouteListParams = (params: IncommingRouteListParams): NonNullRouteL
         longitudeTo: longitudeTo || 180,
         latitudeFrom: latitudeFrom || -90,
         latitudeTo: latitudeTo || 90,
-        climbingStructureTypes: types,
+        // all types if none are provided
+        climbingStructureTypes: types.length > 0 ? types : Object.values(ClimbingStructureType),
         ...toNotNullListParams(listParams, config.listLimit.route),
     };
 }

@@ -44,7 +44,7 @@ model PeakFile {
   contentType String
   path        String
 
-  createdById String   @unique
+  createdById String
   createdBy   User     @relation(fields: [createdById], references: [id])
 
   /* FOREIGN RELATIONSHIPS */

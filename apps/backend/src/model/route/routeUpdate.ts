@@ -6,7 +6,7 @@ import { OverlayPoint, overlayPointSchema } from "./overlayPoint/overlayPoint";
 type RouteUpdate = {
     name: string;
     description: string;
-    grade: string;
+    grade: RefObject;
     climbingStructureType: ClimbingStructureType;
 
     longitude: number;

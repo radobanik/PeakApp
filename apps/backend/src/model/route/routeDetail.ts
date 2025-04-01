@@ -1,6 +1,6 @@
 import { ClimbingStructureType } from "@prisma/client"
 import { GradeDetail, gradeDetailSelector } from "../grade";
-import { PeakFile } from "../peakFile";
+import { PeakFile, peakFileSelector } from "../peakFile";
 import { UserLabeled, userLabeledSelector } from "../user";
 import { OverlayPoint } from "./overlayPoint/overlayPoint";
 
@@ -43,7 +43,13 @@ const selector = {
     longitude: true,
     latitude: true,
     image: true,
-    additionalImages: true,
+    additionalImages: {
+        select: {
+            peakFile: {
+                select : peakFileSelector, 
+            },
+        }
+    },
     overlay: true,
 };
 

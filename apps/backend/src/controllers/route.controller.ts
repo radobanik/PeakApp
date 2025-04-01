@@ -6,9 +6,9 @@ import requestValidator from "../model/common/validator";
 import { RouteOrder, RouteWhere } from "../repositories/route.repository";
 import { parseSortAndOrderBy } from "../model/common/listParams";
 
-const getById = (req: Request, res: Response) => {
+const getById = async (req: Request, res: Response) => {
     const routeId = req.params.id;
-    const route = RouteRepository.getById(routeId);
+    const route = await RouteRepository.getById(routeId);
 
     if (route == null) {
         res.status(HTTP_STATUS.NOT_FOUND_404).json({ error: "Route not found" });

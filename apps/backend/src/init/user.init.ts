@@ -4,9 +4,15 @@ import bcrypt from "bcrypt";
 const userClient = new PrismaClient().user;
 const saltRounds = 10;
 
+export const USER_JOHN_DOE_ID = "6e32c2b2-6cd0-4b3b-8adf-cf707d8cb0d9";
+export const USER_JANE_DOE_ID = "9bc29d7d-4c79-4b9f-8e5a-8e33e7f9c971";
+export const USER_MICHAEL_SMITH_ID = "d2d2f7cd-e18b-4935-b075-0a764d0e07c5";
+export const USER_EMILY_JOHNSON_ID = "b8e8ccf7-b9a9-49b6-9144-0b0a82a6f7a5";
+export const USER_CHRIS_BROWN_ID = "a7a120d2-facf-4975-8d16-40509ffb86cd";
+
 const sampleUsers = [
   {
-    id: "6e32c2b2-6cd0-4b3b-8adf-cf707d8cb0d9",
+    id: USER_JOHN_DOE_ID,
     userName: "johndoe",
     password: bcrypt.hashSync("password123", saltRounds),
     firstName: "John",
@@ -15,7 +21,7 @@ const sampleUsers = [
     roles: [Role.USER],
   },
   {
-    id: "9bc29d7d-4c79-4b9f-8e5a-8e33e7f9c971",
+    id: USER_JANE_DOE_ID,
     userName: "janedoe",
     password: bcrypt.hashSync("password123", saltRounds),
     firstName: "Jane",
@@ -24,7 +30,7 @@ const sampleUsers = [
     roles: [Role.USER],
   },
   {
-    id: "d2d2f7cd-e18b-4935-b075-0a764d0e07c5",
+    id: USER_MICHAEL_SMITH_ID,
     userName: "michaelsmith",
     password: bcrypt.hashSync("password123", saltRounds),
     firstName: "Michael",
@@ -33,7 +39,7 @@ const sampleUsers = [
     roles: [Role.MAINTANER],
   },
   {
-    id: "b8e8ccf7-b9a9-49b6-9144-0b0a82a6f7a5",
+    id: USER_EMILY_JOHNSON_ID,
     userName: "emilyjohnson",
     password: bcrypt.hashSync("password123", saltRounds),
     firstName: "Emily",
@@ -42,7 +48,7 @@ const sampleUsers = [
     roles: [Role.ADMIN], 
   },
   {
-    id: "a7a120d2-facf-4975-8d16-40509ffb86cd",
+    id: USER_CHRIS_BROWN_ID,
     userName: "chrisbrown",
     password: bcrypt.hashSync("password123", saltRounds),
     firstName: "Chris",
@@ -53,13 +59,13 @@ const sampleUsers = [
 ];
 
 async function initUsers() {
-  sampleUsers.forEach((user) => {
-     userClient.upsert({
+  for (const user of sampleUsers) {
+    await userClient.upsert({
       where: { id: user.id },
       update: user,
       create: user,
-    }) 
-  });
+    });
+  }
 };
 
 export default initUsers;

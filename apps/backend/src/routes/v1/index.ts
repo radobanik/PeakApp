@@ -3,6 +3,7 @@ import userRouter from "./user.route";
 import authRouter from "./auth.route";
 import peakFileRouter from "./peakFile.route";
 import gradeRouter from "./grade.route";
+import routeRouter from "./route.route";
 
 const v1Router = Router();
 
@@ -22,6 +23,10 @@ const routes = [
     {
         path: '/grade',
         route: gradeRouter
+    },
+    {
+        path: '/route',
+        route: routeRouter,
     },
 ];
 

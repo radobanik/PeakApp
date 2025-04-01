@@ -1,4 +1,5 @@
 import initGrades from "./grade.init";
+import initRoutes from "./route.init";
 import initUsers from "./user.init";
 
 /**
@@ -7,6 +8,7 @@ import initUsers from "./user.init";
 const initFunctions = [
     initUsers,
     initGrades,
+    initRoutes,
 ];
 
 async function initAll() {

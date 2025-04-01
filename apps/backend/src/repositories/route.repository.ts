@@ -1,5 +1,5 @@
-import { Prisma, PrismaClient } from "@prisma/client";
-import { RouteCreate, routeDetailSelector, RouteList, routeListSelector } from "../model/route";
+import { PeakFile, Prisma, PrismaClient, User } from "@prisma/client";
+import { RouteCreate, RouteDetail, routeDetailSelector, RouteList, routeListSelector, RouteUpdate } from "../model/route";
 import { authUserProvide } from "../services";
 import { toConnector, toConnectorDisconnector, toConnectorNullable, xToManyCreator, xToManyUpdater } from "./utils/connector";
 import { RefObject } from "../model/common/refObject";
@@ -11,6 +11,21 @@ type RouteOrder = Prisma.RouteOrderByWithRelationInput;
 const routeClient = new PrismaClient().route;
 const peakFileConnector = (image: RefObject) => ({ peakFile: toConnector(image) });
 
+// This is a workaround for the fact that Prisma nests additionalImages too much
+type RouteDetailDeepImage = {
+    additionalImages: {
+        peakFile: PeakFile & {
+            createdBy: User;
+        }
+    }[];
+} & RouteDetail;
+
+const flattenAdditionalImages = (entity: RouteDetailDeepImage): RouteDetail => {
+    return {
+        ...entity,
+        additionalImages: entity.additionalImages.map((img) => img.peakFile),
+    };
+};
 
 const listRoutes = async (where: RouteWhere, orderBy: RouteOrder[], pageNum: number, pageSize: number) : Promise<ListResponse<RouteList>> => {
     const routes : RouteList[] = await routeClient.findMany({
@@ -26,18 +41,19 @@ const listRoutes = async (where: RouteWhere, orderBy: RouteOrder[], pageNum: num
     return createListResponse(routes, totalRoutes, pageNum, pageSize);
 }
 
-const getById = async (id: string) => {
-    return await routeClient.findUnique({
+const getById = async (id: string) : Promise<RouteDetail> => {
+    const nestedDetail = await routeClient.findUnique({
         where: { 
             id : id,
             deleted: false,
         },
         select: routeDetailSelector,
     });
+    return flattenAdditionalImages(nestedDetail as RouteDetailDeepImage);
 }
 
-const create = async (route: RouteCreate) => {
-    return await routeClient.create({
+const create = async (route: RouteCreate) : Promise<RouteDetail> => {
+    const nestedDetail = await routeClient.create({
         data: {
             ...route,
             grade : toConnector(route.grade),
@@ -49,10 +65,11 @@ const create = async (route: RouteCreate) => {
         },
         select: routeDetailSelector,
     });
+    return flattenAdditionalImages(nestedDetail as RouteDetailDeepImage);
 }
 
-const update = async (id: string, route: RouteCreate) => {
-    return await routeClient.update({
+const update = async (id: string, route: RouteUpdate) : Promise<RouteDetail>  => {
+    const nestedDetail = await routeClient.update({
         where: { id },
         data: {
             ...route,
@@ -65,9 +82,10 @@ const update = async (id: string, route: RouteCreate) => {
         },
         select: routeDetailSelector,
     });
+    return flattenAdditionalImages(nestedDetail as RouteDetailDeepImage);
 }
 
-const deleteById = async (id: string) => {
+const deleteById = async (id: string) : Promise<void> => {
     await routeClient.update({
         where: { id },
         data: {
@@ -78,7 +96,7 @@ const deleteById = async (id: string) => {
     });
 }
 
-const exists = async (id: string) => {
+const exists = async (id: string) : Promise<boolean> => {
     const count = await routeClient.count({
         where: {
             id,
