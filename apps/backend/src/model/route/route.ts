@@ -1,8 +1,8 @@
-import { ClimbingStructureType } from "./climbingStructureType";
+import { ClimbingStructureType } from "@prisma/client";
 import { Grade } from "../grade";
 import { PeakFile } from "../peakFile";
 import { User } from "../user";
-import { Overlay } from "./overlayPoint/overlayPoint";
+import { OverlayPoint } from "./overlayPoint/overlayPoint";
 
 type Route = {
     id: string;
@@ -22,7 +22,7 @@ type Route = {
 
     image: PeakFile | null;
     additionalImages: PeakFile[];
-    overlay: Overlay;
+    overlay: OverlayPoint;
 }
 
 export type { Route };
