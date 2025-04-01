@@ -1,14 +1,14 @@
-import { UserLabeled, userLabeledSelector } from "../user";
-import { PeakFileCreate } from "./peakFileCreate";
+import { UserLabeled, userLabeledSelector } from '../user'
+import { PeakFileCreate } from './peakFileCreate'
 
 type PeakFile = {
-  id: string;
-  createdAt: Date;
-  name: string;
-  contentType: string;
-  path: string;
-  createdBy: UserLabeled;
-};
+  id: string
+  createdAt: Date
+  name: string
+  contentType: string
+  path: string
+  createdBy: UserLabeled
+}
 
 const selector = {
   id: true,
@@ -21,5 +21,5 @@ const selector = {
   },
 }
 
-export type { PeakFile, PeakFileCreate };
-export { selector };
+export type { PeakFile, PeakFileCreate }
+export { selector }

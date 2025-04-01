@@ -1,23 +1,23 @@
 type User = {
-    id: string;
-    userName: string;
-    password: string;
-    email: string;
-    
-    firstName: string;
-    lastName: string;
+  id: string
+  userName: string
+  password: string
+  email: string
 
-    birthdayAt: Date | null;
-    height: number | null;
-    weight: number | null;
+  firstName: string
+  lastName: string
 
-    city: string | null;
-    state: string | null;
-    countryCode: string | null;
+  birthdayAt: Date | null
+  height: number | null
+  weight: number | null
 
-    createdAt: Date;
-    updatedAt: Date | null;
-    deleted: boolean;
+  city: string | null
+  state: string | null
+  countryCode: string | null
+
+  createdAt: Date
+  updatedAt: Date | null
+  deleted: boolean
 }
 
-export type { User };
+export type { User }

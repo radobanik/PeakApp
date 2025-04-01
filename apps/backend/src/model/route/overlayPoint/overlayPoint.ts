@@ -1,15 +1,17 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 type OverlayPoint = {
-  relX: number,
-  relY: number,
-}   
+  relX: number
+  relY: number
+}
 
-const overlayPointSchema = z.object({
+const overlayPointSchema = z
+  .object({
     relX: z.number(),
-    relY: z.number()
-  }).required().strict();
+    relY: z.number(),
+  })
+  .required()
+  .strict()
 
-export type { OverlayPoint };
-export { overlayPointSchema };
-
+export type { OverlayPoint }
+export { overlayPointSchema }

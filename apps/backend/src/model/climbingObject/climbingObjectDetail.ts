@@ -1,40 +1,39 @@
-import { Prisma } from "@prisma/client";
-import { RouteList, routeListSelector } from "../route";
-import { UserLabeled, userLabeledSelector } from "../user";
+import { RouteList, routeListSelector } from '../route'
+import { UserLabeled, userLabeledSelector } from '../user'
 
 type ClimbingObjectDetail = {
-    id: string;
+  id: string
 
-    createdAt: Date;
-    updatedAt: Date | null;
-    createdBy: UserLabeled;
-    updatedBy: UserLabeled | null;
+  createdAt: Date
+  updatedAt: Date | null
+  createdBy: UserLabeled
+  updatedBy: UserLabeled | null
 
-    name: string;
-    longitude: number;
-    latitude: number;
+  name: string
+  longitude: number
+  latitude: number
 
-    routes: RouteList[];
-};
+  routes: RouteList[]
+}
 
 const selector = {
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-    createdBy: {
-        select: userLabeledSelector,
-    },
-    updatedBy: {
-        select: userLabeledSelector,
-    },
-    name: true,
-    longitude: true,
-    latitude: true,
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  createdBy: {
+    select: userLabeledSelector,
+  },
+  updatedBy: {
+    select: userLabeledSelector,
+  },
+  name: true,
+  longitude: true,
+  latitude: true,
 
-    routes: {
-        select: routeListSelector,
-    },
-};
+  routes: {
+    select: routeListSelector,
+  },
+}
 
-export type { ClimbingObjectDetail };
-export { selector };
+export type { ClimbingObjectDetail }
+export { selector }

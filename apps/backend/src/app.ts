@@ -10,7 +10,7 @@ import path from 'path';
 import config from './core/config';
 import configureJwtStrategy from "./auth/jwtStrategy";
 
-const app = express();
+const app = express()
 
 app.use(express.json());
 app.use(cors({
@@ -19,31 +19,30 @@ app.use(cors({
 }));
 app.use(helmet());
 
-
-app.use(passport.initialize());
-configureJwtStrategy(passport);
+app.use(passport.initialize())
+configureJwtStrategy(passport)
 
 // swagger
 const swaggerSpec = swaggerJSDoc({
-    swaggerDefinition: {
-        openapi: '3.0.0',
-        info: { title: 'API', version: '1.0.0' },
+  swaggerDefinition: {
+    openapi: '3.0.0',
+    info: { title: 'API', version: '1.0.0' },
+  },
+  apis: [path.resolve(__dirname, 'routes/v1/*.ts')],
+  servers: [
+    {
+      url: `${config.apiPrefix}/v1`,
     },
-    apis: [path.resolve(__dirname, 'routes/v1/*.ts')],
-    servers: [
-        {
-          url: `${config.apiPrefix}/v1`,
-        },
-    ],
-});
-app.use(`${config.apiPrefix}/v1/api-docs`, swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  ],
+})
+app.use(`${config.apiPrefix}/v1/api-docs`, swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 // TODO app.use() for configs
-app.use(mainRouter);
+app.use(mainRouter)
 
 /**
  * default error handler, should be places the last
  */
-app.use(globalControllerErrorHandler);
+app.use(globalControllerErrorHandler)
 
-export default app;
+export default app
