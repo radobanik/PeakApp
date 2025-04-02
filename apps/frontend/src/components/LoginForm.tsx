@@ -23,7 +23,7 @@ export function LoginForm({
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await authService.login(email, password, navigate);
+            await authService.login({ email, password }, navigate);
         } catch (err: any) {
             alert(err.message || "Unexpected error");
         }
