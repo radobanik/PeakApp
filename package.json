@@ -17,6 +17,7 @@
     "test": "echo \"No tests implemented so far\" && exit 0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@typescript-eslint/eslint-plugin": "^8.28.0",
     "@typescript-eslint/parser": "^8.28.0",
     "concurrently": "^9.1.2",
