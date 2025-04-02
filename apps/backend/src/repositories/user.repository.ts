@@ -78,10 +78,10 @@ const exists = async (id: string) => {
     return count > 0;
 }
 
-const validateUser = async (username: string, password: string): Promise<UserDetail | null> => {
+const validateUser = async (email: string, password: string): Promise<UserDetail | null> => {
     const user = await userClient.findFirst({
         where: {
-            userName: username,
+            email: email,
             deleted: false,
         },
         select: {

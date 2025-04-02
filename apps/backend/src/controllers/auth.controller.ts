@@ -5,16 +5,16 @@ import UserRepository from "../repositories/user.repository";
 import { UserCreate, userCreateValidate } from "../model/user/index";
 
 const login: RequestHandler = async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    if (!username || !password) {
+    if (!email || !password) {
         res.status(HTTP_STATUS.BAD_REQUEST_400).json({
             error: "Username and password are required",
         });
         return;
     }
 
-    const user = await UserRepository.validateUser(username, password);
+    const user = await UserRepository.validateUser(email, password);
 
     if (!user) {
         res.status(HTTP_STATUS.UNAUTHORIZED_401).json({

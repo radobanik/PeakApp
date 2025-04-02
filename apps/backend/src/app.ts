@@ -1,5 +1,5 @@
 import express from 'express';
-// import cors from 'cors';
+import cors from 'cors';
 import helmet from 'helmet';
 import passport from "passport";
 import { mainRouter } from './routes';
@@ -13,8 +13,10 @@ import configureJwtStrategy from "./auth/jwtStrategy";
 const app = express();
 
 app.use(express.json());
-// TODO cors does not work
-// app.use(cors());
+app.use(cors({
+    origin: "http://localhost:5173", // allow Vite dev server
+    credentials: true,  // auth headers
+}));
 app.use(helmet());
 
 
