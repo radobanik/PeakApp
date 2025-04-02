@@ -22,9 +22,6 @@ export function navigateToPage(
         return;
     }
 
-    console.log("Navigating to:", targetPath);
-    console.log("Require Auth:", options?.requireAuth);
-    console.log("Token:", token);
     if (options?.requireAuth && !token) {
         const fallbackPath = pageRoutes.get(options?.fallback ?? LoginFallback);
 
