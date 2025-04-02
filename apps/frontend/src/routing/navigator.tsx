@@ -1,6 +1,7 @@
 import { pageRoutes } from "./pageRoutes";
 import { NavigateFunction } from "react-router-dom";
 import LoginPage from "@/pages/LoginPage";
+import { Console } from "console";
 
 const LoginFallback = LoginPage;
 
@@ -21,6 +22,9 @@ export function navigateToPage(
         return;
     }
 
+    console.log("Navigating to:", targetPath);
+    console.log("Require Auth:", options?.requireAuth);
+    console.log("Token:", token);
     if (options?.requireAuth && !token) {
         const fallbackPath = pageRoutes.get(options?.fallback ?? LoginFallback);
 

@@ -1,7 +1,7 @@
 // src/services/authService.ts
 import { LoginRequest, LoginResponse } from "@/types/authTypes";
 import { API } from "@/constants/api";
-import { navigateToPage } from "@/navigation/navigator";
+import { navigateToPage } from "@/routing/navigator";
 import { NavigateFunction } from "react-router-dom";
 import HomePage from "@/pages/HomePage";
 import LoginPage from "@/pages/LoginPage";
