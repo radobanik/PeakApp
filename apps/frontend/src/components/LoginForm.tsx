@@ -67,12 +67,12 @@ export function LoginForm({
 
                 <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                     <span className="relative z-10 bg-background px-2 text-muted-foreground">
-                    Or continue with
+                    OR
                     </span>
                 </div>
 
                 <div className="flex flex-col gap-4">
-                    <Button variant="outline" className="w-full h-10">
+                    <Button variant="outline" className="w-full h-10 ml justify-center">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -86,14 +86,16 @@ export function LoginForm({
                     Login with Google
                     </Button>
 
-                    <Button variant="outline" className="w-full h-10">
+                    <Button variant="outline" className="w-full h-10 ml justify-center">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 16 16"
                         fill="currentColor"
-                        className="w-5 h-5 mr-2"
+                        className="w-5 h-5 mr-1"
                     >
-                        <path d="M6.731 0 2 9.125h2.788L6.73 5.497l1.93 3.628h2.766zm4.694 9.125-1.372 2.756L8.66 9.125H6.547L10.053 16l3.484-6.875z" />
+                        <g transform="translate(-2, 0)">
+                            <path d="M6.731 0 2 9.125h2.788L6.73 5.497l1.93 3.628h2.766zm4.694 9.125-1.372 2.756L8.66 9.125H6.547L10.053 16l3.484-6.875z" />
+                        </g>
                     </svg>
                     Login with Strava
                     </Button>
