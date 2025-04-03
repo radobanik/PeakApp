@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
 import * as authService from "@/services/authService";
 import { navigateToPage } from "@/routing/navigator";
 import LoginPage from "@/pages/LoginPage";
@@ -24,19 +25,25 @@ export function RegisterForm({
     const [userName, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [errors, setErrors] = useState<{ [key: string]: boolean }>({});
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        const newErrors: { [key: string]: boolean } = {};
         if (password !== confirmPassword) {
-            alert("Passwords do not match");
+            newErrors.confirmPassword = true;
+            toast.info("Passwords do not match. Please ensure both password fields are the same.");
+            setErrors(newErrors);
             return;
         }
+
         try {
             await authService.register({ email, userName, password, firstName, lastName }, navigate);
             await authService.login({ email, password }, navigate);
         } catch (err: any) {
-            alert(err.message || "Unexpected error");
+            toast.error(err.message || "Unexpected error occurred during registration.");
         }
     };
 
@@ -57,9 +64,9 @@ export function RegisterForm({
                                 <div className="grid gap-2">
                                     <Label htmlFor="firstName">First Name</Label>
                                     <Input
-                                        id="firstName"  
+                                        id="firstName"
                                         type="text"
-                                        placeholder="Rip"
+                                        placeholder="John"
                                         required
                                         value={firstName}
                                         onChange={(e) => setFirstName(e.target.value)}
@@ -70,10 +77,21 @@ export function RegisterForm({
                                     <Input
                                         id="lastName"
                                         type="text"
-                                        placeholder="Bozo"
+                                        placeholder="Doe"
                                         required
                                         value={lastName}
                                         onChange={(e) => setLastName(e.target.value)}
+                                    />
+                                </div>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="userName">Username</Label>
+                                    <Input
+                                        id="userName"
+                                        type="text"
+                                        placeholder="jdoe"
+                                        required
+                                        value={userName}
+                                        onChange={(e) => setUsername(e.target.value)}
                                     />
                                 </div>
                                 <div className="grid gap-2">
@@ -81,10 +99,10 @@ export function RegisterForm({
                                     <Input
                                         id="email"
                                         type="email"
-                                        placeholder="bozo@example.com"
+                                        placeholder="email@example.com"
                                         required
                                         value={email}
-                                        onChange={(e) => { setEmail(e.target.value); setUsername(e.target.value)}}
+                                        onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </div>
                                 <div className="grid gap-2">
@@ -105,6 +123,7 @@ export function RegisterForm({
                                         required
                                         value={confirmPassword}
                                         onChange={(e) => setConfirmPassword(e.target.value)}
+                                        className={cn(errors.confirmPassword && "border-red-500")}
                                     />
                                 </div>
                                 <Button type="submit" className="w-full">

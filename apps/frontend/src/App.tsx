@@ -5,6 +5,7 @@ import HomePage from "@/pages/HomePage";
 import { ROUTE } from "@/constants/routes";
 import { privateRoute } from "@/routing/privateRoute";
 import { publicRoute } from "@/routing/publicRoute";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function App() {
   return (
@@ -14,6 +15,9 @@ export default function App() {
         <Route path={ROUTE.REGISTER} element={publicRoute(<RegisterPage />)} />
         <Route path={ROUTE.HOME}     element={privateRoute(<HomePage />)} />
       </Routes>
+
+      {/* Toast notifications */}
+      <Toaster position="top-center" />
     </BrowserRouter>
   );
 }
