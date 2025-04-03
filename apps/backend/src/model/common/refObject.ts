@@ -1,16 +1,18 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 type RefObject = {
-    id: string;
-};
+  id: string
+}
 
-const refObjectSchema = z.object({
+const refObjectSchema = z
+  .object({
     id: z.string().uuid(),
-}).strict();
+  })
+  .strict()
 
 const refObjectSelector = {
-    id: true,
-};
+  id: true,
+}
 
-export type { RefObject };
-export { refObjectSchema, refObjectSelector };
+export type { RefObject }
+export { refObjectSchema, refObjectSelector }

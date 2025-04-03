@@ -12,6 +12,7 @@ export default [
         project: ['./tsconfig.json'],
         tsconfigRootDir: process.cwd(),
         sourceType: 'module',
+        projectService: true,
       },
     },
     plugins: {

@@ -1,12 +1,11 @@
-import { Router } from "express";
-import { UserController } from "../../controllers/index";
-import checkRoles from "../../middlewares/checkRoles";
-import checkAdminOrOwner from "../../middlewares/checkAdminOrOwner";
-import passport from "passport";
-import { Role } from "@prisma/client";
+import { Router } from 'express'
+import { UserController } from '../../controllers/index'
+import checkRoles from '../../middlewares/checkRoles'
+import checkAdminOrOwner from '../../middlewares/checkAdminOrOwner'
+import passport from 'passport'
+import { Role } from '@prisma/client'
 
-
-const userRouter = Router();
+const userRouter = Router()
 
 /**
  * @swagger
@@ -17,11 +16,12 @@ const userRouter = Router();
  *       200:
  *         description: List of users
  */
-userRouter.get("/",
-    passport.authenticate("jwt", { session: false }),
-    checkRoles([Role.ADMIN]),
-    UserController.getUserById
-);
+userRouter.get(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles([Role.ADMIN]),
+  UserController.getUserById
+)
 
 /**
  * @swagger
@@ -37,11 +37,11 @@ userRouter.get("/",
  *         description: User found
  */
 userRouter.get(
-    "/:id",
-    passport.authenticate("jwt", { session: false }),
-    checkAdminOrOwner(),
-    UserController.getUserById
-);
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkAdminOrOwner(),
+  UserController.getUserById
+)
 
 /**
  * @swagger
@@ -52,11 +52,12 @@ userRouter.get(
  *       201:
  *         description: User created
  */
-userRouter.post("/",
-    passport.authenticate("jwt", { session: false }),
-    checkRoles([Role.ADMIN]),
-    UserController.getUserById
-);
+userRouter.post(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles([Role.ADMIN]),
+  UserController.getUserById
+)
 
 /**
  * @swagger
@@ -71,11 +72,12 @@ userRouter.post("/",
  *       200:
  *         description: User updated
  */
-userRouter.put("/:id",
-    passport.authenticate("jwt", { session: false }),
-    checkAdminOrOwner(),
-    UserController.getUserById
-);
+userRouter.put(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkAdminOrOwner(),
+  UserController.getUserById
+)
 
 /**
  * @swagger
@@ -90,10 +92,11 @@ userRouter.put("/:id",
  *       200:
  *         description: User deleted
  */
-userRouter.delete("/:id",
-    passport.authenticate("jwt", { session: false }),
-    checkRoles([Role.ADMIN]),
-    UserController.getUserById
-);
+userRouter.delete(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles([Role.ADMIN]),
+  UserController.getUserById
+)
 
-export default userRouter;
+export default userRouter

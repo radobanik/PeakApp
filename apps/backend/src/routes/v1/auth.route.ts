@@ -1,7 +1,7 @@
-import { Router } from "express";
-import { AuthController } from "../../controllers/index";
+import { Router } from 'express'
+import { AuthController } from '../../controllers/index'
 
-const authRouter = Router();
+const authRouter = Router()
 
 /**
  * @swagger
@@ -23,7 +23,7 @@ const authRouter = Router();
  *       200:
  *         description: JWT token returned
  */
-authRouter.post("/login", AuthController.login);
+authRouter.post('/login', AuthController.login)
 // TODO: Set redirect URL after login
 
 /**
@@ -52,7 +52,7 @@ authRouter.post("/login", AuthController.login);
  *       201:
  *         description: User registered successfully
  */
-authRouter.post("/register", AuthController.register);
+authRouter.post('/register', AuthController.register)
 // TODO: Set redirect URL after register
 
-export default authRouter;
+export default authRouter
