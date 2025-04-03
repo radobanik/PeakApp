@@ -20,7 +20,7 @@ userRouter.get(
   '/',
   passport.authenticate('jwt', { session: false }),
   checkRoles([Role.ADMIN]),
-  UserController.getUserById
+  UserController.userList
 )
 
 /**
@@ -56,7 +56,7 @@ userRouter.post(
   '/',
   passport.authenticate('jwt', { session: false }),
   checkRoles([Role.ADMIN]),
-  UserController.getUserById
+  UserController.createUser
 )
 
 /**

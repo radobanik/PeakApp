@@ -9,6 +9,34 @@ export interface LoginResponse {
   user: AuthenticatedUser
 }
 
+export interface RegisterRequest {
+  email: string
+  userName: string
+  password: string
+  firstName: string
+  lastName: string
+  birthday: string | null
+  weight: number | null
+  cityId: string | null
+}
+
+export interface IsEmailUniqueRequest {
+  email: string
+}
+export interface IsEmailUniqueResponse {
+  unique: boolean
+  description: string
+}
+
+export interface IsUserNameUniqueRequest {
+  userName: string
+}
+
+export interface IsUserNameUniqueResponse {
+  unique: boolean
+  description: string
+}
+
 export interface AuthenticatedUser {
   id: string
   userName: string
@@ -16,7 +44,7 @@ export interface AuthenticatedUser {
   firstName: string
   lastName: string
   roles: string[]
-  birthdayAt: string | null
+  birthday: string | null
   height: number | null
   weight: number | null
   city: string | null

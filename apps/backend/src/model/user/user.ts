@@ -7,13 +7,19 @@ type User = {
   firstName: string
   lastName: string
 
-  birthdayAt: Date | null
+  birthday: Date | null
   height: number | null
   weight: number | null
 
-  city: string | null
-  state: string | null
-  countryCode: string | null
+  city: {
+    id: string
+    name: string
+    country: {
+      id: string
+      name: string
+      code: string
+    }
+  } | null
 
   createdAt: Date
   updatedAt: Date | null

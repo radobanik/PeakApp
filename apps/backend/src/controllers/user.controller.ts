@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { HTTP_STATUS } from './utils/httpStatusCodes'
 import UserRepository, { UserOrder, UserWhere } from '../repositories/user.repository'
-import { UserCreate, UserUpdate, userUpdateValidate, userCreateValidate } from '../model/user/index'
+import { UserUpdate, userUpdateValidate, userCreateValidate } from '../model/user/index'
 import { defaultUserListParams, IncommingUserListParams } from '../model/user/userList'
 import { parseSortAndOrderBy } from '../model/common/listParams'
 import requestValidator from '../model/common/validator'
@@ -48,14 +48,46 @@ const userList = async (req: Request, res: Response) => {
   res.status(HTTP_STATUS.OK_200).json(userListResult)
 }
 
-const createUser = async (req: Request<UserCreate>, res: Response) => {
-  const userData: UserCreate = req.body
+export const createUser = async (req: Request, res: Response): Promise<void> => {
+  const userData = req.body
 
-  const validatedData = requestValidator(() => userCreateValidate(userData), res)
-  if (!validatedData) return
+  const validationResult = userCreateValidate(userData)
+  if (validationResult.error) {
+    res.status(400).json({
+      error: 'Invalid user data',
+      details: validationResult.error.errors.map((err) => ({
+        field: err.path.join('.'),
+        message: err.message,
+      })),
+    })
+    return
+  }
 
-  const user = await UserRepository.createUser(validatedData)
-  res.status(HTTP_STATUS.CREATED_201).json(user)
+  const usernameExists = await UserRepository.findByUsername(userData.userName)
+  if (usernameExists) {
+    res.status(400).json({
+      error: 'Username already exists',
+    })
+    return
+  }
+
+  const emailExists = await UserRepository.findByEmail(userData.email)
+  if (emailExists) {
+    res.status(400).json({
+      error: 'Email already exists',
+    })
+    return
+  }
+
+  try {
+    const user = await UserRepository.createUser(validationResult.data)
+    res.status(201).json(user)
+  } catch (error) {
+    console.error('Error creating user:', error)
+    res.status(500).json({
+      error: 'Failed to create user.',
+    })
+  }
 }
 
 const updateUser = async (req: Request<{ id: string }, object, UserUpdate>, res: Response) => {

@@ -3,6 +3,7 @@ import AuthController from './auth.controller'
 import PeakFileController from './peakFile.controller'
 import GradeController from './grade.controller'
 import RouteController from './route.controller'
+import GeoController from './geo.controller'
 import ClimbingObjectController from './climbingObject.controller'
 
 export {
@@ -12,4 +13,5 @@ export {
   GradeController,
   RouteController,
   ClimbingObjectController,
+  GeoController,
 }

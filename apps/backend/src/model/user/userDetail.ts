@@ -4,20 +4,22 @@ type UserDetail = {
   id: string
   userName: string
   email: string
-
   firstName: string
   lastName: string
-
   roles: Role[]
-
-  birthdayAt: Date | null
+  birthday: Date | null
   height: number | null
   weight: number | null
-
-  city: string | null
-  state: string | null
-  countryCode: string | null
-
+  cityId: string | null
+  city: {
+    id: string
+    name: string
+    country: {
+      id: string
+      name: string
+      code: string
+    }
+  } | null
   createdAt: Date
   updatedAt: Date | null
 }
@@ -32,13 +34,11 @@ const selector = {
 
   roles: true,
 
-  birthdayAt: true,
+  birthday: true,
   height: true,
   weight: true,
 
-  city: true,
-  state: true,
-  countryCode: true,
+  cityId: true,
 
   createdAt: true,
   updatedAt: true,

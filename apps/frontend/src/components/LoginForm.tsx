@@ -2,10 +2,13 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { toast } from 'sonner'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import * as authService from '@/services/authService'
+import { navigateToPage } from '@/routing/navigator'
+import RegisterPage from '@/pages/RegisterPage'
 
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const [email, setEmail] = useState('')
@@ -16,10 +19,17 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
     e.preventDefault()
     try {
       await authService.login({ email, password }, navigate)
-    } catch (err: unknown) {
-      if (err instanceof Error) alert(err?.message)
-      else alert('Unexpected error')
+    } catch (err: any) {
+      if (err.status === 401) {
+        toast.error('Invalid email or password')
+      } else {
+        toast.error(err.message || 'Unexpected error')
+      }
     }
+  }
+
+  const handleNavigateToRegister = () => {
+    navigateToPage(RegisterPage, navigate)
   }
 
   return (
@@ -94,9 +104,13 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 
               <div className="text-center text-sm">
                 Don&apos;t have an account?{' '}
-                <a href="/register" className="underline underline-offset-4">
+                <Button
+                  variant="link"
+                  className="p-0 underline underline-offset-4"
+                  onClick={handleNavigateToRegister}
+                >
                   Sign up
-                </a>
+                </Button>
               </div>
             </div>
           </form>

@@ -4,10 +4,11 @@ export const API = {
   AUTH: {
     LOGIN: `${API_BASE_URL}/auth/login`,
     REGISTER: `${API_BASE_URL}/auth/register`,
+    IS_EMAIL_UNIQUE: `${API_BASE_URL}/auth/is-email-unique`,
+    IS_USERNAME_UNIQUE: `${API_BASE_URL}/auth/is-username-unique`,
   },
-  // Example of API endpoints for user. Need to be updated based on real API
-  USER: {
-    PROFILE: `${API_BASE_URL}/user/profile`,
-    UPDATE: `${API_BASE_URL}/user/update`,
+  GEO: {
+    COUNTRIES: `${API_BASE_URL}/geo/countries`,
+    CITIES: `${API_BASE_URL}/geo/cities`,
   },
 }
