@@ -4,11 +4,18 @@ export interface LoginRequest {
     password: string;
 }
 
-
 export interface LoginResponse {
     message: string;
     token: string;
     user: AuthenticatedUser;
+}
+
+export interface RegisterRequest {
+    email: string;
+    userName: string;
+    password: string;
+    firstName: string;
+    lastName: string;
 }
 
 export interface AuthenticatedUser {
