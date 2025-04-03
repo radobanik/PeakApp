@@ -11,6 +11,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import * as authService from "@/services/authService";
+import { navigateToPage } from "@/routing/navigator";
+import RegisterPage from "@/pages/RegisterPage";
 
 export function LoginForm({
     className,
@@ -27,6 +29,10 @@ export function LoginForm({
         } catch (err: any) {
             alert(err.message || "Unexpected error");
         }
+    };
+
+    const handleNavigateToRegister = () => {
+        navigateToPage(RegisterPage, navigate);
     };
 
     return (
@@ -101,19 +107,20 @@ export function LoginForm({
                     </Button>
                 </div>
 
-                <div className="text-center text-sm">
-                    Don&apos;t have an account?{" "}
-                    <a
-                    href="/register"
-                    className="underline underline-offset-4"
-                    >
-                    Sign up
-                    </a>
-                </div>
-                </div>
-            </form>
-            </CardContent>
-        </Card>
+                            <div className="text-center text-sm">
+                                Don&apos;t have an account?{" "}
+                                <Button
+                                    variant="link"
+                                    className="p-0 underline underline-offset-4"
+                                    onClick={handleNavigateToRegister}
+                                >
+                                    Sign up
+                                </Button>
+                            </div>
+                        </div>
+                    </form>
+                </CardContent>
+            </Card>
         </div>
     );
 }
