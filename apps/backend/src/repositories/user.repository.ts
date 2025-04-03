@@ -90,16 +90,16 @@ const exists = async (id: string) => {
 }
 
 const validateUser = async (email: string, password: string): Promise<UserDetail | null> => {
-    const user = await userClient.findFirst({
-        where: {
-            email: email,
-            deleted: false,
-        },
-        select: {
-            ...userDetailSelector,
-            password: true, 
-        },
-    });
+  const user = await userClient.findFirst({
+    where: {
+      email: email,
+      deleted: false,
+    },
+    select: {
+      ...userDetailSelector,
+      password: true,
+    },
+  })
 
   if (user && (await bcrypt.compare(password, user.password))) {
     return { ...user, password: undefined } as UserDetail
