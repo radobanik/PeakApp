@@ -1,5 +1,5 @@
-import PeakAppLogo from '../assets/PeakAppLogo.png';
-import LogoutButton from './LogoutButton';
+import PeakAppLogo from '../assets/PeakAppLogo.png'
+import LogoutButton from './LogoutButton'
 
 function HeaderBar() {
   return (
@@ -15,7 +15,7 @@ function HeaderBar() {
         <LogoutButton />
       </nav>
     </header>
-  );
+  )
 }
 
-export default HeaderBar;
+export default HeaderBar

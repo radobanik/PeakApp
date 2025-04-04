@@ -1,7 +1,7 @@
-import { Router } from "express";
-import { AuthController } from "../../controllers/index";
+import { Router } from 'express'
+import { AuthController } from '../../controllers/index'
 
-const authRouter = Router();
+const authRouter = Router()
 
 /**
  * @swagger
@@ -23,7 +23,7 @@ const authRouter = Router();
  *       200:
  *         description: JWT token returned
  */
-authRouter.post("/login", AuthController.login);
+authRouter.post('/login', AuthController.login)
 
 /**
  * @swagger
@@ -51,8 +51,7 @@ authRouter.post("/login", AuthController.login);
  *       201:
  *         description: User registered successfully
  */
-authRouter.post("/register", AuthController.register);
-
+authRouter.post('/register', AuthController.register)
 
 /**
  * @swagger
@@ -73,7 +72,7 @@ authRouter.post("/register", AuthController.register);
  *         unique: true/false,
  *         description: Username is available/already in use
  */
-authRouter.post("/is-username-unique", AuthController.isUsernameUnique);
+authRouter.post('/is-username-unique', AuthController.isUsernameUnique)
 
 /**
  * @swagger
@@ -94,8 +93,6 @@ authRouter.post("/is-username-unique", AuthController.isUsernameUnique);
  *         unique: true/false,
  *         description: Email is available/already in use
  */
-authRouter.post("/is-email-unique", AuthController.isEmailUnique);
+authRouter.post('/is-email-unique', AuthController.isEmailUnique)
 
-
-
-export default authRouter;
+export default authRouter

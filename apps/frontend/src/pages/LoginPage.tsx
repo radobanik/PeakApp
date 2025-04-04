@@ -1,5 +1,5 @@
-import { LoginForm } from "@/components/LoginForm";
-import PeakAppLogo from '../assets/PeakAppLogo.png';
+import { LoginForm } from '@/components/LoginForm'
+import PeakAppLogo from '../assets/PeakAppLogo.png'
 
 export default function LoginPage() {
   return (
@@ -9,5 +9,5 @@ export default function LoginPage() {
         <LoginForm className="w-full" />
       </div>
     </div>
-  );
+  )
 }

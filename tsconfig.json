@@ -6,7 +6,7 @@
     },
     "strict": true,
     "moduleResolution": "node",
-    "target": "ESNext",
+    "target": "ESNext"
   },
   "references": [
     { "path": "apps/frontend" },
