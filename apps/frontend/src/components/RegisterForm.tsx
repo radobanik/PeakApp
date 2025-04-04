@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -145,6 +145,20 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
       setStep(3)
     }
   }
+
+  const handleCityChange = useCallback(
+    (value: any) => {
+      const selectedCity = citiesData.find((city) => city.name === value)
+      if (selectedCity) {
+        setCityId(selectedCity.id)
+        setCityName(selectedCity.name)
+      } else {
+        setCityId(null)
+        setCityName('')
+      }
+    },
+    [citiesData]
+  )
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -350,16 +364,7 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
                         <SearchComboBox
                           items={citiesComboItems}
                           value={cityName}
-                          onChange={(value) => {
-                            const selectedCity = citiesData.find((city) => city.name === value)
-                            if (selectedCity) {
-                              setCityId(selectedCity.id)
-                              setCityName(selectedCity.name)
-                            } else {
-                              setCityId(null)
-                              setCityName('')
-                            }
-                          }}
+                          onChange={handleCityChange}
                           placeholder="Select a city"
                           emptyMessage="No cities found"
                         />
