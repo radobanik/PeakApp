@@ -4,7 +4,7 @@ type UserUpdate = {
   firstName: string
   lastName: string
 
-  birthdayAt: Date | null
+  birthday: Date | null
   height: number | null
   weight: number | null
 
@@ -20,7 +20,7 @@ const validate = (entity: UserUpdate) =>
     .object({
       firstName: z.string().min(1, 'First name must not be empty'),
       lastName: z.string().min(1, 'Last name must not be empty'),
-      birthdayAt: z.coerce.date().nullable(),
+      birthday: z.coerce.date().nullable(),
       height: z.number().positive().nullable(),
       weight: z.number().positive().nullable(),
       city: z.string().nullable(),

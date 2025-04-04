@@ -7,7 +7,7 @@ type User = {
   firstName: string
   lastName: string
 
-  birthdayAt: Date | null
+  birthday: Date | null
   height: number | null
   weight: number | null
 

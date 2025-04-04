@@ -7,7 +7,7 @@ type UserDetail = {
   firstName: string
   lastName: string
   roles: Role[]
-  birthdayAt: Date | null
+  birthday: Date | null
   height: number | null
   weight: number | null
   cityId: string | null
@@ -34,7 +34,7 @@ const selector = {
 
   roles: true,
 
-  birthdayAt: true,
+  birthday: true,
   height: true,
   weight: true,
 

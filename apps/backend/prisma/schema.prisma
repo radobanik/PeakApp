@@ -16,7 +16,7 @@ model User {
   lastName  String
   roles     Role[]
 
-  birthdayAt DateTime?
+  birthday DateTime?
   height     Int?
   weight     Float?
 
