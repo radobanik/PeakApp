@@ -169,7 +169,6 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
     if (!cityId) newErrors.city = true
     if (!countryId) newErrors.country = true
 
-    console.log('newErrors', newErrors)
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
       toast.info('Please complete all required fields.')
@@ -422,6 +421,7 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
               <div className="text-center text-sm">
                 Already have an account?{' '}
                 <Button
+                  type="button"
                   variant="link"
                   className="p-0 underline underline-offset-4"
                   onClick={handleNavigateToLogin}
