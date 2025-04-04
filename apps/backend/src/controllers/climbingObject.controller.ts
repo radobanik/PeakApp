@@ -46,8 +46,6 @@ const list = async (req: Request, res: Response) => {
         ],
     }
 
-    console.log(JSON.stringify(where, null, 2));
-
     const orderBy: ClimbingObjectOrder[] = [{id: 'asc'}];
 
     const climbingObjectListResult = await ClimbingObjectRepository.list(where, routeWhere, orderBy);

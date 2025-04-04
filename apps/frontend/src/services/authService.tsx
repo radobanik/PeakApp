@@ -48,9 +48,7 @@ export async function register(
     navigate: NavigateFunction
 ): Promise<LoginResponse> {
     try {
-        console.log("Registering user with credentials:", credentials);
         const response = await api.post<LoginResponse>(API.AUTH.REGISTER, credentials);
-        console.log("Registration response:", response);
         const data = response.data;
 
         localStorage.setItem("token", data.token);
