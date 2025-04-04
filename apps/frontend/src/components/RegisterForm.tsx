@@ -308,8 +308,17 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
                           id="weight"
                           type="number"
                           value={weight}
+                          min={0}
+                          max={150}
                           className={cn(errors.weight && 'border-red-500')}
-                          onChange={(e) => setWeight(e.target.value)}
+                          onChange={(e) => {
+                            const value = parseFloat(e.target.value)
+                            if (value >= 0 && value <= 150) {
+                              setWeight(e.target.value)
+                            } else if (e.target.value === '') {
+                              setWeight('')
+                            }
+                          }}
                         />
                       </div>
                       <div className="flex-1">
