@@ -7,6 +7,11 @@ type UserCreate = {
 
   firstName: string
   lastName: string
+
+  cityId?: string | null
+  birthday?: Date | null
+
+  weight?: number | null
 }
 
 const validate = (entity: UserCreate) =>
@@ -17,6 +22,9 @@ const validate = (entity: UserCreate) =>
       email: z.string().email('Invalid email address'),
       userName: z.string().min(1, 'User name must not be empty'),
       password: z.string().nonempty('Password is required'),
+      cityId: z.string().nullable(),
+      birthday: z.coerce.date().nullable(),
+      weight: z.number().positive().nullable(),
     })
     .strict()
     .safeParse(entity)

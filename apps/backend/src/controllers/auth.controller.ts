@@ -61,7 +61,59 @@ const register: RequestHandler = async (req, res) => {
   }
 }
 
+const isUsernameUnique: RequestHandler = async (req, res) => {
+  const { userName } = req.body
+
+  if (!userName) {
+    res.status(HTTP_STATUS.BAD_REQUEST_400).json({
+      error: 'Username is required',
+    })
+    return
+  }
+
+  const userExists = await UserRepository.findByUsername(userName)
+
+  if (userExists) {
+    res.status(HTTP_STATUS.OK_200).json({
+      unique: false,
+      error: 'Username is already taken',
+    })
+  } else {
+    res.status(HTTP_STATUS.OK_200).json({
+      unique: true,
+      message: 'Username is available',
+    })
+  }
+}
+
+const isEmailUnique: RequestHandler = async (req, res) => {
+  const { email } = req.body
+
+  if (!email) {
+    res.status(HTTP_STATUS.BAD_REQUEST_400).json({
+      error: 'Email is required',
+    })
+    return
+  }
+
+  const emailExists = await UserRepository.findByEmail(email as string)
+
+  if (emailExists) {
+    res.status(HTTP_STATUS.OK_200).json({
+      unique: false,
+      error: 'Email is already in use',
+    })
+  } else {
+    res.status(HTTP_STATUS.OK_200).json({
+      unique: true,
+      message: 'Email is available',
+    })
+  }
+}
+
 export default {
   login,
   register,
+  isUsernameUnique,
+  isEmailUnique,
 }

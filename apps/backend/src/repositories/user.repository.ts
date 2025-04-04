@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient, Role } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import {
   UserCreate,
@@ -15,13 +15,30 @@ type UserOrder = Prisma.UserOrderByWithRelationInput
 
 const userClient = new PrismaClient().user
 
+const userDetailSelectorWithCity = {
+  ...userDetailSelector,
+  city: {
+    select: {
+      id: true,
+      name: true,
+      country: {
+        select: {
+          id: true,
+          name: true,
+          code: true,
+        },
+      },
+    },
+  },
+}
+
 const getUserById = async (id: string): Promise<UserDetail | null> => {
   return userClient.findUnique({
     where: {
       id: id,
       deleted: false,
     },
-    select: userDetailSelector,
+    select: userDetailSelectorWithCity,
   })
 }
 
@@ -36,39 +53,97 @@ const listUsers = async (
     orderBy,
     skip: (pageNum - 1) * pageSize,
     take: pageSize,
-    select: userListSelector,
+    select: {
+      ...userListSelector,
+      city: {
+        select: {
+          id: true,
+          name: true,
+          country: {
+            select: {
+              id: true,
+              name: true,
+              code: true,
+            },
+          },
+        },
+      },
+    },
+  })
+
+  const transformedUsers = users.map((user) => {
+    const { city, ...rest } = user
+
+    return {
+      ...rest,
+      city,
+    }
   })
 
   const totalUsers = await userClient.count({ where })
 
-  return createListResponse(users, totalUsers, pageNum, pageSize)
+  return createListResponse(transformedUsers, totalUsers, pageNum, pageSize)
 }
 
 const createUser = async (userData: UserCreate): Promise<UserDetail> => {
-  const hashedPassword = await bcrypt.hash(userData.password, 10)
-  return await userClient.create({
-    data: {
-      ...userData,
-      password: hashedPassword,
-    },
-    select: userDetailSelector,
-  })
+  try {
+    const hashedPassword = await bcrypt.hash(userData.password, 10)
+    const birthdayDate = userData.birthday ? new Date(userData.birthday) : null
+
+    const { cityId, ...restUserData } = userData
+
+    const user = await userClient.create({
+      data: {
+        ...restUserData,
+        password: hashedPassword,
+        birthday: birthdayDate,
+        city: cityId ? { connect: { id: cityId } } : undefined,
+        roles: { set: [Role.USER] },
+      },
+      select: userDetailSelectorWithCity,
+    })
+
+    const { city, ...rest } = user
+
+    return {
+      ...rest,
+      city,
+    } as UserDetail
+  } catch {
+    throw new Error('Failed to create user')
+  }
 }
 
 const updateUser = async (id: string, userData: UserUpdate): Promise<UserDetail> => {
-  const user: UserDetail = await userClient.update({
+  const { cityId, ...rest } = userData
+
+  const user = await userClient.update({
     where: { id },
     data: {
-      ...userData,
+      ...rest,
       updatedAt: new Date(),
+      city: cityId ? { connect: { id: cityId } } : { disconnect: true },
     },
-    select: userDetailSelector,
+    select: userDetailSelectorWithCity,
   })
 
-  return user
+  const { city, ...userWithoutCity } = user
+
+  return {
+    ...userWithoutCity,
+    city,
+  } as UserDetail
 }
 
 const deleteUser = async (id: string) => {
+  await userClient.update({
+    where: { id },
+    data: {
+      deleted: true,
+      updatedAt: new Date(),
+    },
+    select: { id: true },
+  })
   await userClient.update({
     where: { id },
     data: {
@@ -96,7 +171,7 @@ const validateUser = async (email: string, password: string): Promise<UserDetail
       deleted: false,
     },
     select: {
-      ...userDetailSelector,
+      ...userDetailSelectorWithCity,
       password: true,
     },
   })
@@ -108,6 +183,20 @@ const validateUser = async (email: string, password: string): Promise<UserDetail
   return null
 }
 
+const findByUsername = async (username: string): Promise<UserDetail | null> => {
+  return await userClient.findUnique({
+    where: { userName: username },
+    select: userDetailSelectorWithCity,
+  })
+}
+
+const findByEmail = async (email: string): Promise<UserDetail | null> => {
+  return await userClient.findUnique({
+    where: { email },
+    select: userDetailSelectorWithCity,
+  })
+}
+
 export default {
   getUserById,
   listUsers,
@@ -116,6 +205,8 @@ export default {
   deleteUser,
   exists,
   validateUser,
+  findByUsername,
+  findByEmail,
 }
 
 export { UserWhere, UserOrder }

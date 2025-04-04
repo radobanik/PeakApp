@@ -5,6 +5,7 @@ import peakFileRouter from './peakFile.route'
 import gradeRouter from './grade.route'
 import routeRouter from './route.route'
 import climbingObjectRouter from './climbingObject.route'
+import geoRouter from './geo.route'
 
 const v1Router = Router()
 
@@ -16,6 +17,10 @@ const routes = [
   {
     path: '/auth',
     route: authRouter,
+  },
+  {
+    path: '/geo',
+    route: geoRouter,
   },
   {
     path: '/file',

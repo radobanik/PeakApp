@@ -2,11 +2,12 @@ import initGrades from './grade.init'
 import initRoutes from './route.init'
 import initUsers from './user.init'
 import initClimbingObjects from './climbingObject.init'
+import initGeoData from './geo.init'
 
 /**
  * must be in the right order!
  */
-const initFunctions = [initUsers, initGrades, initClimbingObjects, initRoutes]
+const initFunctions = [initUsers, initGrades, initClimbingObjects, initRoutes, initGeoData]
 
 async function initAll() {
   console.log('Initializing all')
