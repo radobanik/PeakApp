@@ -20,7 +20,11 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
     try {
       await authService.login({ email, password }, navigate)
     } catch (err: any) {
-      toast.error(err.message || 'Unexpected error')
+      if (err.status === 401) {
+        toast.error('Invalid email or password')
+      } else {
+        toast.error(err.message || 'Unexpected error')
+      }
     }
   }
 
