@@ -1,5 +1,13 @@
 // src/services/authService.ts
-import { LoginRequest, LoginResponse, RegisterRequest } from "@/types/authTypes";
+import { 
+    LoginRequest, 
+    LoginResponse, 
+    RegisterRequest, 
+    IsEmailUniqueRequest, 
+    IsEmailUniqueResponse, 
+    IsUserNameUniqueRequest, 
+    IsUserNameUniqueResponse, 
+} from "@/types/authTypes";
 import { API } from "@/constants/api";
 import { navigateToPage } from "@/routing/navigator";
 import { NavigateFunction } from "react-router-dom";
@@ -40,7 +48,9 @@ export async function register(
     navigate: NavigateFunction
 ): Promise<LoginResponse> {
     try {
+        console.log("Registering user with credentials:", credentials);
         const response = await api.post<LoginResponse>(API.AUTH.REGISTER, credentials);
+        console.log("Registration response:", response);
         const data = response.data;
 
         localStorage.setItem("token", data.token);
@@ -54,6 +64,28 @@ export async function register(
     } catch (error: any) {
         const message =
             error.response?.data?.message || error.message || "Registration failed";
+        throw new Error(message);
+    }
+}
+
+export async function isEmailUnique(data: IsEmailUniqueRequest): Promise<IsEmailUniqueResponse> {
+    try {
+        const response = await api.post<IsEmailUniqueResponse>(API.AUTH.IS_EMAIL_UNIQUE, data);
+        return response.data;
+    } catch (error: any) {
+        const message =
+            error.response?.data?.message || error.message || "Failed to check email uniqueness.";
+        throw new Error(message);
+    }
+}
+
+export async function isUserNameUnique(data: IsUserNameUniqueRequest): Promise<IsUserNameUniqueResponse> {
+    try {
+        const response = await api.post<IsUserNameUniqueResponse>(API.AUTH.IS_USERNAME_UNIQUE, data);
+        return response.data; 
+    } catch (error: any) {
+        const message =
+            error.response?.data?.message || error.message || "Failed to check username uniqueness.";
         throw new Error(message);
     }
 }
