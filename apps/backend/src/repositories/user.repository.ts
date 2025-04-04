@@ -78,7 +78,6 @@ const listUsers = async (
     return {
       ...rest,
       city,
-      country,
     }
   })
 
@@ -113,7 +112,6 @@ const createUser = async (userData: UserCreate): Promise<UserDetail> => {
     return {
       ...rest,
       city,
-      country,
     } as UserDetail
   } catch (error: any) {
     console.error('Error creating user:', error.message, error)
@@ -140,7 +138,6 @@ const updateUser = async (id: string, userData: UserUpdate): Promise<UserDetail>
   return {
     ...userWithoutCity,
     city,
-    country,
   } as UserDetail
 }
 
