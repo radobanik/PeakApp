@@ -53,4 +53,49 @@ authRouter.post("/login", AuthController.login);
  */
 authRouter.post("/register", AuthController.register);
 
+
+/**
+ * @swagger
+ * /auth/is-username-unique:
+ *   post:
+ *     summary: Check if a username is unique
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         unique: true/false,
+ *         description: Username is available/already in use
+ */
+authRouter.post("/is-username-unique", AuthController.isUsernameUnique);
+
+/**
+ * @swagger
+ * /auth/is-email-unique:
+ *   post:
+ *     summary: Check if an email is unique
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         unique: true/false,
+ *         description: Email is available/already in use
+ */
+authRouter.post("/is-email-unique", AuthController.isEmailUnique);
+
+
+
 export default authRouter;

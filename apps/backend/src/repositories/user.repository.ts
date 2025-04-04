@@ -1,114 +1,202 @@
-import { Prisma, PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
-import { UserCreate, UserUpdate, UserList, userDetailSelector, UserDetail, userListSelector } from "../model/user/index";
-import { createListResponse, ListResponse } from "../model/common/listResponse";
+import { Prisma, PrismaClient } from '@prisma/client'
+import bcrypt from 'bcrypt'
+import {
+  UserCreate,
+  UserUpdate,
+  UserList,
+  userDetailSelector,
+  UserDetail,
+  userListSelector,
+} from '../model/user/index'
+import { createListResponse, ListResponse } from '../model/common/listResponse'
 
-type UserWhere = Prisma.UserWhereInput;
-type UserOrder = Prisma.UserOrderByWithRelationInput;
+type UserWhere = Prisma.UserWhereInput
+type UserOrder = Prisma.UserOrderByWithRelationInput
 
+const userClient = new PrismaClient().user
 
-const userClient = new PrismaClient().user;
-
-const getUserById = async (id: string) : Promise<UserDetail | null> => {
-    return userClient.findUnique({
-        where: { 
-            id : id,
-            deleted: false
+const userDetailSelectorWithCity = {
+  ...userDetailSelector,
+  city: {
+    select: {
+      id: true,
+      name: true,
+      country: {
+        select: {
+          id: true,
+          name: true,
+          code: true,
         },
-        select: userDetailSelector,
-    });
+      },
+    },
+  },
 }
 
-const listUsers = async (where : UserWhere, orderBy : UserOrder[], pageNum : number, pageSize : number) : Promise<ListResponse<UserList>> => {
-    const users = await userClient.findMany({
-        where,
-        orderBy,
-        skip: (pageNum - 1) * pageSize,
-        take: pageSize,
-        select: userListSelector,
-    });
-
-    const totalUsers = await userClient.count({ where });
-
-    return createListResponse(users, totalUsers, pageNum, pageSize);
+const getUserById = async (id: string): Promise<UserDetail | null> => {
+  return userClient.findUnique({
+    where: {
+      id: id,
+      deleted: false,
+    },
+    select: userDetailSelectorWithCity,
+  })
 }
 
-const createUser = async (userData: UserCreate) : Promise<UserDetail> => {
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
-    return await userClient.create({
-        data: {
-            ...userData,
-            password: hashedPassword,
+const listUsers = async (
+  where: UserWhere,
+  orderBy: UserOrder[],
+  pageNum: number,
+  pageSize: number
+): Promise<ListResponse<UserList>> => {
+  const users = await userClient.findMany({
+    where,
+    orderBy,
+    skip: (pageNum - 1) * pageSize,
+    take: pageSize,
+    select: {
+      ...userListSelector,
+      city: {
+        select: {
+          id: true,
+          name: true,
+          country: {
+            select: {
+              id: true,
+              name: true,
+              code: true,
+            },
+          },
         },
-        select: userDetailSelector,
-    });
+      },
+    },
+  })
+
+  const transformedUsers = users.map((user) => {
+    const { city, ...rest } = user
+    const country = city?.country || null
+
+    return {
+      ...rest,
+      city,
+      country,
+    }
+  })
+
+  const totalUsers = await userClient.count({ where })
+
+  return createListResponse(transformedUsers, totalUsers, pageNum, pageSize)
 }
 
-const updateUser = async (id: string, userData: UserUpdate) : Promise<UserDetail> => {
-    const user : UserDetail =  await userClient.update({
-        where: { id },
-        data: {
-            ...userData,
-            updatedAt: new Date(),
-        },
-        select: userDetailSelector,
-    });
+const createUser = async (userData: UserCreate): Promise<UserDetail> => {
+  const hashedPassword = await bcrypt.hash(userData.password, 10)
+  const user = await userClient.create({
+    data: {
+      ...userData,
+      password: hashedPassword,
+    },
+    select: userDetailSelectorWithCity,
+  })
 
-    return user;
+  const { city, ...rest } = user
+  const country = city?.country || null
+
+  return {
+    ...rest,
+    city,
+    country,
+  } as UserDetail
+}
+
+const updateUser = async (id: string, userData: UserUpdate): Promise<UserDetail> => {
+  const { cityId, ...rest } = userData 
+
+  const user = await userClient.update({
+    where: { id },
+    data: {
+      ...rest,
+      updatedAt: new Date(),
+      city: cityId
+        ? { connect: { id: cityId } }
+        : { disconnect: true }, 
+    },
+    select: userDetailSelectorWithCity,
+  })
+
+  const { city, ...userWithoutCity } = user
+  const country = city?.country || null
+
+  return {
+    ...userWithoutCity,
+    city,
+    country,
+  } as UserDetail
 }
 
 const deleteUser = async (id: string) => {
-    await userClient.update({
-        where: { id },
-        data: {
-            deleted: true,
-            updatedAt: new Date(),
-        },
-        select: { id: true },
-    });
+  await userClient.update({
+    where: { id },
+    data: {
+      deleted: true,
+      updatedAt: new Date(),
+    },
+    select: { id: true },
+  })
 }
 
 const exists = async (id: string) => {
-    const count = await userClient.count({
-        where: { 
-            id : id,
-            deleted: false
-        }
-    });
-    return count > 0;
+  const count = await userClient.count({
+    where: {
+      id: id,
+      deleted: false,
+    },
+  })
+  return count > 0
 }
 
 const validateUser = async (email: string, password: string): Promise<UserDetail | null> => {
-    const user = await userClient.findFirst({
-        where: {
-            email: email,
-            deleted: false,
-        },
-        select: {
-            ...userDetailSelector,
-            password: true, 
-        },
-    });
+  const user = await userClient.findFirst({
+    where: {
+      email: email,
+      deleted: false,
+    },
+    select: {
+      ...userDetailSelectorWithCity,
+      password: true,
+    },
+  })
 
-    if (user && await bcrypt.compare(password, user.password)) {
-        const { password, ...userWithoutPassword } = user;
-        return userWithoutPassword as UserDetail;
-    }
+  if (user && (await bcrypt.compare(password, user.password))) {
+    const { password, ...userWithoutPassword } = user
+    return userWithoutPassword as UserDetail
+  }
 
-    return null;
-};
+  return null
+}
 
-export default {  
-    getUserById, 
-    listUsers,
-    createUser, 
-    updateUser, 
-    deleteUser,
-    exists,
-    validateUser
-};
+const findByUsername = async (username: string): Promise<UserDetail | null> => {
+  return await userClient.findUnique({
+    where: { userName: username },
+    select: userDetailSelectorWithCity,
+  })
+}
 
-export {
-    UserWhere,
-    UserOrder,
-};
+const findByEmail = async (email: string): Promise<UserDetail | null> => {
+  return await userClient.findUnique({
+    where: { email },
+    select: userDetailSelectorWithCity,
+  })
+}
+
+export default {
+  getUserById,
+  listUsers,
+  createUser,
+  updateUser,
+  deleteUser,
+  exists,
+  validateUser,
+  findByUsername,
+  findByEmail,
+}
+
+export { UserWhere, UserOrder }
