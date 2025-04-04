@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient, Role } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import {
   UserCreate,
@@ -88,36 +88,48 @@ const listUsers = async (
 }
 
 const createUser = async (userData: UserCreate): Promise<UserDetail> => {
-  const hashedPassword = await bcrypt.hash(userData.password, 10)
-  const user = await userClient.create({
-    data: {
-      ...userData,
-      password: hashedPassword,
-    },
-    select: userDetailSelectorWithCity,
-  })
+  try {
+    const hashedPassword = await bcrypt.hash(userData.password, 10)
+    const birthdayDate = userData.birthday ? new Date(userData.birthday) : null
 
-  const { city, ...rest } = user
-  const country = city?.country || null
+    console.log('Creating user with data:', userData)
 
-  return {
-    ...rest,
-    city,
-    country,
-  } as UserDetail
+    const { cityId, ...restUserData } = userData
+
+    const user = await userClient.create({
+      data: {
+        ...restUserData,
+        password: hashedPassword,
+        birthday: birthdayDate,
+        city: cityId ? { connect: { id: cityId } } : undefined,
+        roles: { set: [Role.USER] },
+      },
+      select: userDetailSelectorWithCity,
+    })
+
+    const { city, ...rest } = user
+    const country = city?.country || null
+
+    return {
+      ...rest,
+      city,
+      country,
+    } as UserDetail
+  } catch (error: any) {
+    console.error('Error creating user:', error.message, error)
+    throw new Error('Failed to create user')
+  }
 }
 
 const updateUser = async (id: string, userData: UserUpdate): Promise<UserDetail> => {
-  const { cityId, ...rest } = userData 
+  const { cityId, ...rest } = userData
 
   const user = await userClient.update({
     where: { id },
     data: {
       ...rest,
       updatedAt: new Date(),
-      city: cityId
-        ? { connect: { id: cityId } }
-        : { disconnect: true }, 
+      city: cityId ? { connect: { id: cityId } } : { disconnect: true },
     },
     select: userDetailSelectorWithCity,
   })
