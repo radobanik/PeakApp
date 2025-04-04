@@ -73,7 +73,6 @@ const listUsers = async (
 
   const transformedUsers = users.map((user) => {
     const { city, ...rest } = user
-    const country = city?.country || null
 
     return {
       ...rest,
@@ -105,14 +104,12 @@ const createUser = async (userData: UserCreate): Promise<UserDetail> => {
     })
 
     const { city, ...rest } = user
-    const country = city?.country || null
 
     return {
       ...rest,
       city,
     } as UserDetail
-  } catch (error: any) {
-    console.error('Error creating user:', error.message, error)
+  } catch {
     throw new Error('Failed to create user')
   }
 }
@@ -131,7 +128,6 @@ const updateUser = async (id: string, userData: UserUpdate): Promise<UserDetail>
   })
 
   const { city, ...userWithoutCity } = user
-  const country = city?.country || null
 
   return {
     ...userWithoutCity,
@@ -181,8 +177,7 @@ const validateUser = async (email: string, password: string): Promise<UserDetail
   })
 
   if (user && (await bcrypt.compare(password, user.password))) {
-    const { password, ...userWithoutPassword } = user
-    return userWithoutPassword as UserDetail
+    return { ...user, password: undefined } as UserDetail
   }
 
   return null

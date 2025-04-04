@@ -31,6 +31,7 @@ export async function login(
     })
 
     return data
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     const status = error.response?.status || 401
     const message = error.response?.data?.message || error.message || 'Login failed'
@@ -59,6 +60,7 @@ export async function register(
     })
 
     return data
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     const message = error.response?.data?.message || error.message || 'Registration failed'
     throw new Error(message)
@@ -69,6 +71,7 @@ export async function isEmailUnique(data: IsEmailUniqueRequest): Promise<IsEmail
   try {
     const response = await api.post<IsEmailUniqueResponse>(API.AUTH.IS_EMAIL_UNIQUE, data)
     return response.data
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     const message =
       error.response?.data?.message || error.message || 'Failed to check email uniqueness.'
@@ -82,6 +85,7 @@ export async function isUserNameUnique(
   try {
     const response = await api.post<IsUserNameUniqueResponse>(API.AUTH.IS_USERNAME_UNIQUE, data)
     return response.data
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     const message =
       error.response?.data?.message || error.message || 'Failed to check username uniqueness.'

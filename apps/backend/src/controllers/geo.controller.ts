@@ -21,7 +21,7 @@ const getAllCountries = async (req: Request, res: Response): Promise<void> => {
       name: country.name,
     }))
     res.status(HTTP_STATUS.OK_200).json(response)
-  } catch (error) {
+  } catch {
     res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR_500).json({
       error: 'Failed to fetch countries',
     })
@@ -45,7 +45,7 @@ const getCitiesByCountry = async (req: Request<CountryIdParams>, res: Response):
       name: city.name,
     }))
     res.status(HTTP_STATUS.OK_200).json(response)
-  } catch (error) {
+  } catch {
     res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR_500).json({
       error: 'Failed to fetch cities for the specified country',
     })
@@ -77,7 +77,7 @@ const getCityById = async (req: Request<CityIdParams>, res: Response): Promise<v
       name: city.name,
     }
     res.status(HTTP_STATUS.OK_200).json(response)
-  } catch (error) {
+  } catch {
     res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR_500).json({
       error: 'Failed to fetch the city',
     })

@@ -69,7 +69,7 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
             label: country.name,
           }))
         )
-      } catch (error) {
+      } catch {
         toast.error('Failed to fetch countries.')
       }
     }
@@ -88,7 +88,7 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
             label: city.name,
           }))
         )
-      } catch (error) {
+      } catch {
         toast.error('Failed to fetch cities.')
       }
     }
@@ -147,7 +147,7 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
   }
 
   const handleCityChange = useCallback(
-    (value: any) => {
+    (value: unknown) => {
       const selectedCity = citiesData.find((city) => city.name === value)
       if (selectedCity) {
         setCityId(selectedCity.id)
@@ -190,6 +190,7 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
         navigate
       )
       await authService.login({ email, password }, navigate)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       toast.error(err.message || 'Unexpected error occurred during registration.')
     }

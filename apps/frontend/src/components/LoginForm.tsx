@@ -19,6 +19,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
     e.preventDefault()
     try {
       await authService.login({ email, password }, navigate)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       if (err.status === 401) {
         toast.error('Invalid email or password')
