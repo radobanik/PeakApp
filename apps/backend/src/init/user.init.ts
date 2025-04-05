@@ -55,7 +55,7 @@ const sampleUsers = [
     firstName: 'Chris',
     lastName: 'Brown',
     email: 'chris.brown@password123.com',
-    roles: [Role.USER, Role.USER],
+    roles: [Role.USER],
   },
   {
     id: TOP_LOGGER_USER_ID,
