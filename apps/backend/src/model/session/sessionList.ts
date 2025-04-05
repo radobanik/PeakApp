@@ -1,12 +1,13 @@
 import { User } from "@prisma/client";
 import { PeakFile, peakFileSelector } from "../peakFile";
 import { ActivityDetail, activityDetailSelector } from "../activity";
+import { UserLabeled, userLabeledSelector } from "../user";
 
 type SessionList = {
     id: string;
     createdAt: Date;
     updatedAt: Date | null;
-    createdBy: User;
+    createdBy: UserLabeled;
 
     note: string;
 
@@ -17,7 +18,9 @@ const selector = {
     id: true,
     createdAt: true,
     updatedAt: true,
-    createdBy: true,
+    createdBy: {
+        select: userLabeledSelector
+    },
 
     note: true,
 
