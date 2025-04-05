@@ -3,6 +3,7 @@ import { SessionCreate, validate as sessionCreateValidate } from "./sessionCreat
 import { SessionDetail, selector as sessionDetailSelector } from "./sessionDetail";
 import { SessionList, selector as sessionListSelector } from "./sessionList";
 import { SessionUpdate, validate as sessionUpdateValidate } from "./sessionUpdate";
+import { SessionMinimal, selector as sessionMinimalSelector } from "./sessionMinimal";
 
 
 export type { Session, SessionList, SessionDetail, SessionCreate, SessionUpdate };
@@ -10,6 +11,7 @@ export {
     sessionSelector, 
     sessionListSelector, 
     sessionDetailSelector,
+    sessionMinimalSelector,
 
     sessionCreateValidate,
     sessionUpdateValidate

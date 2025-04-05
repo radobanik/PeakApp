@@ -1,8 +1,8 @@
 import { Difficulty, User } from "@prisma/client";
-import { Route, RouteDetail, routeDetailSelector, RouteList, routeListSelector } from "../route";
-import { Session } from "../session/session";
-import { sessionSelector } from "../session";
+import { SessionList, sessionListSelector, sessionMinimalSelector } from "../session";
 import { UserLabeled, userLabeledSelector } from "../user";
+import { RouteList, routeListSelector } from "../route";
+import { SessionMinimal } from "../session/sessionMinimal";
 
 type ActivityDetail = {
     id: string;
@@ -19,6 +19,7 @@ type ActivityDetail = {
     topped: boolean;
 
     route: RouteList;
+    session: SessionMinimal | null;
 };
 
 const selector = {
@@ -37,6 +38,9 @@ const selector = {
     topped: true,
     route: {
         select: routeListSelector
+    },
+    session: {
+        select: sessionMinimalSelector
     }
 };
 

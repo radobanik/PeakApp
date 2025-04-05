@@ -11,13 +11,23 @@ import config from "../core/config";
 const getAllUnassigned = async (req : Request, res : Response) => {
     const params = req.query as unknown as IncommingListParams;
     const normalizedParams: NonNullListParams = toNotNullListParams(params, config.listLimit.default);
-    const activities = await ActivityRepository.list(normalizedParams.page, normalizedParams.pageSize); // Replace null with appropriate arguments
+    const requestUser = provideUserRefFromToken(req);
+    if (requestUser === null) {
+        res.status(HTTP_STATUS.UNAUTHORIZED_401);
+        return;
+    }
+    const activities = await ActivityRepository.list(requestUser, normalizedParams.page, normalizedParams.pageSize); // Replace null with appropriate arguments
     res.status(HTTP_STATUS.OK_200).json(activities);
 }
 
 const getById = async (req : Request, res : Response) => {
     const activityId = req.params.id;
-    const activity = await ActivityRepository.getById(activityId);
+    const requestUser = provideUserRefFromToken(req);
+    if (requestUser === null) {
+        res.status(HTTP_STATUS.UNAUTHORIZED_401);
+        return;
+    }
+    const activity = await ActivityRepository.getById(requestUser, activityId);
     if (activity == null) {
         res.status(HTTP_STATUS.NOT_FOUND_404).json({ error: "Activity not found" });
     } else {
@@ -40,24 +50,40 @@ const create = async (req : Request, res : Response) => {
 const update = async (req : Request<{ id: string }, {}, ActivityUpdate>, res : Response) => {
     const activity = req.body;
     const activityId = req.params.id;
+    const requestUser = provideUserRefFromToken(req);
+    if (requestUser === null) {
+        res.status(HTTP_STATUS.UNAUTHORIZED_401);
+        return;
+    }
+
     const validatedData = requestValidator(() => activityUpdateValidate(activity), res);
     if (!validatedData) return;
 
-    const exists = await ActivityRepository.update(activityId, validatedData);
+    const exists = await ActivityRepository.exists(requestUser, activityId);
     if (!exists) {
         res.status(HTTP_STATUS.NOT_FOUND_404).json({ error: "Activity not found" });
         return;
     }
 
-    const updatedActivity = await ActivityRepository.update(activityId, validatedData);
+    const updatedActivity = await ActivityRepository.update(requestUser, activityId, validatedData);
     res.status(HTTP_STATUS.OK_200).json(updatedActivity);
 }
 
 const deleteById = async (req : Request, res : Response) => {
     const activityId = req.params.id;
-    const exists = await ActivityRepository.exists(activityId);
-    if (!exists) {
+    const requestUser = provideUserRefFromToken(req);
+    if (requestUser === null) {
+        res.status(HTTP_STATUS.UNAUTHORIZED_401);
+        return;
+    }
+    
+    const entity = await ActivityRepository.getById(requestUser, activityId);
+    if (!entity) {
         res.status(HTTP_STATUS.NOT_FOUND_404).json({ error: "Activity not found" });
+        return;
+    }
+    if (entity.session != null) {
+        res.status(HTTP_STATUS.METHOD_NOT_ALLOWED_405).json({ error: "Cannot delete Activity assigned to a Session." });
         return;
     }
 

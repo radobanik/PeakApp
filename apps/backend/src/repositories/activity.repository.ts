@@ -4,25 +4,25 @@ import { createListResponse, ListResponse } from "../model/common/listResponse";
 import { toConnector } from "./utils/connector";
 import { RefObject } from "../model/common/refObject";
 
-type ActivityWhere = Prisma.ActivityWhereInput;
-type ActivityOrder = Prisma.ActivityOrderByWithRelationInput;
 
 const activityClient = new PrismaClient().activity;
 
-const getById = async (id: string) => {
+const getById = async (author: RefObject, id: string): Promise<ActivityDetail | null> => {
 
     return activityClient.findUnique({
         where: {
-            id: id
+            id: id,
+            createdBy: author
         },
         select: activityDetailSelector
     });
 }
 
 // Lists all unassigned activities
-const list = async (pageNum: number, pageSize: number) : Promise<ListResponse<ActivityList>> => {
+const list = async (author: RefObject, pageNum: number, pageSize: number) : Promise<ListResponse<ActivityList>> => {
     const activities: ActivityList[] = await activityClient.findMany({
         where: {
+            createdBy: author,
             session: null,
         },
         skip: (pageNum - 1) * pageSize,
@@ -30,7 +30,12 @@ const list = async (pageNum: number, pageSize: number) : Promise<ListResponse<Ac
         select: activityListSelector,
     });
 
-    const totalActivities = await activityClient.count();
+    const totalActivities = await activityClient.count({
+        where: {
+            createdBy: author,
+            session: null,
+        }
+    });
 
     return createListResponse(activities, totalActivities, pageNum, pageSize);
 }
@@ -46,9 +51,12 @@ const create = async (activityData: ActivityCreate, userRef: RefObject) : Promis
     });
 }
 
-const update = async (id: string, activityData: ActivityUpdate) : Promise<ActivityDetail> => {
+const update = async (author: RefObject, id: string, activityData: ActivityUpdate) : Promise<ActivityDetail> => {
     return await activityClient.update({
-        where: { id },
+        where: { 
+            id: id,
+            createdBy: author
+        },
         data: {
             ...activityData,
             updatedAt: new Date()
@@ -57,10 +65,11 @@ const update = async (id: string, activityData: ActivityUpdate) : Promise<Activi
     })
 }
 
-const exists = async (id: string) : Promise<boolean> => {
+const exists = async (author: RefObject, id: string) : Promise<boolean> => {
     const count = await activityClient.count({
         where: {
-            id : id
+            id : id,
+            createdBy: author
         }
     });
     return count > 0;
