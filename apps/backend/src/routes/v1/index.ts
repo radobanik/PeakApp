@@ -1,54 +1,54 @@
-import { Router } from "express";
-import userRouter from "./user.route";
-import authRouter from "./auth.route";
-import peakFileRouter from "./peakFile.route";
-import gradeRouter from "./grade.route";
-import routeRouter from "./route.route";
-import climbingObjectRouter from "./climbingObject.route";
+import { Router } from 'express'
+import userRouter from './user.route'
+import authRouter from './auth.route'
+import peakFileRouter from './peakFile.route'
+import gradeRouter from './grade.route'
+import routeRouter from './route.route'
+import climbingObjectRouter from './climbingObject.route'
 import geoRouter from './geo.route'
-import activityRouter from "./activity.route";
+import activityRouter from './activity.route'
 import sessionRouter from './session.route'
 
 const v1Router = Router()
 
 const routes = [
   {
-      path: '/user',
-      route: userRouter,
+    path: '/user',
+    route: userRouter,
   },
   {
-      path: '/auth',
-      route: authRouter,
+    path: '/auth',
+    route: authRouter,
   },
   {
     path: '/geo',
     route: geoRouter,
   },
   {
-      path: '/file',
-      route: peakFileRouter,
+    path: '/file',
+    route: peakFileRouter,
   },
   {
-      path: '/grade',
-      route: gradeRouter,
+    path: '/grade',
+    route: gradeRouter,
   },
   {
-      path: '/route',
-      route: routeRouter,
+    path: '/route',
+    route: routeRouter,
   },
   {
-      path: '/climbing-object',
-      route: climbingObjectRouter,
+    path: '/climbing-object',
+    route: climbingObjectRouter,
   },
   {
-      path: '/activity',
-      route: activityRouter,
+    path: '/activity',
+    route: activityRouter,
   },
   {
     path: '/session',
     route: sessionRouter,
   },
-];
+]
 
 routes.forEach((route) => {
   v1Router.use(route.path, route.route)

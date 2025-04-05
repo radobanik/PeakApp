@@ -1,31 +1,31 @@
-import { Difficulty, User } from "@prisma/client";
-import { Route, RouteDetail, routeDetailSelector, RouteList, routeListSelector } from "../route";
+import { Difficulty } from '@prisma/client'
+import { RouteList, routeListSelector } from '../route'
 
 type ActivityList = {
-    id: string;
+  id: string
 
-    climbedAt: Date;
-    numOfAttempts: number;
-    perceivedDifficulty: Difficulty;
-    notes: string;
-    topped: boolean;
+  climbedAt: Date
+  numOfAttempts: number
+  perceivedDifficulty: Difficulty
+  notes: string
+  topped: boolean
 
-    route: RouteList;
+  route: RouteList
 }
 
 const selector = {
-    id: true,
+  id: true,
 
-    climbedAt: true,
-    numOfAttempts: true,
-    perceivedDifficulty: true,
-    notes: true,
-    topped: true,
+  climbedAt: true,
+  numOfAttempts: true,
+  perceivedDifficulty: true,
+  notes: true,
+  topped: true,
 
-    route: {
-        select: routeListSelector
-    }
+  route: {
+    select: routeListSelector,
+  },
 }
 
-export type { ActivityList };
-export { selector}
+export type { ActivityList }
+export { selector }

@@ -1,10 +1,7 @@
-import { RefObject } from "../common/refObject";
-import { Session } from "../session";
-
+import { RefObject } from '../common/refObject'
 
 type ActivityUnassign = {
-    session: RefObject | null;
+  session: RefObject | null
 }
 
-
-export type { ActivityUnassign };
+export type { ActivityUnassign }
