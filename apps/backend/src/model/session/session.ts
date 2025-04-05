@@ -1,35 +1,34 @@
-import { User } from "@prisma/client";
-import { Activity } from "../activity/activity";
-import { PeakFile, peakFileSelector } from "../peakFile";
-import { ActivityDetail, activityDetailSelector } from "../activity";
+import { User } from '@prisma/client'
+import { PeakFile, peakFileSelector } from '../peakFile'
+import { ActivityDetail, activityDetailSelector } from '../activity'
 
 type Session = {
-    id: string;
-    createdAt: Date;
-    updatedAt: Date | null;
-    createdBy: User;
+  id: string
+  createdAt: Date
+  updatedAt: Date | null
+  createdBy: User
 
-    note: string;
+  note: string
 
-    assignedActivities: ActivityDetail[];
-    photos: PeakFile[];
-};
-
-const selector = {
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-    createdBy: true,
-
-    note: true,
-
-    assignedActivities: {
-        select: activityDetailSelector
-    },
-    photos: {
-        select: peakFileSelector
-    },
+  assignedActivities: ActivityDetail[]
+  photos: PeakFile[]
 }
 
-export type { Session };
-export { selector };
+const selector = {
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  createdBy: true,
+
+  note: true,
+
+  assignedActivities: {
+    select: activityDetailSelector,
+  },
+  photos: {
+    select: peakFileSelector,
+  },
+}
+
+export type { Session }
+export { selector }

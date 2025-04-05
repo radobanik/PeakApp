@@ -3,11 +3,21 @@ import initRoutes from './route.init'
 import initUsers from './user.init'
 import initClimbingObjects from './climbingObject.init'
 import initGeoData from './geo.init'
+import initActivities from './activity.init'
+import initSessions from './session.init'
 
 /**
  * must be in the right order!
  */
-const initFunctions = [initUsers, initGrades, initClimbingObjects, initRoutes, initGeoData]
+const initFunctions = [
+  initUsers,
+  initGrades,
+  initClimbingObjects,
+  initRoutes,
+  initGeoData,
+  initActivities,
+  initSessions,
+]
 
 async function initAll() {
   console.log('Initializing all')
