@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { activityDetailSelector, ActivityList, activityListSelector, ActivityCreate, ActivityUpdate, ActivityDetail } from "../model/activity";
 import { createListResponse, ListResponse } from "../model/common/listResponse";
 import { toConnector } from "./utils/connector";
@@ -81,6 +81,19 @@ const deleteById = async (id: string) => {
     });
 }
 
+const unassign = async (id: string) => {
+    await activityClient.update({
+        where: {
+            id: id
+        },
+        data: {
+            session: {
+                disconnect: true
+            }
+        }
+    })
+}
+
 export default {
     getById,
     list,
@@ -88,4 +101,5 @@ export default {
     update,
     exists,
     deleteById,
+    unassign
 }

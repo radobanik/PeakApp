@@ -71,9 +71,12 @@ const create = async (sessionData: SessionCreate, userRef: RefObject) : Promise<
     return flattenAdditionalImages(nestedDetail as SessionDetailDeepImage)
 }
 
-const update = async (id: string, sessionData: SessionUpdate) : Promise<SessionDetail> => {
+const update = async (author: RefObject, id: string, sessionData: SessionUpdate) : Promise<SessionDetail> => {
     const nestedDetail = await sessionClient.update({
-        where: { id },
+        where: { 
+            id: id,
+            createdBy: author
+        },
         data: {
             ...sessionData,
             updatedAt: new Date(),
@@ -86,10 +89,11 @@ const update = async (id: string, sessionData: SessionUpdate) : Promise<SessionD
 
 }
 
-const exists = async (id: string) : Promise<boolean> => {
+const exists = async (author: RefObject, id: string) : Promise<boolean> => {
     const count = await sessionClient.count({
         where: {
-            id : id
+            id : id,
+            createdBy: author
         }
     });
     return count > 0;

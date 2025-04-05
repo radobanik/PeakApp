@@ -1,4 +1,4 @@
-import e, { Request, Response } from "express";
+import { Request, Response } from "express";
 import { ActivityRepository } from "../repositories";
 import { HTTP_STATUS } from "./utils/httpStatusCodes";
 import { ActivityCreate, activityCreateValidate, activityUpdateValidate } from "../model/activity";
@@ -83,7 +83,7 @@ const deleteById = async (req : Request, res : Response) => {
         return;
     }
     if (entity.session != null) {
-        res.status(HTTP_STATUS.METHOD_NOT_ALLOWED_405).json({ error: "Cannot delete Activity assigned to a Session." });
+        res.status(HTTP_STATUS.BAD_REQUEST_400).json({ error: "Cannot delete Activity assigned to a Session." });
         return;
     }
 
