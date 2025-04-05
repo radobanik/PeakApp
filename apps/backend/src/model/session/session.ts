@@ -1,6 +1,7 @@
 import { User } from "@prisma/client";
 import { Activity } from "../activity/activity";
-import { PeakFile } from "../peakFile";
+import { PeakFile, peakFileSelector } from "../peakFile";
+import { ActivityDetail, activityDetailSelector } from "../activity";
 
 type Session = {
     id: string;
@@ -10,7 +11,7 @@ type Session = {
 
     note: string;
 
-    assignedActivities: Activity[];
+    assignedActivities: ActivityDetail[];
     photos: PeakFile[];
 };
 
@@ -22,8 +23,12 @@ const selector = {
 
     note: true,
 
-    assignedActivities: true,
-    photos: true,
+    assignedActivities: {
+        select: activityDetailSelector
+    },
+    photos: {
+        select: peakFileSelector
+    },
 }
 
 export type { Session };

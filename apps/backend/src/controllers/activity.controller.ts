@@ -1,7 +1,7 @@
 import e, { Request, Response } from "express";
 import { ActivityRepository } from "../repositories";
 import { HTTP_STATUS } from "./utils/httpStatusCodes";
-import { activityCreateValidate } from "../model/activity";
+import { ActivityCreate, activityCreateValidate, activityUpdateValidate } from "../model/activity";
 import requestValidator from "../model/common/validator";
 import { ActivityUpdate } from "../model/activity/activityUpdate";
 import { provideUserRefFromToken, returnUnauthorized } from "../auth/authUtils";
@@ -29,7 +29,7 @@ const create = async (req : Request, res : Response) => {
     const userRef = provideUserRefFromToken(req as unknown as Request)
     if (userRef === null) { returnUnauthorized(res); return; }
     
-    const activity = req.body;
+    const activity: ActivityCreate = req.body;
     const validatedData = requestValidator(() => activityCreateValidate(activity), res);
     if (!validatedData) return;
 
@@ -40,10 +40,10 @@ const create = async (req : Request, res : Response) => {
 const update = async (req : Request<{ id: string }, {}, ActivityUpdate>, res : Response) => {
     const activity = req.body;
     const activityId = req.params.id;
-    const validatedData = requestValidator(() => activityCreateValidate(activity), res);
+    const validatedData = requestValidator(() => activityUpdateValidate(activity), res);
     if (!validatedData) return;
 
-    const exists = await ActivityRepository.(activityId);
+    const exists = await ActivityRepository.update(activityId, validatedData);
     if (!exists) {
         res.status(HTTP_STATUS.NOT_FOUND_404).json({ error: "Activity not found" });
         return;

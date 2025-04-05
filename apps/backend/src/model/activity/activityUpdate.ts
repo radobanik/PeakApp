@@ -12,7 +12,7 @@ type ActivityUpdate = {
 }
 
 const validate = (entity: ActivityUpdate) => z.object({
-    climbedAt: z.date().max(new Date(), 'Cannot create Activity in the future.'),
+    climbedAt: z.coerce.date().max(new Date(), 'Cannot create Activity in the future.'),
     reviewStars: z.number().min(0, 'Stars must be between 0 and 5.').max(5, 'Stars must be between 0 and 5.'),
     reviewText: z.string().max(500, 'Review text must be at most 500 characters long.'),
     numOfAttempts: z.number().min(0, 'Number of attempts must be at least 0.'),

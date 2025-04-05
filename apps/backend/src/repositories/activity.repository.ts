@@ -1,5 +1,5 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import { activitySelector, ActivityList, activityListSelector, Activity, ActivityCreate } from "../model/activity";
+import { activityDetailSelector, ActivityList, activityListSelector, ActivityCreate, ActivityUpdate, ActivityDetail } from "../model/activity";
 import { createListResponse, ListResponse } from "../model/common/listResponse";
 import { toConnector } from "./utils/connector";
 import { RefObject } from "../model/common/refObject";
@@ -15,7 +15,7 @@ const getById = async (id: string) => {
         where: {
             id: id
         },
-        select: activitySelector
+        select: activityDetailSelector
     });
 }
 
@@ -35,25 +35,25 @@ const list = async (pageNum: number, pageSize: number) : Promise<ListResponse<Ac
     return createListResponse(activities, totalActivities, pageNum, pageSize);
 }
 
-const create = async (activityData: ActivityCreate, userRef: RefObject) : Promise<Activity> => {
+const create = async (activityData: ActivityCreate, userRef: RefObject) : Promise<ActivityDetail> => {
     return await activityClient.create({
         data: {
             ...activityData,
             createdBy: toConnector(userRef),
-            Route: toConnector(activityData.route),
+            route: toConnector(activityData.route),
         },
-        select: activitySelector,
+        select: activityDetailSelector,
     });
 }
 
-const update = async (id: string, activityData: ActivityCreate) : Promise<Activity> => {
+const update = async (id: string, activityData: ActivityUpdate) : Promise<ActivityDetail> => {
     return await activityClient.update({
         where: { id },
         data: {
             ...activityData,
-            Route: toConnector(activityData.route),
+            updatedAt: new Date()
         },
-        select: activitySelector,
+        select: activityDetailSelector,
     })
 }
 
