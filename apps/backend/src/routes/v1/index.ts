@@ -6,6 +6,8 @@ import gradeRouter from './grade.route'
 import routeRouter from './route.route'
 import climbingObjectRouter from './climbingObject.route'
 import geoRouter from './geo.route'
+import activityRouter from './activity.route'
+import sessionRouter from './session.route'
 
 const v1Router = Router()
 
@@ -37,6 +39,14 @@ const routes = [
   {
     path: '/climbing-object',
     route: climbingObjectRouter,
+  },
+  {
+    path: '/activity',
+    route: activityRouter,
+  },
+  {
+    path: '/session',
+    route: sessionRouter,
   },
 ]
 
