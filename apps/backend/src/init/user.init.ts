@@ -9,6 +9,7 @@ export const USER_JANE_DOE_ID = '9bc29d7d-4c79-4b9f-8e5a-8e33e7f9c971'
 export const USER_MICHAEL_SMITH_ID = 'd2d2f7cd-e18b-4935-b075-0a764d0e07c5'
 export const USER_EMILY_JOHNSON_ID = 'b8e8ccf7-b9a9-49b6-9144-0b0a82a6f7a5'
 export const USER_CHRIS_BROWN_ID = 'a7a120d2-facf-4975-8d16-40509ffb86cd'
+export const TOP_LOGGER_USER_ID = '2d25e08e-aa6f-4f37-a8e1-1e3b8a364760'
 
 const sampleUsers = [
   {
@@ -54,7 +55,16 @@ const sampleUsers = [
     firstName: 'Chris',
     lastName: 'Brown',
     email: 'chris.brown@password123.com',
-    roles: [Role.USER, Role.USER],
+    roles: [Role.USER],
+  },
+  {
+    id: TOP_LOGGER_USER_ID,
+    userName: 'toplogger',
+    password: bcrypt.hashSync('password123', saltRounds),
+    firstName: 'Top',
+    lastName: 'Logger',
+    email: 'top.logger@password123.com',
+    roles: [Role.USER, Role.MAINTANER],
   },
 ]
 
