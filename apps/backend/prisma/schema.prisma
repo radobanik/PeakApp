@@ -40,6 +40,8 @@ model User {
   routeUpdatedBy             Route[]          @relation(name: "RouteUpdatedBy")
   climbingStructureCreatedBy ClimbingObject[] @relation(name: "ClimbingObjectCreatedBy")
   climbingStructureUpdatedBy ClimbingObject[] @relation(name: "ClimbingObjectUpdatedBy")
+  activityCreatedBy Activity[] @relation(name: "ActivityCreatedBy")
+  Session Session[] @relation(name: "SessionCreatedBy")
 }
 
 model PeakFile {
@@ -57,6 +59,8 @@ model PeakFile {
    */
   routeImage            Route?          @relation(name: "RouteImage")
   additionalRouteImages RoutePeakFile[] @relation(name: "AdditionalRouteImages")
+  sessionid String?
+  session Session? @relation(name: "SessionPhotos", fields: [sessionid], references: [id])
 }
 
 model Grade {
@@ -111,6 +115,7 @@ model Route {
    * SAVED RELATIONSHIP
    */
   savedBy User[] @relation("RouteSaves")
+  Activity Activity[] @relation(name: "ActivityRoute")
 }
 
 model RoutePeakFile {
@@ -168,4 +173,51 @@ model City {
   lat  Float?
 
   users User[] @relation
+}
+
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+  ULTRA_HARD
+}
+
+model Activity {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime?
+
+  createdById String
+  createdBy   User     @relation(name: "ActivityCreatedBy", fields: [createdById], references: [id])
+
+  climbedAt   DateTime
+  reviewStars Int
+  reviewText  String
+  numOfAttempts Int
+  perceivedDifficulty Difficulty
+  notes       String
+  topped      Boolean
+
+  /* FOREIGN RELATIONSHIP */
+  sessionid String?
+  session   Session? @relation(name: "SessionActivities", fields: [sessionid], references: [id])
+  routeId   String
+  Route     Route @relation(name: "ActivityRoute", fields: [routeId], references: [id])
+}
+
+model Session {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime?
+  deleted     Boolean  @default(false)
+
+  createdById String
+  createdBy   User     @relation(name: "SessionCreatedBy", fields: [createdById], references: [id])
+
+  note        String
+
+  /* FOREIGN RELATIONSHIP */
+  assignedActivities  Activity[] @relation(name: "SessionActivities")
+  photos              PeakFile[] @relation(name: "SessionPhotos")
 }
