@@ -25,4 +25,5 @@ export const API = {
     UPDATE: `${API_BASE_URL}/session/`,
     DELETE: `${API_BASE_URL}/session/`,
   },
+  CLIMBING_OBJECT: `${API_BASE_URL}/climbing-object`,
 }
