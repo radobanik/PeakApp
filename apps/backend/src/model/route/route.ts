@@ -23,7 +23,7 @@ type Route = {
 
   image: PeakFile | null
   additionalImages: PeakFile[]
-  overlay: OverlayPoint
+  overlay: OverlayPoint[]
 
   climbingObject: ClimbingObject
 }

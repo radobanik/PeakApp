@@ -19,6 +19,10 @@ const toConnector = (ref: RefObject): Connector => {
   return { connect: { id: ref.id } }
 }
 
+const toConnectorId = (id: string): Connector => {
+  return toConnector({ id: id })
+}
+
 const toDisconnector = (): Disconnector => ({ disconnect: true })
 
 const toConnectorDisconnector = (ref: RefObject | null): Connector | Disconnector =>
@@ -34,4 +38,11 @@ const xToManyUpdater = <C>(ref: RefObject[], entityMapper: (entity: RefObject) =
     : undefined
 }
 
-export { toConnector, toConnectorNullable, toConnectorDisconnector, xToManyCreator, xToManyUpdater }
+export {
+  toConnector,
+  toConnectorNullable,
+  toConnectorDisconnector,
+  xToManyCreator,
+  xToManyUpdater,
+  toConnectorId,
+}
