@@ -14,4 +14,17 @@ type Session = {
     photos: PeakFile[];
 };
 
+const selector = {
+    id: true,
+    createdAt: true,
+    updatedAt: true,
+    createdBy: true,
+
+    note: true,
+
+    assignedActivities: true,
+    photos: true,
+}
+
 export type { Session };
+export { selector };
