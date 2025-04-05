@@ -40,7 +40,7 @@ const getById = async (req : Request, res : Response) => {
     }
 }
 
-const create = async (req : Request, res : Response) => {
+const create = async (req : Request<SessionCreate>, res : Response) => {
     const userRef = provideUserRefFromToken(req as unknown as Request)
     if (userRef === null) { returnUnauthorized(res); return; }
     
@@ -81,7 +81,7 @@ const deleteById = async (req : Request, res : Response) => {
 }
 
 export default {
-    getAll: list,
+    list,
     getById,
     create,
     update,

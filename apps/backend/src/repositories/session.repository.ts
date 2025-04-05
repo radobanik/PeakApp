@@ -23,6 +23,7 @@ const flattenAdditionalImages = (entity: SessionDetailDeepImage): SessionDetail 
     };
 };
 
+
 const getById = async (author: RefObject, id: string): Promise<SessionList | null> => {
     return await sessionClient.findUnique({
         where: {
@@ -43,13 +44,16 @@ const list = async (author: RefObject, pageNum: number, pageSize: number) : Prom
         select: sessionListSelector,
     });
 
-    const totalSessions = await sessionClient.count();
+    const totalSessions = await sessionClient.count({
+        where: {
+            createdBy: author
+        },
+    });
 
     return createListResponse(sessions, totalSessions, pageNum, pageSize);
 }
 
 const create = async (sessionData: SessionCreate, userRef: RefObject) : Promise<SessionDetail> => {
-    console.log(sessionData.assignedActivities);
     const nestedDetail = await sessionClient.create({
         data: {
             ...sessionData,
