@@ -59,6 +59,7 @@ model PeakFile {
    */
   routeImage            Route?          @relation(name: "RouteImage")
   additionalRouteImages RoutePeakFile[] @relation(name: "AdditionalRouteImages")
+  SessionPeakFile SessionPeakFile[] @relation(name: "SessionImages")
   sessionid String?
   session Session? @relation(fields: [sessionid], references: [id])
 }
@@ -218,6 +219,18 @@ model Session {
   note        String
 
   /* FOREIGN RELATIONSHIP */
+  photos              SessionPeakFile[]
   assignedActivities  Activity[] @relation()
-  photos              PeakFile[] @relation()
+
+  PeakFile PeakFile[]
+}
+
+model SessionPeakFile {
+  sessionId   String
+  peakFileId String
+
+  session     Session    @relation(fields: [sessionId], references: [id])
+  peakFile  PeakFile @relation(name: "SessionImages",fields: [peakFileId], references: [id])
+
+  @@id([sessionId, peakFileId])
 }

@@ -4,6 +4,7 @@ import GradeRepository from "./grade.repository";
 import RouteRepository from "./route.repository";
 import ClimbingObjectRepository from "./climbingObject.repository";
 import ActivityRepository from "./activity.repository";
+import SessionRepository from "./session.repository";
 
 export { 
     UserRepository,
@@ -12,4 +13,5 @@ export {
     RouteRepository,
     ClimbingObjectRepository,
     ActivityRepository,
+    SessionRepository
 };

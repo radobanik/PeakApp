@@ -35,6 +35,14 @@ CREATE TABLE "Session" (
     CONSTRAINT "Session_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "SessionPeakFile" (
+    "sessionId" TEXT NOT NULL,
+    "peakFileId" TEXT NOT NULL,
+
+    CONSTRAINT "SessionPeakFile_pkey" PRIMARY KEY ("sessionId","peakFileId")
+);
+
 -- AddForeignKey
 ALTER TABLE "PeakFile" ADD CONSTRAINT "PeakFile_sessionid_fkey" FOREIGN KEY ("sessionid") REFERENCES "Session"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
@@ -49,3 +57,9 @@ ALTER TABLE "Activity" ADD CONSTRAINT "Activity_routeId_fkey" FOREIGN KEY ("rout
 
 -- AddForeignKey
 ALTER TABLE "Session" ADD CONSTRAINT "Session_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "SessionPeakFile" ADD CONSTRAINT "SessionPeakFile_sessionId_fkey" FOREIGN KEY ("sessionId") REFERENCES "Session"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "SessionPeakFile" ADD CONSTRAINT "SessionPeakFile_peakFileId_fkey" FOREIGN KEY ("peakFileId") REFERENCES "PeakFile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
