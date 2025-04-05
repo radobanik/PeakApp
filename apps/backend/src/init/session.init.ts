@@ -59,7 +59,7 @@ const sessions = [
   },
   {
     id: SESSION_5_ID,
-    createdById: UserInit.USER_CHRIS_BROWN_ID,
+    createdById: UserInit.USER_JANE_DOE_ID,
     note: 'Great session with friends! Lots of attempts on the cave section, made solid progress on my endurance.',
     assignedActivities: {
       connect: [{ id: ActivityInit.ACTIVITY_12_JANE_DOE_ID }],
