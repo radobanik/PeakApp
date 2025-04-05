@@ -220,7 +220,7 @@ model Session {
 
   /* FOREIGN RELATIONSHIP */
   photos              SessionPeakFile[]
-  assignedActivities  Activity[] @relation()
+  assignedActivities  Activity[]
 
   PeakFile PeakFile[]
 }

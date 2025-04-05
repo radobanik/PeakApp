@@ -1,13 +1,12 @@
 import { PeakFile, PrismaClient, User } from "@prisma/client";
 import { createListResponse, ListResponse } from "../model/common/listResponse";
-import { toConnector, xToManyUpdater } from "./utils/connector";
+import { toConnector, xToManyCreator, xToManyUpdater } from "./utils/connector";
 import { RefObject } from "../model/common/refObject";
 import { SessionCreate, SessionDetail, sessionDetailSelector, SessionList, sessionListSelector, SessionUpdate,  } from "../model/session";
 
 
 const sessionClient = new PrismaClient().session;
 const peakFileConnector = (image: RefObject) => ({ peakFile: toConnector(image) });
-const activityConnector = (activity: RefObject) => ({ activity: toConnector(activity) });
 
 type SessionDetailDeepImage = {
     photos: {
@@ -50,6 +49,7 @@ const list = async (author: RefObject, pageNum: number, pageSize: number) : Prom
 }
 
 const create = async (sessionData: SessionCreate, userRef: RefObject) : Promise<SessionDetail> => {
+    console.log(sessionData.assignedActivities);
     const nestedDetail = await sessionClient.create({
         data: {
             ...sessionData,
@@ -57,7 +57,10 @@ const create = async (sessionData: SessionCreate, userRef: RefObject) : Promise<
             createdBy: toConnector(userRef),
             deleted: false,
 
-            photos: xToManyUpdater(sessionData.photos, peakFileConnector)
+            assignedActivities: {
+                connect: sessionData.assignedActivities?.map(ref => ({id: ref.id}))
+            },
+            photos: xToManyCreator(sessionData.photos, peakFileConnector)
         },
         select: sessionDetailSelector,
     });

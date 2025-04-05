@@ -1,5 +1,3 @@
-import { User } from "@prisma/client";
-import { PeakFile, peakFileSelector } from "../peakFile";
 import { ActivityDetail, activityDetailSelector } from "../activity";
 import { UserLabeled, userLabeledSelector } from "../user";
 
