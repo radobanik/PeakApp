@@ -5,6 +5,7 @@ import GradeController from './grade.controller'
 import RouteController from './route.controller'
 import GeoController from './geo.controller'
 import ClimbingObjectController from './climbingObject.controller'
+import ActivityController from './activity.controller'
 
 export {
   UserController,
@@ -13,5 +14,5 @@ export {
   GradeController,
   RouteController,
   ClimbingObjectController,
-  GeoController,
+  ActivityController,
 }

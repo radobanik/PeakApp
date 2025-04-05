@@ -9,7 +9,8 @@ type ActivityOrder = Prisma.ActivityOrderByWithRelationInput;
 
 const activityClient = new PrismaClient().activity;
 
-const getActivityById = async (id: string) => {
+const getById = async (id: string) => {
+
     return activityClient.findUnique({
         where: {
             id: id
@@ -19,21 +20,22 @@ const getActivityById = async (id: string) => {
 }
 
 // Lists all unassigned activities
-const listActivities = async (where : ActivityWhere, orderBy : ActivityOrder[], pageNum : number, pageSize : number) : Promise<ListResponse<ActivityList>> => {
+const list = async (pageNum: number, pageSize: number) : Promise<ListResponse<ActivityList>> => {
     const activities: ActivityList[] = await activityClient.findMany({
-        where,
-        orderBy,
+        where: {
+            session: null,
+        },
         skip: (pageNum - 1) * pageSize,
         take: pageSize,
         select: activityListSelector,
     });
 
-    const totalActivities = await activityClient.count({ where });
+    const totalActivities = await activityClient.count();
 
     return createListResponse(activities, totalActivities, pageNum, pageSize);
 }
 
-const createActivity = async (activityData: ActivityCreate, userRef: RefObject) : Promise<Activity> => {
+const create = async (activityData: ActivityCreate, userRef: RefObject) : Promise<Activity> => {
     return await activityClient.create({
         data: {
             ...activityData,
@@ -55,8 +57,26 @@ const update = async (id: string, activityData: ActivityCreate) : Promise<Activi
     })
 }
 
+const exists = async (id: string) : Promise<boolean> => {
+    const count = await activityClient.count({
+        where: {
+            id : id
+        }
+    });
+    return count > 0;
+}
+
 const deleteById = async (id: string) => {
     await activityClient.delete({
         where: {id }
     });
+}
+
+export default {
+    getById,
+    list,
+    create,
+    update,
+    exists,
+    deleteById,
 }
