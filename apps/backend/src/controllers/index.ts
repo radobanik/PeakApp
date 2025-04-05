@@ -6,6 +6,7 @@ import RouteController from './route.controller'
 import GeoController from './geo.controller'
 import ClimbingObjectController from './climbingObject.controller'
 import ActivityController from './activity.controller'
+import SessionController from './session.controller'
 
 export {
   UserController,
@@ -15,4 +16,5 @@ export {
   RouteController,
   ClimbingObjectController,
   ActivityController,
+  SessionController,
 }

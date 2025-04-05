@@ -7,6 +7,7 @@ import { SessionCreate, SessionDetail, sessionDetailSelector, SessionList, sessi
 
 const sessionClient = new PrismaClient().session;
 const peakFileConnector = (image: RefObject) => ({ peakFile: toConnector(image) });
+const activityConnector = (activity: RefObject) => ({ activity: toConnector(activity) });
 
 type SessionDetailDeepImage = {
     photos: {
@@ -23,12 +24,21 @@ const flattenAdditionalImages = (entity: SessionDetailDeepImage): SessionDetail 
     };
 };
 
-const getById = async (id: string) => {
-
+const getById = async (author: RefObject, id: string): Promise<SessionList | null> => {
+    return await sessionClient.findUnique({
+        where: {
+            id: id,
+            createdBy: author,
+        },
+        select: sessionListSelector
+    });
 }
 
-const list = async (pageNum: number, pageSize: number) : Promise<ListResponse<SessionList>> => {
+const list = async (author: RefObject, pageNum: number, pageSize: number) : Promise<ListResponse<SessionList>> => {
     const sessions: SessionList[] = await sessionClient.findMany({
+        where: {
+            createdBy: author
+        },
         skip: (pageNum - 1) * pageSize,
         take: pageSize,
         select: sessionListSelector,
