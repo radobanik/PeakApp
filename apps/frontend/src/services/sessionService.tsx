@@ -10,3 +10,12 @@ export async function getSessions() {
     throw error
   }
 }
+export async function getSessionById(id: string) {
+  try {
+    const response = await api.get(`${API.SESSION.LIST}${id}`)
+    return response.data
+  } catch (error) {
+    console.error('Error fetching activity by ID:', error)
+    throw error
+  }
+}

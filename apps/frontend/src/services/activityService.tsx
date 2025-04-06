@@ -10,3 +10,13 @@ export async function getActivities() {
     throw error
   }
 }
+
+export async function getActivityById(id: string) {
+  try {
+    const response = await api.get(`${API.ACTIVITY.LIST}${id}`)
+    return response.data
+  } catch (error) {
+    console.error('Error fetching activity by ID:', error)
+    throw error
+  }
+}
