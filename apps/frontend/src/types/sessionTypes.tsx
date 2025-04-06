@@ -1,3 +1,5 @@
+import { perceivedDifficulty } from "./utilsTypes"
+
 export interface User {
   id: string
   userName: string
@@ -14,7 +16,7 @@ export interface Activity {
   reviewStars: number
   reviewText: string
   numOfAttempts: number
-  perceivedDifficulty: 'EASY' | 'MEDIUM' | 'HARD' | 'VERY_HARD' | 'ULTRA_HARD' | string
+  perceivedDifficulty: perceivedDifficulty
   notes: string
   topped: boolean
   sessionid: string

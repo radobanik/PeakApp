@@ -1,3 +1,5 @@
+import { perceivedDifficulty } from './utilsTypes'
+
 export interface Pagination {
   page: number
   pageSize: number
@@ -25,7 +27,7 @@ export interface Activity {
   id: string
   climbedAt: Date
   numOfAttempts: number
-  perceivedDifficulty: 'EASY' | 'MODERATE' | 'HARD' | 'VERY_HARD' | 'ULTRA_HARD' | string
+  perceivedDifficulty: perceivedDifficulty
   notes: string
   topped: boolean
   route: Route
