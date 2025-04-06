@@ -36,3 +36,13 @@ export interface RouteDetail {
 
   climbingObject: ClimbingObjectNoRoutes
 }
+
+export type RouteSummary = {
+  id: string
+  name: string
+  description: string
+  grade: GradeDetail
+  climbingStructureType: ClimbingStructureType
+  longitude: number
+  latitude: number
+}
