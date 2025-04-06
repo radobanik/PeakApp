@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef, SetStateAction } from 'react'
 import { MapContainer, TileLayer, useMap } from 'react-leaflet'
-import L, { map } from 'leaflet'
+import L from 'leaflet'
 import clsx from 'clsx'
+import { toast } from 'sonner'
 import MarkerClusterGroup from 'react-leaflet-cluster'
 import 'leaflet/dist/leaflet.css'
 import { API } from '@/constants/api'
@@ -47,6 +48,7 @@ const fetchClimbingObjects = async (
     const data = await response.json()
     return data
   } catch {
+    toast.error('Could not load the climbing objects', { id: 'load-cos-error' })
     return null
   }
 }
@@ -180,7 +182,7 @@ const MapOperations: React.FC<MapOperationsProps> = (probs) => {
   useEffect(() => {
     map.invalidateSize()
     routesClusterRef.current?.clearLayers()
-    if (probs.climbingObject) {
+    if (probs.climbingObject !== null) {
       setTimeout(() => {
         map.setView(
           markersRef.current.get(probs.climbingObject || '')?.getLatLng() ?? map.getCenter(),
@@ -281,7 +283,6 @@ const LMap: React.FC<LMapProps> = (probs) => {
         >
           <img src={ZoomOut} alt="Zoom In" className="w-6 h-6" />
         </button>
-        <Toaster />
       </div>
     </MapContainer>
   )

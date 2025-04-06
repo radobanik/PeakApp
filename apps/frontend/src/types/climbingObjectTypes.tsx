@@ -1,4 +1,4 @@
-import { RouteList } from './routeTypes'
+import { RouteSummary } from './routeTypes'
 import { UserLabeled } from './userTypes'
 
 export type ClimbingObjectList = {
@@ -21,8 +21,9 @@ export type ClimbingObjectDetail = {
   longitude: number
   latitude: number
 
-  routes: RouteList[]
+  routes: RouteSummary[]
 }
+
 export interface ClimbingObjectNoRoutes {
   id: string
   name: string

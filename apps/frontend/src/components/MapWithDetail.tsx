@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
+import { toast } from 'sonner'
 import { API } from '../constants/api'
 import LMap from './LMap'
 import { ClimbingObjectDetail } from '@/types/climbingObjectTypes'
@@ -15,12 +16,13 @@ const fetchClimbingObjectDetail = async (pointId: string) => {
 
     return data
   } catch (error: unknown) {
-    let message: string = 'Unknown error'
+    let message: string = 'Could not load the climbing object'
     if (error instanceof Error) {
       message = error.message || message
     }
 
-    throw new Error(message)
+    toast.error(message, { id: `load-${pointId}-e` })
+    return null
   }
 }
 
@@ -47,7 +49,7 @@ const MapWithDetail: React.FC = () => {
     <div
       className={clsx(
         'grid h-[90%] transition-all',
-        climbingObject !== null
+        climbingObjectDetail !== null
           ? 'grid-rows-2 md:grid-cols-[clamp(0px,50%,400px)_1fr] md:grid-rows-1'
           : 'grid-rows-1 grid-cols-1'
       )}
@@ -61,7 +63,7 @@ const MapWithDetail: React.FC = () => {
         ></LMap>
       </div>
       {/* Here goes detail. Pseudo layout for smartphone and desktop is now set */}
-      <div className={clsx(climbingObject !== null ? 'row-2 md:col-1 md:row-1' : 'hidden')}>
+      <div className={clsx(climbingObjectDetail !== null ? 'row-2 md:col-1 md:row-1' : 'hidden')}>
         {route !== null && <p>Big Booty latina route was set</p>}
       </div>
     </div>
