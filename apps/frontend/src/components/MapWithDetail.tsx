@@ -10,7 +10,6 @@ const fetchClimbingObjectDetail = async (pointId: string) => {
     const data = await response.json()
 
     if (!response.ok) {
-      alert(data.error)
       return null
     }
 
@@ -21,8 +20,7 @@ const fetchClimbingObjectDetail = async (pointId: string) => {
       message = error.message || message
     }
 
-    alert(message)
-    return null
+    throw new Error(message)
   }
 }
 

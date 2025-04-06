@@ -36,7 +36,7 @@ export interface RouteDetail {
 
   climbingObject: ClimbingObjectNoRoutes
 }
-export type RouteList = {
+export type RouteSummary = {
   id: string
   name: string
   description: string
@@ -45,20 +45,3 @@ export type RouteList = {
   longitude: number
   latitude: number
 }
-
-export type GradeDetail = {
-  id: string
-  rating: number
-  name: string
-  color: string
-}
-
-export enum ClimbingStructureTypeEnum {
-  TRAVERSE = 'TRAVERSE',
-  OVERHANG = 'OVERHANG',
-  SLAB = 'SLAB',
-  WALL = 'WALL',
-}
-
-// Type for the enum
-export type ClimbingStructureType = keyof typeof ClimbingStructureTypeEnum

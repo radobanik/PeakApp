@@ -8,7 +8,7 @@ import { API } from '@/constants/api'
 import { ClimbingObjectList } from '@/types/climbingObjectTypes'
 import ZoomIn from '@/assets/ZoomIn.svg'
 import ZoomOut from '@/assets/ZoomOut.svg'
-import { RouteList } from '@/types/routeTypes'
+import { RouteSummary } from '@/types/routeTypes'
 
 const blueIcon = new L.Icon({
   iconUrl:
@@ -61,11 +61,10 @@ type MapOperationsProps = {
   setClimbingObject: React.Dispatch<SetStateAction<string | null>>
 
   setRoute: React.Dispatch<SetStateAction<string | null>>
-  routes: RouteList[] | null
+  routes: RouteSummary[] | null
 }
 
 const MapOperations: React.FC<MapOperationsProps> = (probs) => {
-  // const { points, setPoints } = probs
   const map = useMap()
 
   const markersRef = useRef<Map<string, L.Marker>>(new Map()) // Store markers by idx
@@ -119,7 +118,7 @@ const MapOperations: React.FC<MapOperationsProps> = (probs) => {
     requestAnimationFrame(processChunk) // Start processing
   }
 
-  const renderRoutes = async (routes: RouteList[] | null) => {
+  const renderRoutes = async (routes: RouteSummary[] | null) => {
     if (!routesClusterRef.current) return
 
     const clusterGroup: L.MarkerClusterGroup | null = routesClusterRef.current
@@ -134,7 +133,6 @@ const MapOperations: React.FC<MapOperationsProps> = (probs) => {
         const marker = L.marker([route.latitude, route.longitude], { icon: redIcon }).on(
           'click',
           () => {
-            alert(route.name)
             probs.setRoute(route.id)
           }
         )
@@ -154,7 +152,6 @@ const MapOperations: React.FC<MapOperationsProps> = (probs) => {
     probs.setZoomLevel(map.getZoom())
     const b = map.getBounds()
 
-    // Fire on pan OR zoom out
     const data: ClimbingObjectList[] | null = await fetchClimbingObjects(
       b.getWest(),
       b.getEast(),
@@ -228,7 +225,7 @@ type LMapProps = {
   climbingObject: string | null
   setClimbingObject: React.Dispatch<SetStateAction<string | null>>
   setRoute: React.Dispatch<SetStateAction<string | null>>
-  routes: RouteList[] | null
+  routes: RouteSummary[] | null
 }
 const LMap: React.FC<LMapProps> = (probs) => {
   const mapRef = useRef<L.Map | null>(null)
@@ -284,6 +281,7 @@ const LMap: React.FC<LMapProps> = (probs) => {
         >
           <img src={ZoomOut} alt="Zoom In" className="w-6 h-6" />
         </button>
+        <Toaster />
       </div>
     </MapContainer>
   )
