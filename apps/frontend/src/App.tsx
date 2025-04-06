@@ -7,6 +7,7 @@ import { privateRoute } from '@/routing/privateRoute'
 import { publicRoute } from '@/routing/publicRoute'
 import { Toaster } from '@/components/ui/sonner'
 import RouteDetailPage from './pages/RouteDetailPage'
+import DiaryPage from './pages/DiaryPage'
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Route path={ROUTE.LOGIN} element={publicRoute(<LoginPage />)} />
         <Route path={ROUTE.REGISTER} element={publicRoute(<RegisterPage />)} />
         <Route path={ROUTE.HOME} element={privateRoute(<HomePage />)} />
+        <Route path={ROUTE.DIARY} element={privateRoute(<DiaryPage />)} />
         <Route path="/detail" element={privateRoute(<RouteDetailPage />)} />
       </Routes>
 
