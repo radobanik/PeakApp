@@ -29,6 +29,7 @@
     "prettier": "^3.5.3"
   },
   "dependencies": {
+    "@smastrom/react-rating": "^1.5.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   }

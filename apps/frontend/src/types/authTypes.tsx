@@ -1,3 +1,5 @@
+import { PeakFile } from './fileTypes'
+
 export interface LoginRequest {
   email: string
   password: string
@@ -52,4 +54,16 @@ export interface AuthenticatedUser {
   countryCode: string | null
   createdAt: string
   updatedAt: string | null
+}
+
+export interface UserLabeled {
+  id: string
+  userName: string
+
+  firstName: string
+  lastName: string
+}
+
+export interface UserLabeledWithPhoto extends UserLabeled {
+  photo: PeakFile | null
 }

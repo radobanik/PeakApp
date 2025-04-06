@@ -6,6 +6,7 @@ import { ROUTE } from '@/constants/routes'
 import { privateRoute } from '@/routing/privateRoute'
 import { publicRoute } from '@/routing/publicRoute'
 import { Toaster } from '@/components/ui/sonner'
+import RouteDetailPage from './pages/RouteDetailPage'
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
         <Route path={ROUTE.LOGIN} element={publicRoute(<LoginPage />)} />
         <Route path={ROUTE.REGISTER} element={publicRoute(<RegisterPage />)} />
         <Route path={ROUTE.HOME} element={privateRoute(<HomePage />)} />
+        <Route path="/detail" element={privateRoute(<RouteDetailPage />)} />
       </Routes>
 
       {/* Toast notifications */}
