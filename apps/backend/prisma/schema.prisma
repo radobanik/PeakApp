@@ -170,9 +170,11 @@ model City {
   countryId String
   country   Country @relation(fields: [countryId], references: [id])
 
-  long Float?
-  lat  Float?
+  @@unique([name, countryId], name: "city_name_country_unique")
 
+  /**
+   * FOREIGN RELATIONSHIPS
+   */
   users User[] @relation
 }
 

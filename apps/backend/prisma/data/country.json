@@ -15,13 +15,17 @@
         "Shar",
         "Sharif",
         "Wazir Akbar Khan"
-      ]
+      ],
+      "longitude": 65,
+      "latitude": 33
     },
     {
       "iso2": "AL",
       "iso3": "ALB",
       "country": "Albania",
-      "cities": ["Elbasan", "Petran", "Pogradec", "Shkoder", "Tirana", "Ura Vajgurore"]
+      "cities": ["Elbasan", "Petran", "Pogradec", "Shkoder", "Tirana", "Ura Vajgurore"],
+      "longitude": 20,
+      "latitude": 41
     },
     {
       "iso2": "DZ",
@@ -60,7 +64,9 @@
         "Tizi",
         "Tizi Ouzou",
         "Tlemcen"
-      ]
+      ],
+      "longitude": 3,
+      "latitude": 28
     },
     {
       "iso2": "AD",
@@ -78,7 +84,9 @@
         "Santa Coloma",
         "Sispony",
         "Soldeu"
-      ]
+      ],
+      "longitude": 1.6,
+      "latitude": 42.5
     },
     {
       "iso2": "AO",
@@ -106,7 +114,9 @@
         "Piri",
         "Saurimo",
         "Talatona"
-      ]
+      ],
+      "longitude": 18.5,
+      "latitude": -12.5
     },
     {
       "iso2": "AI",
@@ -127,13 +137,17 @@
         "Farrington",
         "The Quarter",
         "West End Village"
-      ]
+      ],
+      "longitude": -63.1667,
+      "latitude": 18.25
     },
     {
       "iso2": "AG",
       "iso3": "ATG",
       "country": "Antigua and Barbuda",
-      "cities": ["All Saints", "Cassada Gardens", "Codrington", "Old Road", "Parham", "Woods"]
+      "cities": ["All Saints", "Cassada Gardens", "Codrington", "Old Road", "Parham", "Woods"],
+      "longitude": -61.8,
+      "latitude": 17.05
     },
     {
       "iso2": "AR",
@@ -718,7 +732,9 @@
         "Winifreda",
         "Yerba Buena",
         "Zenon Pereyra"
-      ]
+      ],
+      "longitude": -64,
+      "latitude": -34
     },
     {
       "iso2": "AM",
@@ -739,7 +755,9 @@
         "Tsaghkadzor",
         "Vanadzor",
         "Yerevan"
-      ]
+      ],
+      "longitude": 45,
+      "latitude": 40
     },
     {
       "iso2": "AW",
@@ -757,7 +775,9 @@
         "Sero Blanco",
         "Sint Nicolaas",
         "Tanki Lender"
-      ]
+      ],
+      "longitude": -69.9667,
+      "latitude": 12.5
     },
     {
       "iso2": "AU",
@@ -2720,7 +2740,9 @@
         "Young",
         "Yowie Bay",
         "Zeehan"
-      ]
+      ],
+      "longitude": 133,
+      "latitude": -27
     },
     {
       "iso2": "AT",
@@ -4117,7 +4139,9 @@
         "Zwentendorf",
         "Zwettl Stadt",
         "Zwolfaxing"
-      ]
+      ],
+      "longitude": 13.3333,
+      "latitude": 47.3333
     },
     {
       "iso2": "AZ",
@@ -4132,7 +4156,9 @@
         "Sumqayit",
         "Xirdalan",
         "Zurges"
-      ]
+      ],
+      "longitude": 47.5,
+      "latitude": 40.5
     },
     {
       "iso2": "BS",
@@ -4146,7 +4172,9 @@
         "Nassau",
         "Palmetto Point",
         "Spanish Wells"
-      ]
+      ],
+      "longitude": -76,
+      "latitude": 24.25
     },
     {
       "iso2": "BH",
@@ -4170,7 +4198,9 @@
         "Sanad",
         "Sitrah",
         "Tubli"
-      ]
+      ],
+      "longitude": 50.55,
+      "latitude": 26
     },
     {
       "iso2": "BD",
@@ -4240,7 +4270,9 @@
         "Sylhet",
         "Tangail",
         "Thakurgaon"
-      ]
+      ],
+      "longitude": 90,
+      "latitude": 24
     },
     {
       "iso2": "BB",
@@ -4270,7 +4302,9 @@
         "White Hill",
         "Wildey",
         "Worthing"
-      ]
+      ],
+      "longitude": -59.5333,
+      "latitude": 13.1667
     },
     {
       "iso2": "BY",
@@ -4299,7 +4333,9 @@
         "Vitebsk",
         "Zaslawye",
         "Zhodzina"
-      ]
+      ],
+      "longitude": 28,
+      "latitude": 53
     },
     {
       "iso2": "BE",
@@ -5444,7 +5480,9 @@
         "Zwevezele",
         "Zwijnaarde",
         "Zwijndrecht"
-      ]
+      ],
+      "longitude": 4,
+      "latitude": 50.8333
     },
     {
       "iso2": "BZ",
@@ -5458,7 +5496,9 @@
         "Ladyville",
         "San Ignacio",
         "San Pedro Town"
-      ]
+      ],
+      "longitude": -88.75,
+      "latitude": 17.25
     },
     {
       "iso2": "BJ",
@@ -5477,7 +5517,9 @@
         "Oueme",
         "Plateau",
         "Zou"
-      ]
+      ],
+      "longitude": 2.25,
+      "latitude": 9.5
     },
     {
       "iso2": "BM",
@@ -5494,7 +5536,9 @@
         "Smith's",
         "Southampton",
         "Warwick"
-      ]
+      ],
+      "longitude": -64.75,
+      "latitude": 32.3333
     },
     {
       "iso2": "BT",
@@ -5521,7 +5565,9 @@
         "Tsirang",
         "Wangdue Phodrang",
         "Zhemgang"
-      ]
+      ],
+      "longitude": 90.5,
+      "latitude": 27.5
     },
     {
       "iso2": "BO",
@@ -5544,7 +5590,9 @@
         "Sucre",
         "Tarija",
         "Trinidad"
-      ]
+      ],
+      "longitude": -65,
+      "latitude": -17
     },
     {
       "iso2": "BA",
@@ -5591,13 +5639,17 @@
         "Zenica",
         "Zepce",
         "Zivinice"
-      ]
+      ],
+      "longitude": 18,
+      "latitude": 44
     },
     {
       "iso2": "BW",
       "iso3": "BWA",
       "country": "Botswana",
-      "cities": ["Francistown", "Gaborone", "Orapa", "Serowe", "Village"]
+      "cities": ["Francistown", "Gaborone", "Orapa", "Serowe", "Village"],
+      "longitude": 24,
+      "latitude": -22
     },
     {
       "iso2": "BR",
@@ -7631,7 +7683,9 @@
         "Xanxere",
         "Xavantina",
         "Xaxim"
-      ]
+      ],
+      "longitude": -55,
+      "latitude": -10
     },
     {
       "iso2": "IO",
@@ -7650,7 +7704,9 @@
         "Eagle Islands (island)",
         "Salomon Islands (island)",
         "Danger Islands (island)"
-      ]
+      ],
+      "longitude": 71.5,
+      "latitude": -6
     },
     {
       "iso2": "BN",
@@ -7664,7 +7720,9 @@
         "Panaga",
         "Seria",
         "Tutong"
-      ]
+      ],
+      "longitude": 114.6667,
+      "latitude": 4.5
     },
     {
       "iso2": "BG",
@@ -7891,7 +7949,9 @@
         "Zavet",
         "Zlatitrap",
         "Zlatograd"
-      ]
+      ],
+      "longitude": 25,
+      "latitude": 43
     },
     {
       "iso2": "BF",
@@ -7943,7 +8003,9 @@
         "Ziro",
         "Zondoma",
         "Zoundweogo"
-      ]
+      ],
+      "longitude": -2,
+      "latitude": 13
     },
     {
       "iso2": "MM",
@@ -7970,7 +8032,9 @@
         "Mandalay",
         "Wagan",
         "Yangon"
-      ]
+      ],
+      "longitude": 98,
+      "latitude": 22
     },
     {
       "iso2": "BI",
@@ -7994,7 +8058,9 @@
         "Ngozi",
         "Rutana",
         "Ruyigi"
-      ]
+      ],
+      "longitude": 30,
+      "latitude": -3.5
     },
     {
       "iso2": "KH",
@@ -8015,7 +8081,9 @@
         "Sihanoukville",
         "Tuol Kok",
         "Vott Kampong Svay"
-      ]
+      ],
+      "longitude": 105,
+      "latitude": 13
     },
     {
       "iso2": "CM",
@@ -8031,7 +8099,9 @@
         "Kumba",
         "Ringo",
         "Tibati"
-      ]
+      ],
+      "longitude": 12,
+      "latitude": 6
     },
     {
       "iso2": "CA",
@@ -10133,7 +10203,9 @@
         "Youbou",
         "Young",
         "Youngstown"
-      ]
+      ],
+      "longitude": -95,
+      "latitude": 60
     },
     {
       "iso2": "CV",
@@ -10147,7 +10219,9 @@
         "Assomada",
         "Santa Maria",
         "São Filipe"
-      ]
+      ],
+      "longitude": -24,
+      "latitude": 16
     },
     {
       "iso2": "KY",
@@ -10161,7 +10235,9 @@
         "Savannah",
         "Spot Bay",
         "West Bay"
-      ]
+      ],
+      "longitude": -80.5,
+      "latitude": 19.5
     },
     {
       "iso2": "CF",
@@ -10185,7 +10261,9 @@
         "Ouham-Pende",
         "Sangha-Mbaere",
         "Vakaga"
-      ]
+      ],
+      "longitude": 21,
+      "latitude": 7
     },
     {
       "iso2": "TD",
@@ -10206,7 +10284,9 @@
         "Ouaddaï",
         "Salamat",
         "Tandjile"
-      ]
+      ],
+      "longitude": 19,
+      "latitude": 15
     },
     {
       "iso2": "CX",
@@ -10217,19 +10297,25 @@
         "Flying Fish Cove (settlement)",
         "Poon Saan (settlement)",
         "Silver City (settlement)"
-      ]
+      ],
+      "longitude": 105.6667,
+      "latitude": -10.5
     },
     {
       "iso2": "CC",
       "iso3": "CCK",
       "country": "Cocos (Keeling) Islands",
-      "cities": ["Bantam (settlement)", "West Island (island)"]
+      "cities": ["Bantam (settlement)", "West Island (island)"],
+      "longitude": 96.8333,
+      "latitude": -12.5
     },
     {
       "iso2": "CK",
       "iso3": "COK",
       "country": "Cook Islands",
-      "cities": ["Amuri", "Arutanga", "Avarua", "Avatiu", "Omoka", "Oneroa"]
+      "cities": ["Amuri", "Arutanga", "Avarua", "Avatiu", "Omoka", "Oneroa"],
+      "longitude": -159.7667,
+      "latitude": -21.2333
     },
     {
       "iso2": "CL",
@@ -10358,7 +10444,9 @@
         "Villa Alemana",
         "Villarrica",
         "Vitacura"
-      ]
+      ],
+      "longitude": -71,
+      "latitude": -30
     },
     {
       "iso2": "CN",
@@ -12081,7 +12169,9 @@
         "Zoucheng",
         "Zunyi",
         "Zuxi"
-      ]
+      ],
+      "longitude": 105,
+      "latitude": 35
     },
     {
       "iso2": "CO",
@@ -12199,19 +12289,25 @@
         "Yopal",
         "Yotoco",
         "Yumbo"
-      ]
+      ],
+      "longitude": -72,
+      "latitude": 4
     },
     {
       "iso2": "KM",
       "iso3": "COM",
       "country": "Comoros",
-      "cities": ["Grande Comore (Njazidja)", "Anjouan (Nzwani)", "Moheli (Mwali)"]
+      "cities": ["Grande Comore (Njazidja)", "Anjouan (Nzwani)", "Moheli (Mwali)"],
+      "longitude": 44.25,
+      "latitude": -12.1667
     },
     {
       "iso2": "CG",
       "iso3": "COG",
       "country": "Congo",
-      "cities": ["Banana", "Goma", "Kinshasa", "Likasi", "Lubumbashi"]
+      "cities": ["Banana", "Goma", "Kinshasa", "Likasi", "Lubumbashi"],
+      "longitude": 15,
+      "latitude": -1
     },
     {
       "iso2": "CR",
@@ -12282,7 +12378,9 @@
         "Turrucares",
         "Zapote",
         "Zarcero"
-      ]
+      ],
+      "longitude": -84,
+      "latitude": 10
     },
     {
       "iso2": "HR",
@@ -12430,7 +12528,9 @@
         "Zagreb",
         "Zapresic",
         "Zlatar"
-      ]
+      ],
+      "longitude": 15.5,
+      "latitude": 45.1667
     },
     {
       "iso2": "CU",
@@ -12447,7 +12547,9 @@
         "Santiago de Cuba",
         "Varadero",
         "Villa"
-      ]
+      ],
+      "longitude": -80,
+      "latitude": 21.5
     },
     {
       "iso2": "CY",
@@ -12479,7 +12581,9 @@
         "Sotira",
         "Strovolos",
         "Tera"
-      ]
+      ],
+      "longitude": 33,
+      "latitude": 35
     },
     {
       "iso2": "CZ",
@@ -13426,7 +13530,9 @@
         "Zubri",
         "Zulova",
         "Zvole"
-      ]
+      ],
+      "longitude": 15.5,
+      "latitude": 49.75
     },
     {
       "iso2": "DK",
@@ -14000,13 +14106,17 @@
         "Vorbasse",
         "Vordingborg",
         "Vra"
-      ]
+      ],
+      "longitude": 10,
+      "latitude": 56
     },
     {
       "iso2": "DJ",
       "iso3": "DJI",
       "country": "Djibouti",
-      "cities": ["Ali Sabih", "Dikhil", "Djibouti", "Obock", "Tadjoura"]
+      "cities": ["Ali Sabih", "Dikhil", "Djibouti", "Obock", "Tadjoura"],
+      "longitude": 43,
+      "latitude": 11.5
     },
     {
       "iso2": "DM",
@@ -14023,7 +14133,9 @@
         "Saint Patrick",
         "Saint Paul",
         "Saint Peter"
-      ]
+      ],
+      "longitude": -61.3333,
+      "latitude": 15.4167
     },
     {
       "iso2": "DO",
@@ -14053,7 +14165,9 @@
         "Santa Cruz de Barahona",
         "Santiago de los Caballeros",
         "Santo Domingo"
-      ]
+      ],
+      "longitude": -70.6667,
+      "latitude": 19
     },
     {
       "iso2": "TL",
@@ -14073,7 +14187,9 @@
         "Manufahi",
         "Oecussi",
         "Viqueque"
-      ]
+      ],
+      "longitude": 125.5167,
+      "latitude": -8.55
     },
     {
       "iso2": "TK",
@@ -14084,7 +14200,9 @@
         "Nukunonu (village)",
         "Fakaofo (village)",
         "Fale (village)"
-      ]
+      ],
+      "longitude": -172,
+      "latitude": -9
     },
     {
       "iso2": "TC",
@@ -14125,7 +14243,9 @@
         "West Road",
         "Wheeland",
         "Whitby"
-      ]
+      ],
+      "longitude": -71.5833,
+      "latitude": 21.75
     },
     {
       "iso2": "EC",
@@ -14201,7 +14321,9 @@
         "Zamora",
         "Zaruma",
         "Zumba"
-      ]
+      ],
+      "longitude": -77.5,
+      "latitude": -2
     },
     {
       "iso2": "EG",
@@ -14247,7 +14369,9 @@
         "Tanta",
         "Toukh",
         "Zagazig"
-      ]
+      ],
+      "longitude": 30,
+      "latitude": 27
     },
     {
       "iso2": "SV",
@@ -14284,7 +14408,9 @@
         "Soyapango",
         "Usulutan",
         "Zaragoza"
-      ]
+      ],
+      "longitude": -88.9167,
+      "latitude": 13.8333
     },
     {
       "iso2": "GQ",
@@ -14298,7 +14424,9 @@
         "Kie-Ntem",
         "Litoral",
         "Wele-Nzas"
-      ]
+      ],
+      "longitude": 10,
+      "latitude": 2
     },
     {
       "iso2": "ER",
@@ -14311,7 +14439,9 @@
         "Gash Barka",
         "Ma'akel",
         "Semenawi Keyih Bahri"
-      ]
+      ],
+      "longitude": 39,
+      "latitude": 15
     },
     {
       "iso2": "EE",
@@ -14385,7 +14515,9 @@
         "Viimsi",
         "Viljandi",
         "Voka"
-      ]
+      ],
+      "longitude": 26,
+      "latitude": 59
     },
     {
       "iso2": "ET",
@@ -14403,7 +14535,9 @@
         "Somali",
         "Tigray",
         "Southern Nations, Nationalities, and Peoples Region"
-      ]
+      ],
+      "longitude": 38,
+      "latitude": 8
     },
     {
       "iso2": "FO",
@@ -14418,7 +14552,9 @@
         "Saltangara",
         "Signabour",
         "Strendur"
-      ]
+      ],
+      "longitude": -7,
+      "latitude": 62
     },
     {
       "iso2": "FK",
@@ -14490,7 +14626,9 @@
         "Walker Creek",
         "Weddell Settlement",
         "Westpoint Island Settlement"
-      ]
+      ],
+      "longitude": -59,
+      "latitude": -51.75
     },
     {
       "iso2": "FJ",
@@ -14502,7 +14640,9 @@
         "Northern (Labasa)",
         "Rotuma",
         "Western (Lautoka)"
-      ]
+      ],
+      "longitude": 175,
+      "latitude": -18
     },
     {
       "iso2": "FI",
@@ -14980,7 +15120,9 @@
         "Ylitornio",
         "Ylivieska",
         "Ypaejae"
-      ]
+      ],
+      "longitude": 26,
+      "latitude": 64
     },
     {
       "iso2": "FR",
@@ -27535,25 +27677,33 @@
         "Zittersheim",
         "Zouafques",
         "Zutzendorf"
-      ]
+      ],
+      "longitude": 2,
+      "latitude": 46
     },
     {
       "iso2": "PF",
       "iso3": "PYF",
       "country": "French Polynesia",
-      "cities": ["Arue", "Faaa", "Mahina", "Paeau", "Papeete", "Pirae", "Punaauia"]
+      "cities": ["Arue", "Faaa", "Mahina", "Paeau", "Papeete", "Pirae", "Punaauia"],
+      "longitude": -140,
+      "latitude": -15
     },
     {
       "iso2": "GA",
       "iso3": "GAB",
       "country": "Gabon",
-      "cities": ["Gamba", "Libreville", "Mamagnia", "Moanda", "Port-Gentil"]
+      "cities": ["Gamba", "Libreville", "Mamagnia", "Moanda", "Port-Gentil"],
+      "longitude": 11.75,
+      "latitude": -1
     },
     {
       "iso2": "GM",
       "iso3": "GMB",
       "country": "Gambia",
-      "cities": ["Banjul", "Central River", "Lower River", "North Bank", "Upper River", "Western"]
+      "cities": ["Banjul", "Central River", "Lower River", "North Bank", "Upper River", "Western"],
+      "longitude": -16.5667,
+      "latitude": 13.4667
     },
     {
       "iso2": "GE",
@@ -27569,7 +27719,9 @@
         "Tbilisi",
         "Zemo-Avchala",
         "Zugdidi"
-      ]
+      ],
+      "longitude": 43.5,
+      "latitude": 42
     },
     {
       "iso2": "GI",
@@ -27612,7 +27764,9 @@
         "ጅብራልታር",
         "ジブラルタル",
         "直布罗陀"
-      ]
+      ],
+      "longitude": -5.3667,
+      "latitude": 36.1833
     },
     {
       "iso2": "DE",
@@ -34868,7 +35022,9 @@
         "Zwiesel",
         "Zwingenberg",
         "Zwonitz"
-      ]
+      ],
+      "longitude": 9,
+      "latitude": 51
     },
     {
       "iso2": "GH",
@@ -34891,7 +35047,9 @@
         "Tema",
         "Wa",
         "Winneba"
-      ]
+      ],
+      "longitude": -2,
+      "latitude": 8
     },
     {
       "iso2": "GR",
@@ -35063,7 +35221,9 @@
         "Xanthi",
         "Xylokastro",
         "Zakynthos"
-      ]
+      ],
+      "longitude": 22,
+      "latitude": 39
     },
     {
       "iso2": "GL",
@@ -35087,7 +35247,9 @@
         "Tasiilaq",
         "Upernavik",
         "Uummannaq Kommune"
-      ]
+      ],
+      "longitude": -40,
+      "latitude": 72
     },
     {
       "iso2": "GP",
@@ -35122,7 +35284,9 @@
         "Terre-de-Haut",
         "Trois-Rivieres",
         "Village"
-      ]
+      ],
+      "longitude": -61.5833,
+      "latitude": 16.25
     },
     {
       "iso2": "GD",
@@ -35136,7 +35300,9 @@
         "Saint John",
         "Saint Mark",
         "Saint Patrick"
-      ]
+      ],
+      "longitude": -61.6667,
+      "latitude": 12.1167
     },
     {
       "iso2": "GG",
@@ -35151,7 +35317,9 @@
         "St Anne",
         "Saint Sampson",
         "Torteval"
-      ]
+      ],
+      "longitude": -2.56,
+      "latitude": 49.5
     },
     {
       "iso2": "GT",
@@ -35201,7 +35369,9 @@
         "Villa Nueva",
         "Vista Hermosa",
         "Zacapa"
-      ]
+      ],
+      "longitude": -90.25,
+      "latitude": 15.5
     },
     {
       "iso2": "GU",
@@ -35214,7 +35384,9 @@
         "Santa Rita",
         "Tamuning-Tumon-Harmon Village",
         "Yigo Village"
-      ]
+      ],
+      "longitude": 144.7833,
+      "latitude": 13.4667
     },
     {
       "iso2": "GN",
@@ -35229,7 +35401,9 @@
         "Mamou",
         "Port Kamsar",
         "Sangaredi"
-      ]
+      ],
+      "longitude": -10,
+      "latitude": 11
     },
     {
       "iso2": "GW",
@@ -35245,7 +35419,9 @@
         "Oio",
         "Quinara",
         "Tombali"
-      ]
+      ],
+      "longitude": -15,
+      "latitude": 12
     },
     {
       "iso2": "GY",
@@ -35262,7 +35438,9 @@
         "Potaro-Siparuni",
         "Upper Demerara-Berbice",
         "Upper Takutu-Upper Essequibo"
-      ]
+      ],
+      "longitude": -59,
+      "latitude": 5
     },
     {
       "iso2": "HT",
@@ -35279,13 +35457,17 @@
         "Port-au-Prince",
         "Prince",
         "Turgeau"
-      ]
+      ],
+      "longitude": -72.4167,
+      "latitude": 19
     },
     {
       "iso2": "HM",
       "iso3": "HMD",
       "country": "Heard Island and McDonald Islands",
-      "cities": []
+      "cities": [],
+      "longitude": 72.5167,
+      "latitude": -53.1
     },
     {
       "iso2": "JO",
@@ -35309,7 +35491,9 @@
         "Salt",
         "Jarash",
         "Ma'an"
-      ]
+      ],
+      "longitude": 36,
+      "latitude": 31
     },
     {
       "iso2": "HN",
@@ -35336,7 +35520,9 @@
         "Santa Barbara",
         "Sula",
         "Tegucigalpa"
-      ]
+      ],
+      "longitude": -86.5,
+      "latitude": 15
     },
     {
       "iso2": "HK",
@@ -35425,7 +35611,9 @@
         "Yau Ma Tei",
         "Ying Pun",
         "Yuen Long San Hui"
-      ]
+      ],
+      "longitude": 114.1667,
+      "latitude": 22.25
     },
     {
       "iso2": "HU",
@@ -36171,7 +36359,9 @@
         "Zsambek",
         "Zsambok",
         "Zsombo"
-      ]
+      ],
+      "longitude": 20,
+      "latitude": 47
     },
     {
       "iso2": "IS",
@@ -36196,7 +36386,9 @@
         "Stokkseyri",
         "Vestmannaeyjar",
         "Vogar"
-      ]
+      ],
+      "longitude": -18,
+      "latitude": 65
     },
     {
       "iso2": "IN",
@@ -37213,7 +37405,9 @@
         "Yavatmal",
         "Yeola",
         "Yercaud"
-      ]
+      ],
+      "longitude": 77,
+      "latitude": 20
     },
     {
       "iso2": "ID",
@@ -37489,7 +37683,9 @@
         "Wonosari",
         "Wonosobo",
         "Yogyakarta"
-      ]
+      ],
+      "longitude": 120,
+      "latitude": -5
     },
     {
       "iso2": "IR",
@@ -37729,7 +37925,9 @@
         "Zangiabad",
         "Zanjan",
         "Zarand"
-      ]
+      ],
+      "longitude": 53,
+      "latitude": 32
     },
     {
       "iso2": "IQ",
@@ -37752,7 +37950,9 @@
         "Najaf",
         "Sulaymaniyah",
         "Tikrit"
-      ]
+      ],
+      "longitude": 44,
+      "latitude": 33
     },
     {
       "iso2": "IE",
@@ -38050,7 +38250,9 @@
         "Williamstown",
         "Windy Arbour",
         "Youghal"
-      ]
+      ],
+      "longitude": -8,
+      "latitude": 53
     },
     {
       "iso2": "IM",
@@ -38070,7 +38272,9 @@
         "Port Saint Mary",
         "Ramsey",
         "Saint Johns"
-      ]
+      ],
+      "longitude": -4.55,
+      "latitude": 54.23
     },
     {
       "iso2": "IL",
@@ -38228,7 +38432,9 @@
         "Yavne",
         "Yehud",
         "Zoran"
-      ]
+      ],
+      "longitude": 34.75,
+      "latitude": 31.5
     },
     {
       "iso2": "IT",
@@ -42630,7 +42836,9 @@
         "Zollino",
         "Zoppola",
         "Zumaglia"
-      ]
+      ],
+      "longitude": 12.8333,
+      "latitude": 42.8333
     },
     {
       "iso2": "CI",
@@ -42722,7 +42930,9 @@
         "Gontougo",
         "Sinfra",
         "Tanda"
-      ]
+      ],
+      "longitude": -5,
+      "latitude": 8
     },
     {
       "iso2": "JM",
@@ -42746,13 +42956,17 @@
         "Portmore",
         "Runaway Bay",
         "Spanish Town"
-      ]
+      ],
+      "longitude": -77.5,
+      "latitude": 18.25
     },
     {
       "iso2": "JE",
       "iso3": "JEY",
       "country": "Jersey",
-      "cities": ["St. Helier (settlement)"]
+      "cities": ["St. Helier (settlement)"],
+      "longitude": -2.13,
+      "latitude": 49.21
     },
     {
       "iso2": "JP",
@@ -43924,7 +44138,9 @@
         "Yuzawa",
         "Zama",
         "Zushi"
-      ]
+      ],
+      "longitude": 138,
+      "latitude": 36
     },
     {
       "iso2": "KZ",
@@ -43973,7 +44189,9 @@
         "Ust-Kamenogorsk",
         "Vostok",
         "Zyryanovsk"
-      ]
+      ],
+      "longitude": 68,
+      "latitude": 48
     },
     {
       "iso2": "KE",
@@ -44003,13 +44221,17 @@
         "Thika",
         "Turbo",
         "Wote"
-      ]
+      ],
+      "longitude": 38,
+      "latitude": 1
     },
     {
       "iso2": "KI",
       "iso3": "KIR",
       "country": "Kiribati",
-      "cities": []
+      "cities": [],
+      "longitude": 173,
+      "latitude": 1.4167
     },
     {
       "iso2": "KP",
@@ -44029,13 +44251,17 @@
         "Najin",
         "Namp'o",
         "Pyongyang"
-      ]
+      ],
+      "longitude": 127,
+      "latitude": 40
     },
     {
       "iso2": "XK",
       "iso3": "XKX",
       "country": "Kosovo",
-      "cities": ["Dunavo", "Ferizaj", "Mitrovica", "Pristina", "Prizren"]
+      "cities": ["Dunavo", "Ferizaj", "Mitrovica", "Pristina", "Prizren"],
+      "longitude": 21.00722,
+      "latitude": 42.526944
     },
     {
       "iso2": "KW",
@@ -44058,7 +44284,9 @@
         "Kayfan",
         "Kuwait City",
         "Salwa"
-      ]
+      ],
+      "longitude": 47.6581,
+      "latitude": 29.3375
     },
     {
       "iso2": "KG",
@@ -44073,7 +44301,9 @@
         "Osh Oblasty",
         "Talas Oblasty",
         "Ysyk-Kol Oblasty"
-      ]
+      ],
+      "longitude": 75,
+      "latitude": 41
     },
     {
       "iso2": "LA",
@@ -44098,7 +44328,9 @@
         "Xaisomboun",
         "Xekong",
         "Xiangkhoang"
-      ]
+      ],
+      "longitude": 105,
+      "latitude": 18
     },
     {
       "iso2": "LV",
@@ -44153,7 +44385,9 @@
         "Ventspils",
         "Zasa",
         "Zilupe"
-      ]
+      ],
+      "longitude": 25,
+      "latitude": 57
     },
     {
       "iso2": "LB",
@@ -44178,7 +44412,9 @@
         "Tripoli",
         "Yanar",
         "Zgharta"
-      ]
+      ],
+      "longitude": 35.8333,
+      "latitude": 33.8333
     },
     {
       "iso2": "LS",
@@ -44195,7 +44431,9 @@
         "Qacha's Nek",
         "Quthing",
         "Thaba-Tseka"
-      ]
+      ],
+      "longitude": 28.5,
+      "latitude": -29.5
     },
     {
       "iso2": "LR",
@@ -44217,13 +44455,17 @@
         "River Cess",
         "River Gee",
         "Sinoe"
-      ]
+      ],
+      "longitude": -9.5,
+      "latitude": 6.5
     },
     {
       "iso2": "LY",
       "iso3": "LBY",
       "country": "Libya",
-      "cities": ["Benghazi", "Misratah", "Sabha", "Tripoli", "Zliten"]
+      "cities": ["Benghazi", "Misratah", "Sabha", "Tripoli", "Zliten"],
+      "longitude": 17,
+      "latitude": 25
     },
     {
       "iso2": "LI",
@@ -44244,7 +44486,9 @@
         "Triesen",
         "Triesenberg",
         "Vaduz"
-      ]
+      ],
+      "longitude": 9.5333,
+      "latitude": 47.1667
     },
     {
       "iso2": "LU",
@@ -44367,7 +44611,9 @@
         "Wasserbillig",
         "Wolpert",
         "Wormeldange"
-      ]
+      ],
+      "longitude": 6.1667,
+      "latitude": 49.75
     },
     {
       "iso2": "MK",
@@ -44404,7 +44650,9 @@
         "Strumica",
         "Tetovo",
         "Veles"
-      ]
+      ],
+      "longitude": 22,
+      "latitude": 41.8333
     },
     {
       "iso2": "MG",
@@ -44418,7 +44666,9 @@
         "Fianarantsoa",
         "Toamasina",
         "Toliara"
-      ]
+      ],
+      "longitude": 47,
+      "latitude": -20
     },
     {
       "iso2": "MH",
@@ -44440,7 +44690,9 @@
         "Laura",
         "Rairok",
         "Delap-Uliga-Djarrit"
-      ]
+      ],
+      "longitude": 168,
+      "latitude": 9
     },
     {
       "iso2": "MO",
@@ -44475,7 +44727,9 @@
         "Povoacao de Ka Ho",
         "Povoação de Hác Sá",
         "Povoação de Lai Chi Van"
-      ]
+      ],
+      "longitude": 113.55,
+      "latitude": 22.1667
     },
     {
       "iso2": "MW",
@@ -44509,7 +44763,9 @@
         "Salima",
         "Thyolo",
         "Zomba"
-      ]
+      ],
+      "longitude": 34,
+      "latitude": -13.5
     },
     {
       "iso2": "MY",
@@ -44790,7 +45046,9 @@
         "Tumpat",
         "Ulu Tiram",
         "Victoria"
-      ]
+      ],
+      "longitude": 112.5,
+      "latitude": 2.5
     },
     {
       "iso2": "MV",
@@ -44817,7 +45075,9 @@
         "Shaviyani",
         "Thaa",
         "Vaavu"
-      ]
+      ],
+      "longitude": 73,
+      "latitude": 3.25
     },
     {
       "iso2": "ML",
@@ -44833,7 +45093,9 @@
         "Segou",
         "Sikasso",
         "Tombouctou"
-      ]
+      ],
+      "longitude": -4,
+      "latitude": 17
     },
     {
       "iso2": "MT",
@@ -44906,7 +45168,9 @@
         "Zabbar",
         "Zejtun",
         "Zurrieq"
-      ]
+      ],
+      "longitude": 14.5833,
+      "latitude": 35.8333
     },
     {
       "iso2": "MQ",
@@ -44931,7 +45195,9 @@
         "Sainte-Luce",
         "Sainte-Marie",
         "Schoelcher"
-      ]
+      ],
+      "longitude": -61,
+      "latitude": 14.6667
     },
     {
       "iso2": "MR",
@@ -44951,7 +45217,9 @@
         "Tagant",
         "Tiris Zemmour",
         "Trarza"
-      ]
+      ],
+      "longitude": -12,
+      "latitude": 20
     },
     {
       "iso2": "MU",
@@ -44971,7 +45239,9 @@
         "Saint Jean",
         "Tamarin",
         "Vacoas"
-      ]
+      ],
+      "longitude": 57.55,
+      "latitude": -20.2833
     },
     {
       "iso2": "YT",
@@ -44990,7 +45260,9 @@
         "Sada",
         "Tsingoni",
         "Tsoundzou 1"
-      ]
+      ],
+      "longitude": 45.1667,
+      "latitude": -12.8333
     },
     {
       "iso2": "MX",
@@ -45693,7 +45965,9 @@
         "Zitlala",
         "Zongolica",
         "Zumpango"
-      ]
+      ],
+      "longitude": -102,
+      "latitude": 23
     },
     {
       "iso2": "MD",
@@ -45719,7 +45993,9 @@
         "Tiraspol",
         "Voinescu",
         "Vulcanesti"
-      ]
+      ],
+      "longitude": 29,
+      "latitude": 47
     },
     {
       "iso2": "MN",
@@ -45747,7 +46023,9 @@
         "Ulan Bator",
         "Uliastay",
         "Undurkhaan"
-      ]
+      ],
+      "longitude": 105,
+      "latitude": 46
     },
     {
       "iso2": "ME",
@@ -45764,13 +46042,17 @@
         "Podgorica",
         "Stari Bar",
         "Ulcinj"
-      ]
+      ],
+      "longitude": 19,
+      "latitude": 42
     },
     {
       "iso2": "MC",
       "iso3": "MCO",
       "country": "Monaco",
-      "cities": []
+      "cities": [],
+      "longitude": 7.4,
+      "latitude": 43.7333
     },
     {
       "iso2": "MS",
@@ -45801,7 +46083,9 @@
         "Elberton",
         "Fairfield",
         "Fairy Walk"
-      ]
+      ],
+      "longitude": -62.2,
+      "latitude": 16.75
     },
     {
       "iso2": "MA",
@@ -45855,13 +46139,26 @@
         "Tiflet",
         "Tiznit",
         "Touissite"
-      ]
+      ],
+      "longitude": -5,
+      "latitude": 32
     },
     {
       "iso2": "MZ",
       "iso3": "MOZ",
       "country": "Mozambique",
-      "cities": ["Beira", "Maputo", "Matola", "Mozambique", "Nampula", "Pemba", "Quelimane", "Tete"]
+      "cities": [
+        "Beira",
+        "Maputo",
+        "Matola",
+        "Mozambique",
+        "Nampula",
+        "Pemba",
+        "Quelimane",
+        "Tete"
+      ],
+      "longitude": 35,
+      "latitude": -18.25
     },
     {
       "iso2": "NA",
@@ -45884,7 +46181,9 @@
         "Tsumeb",
         "Walvis Bay",
         "Windhoek"
-      ]
+      ],
+      "longitude": 17,
+      "latitude": -22
     },
     {
       "iso2": "NR",
@@ -45901,13 +46200,17 @@
         "Anabar",
         "Uaboe",
         "Ijuw"
-      ]
+      ],
+      "longitude": 166.9167,
+      "latitude": -0.5333
     },
     {
       "iso2": "NP",
       "iso3": "NPL",
       "country": "Nepal",
-      "cities": ["Bharatpur", "Jawlakhel", "Kathmandu", "Lumbini", "Palpa", "Patan"]
+      "cities": ["Bharatpur", "Jawlakhel", "Kathmandu", "Lumbini", "Palpa", "Patan"],
+      "longitude": 84,
+      "latitude": 28
     },
     {
       "iso2": "NL",
@@ -47358,13 +47661,17 @@
         "Zwijndrecht",
         "Zwinderen",
         "Zwolle"
-      ]
+      ],
+      "longitude": 5.75,
+      "latitude": 52.5
     },
     {
       "iso2": "NC",
       "iso3": "NCL",
       "country": "New Caledonia",
-      "cities": ["Dumbea", "Mont-Dore", "Noumea", "Nouville", "Paita"]
+      "cities": ["Dumbea", "Mont-Dore", "Noumea", "Nouville", "Paita"],
+      "longitude": 165.5,
+      "latitude": -21.5
     },
     {
       "iso2": "NZ",
@@ -47649,7 +47956,9 @@
         "Woolston",
         "Wyndham",
         "Yaldhurst"
-      ]
+      ],
+      "longitude": 174,
+      "latitude": -41
     },
     {
       "iso2": "NI",
@@ -47669,7 +47978,9 @@
         "Ocotal",
         "Rivas",
         "San Juan del Sur"
-      ]
+      ],
+      "longitude": -85,
+      "latitude": 13
     },
     {
       "iso2": "NE",
@@ -47719,7 +48030,9 @@
         "Tillabéri",
         "Torodi",
         "Zinder"
-      ]
+      ],
+      "longitude": 8,
+      "latitude": 16
     },
     {
       "iso2": "NG",
@@ -47813,7 +48126,9 @@
         "Yaba",
         "Yola",
         "Zaria"
-      ]
+      ],
+      "longitude": 8,
+      "latitude": 10
     },
     {
       "iso2": "NO",
@@ -48712,7 +49027,9 @@
         "Kapp Fie",
         "Cape Lollo",
         "Thompson Island"
-      ]
+      ],
+      "longitude": 10,
+      "latitude": 62
     },
     {
       "iso2": "NU",
@@ -48733,7 +49050,9 @@
         "Tamakautoga",
         "Alofi South",
         "Alofi North"
-      ]
+      ],
+      "longitude": -169.8667,
+      "latitude": -19.0333
     },
     {
       "iso2": "NF",
@@ -48749,19 +49068,25 @@
         "Middlegate",
         "Rocky Point",
         "Steeles Point"
-      ]
+      ],
+      "longitude": 167.95,
+      "latitude": -29.0333
     },
     {
       "iso2": "MP",
       "iso3": "MNP",
       "country": "Northern Mariana Islands",
-      "cities": []
+      "cities": [],
+      "longitude": 145.75,
+      "latitude": 15.2
     },
     {
       "iso2": "OM",
       "iso3": "OMN",
       "country": "Oman",
-      "cities": ["Al Sohar", "Muscat", "Nizwa", "Ruwi", "Saham", "Salalah", "Samad"]
+      "cities": ["Al Sohar", "Muscat", "Nizwa", "Ruwi", "Saham", "Salalah", "Samad"],
+      "longitude": 57,
+      "latitude": 21
     },
     {
       "iso2": "PK",
@@ -48776,13 +49101,17 @@
         "Jericho",
         "Nablus",
         "Ramallah"
-      ]
+      ],
+      "longitude": 70,
+      "latitude": 30
     },
     {
       "iso2": "PN",
       "iso3": "PCN",
       "country": "Pitcairn",
-      "cities": ["Adamstown"]
+      "cities": ["Adamstown"],
+      "longitude": -127.4,
+      "latitude": -24.7
     },
     {
       "iso2": "PW",
@@ -48813,7 +49142,9 @@
         "Koska",
         "Urdmang",
         "Ngriil"
-      ]
+      ],
+      "longitude": 134.5,
+      "latitude": 7.5
     },
     {
       "iso2": "PA",
@@ -48892,7 +49223,9 @@
         "Victoria",
         "Vista Alegre",
         "Vista Hermosa"
-      ]
+      ],
+      "longitude": -80,
+      "latitude": 9
     },
     {
       "iso2": "PG",
@@ -48926,7 +49259,9 @@
         "Wabag",
         "Waigani",
         "Wewak"
-      ]
+      ],
+      "longitude": 147,
+      "latitude": -6
     },
     {
       "iso2": "PY",
@@ -48960,7 +49295,9 @@
         "Villa Hayes",
         "Villarrica",
         "Yataity"
-      ]
+      ],
+      "longitude": -58,
+      "latitude": -23
     },
     {
       "iso2": "PE",
@@ -49049,7 +49386,9 @@
         "Tumbes",
         "Ventanilla",
         "Victoria"
-      ]
+      ],
+      "longitude": -76,
+      "latitude": -10
     },
     {
       "iso2": "PH",
@@ -49423,7 +49762,9 @@
         "West Triangle",
         "Wines",
         "Zamboanga City"
-      ]
+      ],
+      "longitude": 122,
+      "latitude": 13
     },
     {
       "iso2": "PL",
@@ -51031,7 +51372,9 @@
         "Zurawica",
         "Zwolen",
         "Zyrakow"
-      ]
+      ],
+      "longitude": 20,
+      "latitude": 52
     },
     {
       "iso2": "PT",
@@ -51711,7 +52054,9 @@
         "Vizela",
         "Zambujal",
         "Zibreira"
-      ]
+      ],
+      "longitude": -8,
+      "latitude": 39.5
     },
     {
       "iso2": "PR",
@@ -51805,7 +52150,9 @@
         "Villalba",
         "Yabucoa",
         "Yauco"
-      ]
+      ],
+      "longitude": -66.5,
+      "latitude": 18.25
     },
     {
       "iso2": "KR",
@@ -51921,7 +52268,9 @@
         "North Gyeongsang Province",
         "South Gyeongsang Province",
         "Jeju"
-      ]
+      ],
+      "longitude": 127.5,
+      "latitude": 37
     },
     {
       "iso2": "LT",
@@ -51951,7 +52300,9 @@
         "Vilniaus Apskritis",
         "Vilnius",
         "Visaginas"
-      ]
+      ],
+      "longitude": 24,
+      "latitude": 56
     },
     {
       "iso2": "QA",
@@ -51968,7 +52319,9 @@
         "Madinat ash Shamal",
         "Umm Sa'id",
         "Umm Salal"
-      ]
+      ],
+      "longitude": 51.25,
+      "latitude": 25.5
     },
     {
       "iso2": "RO",
@@ -52496,7 +52849,9 @@
         "Zarnesti",
         "Zlatna",
         "Simleu Silvaniei"
-      ]
+      ],
+      "longitude": 25,
+      "latitude": 46
     },
     {
       "iso2": "RU",
@@ -53507,7 +53862,9 @@
         "Zvenigorod",
         "Zvenigovo",
         "Zvezda"
-      ]
+      ],
+      "longitude": 100,
+      "latitude": 60
     },
     {
       "iso2": "RW",
@@ -53526,7 +53883,9 @@
         "Kigali-ville",
         "Umutara",
         "Ruhengeri"
-      ]
+      ],
+      "longitude": 30,
+      "latitude": -2
     },
     {
       "iso2": "RE",
@@ -53547,7 +53906,9 @@
         "Saint-Leu",
         "La Possession",
         "Sainte-Suzanne"
-      ]
+      ],
+      "longitude": 55.6,
+      "latitude": -21.1
     },
     {
       "iso2": "WS",
@@ -53565,7 +53926,9 @@
         "Tuamasaga",
         "Va'a-o-Fonoti",
         "Vaisigano"
-      ]
+      ],
+      "longitude": -172.3333,
+      "latitude": -13.5833
     },
     {
       "iso2": "LC",
@@ -53594,13 +53957,17 @@
         "Ti Rocher, Castries",
         "Ti Rocher, Micoud",
         "Vieux Fort"
-      ]
+      ],
+      "longitude": -61.1333,
+      "latitude": 13.8833
     },
     {
       "iso2": "SM",
       "iso3": "SMR",
       "country": "San Marino",
-      "cities": ["Acquaviva", "Falciano", "Fiorentino", "San Marino", "Serravalle"]
+      "cities": ["Acquaviva", "Falciano", "Fiorentino", "San Marino", "Serravalle"],
+      "longitude": 12.4167,
+      "latitude": 43.7667
     },
     {
       "iso2": "KN",
@@ -53615,13 +53982,17 @@
         "Newcastle",
         "Old Road Town",
         "Sandy Point Town"
-      ]
+      ],
+      "longitude": -62.75,
+      "latitude": 17.3333
     },
     {
       "iso2": "PM",
       "iso3": "SPM",
       "country": "Saint Pierre and Miquelon",
-      "cities": ["Miquelon-Langlade", "Saint-Pierre"]
+      "cities": ["Miquelon-Langlade", "Saint-Pierre"],
+      "longitude": -56.3333,
+      "latitude": 46.8333
     },
     {
       "iso2": "VC",
@@ -53729,7 +54100,9 @@
         "Villa",
         "Wallibou",
         "Waterlo"
-      ]
+      ],
+      "longitude": -61.2,
+      "latitude": 13.25
     },
     {
       "iso2": "SA",
@@ -53774,7 +54147,9 @@
         "Sayhat",
         "Tabuk",
         "Yanbu` al Bahr"
-      ]
+      ],
+      "longitude": 45,
+      "latitude": 25
     },
     {
       "iso2": "SN",
@@ -53793,7 +54168,9 @@
         "Saint-Louis",
         "Sama",
         "Tanaf"
-      ]
+      ],
+      "longitude": -14,
+      "latitude": 14
     },
     {
       "iso2": "GS",
@@ -53810,7 +54187,9 @@
         "Prince Olav Harbour (settlement)",
         "Rosita Harbour (settlement)",
         "Stromness (settlement)"
-      ]
+      ],
+      "longitude": -37,
+      "latitude": -54.5
     },
     {
       "iso2": "ST",
@@ -53828,7 +54207,9 @@
         "Santo António",
         "Santa Catarina",
         "Porto Alegre"
-      ]
+      ],
+      "longitude": 7,
+      "latitude": 1
     },
     {
       "iso2": "SL",
@@ -53858,7 +54239,9 @@
         "Yele",
         "Yengema",
         "Yonibana"
-      ]
+      ],
+      "longitude": -11.5,
+      "latitude": 8.5
     },
     {
       "iso2": "RS",
@@ -53958,7 +54341,9 @@
         "Zemun Polje",
         "Zlatibor",
         "Zrenjanin"
-      ]
+      ],
+      "longitude": 21,
+      "latitude": 44
     },
     {
       "iso2": "SC",
@@ -53988,7 +54373,9 @@
         "Port Glaud",
         "Saint Louis",
         "Takamaka"
-      ]
+      ],
+      "longitude": 55.6667,
+      "latitude": -4.5833
     },
     {
       "iso2": "SG",
@@ -54029,7 +54416,9 @@
         "Woodlands New Town",
         "Yew Tee",
         "Yishun New Town"
-      ]
+      ],
+      "longitude": 103.8,
+      "latitude": 1.3667
     },
     {
       "iso2": "SK",
@@ -54266,7 +54655,9 @@
         "Zlate",
         "Zuberec",
         "Zvolen"
-      ]
+      ],
+      "longitude": 19.5,
+      "latitude": 48.6667
     },
     {
       "iso2": "SI",
@@ -54425,7 +54816,9 @@
         "Zgornje Skofije",
         "Zidani Most",
         "Ziri"
-      ]
+      ],
+      "longitude": 15,
+      "latitude": 46
     },
     {
       "iso2": "SB",
@@ -54442,7 +54835,9 @@
         "Rennell and Bellona",
         "Temotu",
         "Western"
-      ]
+      ],
+      "longitude": 159,
+      "latitude": -8
     },
     {
       "iso2": "SO",
@@ -54467,7 +54862,9 @@
         "Sool",
         "Togdheer",
         "Woqooyi Galbeed"
-      ]
+      ],
+      "longitude": 49,
+      "latitude": 10
     },
     {
       "iso2": "ZA",
@@ -54799,7 +55196,9 @@
         "Worcester",
         "Wynberg",
         "Zeerust"
-      ]
+      ],
+      "longitude": 24,
+      "latitude": -29
     },
     {
       "iso2": "ES",
@@ -57215,7 +57614,9 @@
         "Zuera",
         "Zumaia",
         "Zumarraga"
-      ]
+      ],
+      "longitude": -4,
+      "latitude": 40
     },
     {
       "iso2": "LK",
@@ -57259,13 +57660,17 @@
         "Talapathpitiya",
         "Wattala",
         "Wellampitiya"
-      ]
+      ],
+      "longitude": 81,
+      "latitude": 7
     },
     {
       "iso2": "SD",
       "iso3": "SDN",
       "country": "Sudan",
-      "cities": ["Kassala", "Khartoum", "Nyala", "Shendi", "Thabit", "Umm Durman"]
+      "cities": ["Kassala", "Khartoum", "Nyala", "Shendi", "Thabit", "Umm Durman"],
+      "longitude": 30,
+      "latitude": 15
     },
     {
       "iso2": "SR",
@@ -57281,13 +57686,17 @@
         "Onverwacht",
         "Paramaribo",
         "Totness"
-      ]
+      ],
+      "longitude": -56,
+      "latitude": 4
     },
     {
       "iso2": "SZ",
       "iso3": "SWZ",
       "country": "Swaziland",
-      "cities": ["Kwaluseni", "Lobamba", "Manzini", "Mbabane", "Piggs Peak"]
+      "cities": ["Kwaluseni", "Lobamba", "Manzini", "Mbabane", "Piggs Peak"],
+      "longitude": 31.5,
+      "latitude": -26.5
     },
     {
       "iso2": "SE",
@@ -58504,7 +58913,9 @@
         "Ystad",
         "Ytterby",
         "Zinkgruvan"
-      ]
+      ],
+      "longitude": 15,
+      "latitude": 62
     },
     {
       "iso2": "CH",
@@ -59801,7 +60212,9 @@
         "Zuzgen",
         "Zuzwil",
         "Zwingen"
-      ]
+      ],
+      "longitude": 8,
+      "latitude": 47
     },
     {
       "iso2": "SY",
@@ -59822,7 +60235,9 @@
         "Idlib",
         "Rif Dimashq",
         "Tartus"
-      ]
+      ],
+      "longitude": 38,
+      "latitude": 35
     },
     {
       "iso2": "TW",
@@ -59895,7 +60310,9 @@
         "Zhubei",
         "Zhunan",
         "Zhuqi"
-      ]
+      ],
+      "longitude": 121,
+      "latitude": 23.5
     },
     {
       "iso2": "TZ",
@@ -59912,7 +60329,9 @@
         "Raha",
         "Tanga",
         "Zanzibar"
-      ]
+      ],
+      "longitude": 35,
+      "latitude": -6
     },
     {
       "iso2": "TH",
@@ -60084,19 +60503,25 @@
         "Wiphawadi",
         "Yala",
         "Yasothon"
-      ]
+      ],
+      "longitude": 100,
+      "latitude": 15
     },
     {
       "iso2": "TG",
       "iso3": "TGO",
       "country": "Togo",
-      "cities": ["Kara", "Plateaux", "Savanes", "Centrale", "Maritime"]
+      "cities": ["Kara", "Plateaux", "Savanes", "Centrale", "Maritime"],
+      "longitude": 1.1667,
+      "latitude": 8
     },
     {
       "iso2": "TO",
       "iso3": "TON",
       "country": "Tonga",
-      "cities": []
+      "cities": [],
+      "longitude": -175,
+      "latitude": -20
     },
     {
       "iso2": "TT",
@@ -60152,7 +60577,9 @@
         "Victoria",
         "Ward of Tacarigua",
         "Woodbrook"
-      ]
+      ],
+      "longitude": -61,
+      "latitude": 11
     },
     {
       "iso2": "TN",
@@ -60171,7 +60598,9 @@
         "Sidi Bouzid",
         "Sousse",
         "Tunis"
-      ]
+      ],
+      "longitude": 9,
+      "latitude": 34
     },
     {
       "iso2": "TR",
@@ -60259,7 +60688,9 @@
         "Kilis",
         "Osmaniye",
         "Düzce"
-      ]
+      ],
+      "longitude": 35,
+      "latitude": 39
     },
     {
       "iso2": "TM",
@@ -60271,7 +60702,9 @@
         "Dashoguz Welayaty",
         "Lebap Welayaty (Turkmenabat)",
         "Mary Welayaty"
-      ]
+      ],
+      "longitude": 60,
+      "latitude": 40
     },
     {
       "iso2": "UG",
@@ -60334,7 +60767,9 @@
         "Tororo",
         "Wakiso",
         "Yumbe"
-      ]
+      ],
+      "longitude": 32,
+      "latitude": 1
     },
     {
       "iso2": "UA",
@@ -60568,7 +61003,9 @@
         "Zmiyiv",
         "Zolochiv",
         "Zolotonosha"
-      ]
+      ],
+      "longitude": 32,
+      "latitude": 49
     },
     {
       "iso2": "AE",
@@ -60585,7 +61022,9 @@
         "Fujairah",
         "Ras al-Khaimah",
         "Sharjah"
-      ]
+      ],
+      "longitude": 54,
+      "latitude": 24
     },
     {
       "iso2": "GB",
@@ -63518,7 +63957,9 @@
         "Ystrad Mynach",
         "Ystradgynlais",
         "Zeals"
-      ]
+      ],
+      "longitude": -2,
+      "latitude": 54
     },
     {
       "iso2": "US",
@@ -77243,7 +77684,9 @@
         "Zuni",
         "Zurich",
         "Zwingle"
-      ]
+      ],
+      "longitude": -97,
+      "latitude": 38
     },
     {
       "iso2": "UY",
@@ -77266,7 +77709,9 @@
         "San Carlos",
         "Toledo",
         "Union"
-      ]
+      ],
+      "longitude": -56,
+      "latitude": -33
     },
     {
       "iso2": "UZ",
@@ -77287,19 +77732,25 @@
         "Toshkent Shahri",
         "Toshkent Viloyati",
         "Xorazm Viloyati"
-      ]
+      ],
+      "longitude": 64,
+      "latitude": 41
     },
     {
       "iso2": "VU",
       "iso3": "VUT",
       "country": "Vanuatu",
-      "cities": ["Malampa", "Penama", "Sanma", "Shefa", "Tafea", "Torba"]
+      "cities": ["Malampa", "Penama", "Sanma", "Shefa", "Tafea", "Torba"],
+      "longitude": 167,
+      "latitude": -16
     },
     {
       "iso2": "VA",
       "iso3": "VAT",
       "country": "Vatican City State (Holy See)",
-      "cities": []
+      "cities": [],
+      "longitude": 12.45,
+      "latitude": 41.9
     },
     {
       "iso2": "WF",
@@ -77342,7 +77793,9 @@
         "Fiua",
         "Vaisei",
         "Tavai"
-      ]
+      ],
+      "longitude": -176.2,
+      "latitude": -13.3
     },
     {
       "iso2": "VE",
@@ -77439,7 +77892,9 @@
         "Valera",
         "Valle",
         "Vargas"
-      ]
+      ],
+      "longitude": -66,
+      "latitude": 8
     },
     {
       "iso2": "VN",
@@ -77558,7 +78013,9 @@
         "Xom Truong Dinh",
         "Yen Bai",
         "Yen Thanh"
-      ]
+      ],
+      "longitude": 106,
+      "latitude": 16
     },
     {
       "iso2": "YE",
@@ -77584,7 +78041,9 @@
         "San'a'",
         "Shabwah",
         "Ta'izz"
-      ]
+      ],
+      "longitude": 48,
+      "latitude": 15
     },
     {
       "iso2": "ZM",
@@ -77600,7 +78059,9 @@
         "Ndola",
         "Siavonga",
         "Solwezi"
-      ]
+      ],
+      "longitude": 30,
+      "latitude": -15
     },
     {
       "iso2": "ZW",
@@ -77616,7 +78077,9 @@
         "Mufakose",
         "Mutare",
         "Victoria Falls"
-      ]
+      ],
+      "longitude": 30,
+      "latitude": -20
     }
   ]
 }
