@@ -1,3 +1,4 @@
+import { ClimbingStructureType } from './routeTypes'
 import { perceivedDifficulty } from './utilsTypes'
 
 export interface Pagination {
@@ -18,7 +19,7 @@ export interface Route {
   name: string
   description: string
   grade: Grade
-  climbingStructureType: 'WALL' | 'BOULDER' | string
+  climbingStructureType: ClimbingStructureType
   longitude: number
   latitude: number
 }
