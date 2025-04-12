@@ -9,7 +9,7 @@
     "dev:frontend": "npm --workspace apps/frontend run dev",
     "dev:backend": "npm --workspace apps/backend run dev",
     "dev": "concurrently --kill-others-on-fail -n frontend,backend -c blue,green \"npm run dev:frontend\" \"npm run dev:backend\"",
-    "lint": "npx eslint .",
+    "lint": "npx eslint . --max-warnings=0",
     "lint:fix": "npx eslint . --fix",
     "prettier": "npx prettier . --check",
     "prettier:fix": "npx prettier . --write",

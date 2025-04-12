@@ -1,53 +1,28 @@
 image: node:18
 
-before_script:
-  - npm ci
-
 stages:
-  - lint
+  - codestyle
   - test
-  - enforce_squash_name
 
-lint:
-  stage: lint
+codestyle:
+  stage: codestyle
+  tags:
+    - shared-fi
+  before_script:
+    - npm install --legacy-peer-deps
   script:
-    - npm ci
     - npm run lint
-  rules:
-    - if: '$CI_MERGE_REQUEST_ID'
-
-prettier-check:
-  stage: lint
-  script:
-    - npm ci
     - npm run prettier
   rules:
     - if: '$CI_MERGE_REQUEST_ID'
 
 test:
   stage: test
+  tags:
+    - shared-fi
+  before_script:
+    - npm install --legacy-peer-deps
   script:
-    - npm ci
     - npm run test
-  rules:
-    - if: '$CI_MERGE_REQUEST_ID'
-
-enforce_squash_name:
-  stage: enforce_squash_name
-  image: curlimages/curl:latest
-  script:
-    - |
-      echo "Checking merge request title format..."
-
-      MR_TITLE=$(curl --silent --header "PRIVATE-TOKEN: $CI_JOB_TOKEN" "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests/$CI_MERGE_REQUEST_IID" | grep -oP '"title":\s*"\K[^"]+')
-
-      echo "Merge Request Title: $MR_TITLE"
-
-      if [[ ! "$MR_TITLE" =~ ^PA-[0-9]+:\ .+ ]]; then
-        echo "❌ Invalid MR title format! Expected: PA-<number>: <description>"
-        exit 1
-      fi
-
-      echo "✅ Title format looks good."
   rules:
     - if: '$CI_MERGE_REQUEST_ID'

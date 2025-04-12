@@ -1,4 +1,4 @@
-import { perceivedDifficulty } from "./utilsTypes"
+import { perceivedDifficulty } from './utilsTypes'
 
 export interface User {
   id: string
