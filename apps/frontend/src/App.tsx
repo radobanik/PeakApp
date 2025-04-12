@@ -17,7 +17,7 @@ export default function App() {
         <Route path={ROUTE.REGISTER} element={publicRoute(<RegisterPage />)} />
         <Route path={ROUTE.HOME} element={privateRoute(<HomePage />)} />
         <Route path={ROUTE.DIARY} element={privateRoute(<DiaryPage />)} />
-        <Route path="/detail" element={privateRoute(<RouteDetailPage />)} />
+        <Route path={ROUTE.DETAIL} element={privateRoute(<RouteDetailPage />)} />
       </Routes>
 
       {/* Toast notifications */}

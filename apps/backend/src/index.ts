@@ -1,4 +1,3 @@
-import { Request, Response } from 'express'
 import app from './app'
 import config from './core/config'
 
@@ -7,11 +6,4 @@ import config from './core/config'
  */
 app.listen(config.port, () => {
   console.log(`listening on port ${config.port}`)
-})
-
-/**
- * Random shit
- */
-app.get('/', (req: Request, res: Response) => {
-  res.send('HELO!11!!!!')
 })
