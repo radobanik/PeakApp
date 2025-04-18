@@ -1,4 +1,3 @@
-import HeaderBar from '@/components/HeaderBar'
 import { ColumnDef } from '@tanstack/react-table'
 import { DataTable } from '@/components/DataTable'
 import { useEffect, useState } from 'react'
@@ -195,8 +194,7 @@ export default function DiaryPage() {
   }, [selectedSession])
 
   return (
-    <main>
-      <HeaderBar />
+    <>
       <div className="flex flex-col gap-4 p-4 w-3/4 ml-auto h-45vh border-1 bg-stone-800">
         <h3 className="text-2xl font-bold bg-">Unassigned Activities</h3>
         <DataTable columns={activityColumns} data={activityData} setter={setSelectedActivity} />
@@ -204,7 +202,7 @@ export default function DiaryPage() {
         <DataTable columns={sessionColumns} data={sessionEntries} setter={setSelectedSession} />
       </div>
       <div className="w-3/4 h-30vh min-h-1/2 ml-auto ">{renderComponent()}</div>
-    </main>
+    </>
   )
 }
 
