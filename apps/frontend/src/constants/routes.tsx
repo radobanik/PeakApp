@@ -5,4 +5,7 @@ export const ROUTE = {
   DIARY: '/diary',
 
   DETAIL: '/detail',
+  SETTINGS: '/settings',
+
+  COMMUNITY: '/community',
 }

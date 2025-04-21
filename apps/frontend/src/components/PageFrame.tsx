@@ -8,12 +8,12 @@ const PageFrame = () => {
   const { isMobile } = useContext(ViewportContext)
 
   return (
-    <div className="flex flex-col min-h-screen">
-      {!isMobile && <HeaderBar />}
-      <main className="flex-grow">
+    <div className="grid grid-rows-[auto_1fr_auto] h-screen w-full">
+      <header className="w-full">{!isMobile && <HeaderBar />}</header>
+      <main className="w-full overflow-y-auto overflow-x-clip">
         <Outlet />
       </main>
-      {isMobile && <MobileMenuHeader />}
+      <footer className="w-full ">{isMobile && <MobileMenuHeader />}</footer>
     </div>
   )
 }
