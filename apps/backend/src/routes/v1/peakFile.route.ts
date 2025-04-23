@@ -9,6 +9,7 @@ const fileUpload = multer({ storage: fileStorage })
 
 peakFileRouter.get('/:id', PeakFileController.getById)
 peakFileRouter.post('/', fileUpload.single('file'), PeakFileController.create)
+peakFileRouter.post('/existing', PeakFileController.createExisting)
 peakFileRouter.delete('/:id', PeakFileController.deleteById)
 
 export default peakFileRouter

@@ -8,3 +8,12 @@ export interface PeakFile {
   url: string
   createdBy: UserLabeled
 }
+
+export type PeakFileCreate = {
+  name: string
+  contentType: string
+  source: PeakFileSource
+  identifier: string
+}
+
+export type PeakFileSource = 'S3_BUCKET' | 'GENERIC_URL'

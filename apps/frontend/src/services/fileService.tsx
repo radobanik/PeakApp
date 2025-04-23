@@ -1,9 +1,8 @@
 import { API } from '@/constants/api'
 import { api } from '.'
-import { PeakFile } from '@/types/fileTypes'
+import { PeakFile, PeakFileCreate } from '@/types/fileTypes'
 
 const createFile = async (file: File): Promise<PeakFile> => {
-  console.log('file', file)
   const formData = new FormData()
   formData.append('file', file)
 
@@ -12,6 +11,11 @@ const createFile = async (file: File): Promise<PeakFile> => {
       'Content-Type': 'multipart/form-data',
     },
   })
+  return response.data
+}
+
+const createExistingFile = async (peakFile: PeakFileCreate): Promise<PeakFile> => {
+  const response = await api.post(API.PEAK_FILE.CREATE_EXISTING(), peakFile)
   return response.data
 }
 
@@ -24,4 +28,4 @@ const deleteFile = async (id: string) => {
   await api.delete(API.PEAK_FILE.DELETE(id))
 }
 
-export { createFile, getFile, deleteFile }
+export { createFile, getFile, deleteFile, createExistingFile }

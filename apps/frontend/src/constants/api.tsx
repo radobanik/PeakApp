@@ -29,6 +29,7 @@ export const API = {
   PEAK_FILE: {
     BY_ID: (id: string) => `${API_BASE_URL}/peak-file/${id}`,
     CREATE: () => `${API_BASE_URL}/peak-file`,
+    CREATE_EXISTING: () => `${API_BASE_URL}/peak-file/existing`,
     DELETE: (id: string) => `${API_BASE_URL}/peak-file/${id}`,
   },
 }
