@@ -47,7 +47,7 @@ export default function App() {
             <Route path={ROUTE.HOME} element={privateRoute(<HomePage />)} />
             <Route path={ROUTE.DIARY} element={privateRoute(<DiaryPage />)} />
             <Route path={ROUTE.DETAIL} element={privateRoute(<RouteDetailPage />)} />
-            <Route path="/submit" element={privateRoute(<SubmitPage />)} />
+            <Route path={ROUTE.SUBMIT} element={privateRoute(<SubmitPage />)} />
           </Route>
         </Routes>
 
