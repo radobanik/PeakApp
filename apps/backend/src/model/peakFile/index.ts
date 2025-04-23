@@ -1,5 +1,6 @@
 import { PeakFile, selector as peakFileSelector } from './peakFile'
-import { PeakFileCreate, validate as peakCreateValidate } from './peakFileCreate'
+import { PeakFileCreate } from './peakFileCreate'
+import { PeakFileDetail, toPeakFileDetail } from './peakFileDetail'
 
-export type { PeakFile, PeakFileCreate }
-export { peakFileSelector, peakCreateValidate }
+export type { PeakFile, PeakFileCreate, PeakFileDetail }
+export { peakFileSelector, toPeakFileDetail }

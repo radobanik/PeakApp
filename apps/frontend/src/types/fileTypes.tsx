@@ -5,6 +5,6 @@ export interface PeakFile {
   createdAt: Date
   name: string
   contentType: string
-  path: string
+  url: string
   createdBy: UserLabeled
 }

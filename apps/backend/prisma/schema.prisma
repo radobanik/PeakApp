@@ -49,7 +49,7 @@ model PeakFile {
   createdAt   DateTime @default(now())
   name        String
   contentType String
-  path        String
+  externalId  String
 
   createdById String
   createdBy   User   @relation(fields: [createdById], references: [id])

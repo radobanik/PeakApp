@@ -11,7 +11,7 @@ export interface RouteAndReviews extends RouteDetailBaseProps {
 }
 
 export const RouteDetailWithComments: FC<RouteAndReviews> = (routeAndReviews: RouteAndReviews) => {
-  const imageUrl = routeAndReviews.image?.path ?? NoBoulderPhoto
+  const imageUrl = routeAndReviews.image?.url ?? NoBoulderPhoto
   return (
     <div className="flex flex-col w-full h-full">
       {/* Image */}

@@ -26,4 +26,9 @@ export const API = {
     DELETE: `${API_BASE_URL}/session/`,
   },
   CLIMBING_OBJECT: `${API_BASE_URL}/climbing-object`,
+  PEAK_FILE: {
+    BY_ID: (id: string) => `${API_BASE_URL}/peak-file/${id}`,
+    CREATE: () => `${API_BASE_URL}/peak-file`,
+    DELETE: (id: string) => `${API_BASE_URL}/peak-file/${id}`,
+  },
 }

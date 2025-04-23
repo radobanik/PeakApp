@@ -6,8 +6,8 @@ type PeakFile = {
   createdAt: Date
   name: string
   contentType: string
-  path: string
   createdBy: UserLabeled
+  externalId: string
 }
 
 const selector = {
@@ -15,7 +15,7 @@ const selector = {
   createdAt: true,
   name: true,
   contentType: true,
-  path: true,
+  externalId: true,
   createdBy: {
     select: userLabeledSelector,
   },
