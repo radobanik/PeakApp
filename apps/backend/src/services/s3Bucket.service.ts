@@ -8,17 +8,13 @@ import config from '../core/config'
 import { randomUUID } from 'crypto'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 
-const bucketName = config.awsS3Bucket.bucketName as string
-const region = config.awsS3Bucket.region as string
-const accessKey = config.awsS3Bucket.accessKey as string
-const secretAccessKey = config.awsS3Bucket.secretAccessKey as string
-const signedUrlExpirationSeconds = parseInt(config.awsS3Bucket.signedUrlExpirationSeconds as string)
+const bucketName = config.AWS_S3_BUCKET.BUCKET_NAME
 
 const s3Client = new S3Client({
-  region,
+  region: config.AWS_S3_BUCKET.REGION,
   credentials: {
-    accessKeyId: accessKey,
-    secretAccessKey,
+    accessKeyId: config.AWS_S3_BUCKET.ACCESS_KEY,
+    secretAccessKey: config.AWS_S3_BUCKET.SECRET_ACCESS_KEY,
   },
 })
 
@@ -39,7 +35,7 @@ const uploadFile = async (file: Express.Multer.File): Promise<string> => {
 
 const getSignedS3Url = async (uuid: string): Promise<string> => {
   return await getSignedUrl(s3Client, new GetObjectCommand({ Bucket: bucketName, Key: uuid }), {
-    expiresIn: signedUrlExpirationSeconds,
+    expiresIn: config.AWS_S3_BUCKET.SIGNED_URL_EXPIRATION_SECONDS,
   })
 }
 

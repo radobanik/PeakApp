@@ -48,7 +48,7 @@ const defaultUserListParams = (params: IncommingUserListParams): NonNullUserList
     firstName: firstName || '',
     lastName: lastName || '',
     email: email || '',
-    ...toNotNullListParams(listParams, config.listLimit.user),
+    ...toNotNullListParams(listParams, config.LIST_LIMIT.USER),
   }
 }
 

@@ -14,7 +14,7 @@ import config from '../core/config'
 
 const getAllUnassigned = async (req: Request, res: Response) => {
   const params = req.query as unknown as IncommingListParams
-  const normalizedParams: NonNullListParams = toNotNullListParams(params, config.listLimit.default)
+  const normalizedParams: NonNullListParams = toNotNullListParams(params, config.LIST_LIMIT.DEFAULT)
   const requestUser = provideUserRefFromToken(req)
   if (requestUser === null) {
     res.status(HTTP_STATUS.UNAUTHORIZED_401)

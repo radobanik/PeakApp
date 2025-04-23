@@ -31,21 +31,23 @@ if (error) {
 }
 
 export default {
-  port: envVars.PORT,
-  environment: envVars.ENVIRONMENT,
-  apiPrefix: envVars.API_PREFIX,
-  databaseUrl: envVars.DB_URL,
-  listLimit: {
-    default: envVars.DEFAULT_LIST_LIMIT,
-    user: envVars.USER_LIST_LIMIT || envVars.DEFAULT_LIST_LIMIT,
-    route: envVars.ROUTE_LIST_LIMIT || envVars.DEFAULT_LIST_LIMIT,
+  PORT: envVars.PORT,
+  ENVIRONMENT: envVars.ENVIRONMENT,
+  API_PREFIX: envVars.API_PREFIX,
+  DATABASE_URL: envVars.DB_URL,
+  LIST_LIMIT: {
+    DEFAULT: envVars.DEFAULT_LIST_LIMIT,
+    USER: envVars.USER_LIST_LIMIT || envVars.DEFAULT_LIST_LIMIT,
+    ROUTE: envVars.ROUTE_LIST_LIMIT || envVars.DEFAULT_LIST_LIMIT,
   },
-  awsS3Bucket: {
-    bucketName: process.env.AWS_S3_BUCKET_NAME,
-    accessKey: process.env.AWS_S3_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
-    region: process.env.AWS_S3_REGION,
-    signedUrlExpirationSeconds: process.env.AWS_S3_SIGNED_URL_EXPIRATION_SECONDS,
-    maxFileSize: process.env.AWS_S3_MAX_FILE_SIZE,
+  AWS_S3_BUCKET: {
+    BUCKET_NAME: process.env.AWS_S3_BUCKET_NAME as string,
+    ACCESS_KEY: process.env.AWS_S3_ACCESS_KEY as string,
+    SECRET_ACCESS_KEY: process.env.AWS_S3_SECRET_ACCESS_KEY as string,
+    REGION: process.env.AWS_S3_REGION as string,
+    SIGNED_URL_EXPIRATION_SECONDS: parseInt(
+      process.env.AWS_S3_SIGNED_URL_EXPIRATION_SECONDS as string
+    ),
+    MAX_FILE_SIZE: parseInt(process.env.AWS_S3_MAX_FILE_SIZE as string),
   },
 }

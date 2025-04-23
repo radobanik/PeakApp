@@ -4,7 +4,7 @@ import config from '../core/config'
 
 const mainRouter = Router()
 
-const apiPrefix = config.apiPrefix
+const apiPrefix = config.API_PREFIX
 mainRouter.use(`${apiPrefix}/v1`, v1Router)
 
 export { mainRouter }

@@ -33,11 +33,11 @@ const swaggerSpec = swaggerJSDoc({
   apis: [path.resolve(__dirname, 'routes/v1/*.ts')],
   servers: [
     {
-      url: `${config.apiPrefix}/v1`,
+      url: `${config.API_PREFIX}/v1`,
     },
   ],
 })
-app.use(`${config.apiPrefix}/v1/api-docs`, swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+app.use(`${config.API_PREFIX}/v1/api-docs`, swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 // TODO app.use() for configs
 app.use(mainRouter)

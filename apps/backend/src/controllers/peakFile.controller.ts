@@ -7,8 +7,6 @@ import config from '../core/config'
 import { provideUserRefFromToken, returnUnauthorized } from '../auth/authUtils'
 import requestValidator from '../model/common/validator'
 
-const maxFileSize = parseInt(config.awsS3Bucket.maxFileSize as string)
-
 const getById = async (req: Request, res: Response) => {
   const fileId = req.params.id
   const peakFile = await PeakFileRepository.getById(fileId)
@@ -47,6 +45,7 @@ const create = async (req: Request, res: Response) => {
     return
   }
 
+  const maxFileSize = config.AWS_S3_BUCKET.MAX_FILE_SIZE
   if (file.size > maxFileSize) {
     res
       .status(HTTP_STATUS.BAD_REQUEST_400)
