@@ -1,6 +1,6 @@
-import { PeakFile, peakFileSelector } from '../peakFile'
 import { ActivityDetail, activityDetailSelector } from '../activity'
 import { UserLabeled, userLabeledSelector } from '../user'
+import { RefObject, refObjectSelector } from '../common/refObject'
 
 type SessionDetail = {
   id: string
@@ -11,7 +11,7 @@ type SessionDetail = {
   note: string
 
   assignedActivities: ActivityDetail[]
-  photos: PeakFile[]
+  photos: RefObject[]
 }
 
 const selector = {
@@ -30,7 +30,7 @@ const selector = {
   photos: {
     select: {
       peakFile: {
-        select: peakFileSelector,
+        select: refObjectSelector,
       },
     },
   },

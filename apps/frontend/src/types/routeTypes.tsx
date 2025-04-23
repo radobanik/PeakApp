@@ -1,7 +1,7 @@
-import { PeakFile } from './fileTypes'
 import { UserLabeled } from './authTypes'
 import { GradeDetail } from './gradeTypes'
 import { ClimbingObjectNoRoutes } from './climbingObjectTypes'
+import { RefObject } from './refObject'
 
 export interface OverlayPoint {
   relX: number
@@ -30,8 +30,8 @@ export interface RouteDetail {
   longitude: number
   latitude: number
 
-  image: PeakFile | null
-  additionalImages: PeakFile[]
+  image: RefObject | null
+  additionalImages: RefObject[]
   overlay: OverlayPoint[]
 
   climbingObject: ClimbingObjectNoRoutes

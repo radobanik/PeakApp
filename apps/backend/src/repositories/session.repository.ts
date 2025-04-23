@@ -1,4 +1,4 @@
-import { PeakFile, PrismaClient, User } from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 import { createListResponse, ListResponse } from '../model/common/listResponse'
 import { toConnector, xToManyCreator, xToManyUpdater } from './utils/connector'
 import { RefObject } from '../model/common/refObject'
@@ -16,9 +16,7 @@ const peakFileConnector = (image: RefObject) => ({ peakFile: toConnector(image) 
 
 type SessionDetailDeepImage = {
   photos: {
-    peakFile: PeakFile & {
-      createdBy: User
-    }
+    peakFile: RefObject
   }[]
 } & SessionDetail
 
