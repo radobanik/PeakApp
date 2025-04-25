@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,13 +10,11 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { SidebarLayout } from './SideBarLayout'
-import UserSettings from './UserSettings'
-import { Outlet } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
 
 const settingsNav = [
   {
-    title: 'Getting Started',
+    title: 'Main',
     url: '#',
     items: [
       { title: 'User', url: ROUTE.SETTINGS_USER },
@@ -35,8 +33,20 @@ const settingsNav = [
 ]
 
 export function SettingsLayout() {
-  console.log('Settings component rendered')
-  const [ActiveComponent, setActiveComponent] = useState<React.ComponentType | null>(null)
+  const location = useLocation()
+
+  const getTitleFromRoute = () => {
+    for (const section of settingsNav) {
+      for (const item of section.items || []) {
+        if (item.url === location.pathname) {
+          return item.title
+        }
+      }
+    }
+    return 'Select a View'
+  }
+
+  const selectedOption = getTitleFromRoute()
 
   return (
     <SidebarProvider
@@ -46,27 +56,24 @@ export function SettingsLayout() {
         } as React.CSSProperties
       }
     >
-      <SidebarLayout
-        logoTitle="Settings"
-        sections={settingsNav}
-        onOptionClick={(component: () => React.ComponentType) => setActiveComponent(component)}
-        className="mt-16"
-      />
+      <SidebarLayout logoTitle="PeakApp Navigation" sections={settingsNav} className="mt-14" />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 px-4">
-          <SidebarTrigger className="-ml-1" />
-          <Separator orientation="vertical" className="mr-2 h-4" />
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="#">Settings</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem>
-                <BreadcrumbPage>{ActiveComponent?.name || 'Select a View'}</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
+        <header className="flex h-16 shrink-0 items-center gap-2 border-b">
+          <div className="flex items-center gap-2 px-3">
+            <SidebarTrigger />
+            <Separator orientation="vertical" className="mr-2 h-4" />
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem className="hidden md:block">
+                  <BreadcrumbLink href="#">Settings</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="hidden md:block" />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>{selectedOption}</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <Outlet />

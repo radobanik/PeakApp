@@ -1,4 +1,3 @@
-import { ComponentType } from 'react'
 import {
   Sidebar,
   SidebarContent,
@@ -11,6 +10,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar'
+import { Title } from '@radix-ui/react-dialog'
 
 type SidebarItem = {
   title: string
@@ -30,20 +30,15 @@ export type SidebarLayoutProps = {
   sections: SidebarSection[]
 } & React.ComponentProps<typeof Sidebar>
 
-export function SidebarLayout({
-  logoTitle,
-  sections,
-  onOptionClick,
-  ...props
-}: SidebarLayoutProps & { onOptionClick: (component: () => ComponentType) => void }) {
+export function SidebarLayout({ logoTitle, sections, ...props }: SidebarLayoutProps) {
   return (
-    <Sidebar variant="floating" {...props}>
+    <Sidebar variant="sidebar" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <a href="#">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                <div className="flex flex-col gap-0.5 leading-none">
                   <span className="font-semibold">{logoTitle}</span>
                 </div>
               </a>
@@ -62,11 +57,11 @@ export function SidebarLayout({
                   </a>
                 </SidebarMenuButton>
                 {section.items?.length ? (
-                  <SidebarMenuSub className="ml-0 border-l-0 px-1.5">
-                    {section.items.map((item) => (
-                      <SidebarMenuSubItem key={item.title}>
-                        <SidebarMenuSubButton asChild isActive={item.isActive}>
-                          <a href={item.url}>{item.title}</a>
+                  <SidebarMenuSub className="ml-4 border-l-2 border-sidebar-border pl-2">
+                    {section.items.map((subItem) => (
+                      <SidebarMenuSubItem key={subItem.title}>
+                        <SidebarMenuSubButton asChild isActive={subItem.isActive}>
+                          <a href={subItem.url}>{subItem.title}</a>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                     ))}
