@@ -7,6 +7,7 @@ import { privateRoute } from '@/routing/privateRoute'
 import { publicRoute } from '@/routing/publicRoute'
 import { Toaster } from '@/components/ui/sonner'
 import RouteDetailPage from './pages/RouteDetailPage'
+import SettingsPage from './pages/SettingsPage'
 import DiaryPage from './pages/DiaryPage'
 import ActivitiesPage from './pages/ActivitiesPage'
 import SessionsPage from './pages/SessionsPage'
@@ -64,6 +65,7 @@ export default function App() {
               <Route path={ROUTE.SESSIONS + '/:id'} element={privateRoute(<SessionDetailPage />)} />
               <Route path={ROUTE.DETAIL} element={privateRoute(<RouteDetailPage />)} />
               <Route path={ROUTE.SUBMIT} element={privateRoute(<SubmitPage />)} />
+              <Route path={ROUTE.SETTINGS} element={privateRoute(<SettingsPage />)} />
             </Route>
           </Routes>
 
