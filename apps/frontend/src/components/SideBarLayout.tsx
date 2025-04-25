@@ -16,7 +16,6 @@ type SidebarItem = {
   title: string
   url: string
   isActive?: boolean
-  // component: () => ComponentType
 }
 
 type SidebarSection = {
@@ -66,11 +65,7 @@ export function SidebarLayout({
                   <SidebarMenuSub className="ml-0 border-l-0 px-1.5">
                     {section.items.map((item) => (
                       <SidebarMenuSubItem key={item.title}>
-                        <SidebarMenuSubButton
-                          asChild
-                          isActive={item.isActive}
-                          onClick={() => onOptionClick(item.component || null)}
-                        >
+                        <SidebarMenuSubButton asChild isActive={item.isActive}>
                           <a href={item.url}>{item.title}</a>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>

@@ -1,6 +1,5 @@
-import { SettingsLayout } from '@/components/Settings'
+import { SettingsLayout } from '@/components/SettingsLayout'
 
 export default function Page() {
-  console.log('Settings component rendered')
   return <SettingsLayout />
 }

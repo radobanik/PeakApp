@@ -19,7 +19,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import SubmitPage from './pages/SubmitPage'
 import { createContext, useEffect, useState } from 'react'
 import PageFrame from './components/PageFrame'
-import { SettingsLayout } from './components/Settings'
+import { SettingsLayout } from './components/SettingsLayout'
 import UserSettings from './components/UserSettings'
 
 type ViewportContextType = {
