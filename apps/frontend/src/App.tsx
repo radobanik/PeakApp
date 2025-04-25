@@ -21,6 +21,7 @@ import { createContext, useEffect, useState } from 'react'
 import PageFrame from './components/PageFrame'
 import { SettingsLayout } from './components/SettingsLayout'
 import UserSettings from './components/UserSettings'
+import RoutePage from './pages/RoutesPage'
 
 type ViewportContextType = {
   isMobile: boolean
@@ -71,7 +72,7 @@ export default function App() {
   
             <Route path={'settings'} element={privateRoute(<SettingsLayout />)}>
               <Route path={ROUTE.SETTINGS_USER} element={privateRoute(<UserSettings />)} />
-              <Route path={'routes'} element={privateRoute(<RouteDetailPage />)} />
+              <Route path={ROUTE.SETTINGS_ROUTES} element={privateRoute(<RoutePage />)} />
               <Route path={ROUTE.SETTINGS_NOTIFICATIONS} element={privateRoute(<HomePage />)} />
             </Route>
           </Route>
