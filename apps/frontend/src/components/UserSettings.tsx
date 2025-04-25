@@ -125,7 +125,7 @@ export default function UserSettings() {
                 <Label htmlFor="description">Community Description</Label>
                 <Textarea
                   id="description"
-                  className="min-h-[80px] sm:min-h-[120px]"
+                  className="min-h-[80px] sm:min-h-[105px]"
                   placeholder="Tell others about your community involvement or interests..."
                   rows={4}
                   {...register('description', { required: true })}
