@@ -16,7 +16,7 @@ type SidebarItem = {
   title: string
   url: string
   isActive?: boolean
-  component: () => ComponentType
+  // component: () => ComponentType
 }
 
 type SidebarSection = {

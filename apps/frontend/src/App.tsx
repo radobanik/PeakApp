@@ -19,6 +19,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import SubmitPage from './pages/SubmitPage'
 import { createContext, useEffect, useState } from 'react'
 import PageFrame from './components/PageFrame'
+import { SettingsLayout } from './components/Settings'
+import UserSettings from './components/UserSettings'
 
 type ViewportContextType = {
   isMobile: boolean
@@ -66,7 +68,13 @@ export default function App() {
               <Route path={ROUTE.DETAIL} element={privateRoute(<RouteDetailPage />)} />
               <Route path={ROUTE.SUBMIT} element={privateRoute(<SubmitPage />)} />
               <Route path={ROUTE.SETTINGS} element={privateRoute(<SettingsPage />)} />
+  
+            <Route path={'settings'} element={privateRoute(<SettingsLayout />)}>
+              <Route path={ROUTE.SETTINGS_USER} element={privateRoute(<UserSettings />)} />
+              <Route path={'routes'} element={privateRoute(<RouteDetailPage />)} />
+              <Route path={ROUTE.SETTINGS_NOTIFICATIONS} element={privateRoute(<HomePage />)} />
             </Route>
+          </Route>
           </Routes>
 
           {/* Toast notifications */}

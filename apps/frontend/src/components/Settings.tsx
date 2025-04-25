@@ -11,28 +11,30 @@ import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { SidebarLayout } from './SideBarLayout'
 import UserSettings from './UserSettings'
+import { Outlet } from 'react-router-dom'
+import { ROUTE } from '@/constants/routes'
 
 const settingsNav = [
   {
     title: 'Getting Started',
     url: '#',
     items: [
-      { title: 'User', url: '#user', component: () => UserSettings },
-      { title: 'Routes', url: '#', component: () => UserSettings },
+      { title: 'User', url: ROUTE.SETTINGS_USER },
+      { title: 'Routes', url: ROUTE.SETTINGS_ROUTES },
     ],
   },
   {
     title: 'Obdobne',
     url: '#',
     items: [
-      { title: 'Dalsie', url: '#', component: () => UserSettings },
-      { title: 'Picoviny', url: '#', component: () => UserSettings },
-      { title: 'SMH', url: '#', component: () => UserSettings },
+      { title: 'Dalsie', url: '#' },
+      { title: 'Picoviny', url: '#' },
+      { title: 'SMH', url: '#' },
     ],
   },
 ]
 
-export function Settings() {
+export function SettingsLayout() {
   console.log('Settings component rendered')
   const [ActiveComponent, setActiveComponent] = useState<React.ComponentType | null>(null)
 
@@ -67,11 +69,7 @@ export function Settings() {
           </Breadcrumb>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          {ActiveComponent ? (
-            <ActiveComponent />
-          ) : (
-            <div className="text-muted-foreground">Select a view</div>
-          )}
+          <Outlet />
         </div>
       </SidebarInset>
     </SidebarProvider>

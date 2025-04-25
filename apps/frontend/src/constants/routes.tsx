@@ -11,4 +11,8 @@ export const ROUTE = {
   SETTINGS: '/settings',
 
   COMMUNITY: '/community',
+
+  SETTINGS_USER: '/settings/user',
+  SETTINGS_ROUTES: '/settings/routes',
+  SETTINGS_NOTIFICATIONS: '/settings/notifications',
 }
