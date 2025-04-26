@@ -11,6 +11,7 @@ import DiaryPage from './pages/DiaryPage'
 import ActivitiesPage from './pages/ActivitiesPage'
 import SessionsPage from './pages/SessionsPage'
 import ActivityDetailsPage from './pages/ActivityDetailPage'
+import SessionDetailPage from './pages/SessionDetailPage'
 
 import { Query, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
@@ -52,6 +53,7 @@ export default function App() {
           <Route path={ROUTE.ACTIVITIES} element={privateRoute(<ActivitiesPage />)} />
           <Route path={ROUTE.ACTIVITIES + '/:id'} element={privateRoute(<ActivityDetailsPage />)} />
           <Route path={ROUTE.SESSIONS} element={privateRoute(<SessionsPage />)} />
+          <Route path={ROUTE.SESSIONS + '/:id'} element={privateRoute(<SessionDetailPage />)} />
           <Route path="/detail" element={privateRoute(<RouteDetailPage />)} />
         </Routes>
       <ViewportContext.Provider value={{ isMobile }}>

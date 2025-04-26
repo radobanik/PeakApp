@@ -1,5 +1,18 @@
-import { ActivityDetail, activityDetailSelector } from '../activity'
+import { Difficulty } from '@prisma/client'
+import { RouteList, routeListSelector } from '../route'
 import { UserLabeled, userLabeledSelector } from '../user'
+
+type ActivityList = {
+  id: string
+
+  climbedAt: Date
+  numOfAttempts: number
+  perceivedDifficulty: Difficulty
+  notes: string
+  topped: boolean
+
+  route: RouteList
+}
 
 type SessionList = {
   id: string
@@ -9,7 +22,7 @@ type SessionList = {
 
   note: string
 
-  assignedActivities: ActivityDetail[]
+  assignedActivities: ActivityList[]
 }
 
 const selector = {
@@ -23,7 +36,19 @@ const selector = {
   note: true,
 
   assignedActivities: {
-    select: activityDetailSelector,
+    select: {
+      id: true,
+
+      climbedAt: true,
+      numOfAttempts: true,
+      perceivedDifficulty: true,
+      notes: true,
+      topped: true,
+
+      route: {
+        select: routeListSelector,
+      },
+    },
   },
 }
 
