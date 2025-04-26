@@ -14,6 +14,9 @@ type ScrollTableProps =
     }
 
 const ScrollTable = ({ entries, Component }: ScrollTableProps) => {
+  if (entries.length === 0) {
+    return <div className="flex justify-center p-4">No entries available</div>
+  }
   return (
     <div>
       {entries.map((entry) => (
