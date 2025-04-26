@@ -5,16 +5,8 @@ import { ActivityCreate, activityCreateValidate, activityUpdateValidate } from '
 import requestValidator from '../model/common/validator'
 import { ActivityUpdate } from '../model/activity/activityUpdate'
 import { provideUserRefFromToken, returnUnauthorized } from '../auth/authUtils'
-import {
-  IncommingListParams,
-  NonNullListParams,
-  toNotNullListParams,
-} from '../model/common/listParams'
-import config from '../core/config'
 
 const getAllUnassigned = async (req: Request, res: Response) => {
-  const params = req.query as unknown as IncommingListParams
-  const normalizedParams: NonNullListParams = toNotNullListParams(params, config.LIST_LIMIT.DEFAULT)
   const requestUser = provideUserRefFromToken(req)
   if (requestUser === null) {
     res.status(HTTP_STATUS.UNAUTHORIZED_401)
