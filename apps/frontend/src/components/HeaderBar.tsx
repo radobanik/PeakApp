@@ -6,6 +6,7 @@ import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
 import diddyPfp from '@/assets/diddy.webp'
 
 function HeaderBar() {
+
   return (
     <div className="flex justify-start w-full h-14 px-3 py-1 border-b-2 border-gray-300 bg-background-menu">
       <Link to={ROUTE.HOME} className="flex items-center h-full">
