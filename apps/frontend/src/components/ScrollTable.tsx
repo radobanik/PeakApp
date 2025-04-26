@@ -1,11 +1,11 @@
 import { FC } from 'react'
 import { ActivityTableEntryProps } from './ActivityTableEntry'
-import { activityEntry, SessionEntry } from '@/pages/DiaryPage'
+import { ActivityEntry, SessionEntry } from '@/pages/DiaryPage'
 import { SessionTableEntryProps } from './SessionTableEntry'
 
 type ScrollTableProps =
   | {
-      entries: activityEntry[]
+      entries: ActivityEntry[]
       Component: FC<ActivityTableEntryProps>
     }
   | {

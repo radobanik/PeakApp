@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { ClimbingStructureType } from '@/types/routeTypes'
 import { ROUTE } from '@/constants/routes'
 
-export type activityEntry = {
+export type ActivityEntry = {
   id: string
   climbedAt: Date
   routeName: string

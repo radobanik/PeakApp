@@ -1,18 +1,17 @@
 import toppedIcon from '@/assets/toppedIcon.png'
 import noBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
 import { FC } from 'react'
-import { activityEntry } from '@/pages/DiaryPage'
+import { ActivityEntry } from '@/pages/DiaryPage'
 import { useNavigate } from 'react-router-dom'
 
 export type ActivityTableEntryProps = {
-  entry: activityEntry
+  entry: ActivityEntry
 }
 
 const ActivityTableEntry: FC<ActivityTableEntryProps> = ({ entry }: ActivityTableEntryProps) => {
   const date = new Date(entry.climbedAt).toLocaleDateString()
   const isSingleAttempt = entry.numOfAttempts === 1
   const attemptsString = `${entry.numOfAttempts} attempt${isSingleAttempt ? '' : 's'}`
-
 
   const navigation = useNavigate()
   const navigateToActivity = () => {
