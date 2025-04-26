@@ -30,6 +30,7 @@ export function DataTable<TData, TValue>({ columns, data, setter }: DataTablePro
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   })
+  console.log('received activities', data)
 
   return (
     <div>

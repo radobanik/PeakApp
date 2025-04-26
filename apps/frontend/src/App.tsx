@@ -8,6 +8,8 @@ import { publicRoute } from '@/routing/publicRoute'
 import { Toaster } from '@/components/ui/sonner'
 import RouteDetailPage from './pages/RouteDetailPage'
 import DiaryPage from './pages/DiaryPage'
+import { Query, QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
 import SubmitPage from './pages/SubmitPage'
 import { createContext, useEffect, useState } from 'react'
 import PageFrame from './components/PageFrame'
@@ -16,6 +18,7 @@ type ViewportContextType = {
   isMobile: boolean
 }
 
+const queryClient = new QueryClient()
 export const ViewportContext = createContext<ViewportContextType>({ isMobile: true })
 
 export default function App() {
@@ -35,24 +38,27 @@ export default function App() {
   }, [])
 
   return (
-    <ViewportContext.Provider value={{ isMobile }}>
-      <BrowserRouter>
-        <Routes>
-          {/* Public routes */}
-          <Route path={ROUTE.LOGIN} element={publicRoute(<LoginPage />)} />
-          <Route path={ROUTE.REGISTER} element={publicRoute(<RegisterPage />)} />
+    <QueryClientProvider client={queryClient}>
+      <ViewportContext.Provider value={{ isMobile }}>
+        <BrowserRouter>
+          <Routes>
+            {/* Public routes */}
+            <Route path={ROUTE.LOGIN} element={publicRoute(<LoginPage />)} />
+            <Route path={ROUTE.REGISTER} element={publicRoute(<RegisterPage />)} />
 
-          {/* Private routes */}
-          <Route element={<PageFrame />}>
-            <Route path={ROUTE.HOME} element={privateRoute(<HomePage />)} />
-            <Route path={ROUTE.DIARY} element={privateRoute(<DiaryPage />)} />
-            <Route path={ROUTE.DETAIL} element={privateRoute(<RouteDetailPage />)} />
-            <Route path={ROUTE.SUBMIT} element={privateRoute(<SubmitPage />)} />
-          </Route>
-        </Routes>
+            {/* Private routes */}
+            <Route element={<PageFrame />}>
+              <Route path={ROUTE.HOME} element={privateRoute(<HomePage />)} />
+              <Route path={ROUTE.DIARY} element={privateRoute(<DiaryPage />)} />
+              <Route path={ROUTE.DETAIL} element={privateRoute(<RouteDetailPage />)} />
+              <Route path={ROUTE.SUBMIT} element={privateRoute(<SubmitPage />)} />
+            </Route>
+          </Routes>
 
-        <Toaster position="top-center" />
-      </BrowserRouter>
-    </ViewportContext.Provider>
+          {/* Toast notifications */}
+          <Toaster position="top-center" />
+        </BrowserRouter>
+      </ViewportContext.Provider>
+    </QueryClientProvider>
   )
 }
