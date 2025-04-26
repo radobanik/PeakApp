@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import { formatDistanceToNowStrict } from 'date-fns'
+import { ClimbingStructureType } from '@/types/routeTypes'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -40,4 +41,10 @@ export function formatTimeAgoShort(date: Date): string {
 
   // fallback
   return '-'
+}
+
+export function routeTypeToString(value: ClimbingStructureType | undefined): string {
+  if (!value) return ''
+  const lowercase = value.toLowerCase()
+  return lowercase.charAt(0).toUpperCase() + lowercase.slice(1)
 }

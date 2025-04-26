@@ -1,0 +1,135 @@
+import HeaderBar from '@/components/HeaderBar'
+import { getActivityById } from '@/services/activityService'
+import { useQuery } from '@tanstack/react-query'
+import { useParams } from 'react-router-dom'
+import threeDots from '@/assets/ThreeDots.png'
+import noBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
+import BackButon from '@/components/BackButton'
+import { routeTypeToString } from '@/lib/utils'
+import { format } from 'date-fns'
+import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Textarea } from '@/components/ui/textarea'
+
+export default function ActivityDetailsPage() {
+  const { id } = useParams<{ id: string }>()
+
+  if (!id) {
+    throw new Error('Activity ID is required')
+  }
+
+  const activityQuery = useQuery({
+    queryKey: [id],
+    queryFn: async () => getActivityById(id),
+    select: (data) => ({
+      id: data.id,
+      climbedAt: data.climbedAt,
+      routeName: data.route.name,
+      routeGrade: data.route.grade.name,
+      routeType: data.route.climbingStructureType,
+      perceivedDifficulty: data.perceivedDifficulty,
+      numOfAttempts: data.numOfAttempts,
+      topped: data.topped,
+      notes: data.notes,
+    }),
+  })
+
+  return (
+    <div className="flex flex-col gap-4">
+      <HeaderBar />
+      <div>
+        <div className="flex flex-row justify-between p-4">
+          <BackButon backRoute={'/activities'} />
+          <img src={threeDots} />
+        </div>
+        <div className="flex flex-col gap-4 p-1">
+          <div className="relative mx-auto w-fit">
+            <img
+              src={noBoulderPhoto}
+              className="block rounded-md max-h-[30vh] max-w-[100vw] object-contain"
+              alt="Route"
+            />
+            <div className="absolute bottom-1 left-1 text-2xl">
+              {activityQuery.isLoading && <div>Loading...</div>}
+              {activityQuery.isError && <div>Error: {activityQuery.error.message}</div>}
+              <p>{activityQuery.data?.routeName}</p>
+            </div>
+            <div className="absolute bottom-1 right-1 flex flex-col justify-between items-center">
+              <p>{activityQuery.data?.routeGrade.toUpperCase()}</p>
+              <p>{routeTypeToString(activityQuery.data?.routeType)}</p>
+            </div>
+          </div>
+
+          <div className="flex flex-row justify-between p-4">
+            <div>
+              {activityQuery.isSuccess && (
+                <p>{format(activityQuery.data?.climbedAt, 'd. MM. y')}</p>
+              )}
+              {activityQuery.isSuccess && <p>{format(activityQuery.data?.climbedAt, 'HH:mm')}</p>}
+            </div>
+            <div className="flex flex-row gap-2 items-center">
+              <label htmlFor="topped">Topped: </label>
+              <Input type="checkbox" id="topped" disabled checked={activityQuery.data?.topped} />
+            </div>
+          </div>
+
+          <div className="flex flex-row justify-between p-4 ">
+            <div>
+              <label htmlFor="">Perceived Difficulty</label>
+              {activityQuery.isLoading && <div>Loading...</div>}
+              {activityQuery.isSuccess && (
+                <Select defaultValue={activityQuery.data?.perceivedDifficulty}>
+                  <SelectTrigger className="w-[40vw]">
+                    <SelectValue placeholder="Select a Difficulty" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Difficulty</SelectLabel>
+                      <SelectItem value="EASY">Easy</SelectItem>
+                      <SelectItem value="MEDIUM">Medium</SelectItem>
+                      <SelectItem value="HARD">Hard</SelectItem>
+                      <SelectItem value="ULTRA_HARD">Ultra Hard</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              )}
+            </div>
+            <div className="flex flex-col items-center justify-end">
+              <label htmlFor="attempts">Number of Attempts </label>
+              {activityQuery.isLoading && <div>Loading...</div>}
+              {activityQuery.isSuccess && (
+                <Input
+                  type="number"
+                  id="attempts"
+                  disabled
+                  className="w-[40vw]"
+                  value={activityQuery.data?.numOfAttempts}
+                />
+              )}
+            </div>
+          </div>
+          <div className="p-4">
+            <label htmlFor="notes">Notes</label>
+            {activityQuery.isSuccess && (
+              <Textarea
+                disabled
+                id="notes"
+                placeholder="Write your Notes here..."
+                className="resize-none h-[15vh] w-full"
+                defaultValue={activityQuery.data.notes}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

@@ -13,11 +13,10 @@ export async function getActivities(): Promise<PaginatedResponse<Activity>> {
 }
 
 export async function getActivityById(id: string): Promise<Activity> {
-  try {
-    const response = await fetch(`${API.ACTIVITY.LIST}${id}`)
-    return response.json()
-  } catch (error) {
-    console.error('Error fetching activity by ID:', error)
+  const response = await api.get(`${API.ACTIVITY.LIST}${id}`)
+  if (response.status != 200) {
+    const error = new Error('Error')
     throw error
   }
+  return response.data
 }
