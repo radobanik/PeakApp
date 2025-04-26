@@ -9,6 +9,7 @@ import { Toaster } from '@/components/ui/sonner'
 import RouteDetailPage from './pages/RouteDetailPage'
 import DiaryPage from './pages/DiaryPage'
 import ActivitiesPage from './pages/ActivitiesPage'
+import SessionsPage from './pages/SessionsPage'
 
 import { Query, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
@@ -41,6 +42,16 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route path={ROUTE.LOGIN} element={publicRoute(<LoginPage />)} />
+          <Route path={ROUTE.REGISTER} element={publicRoute(<RegisterPage />)} />
+          <Route path={ROUTE.HOME} element={privateRoute(<HomePage />)} />
+          <Route path={ROUTE.DIARY} element={privateRoute(<DiaryPage />)} />
+          <Route path={ROUTE.ACTIVITIES} element={privateRoute(<ActivitiesPage />)} />
+          <Route path={ROUTE.SESSIONS} element={privateRoute(<SessionsPage />)} />
+          <Route path="/detail" element={privateRoute(<RouteDetailPage />)} />
+        </Routes>
       <ViewportContext.Provider value={{ isMobile }}>
         <BrowserRouter>
           <Routes>
@@ -53,6 +64,7 @@ export default function App() {
               <Route path={ROUTE.HOME} element={privateRoute(<HomePage />)} />
               <Route path={ROUTE.DIARY} element={privateRoute(<DiaryPage />)} />
               <Route path={ROUTE.ACTIVITIES} element={privateRoute(<ActivitiesPage />)} />
+              <Route path={ROUTE.SESSIONS} element={privateRoute(<SessionsPage />)} />
               <Route path={ROUTE.DETAIL} element={privateRoute(<RouteDetailPage />)} />
               <Route path={ROUTE.SUBMIT} element={privateRoute(<SubmitPage />)} />
             </Route>

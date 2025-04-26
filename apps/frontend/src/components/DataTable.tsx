@@ -9,7 +9,6 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination } from './ui/DataTablePagination'
-import { useNavigate } from 'react-router-dom'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -27,7 +26,6 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData extends { id: string }, TValue>({
   columns,
   data,
-  entityPath,
   pageCount,
   pagination,
 }: DataTableProps<TData, TValue>) {
@@ -53,8 +51,6 @@ export function DataTable<TData extends { id: string }, TValue>({
     getCoreRowModel: getCoreRowModel(),
   })
 
-  const navigate = useNavigate()
-
   return (
     <div className="rounded-md border text-white">
       <Table>
@@ -78,9 +74,6 @@ export function DataTable<TData extends { id: string }, TValue>({
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
-                onClick={() => {
-                  navigate(-1)
-                }}
                 className="even:bg-stone-600 odd:bg-stone-500 "
                 data-state={row.getIsSelected() && 'selected'}
               >

@@ -1,14 +1,8 @@
 import HeaderBar from '@/components/HeaderBar'
-import { ColumnDef } from '@tanstack/react-table'
-import { DataTable } from '@/components/DataTable'
-import { useState } from 'react'
-import { getActivities, getActivityById } from '@/services/activityService'
-import { getSessionById, getSessions } from '@/services/sessionService'
+import { getActivities } from '@/services/activityService'
 import { useQuery } from '@tanstack/react-query'
 
-import toppedIcon from '../assets/toppedIcon.png'
 import ActivityTableEntry from '@/components/ActivityTableEntry'
-import { ClimbingStructureType } from '@/types/routeTypes'
 import ScrollTable from '@/components/ScrollTable'
 
 export type activityEntry = {
@@ -54,15 +48,10 @@ export default function ActivitiesPage() {
         {activitiesQuery.isError && <div>Error: {activitiesQuery.error.message}</div>}
         {activitiesQuery.isSuccess && (
           <div className="flex-1 overflow-auto">
-            <ScrollTable activities={activitiesQuery.data.items} />
+            <ScrollTable entries={activitiesQuery.data.items} Component={ActivityTableEntry} />
           </div>
-          // <ActivityTableEntry activity={activitiesQuery.data!.items[0]} />
         )}
       </div>
     </main>
   )
-}
-
-function renderComponent() {
-  return <div>Henlo</div>
 }

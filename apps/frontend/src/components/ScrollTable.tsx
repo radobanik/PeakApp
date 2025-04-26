@@ -1,24 +1,23 @@
 import { FC } from 'react'
-import ActivityTableEntry from './ActivityTableEntry'
-import { ClimbingStructureType } from '@/types/routeTypes'
+import { ActivityTableEntryProps } from './ActivityTableEntry'
+import { activityEntry, SessionEntry } from '@/pages/DiaryPage'
+import { SessionTableEntryProps } from './SessionTableEntry'
 
-export type ActivitiesEntryProps = {
-  activities: {
-    id: string
-    climbedAt: Date
-    routeName: string
-    routeGrade: string
-    routeType: ClimbingStructureType
-    numOfAttempts: number
-    topped: boolean
-  }[]
-}
+type ScrollTableProps =
+  | {
+      entries: activityEntry[]
+      Component: FC<ActivityTableEntryProps>
+    }
+  | {
+      entries: SessionEntry[]
+      Component: FC<SessionTableEntryProps>
+    }
 
-const ScrollTable: FC<ActivitiesEntryProps> = (props: ActivitiesEntryProps) => {
+const ScrollTable = ({ entries, Component }: ScrollTableProps) => {
   return (
     <div>
-      {props.activities.map((activity) => (
-        <ActivityTableEntry key={activity.id} activity={activity} />
+      {entries.map((entry) => (
+        <Component key={entry.id} entry={entry} />
       ))}
     </div>
   )

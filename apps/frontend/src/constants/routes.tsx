@@ -4,6 +4,7 @@ export const ROUTE = {
   REGISTER: '/register',
   DIARY: '/diary',
   ACTIVITIES: '/activities',
+  SESSIONS: '/sessions',
 
   DETAIL: '/detail',
   SUBMIT: '/submit',
