@@ -5,23 +5,6 @@ import ScrollTable from '@/components/ScrollTable'
 import { getSessions } from '@/services/sessionService'
 import SessionTableEntry from '@/components/SessionTableEntry'
 
-export type activityEntry = {
-  id: string
-  climbedAt: Date
-  routeName: string
-  routeGrade: string
-  routeType: string
-  numOfAttempts: number
-  topped: boolean
-}
-
-export type SessionEntry = {
-  id: string
-  createdAt: Date
-  note: string
-  numberOfActivities: number
-}
-
 export default function ActivitiesPage() {
   const sessionsQuery = useQuery({
     queryKey: ['sessions'],

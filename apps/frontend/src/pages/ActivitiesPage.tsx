@@ -6,23 +6,6 @@ import ActivityTableEntry from '@/components/ActivityTableEntry'
 import ScrollTable from '@/components/ScrollTable'
 import { Skeleton } from '@/components/ui/skeleton'
 
-export type activityEntry = {
-  id: string
-  climbedAt: Date
-  routeName: string
-  routeGrade: string
-  routeType: string
-  numOfAttempts: number
-  topped: boolean
-}
-
-export type SessionEntry = {
-  id: string
-  createdAt: Date
-  note: string
-  numberOfActivities: number
-}
-
 export default function ActivitiesPage() {
   const activitiesQuery = useQuery({
     queryKey: ['activities'],
