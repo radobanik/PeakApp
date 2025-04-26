@@ -1,10 +1,8 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { DataTable } from '@/components/DataTable'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { getActivities, getActivityById } from '@/services/activityService'
 import { getSessionById, getSessions } from '@/services/sessionService'
-import { Activity } from '@/types/activityTypes'
-import { Session } from '@/types/sessionTypes'
 import { useQuery } from '@tanstack/react-query'
 
 import toppedIcon from '../assets/toppedIcon.png'
@@ -121,17 +119,21 @@ export default function DiaryPage() {
     }),
   })
 
+  const [sessionsPageIndex, setSessionsPageIndex] = useState(0)
+  const [sessionsPageSize, setSessionsPageSize] = useState(5)
+
   const sessionsQuery = useQuery({
-    queryKey: ['sessions'],
-    queryFn: async () => getSessions(),
-    select: (data) => {
-      return data.items.map((session) => ({
+    queryKey: ['sessions', sessionsPageIndex, sessionsPageSize],
+    queryFn: async () => getSessions({ pageIndex: sessionsPageIndex, pageSize: sessionsPageSize }),
+    select: (data) => ({
+      items: data.items.map((session) => ({
         id: session.id,
         createdAt: session.createdAt,
         note: session.note,
         numberOfActivities: session.assignedActivities.length,
-      }))
-    },
+      })),
+      totalCount: data.total,
+    }),
   })
 
   return (
@@ -157,17 +159,24 @@ export default function DiaryPage() {
           />
         )}
         <h3 className="text-2xl font-bold text-white">My Sessions</h3>
-        {/* {sessionsQuery.isLoading ? (
+        {sessionsQuery.isLoading ? (
           <div>Loading...</div>
         ) : sessionsQuery.isError ? (
           <div className="text-white">{sessionsQuery.error.message}</div>
         ) : (
           <DataTable
             columns={sessionColumns}
-            data={sessionsQuery.data ?? []}
+            data={sessionsQuery.data?.items ?? []}
             setter={setSelectedSession}
+            pagination={{
+              pageIndex: sessionsPageIndex,
+              pageSize: sessionsPageSize,
+              setPageIndex: setSessionsPageIndex,
+              setPageSize: setSessionsPageSize,
+            }}
+            pageCount={Math.ceil((sessionsQuery.data?.totalCount ?? 0) / sessionsPageSize)}
           />
-        )} */}
+        )}
       </div>
       <div className="w-3/4 h-30vh min-h-1/2 ml-auto ">{renderComponent()}</div>
     </>
