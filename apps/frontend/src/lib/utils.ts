@@ -41,3 +41,10 @@ export function formatTimeAgoShort(date: Date): string {
   // fallback
   return '-'
 }
+
+export function capitalize(value: string | undefined): string {
+  if (!value) return ''
+
+  const lowercase = value.toLowerCase()
+  return lowercase.charAt(0).toUpperCase() + lowercase.slice(1)
+}

@@ -5,26 +5,14 @@ import { ActivityCreate, activityCreateValidate, activityUpdateValidate } from '
 import requestValidator from '../model/common/validator'
 import { ActivityUpdate } from '../model/activity/activityUpdate'
 import { provideUserRefFromToken, returnUnauthorized } from '../auth/authUtils'
-import {
-  IncommingListParams,
-  NonNullListParams,
-  toNotNullListParams,
-} from '../model/common/listParams'
-import config from '../core/config'
 
 const getAllUnassigned = async (req: Request, res: Response) => {
-  const params = req.query as unknown as IncommingListParams
-  const normalizedParams: NonNullListParams = toNotNullListParams(params, config.LIST_LIMIT.DEFAULT)
   const requestUser = provideUserRefFromToken(req)
   if (requestUser === null) {
     res.status(HTTP_STATUS.UNAUTHORIZED_401)
     return
   }
-  const activities = await ActivityRepository.list(
-    requestUser,
-    normalizedParams.page,
-    normalizedParams.pageSize
-  ) // Replace null with appropriate arguments
+  const activities = await ActivityRepository.list(requestUser)
   res.status(HTTP_STATUS.OK_200).json(activities)
 }
 

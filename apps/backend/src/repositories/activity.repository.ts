@@ -24,18 +24,12 @@ const getById = async (author: RefObject, id: string): Promise<ActivityDetail | 
 }
 
 // Lists all unassigned activities
-const list = async (
-  author: RefObject,
-  pageNum: number,
-  pageSize: number
-): Promise<ListResponse<ActivityList>> => {
+const list = async (author: RefObject): Promise<ListResponse<ActivityList>> => {
   const activities: ActivityList[] = await activityClient.findMany({
     where: {
       createdBy: author,
       session: null,
     },
-    skip: (pageNum - 1) * pageSize,
-    take: pageSize,
     select: activityListSelector,
   })
 
@@ -46,7 +40,7 @@ const list = async (
     },
   })
 
-  return createListResponse(activities, totalActivities, pageNum, pageSize)
+  return createListResponse(activities, totalActivities, 1, activities.length)
 }
 
 const create = async (
