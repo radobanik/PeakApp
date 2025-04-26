@@ -8,61 +8,66 @@ datasource db {
 }
 
 model User {
-  id        String @id @default(uuid())
-  userName  String @unique
-  password  String
-  email     String @unique
-  firstName String
-  lastName  String
-  roles     Role[]
+  id                String   @id @default(uuid())
+  userName          String   @unique
+  password          String
+  email             String   @unique
+  firstName         String
+  lastName          String
+  description       String  @default("")
+  roles             Role[]
 
-  birthday DateTime?
-  height     Int?
-  weight     Float?
+  birthday          DateTime?
+  height            Int?
+  weight            Float?
 
-  cityId String? // Foreign key to City
-  city   City?   @relation(fields: [cityId], references: [id])
+  cityId            String?  // Foreign key to City
+  city              City?    @relation(fields: [cityId], references: [id])
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime?
-  deleted   Boolean   @default(false)
+  profilePictureId  String?  @unique 
+  profilePicture    PeakFile? @relation(name: "UserProfilePicture", fields: [profilePictureId], references: [id])
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime?
+  deleted           Boolean  @default(false)
 
   /**
    * SAVED RELATIONSHIP
    */
-  savedRoutes Route[] @relation("RouteSaves")
+  savedRoutes       Route[]  @relation("RouteSaves")
 
   /**
    * FOREIGN RELATIONSHIPS
    */
-  files                      PeakFile[]
-  routeCreatedBy             Route[]          @relation(name: "RouteCreatedBy")
-  routeUpdatedBy             Route[]          @relation(name: "RouteUpdatedBy")
+  files             PeakFile[] @relation(name: "UserFiles")
+  routeCreatedBy    Route[]    @relation(name: "RouteCreatedBy")
+  routeUpdatedBy    Route[]    @relation(name: "RouteUpdatedBy")
   climbingStructureCreatedBy ClimbingObject[] @relation(name: "ClimbingObjectCreatedBy")
   climbingStructureUpdatedBy ClimbingObject[] @relation(name: "ClimbingObjectUpdatedBy")
   activityCreatedBy Activity[] @relation(name: "ActivityCreatedBy")
-  Session Session[] @relation(name: "SessionCreatedBy")
+  Session           Session[]  @relation(name: "SessionCreatedBy")
 }
 
 model PeakFile {
-  id          String   @id @default(uuid())
-  createdAt   DateTime @default(now())
-  name        String
-  contentType String
-  identifier  String
-  source      PeakFileSource
+  id                String   @id @default(uuid())
+  createdAt         DateTime @default(now())
+  name              String
+  contentType       String
+  identifier        String
+  source            PeakFileSource
 
-  createdById String
-  createdBy   User   @relation(fields: [createdById], references: [id])
+  createdById       String
+  createdBy         User   @relation(name: "UserFiles", fields: [createdById], references: [id])
 
   /**
    * FOREIGN RELATIONSHIPS
    */
-  routeImage            Route?          @relation(name: "RouteImage")
+  userProfilePicture User?   @relation(name: "UserProfilePicture")
+  routeImage         Route?  @relation(name: "RouteImage")
   additionalRouteImages RoutePeakFile[] @relation(name: "AdditionalRouteImages")
-  SessionPeakFile SessionPeakFile[] @relation(name: "SessionImages")
-  sessionid String?
-  session Session? @relation(fields: [sessionid], references: [id])
+  SessionPeakFile    SessionPeakFile[] @relation(name: "SessionImages")
+  sessionid          String?
+  session            Session? @relation(fields: [sessionid], references: [id])
 }
 
 enum PeakFileSource {

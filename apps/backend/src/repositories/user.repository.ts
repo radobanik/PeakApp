@@ -115,7 +115,7 @@ const createUser = async (userData: UserCreate): Promise<UserDetail> => {
 }
 
 const updateUser = async (id: string, userData: UserUpdate): Promise<UserDetail> => {
-  const { cityId, ...rest } = userData
+  const { cityId, profilePictureId, ...rest } = userData
 
   const user = await userClient.update({
     where: { id },
@@ -123,16 +123,15 @@ const updateUser = async (id: string, userData: UserUpdate): Promise<UserDetail>
       ...rest,
       updatedAt: new Date(),
       city: cityId ? { connect: { id: cityId } } : { disconnect: true },
+      ...(profilePictureId !== undefined &&
+        (profilePictureId !== null
+          ? { profilePicture: { connect: { id: profilePictureId } } }
+          : { profilePicture: { disconnect: true } })),
     },
     select: userDetailSelectorWithCity,
   })
 
-  const { city, ...userWithoutCity } = user
-
-  return {
-    ...userWithoutCity,
-    city,
-  } as UserDetail
+  return user as UserDetail
 }
 
 const deleteUser = async (id: string) => {

@@ -6,6 +6,7 @@ type UserDetail = {
   email: string
   firstName: string
   lastName: string
+  description: string
   roles: Role[]
   birthday: Date | null
   height: number | null
@@ -20,6 +21,7 @@ type UserDetail = {
       code: string
     }
   } | null
+  profilePictureId: string | null
   createdAt: Date
   updatedAt: Date | null
 }
@@ -28,6 +30,7 @@ const selector = {
   id: true,
   userName: true,
   email: true,
+  description: true,
 
   firstName: true,
   lastName: true,
@@ -42,6 +45,8 @@ const selector = {
 
   createdAt: true,
   updatedAt: true,
+
+  profilePictureId: true,
 }
 
 export type { UserDetail }

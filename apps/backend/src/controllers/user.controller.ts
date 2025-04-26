@@ -5,6 +5,7 @@ import { UserUpdate, userUpdateValidate, userCreateValidate } from '../model/use
 import { defaultUserListParams, IncommingUserListParams } from '../model/user/userList'
 import { parseSortAndOrderBy } from '../model/common/listParams'
 import requestValidator from '../model/common/validator'
+import { provideUserRefFromToken } from '../auth/authUtils'
 
 const getUserById = async (req: Request, res: Response) => {
   const userId = req.params.id
@@ -15,6 +16,16 @@ const getUserById = async (req: Request, res: Response) => {
   } else {
     res.status(HTTP_STATUS.OK_200).json(user)
   }
+}
+
+const getLoggedInUser = async (req: Request, res: Response) => {
+  const userId = provideUserRefFromToken(req as unknown as Request)?.id
+  if (!userId) {
+    res.status(HTTP_STATUS.UNAUTHORIZED_401).json({ error: 'Unauthorized' })
+    return
+  }
+
+  res.status(HTTP_STATUS.OK_200).json(await UserRepository.getUserById(userId))
 }
 
 const userList = async (req: Request, res: Response) => {
@@ -90,6 +101,22 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
   }
 }
 
+const updateLoggedInUser = async (req: Request, res: Response) => {
+  const userId = provideUserRefFromToken(req as unknown as Request)?.id
+  console.log('userId', userId)
+  if (!userId) {
+    res.status(HTTP_STATUS.UNAUTHORIZED_401).json({ error: 'Unauthorized' })
+    return
+  }
+
+  console.log('req.body', req.body)
+  const validatedData = requestValidator(() => userUpdateValidate(req.body), res)
+  if (!validatedData) return
+
+  const user = await UserRepository.updateUser(userId, validatedData)
+  res.status(HTTP_STATUS.OK_200).json(user)
+}
+
 const updateUser = async (req: Request<{ id: string }, object, UserUpdate>, res: Response) => {
   const userData = req.body
   const userId = req.params.id
@@ -120,9 +147,11 @@ const deleteUser = async (req: Request, res: Response) => {
 }
 
 export default {
-  getUserById,
   userList,
+  getUserById,
+  getLoggedInUser,
   createUser,
   updateUser,
+  updateLoggedInUser,
   deleteUser,
 }

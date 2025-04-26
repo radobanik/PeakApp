@@ -12,6 +12,7 @@ import diddyPfp from '@/assets/diddy.webp'
 import * as geoService from '@/services/geoService'
 import { CitiesResponse, CountriesResponse } from '@/types/geoTypes'
 import { toast } from 'sonner'
+import * as userService from '@/services/userService'
 
 type FormValues = {
   username: string
@@ -19,6 +20,7 @@ type FormValues = {
   firstName: string
   lastName: string
   weight: string
+  height: string
   birthday: string
   country: string
   city: string
@@ -39,6 +41,7 @@ const UserSettingsPage = () => {
       firstName: '',
       lastName: '',
       weight: '',
+      height: '',
       birthday: '',
       country: '',
       city: '',
@@ -68,6 +71,31 @@ const UserSettingsPage = () => {
   }, [])
 
   useEffect(() => {
+    async function fetchUserData() {
+      try {
+        const user = await userService.getLoggedInUser()
+        console.log('user', user)
+        setValue('username', user.userName)
+        setValue('description', user.description)
+        setValue('firstName', user.firstName)
+        setValue('lastName', user.lastName)
+        setValue('weight', user.weight?.toString() || '')
+        setValue('height', user.height?.toString() || '')
+        setValue(
+          'birthday',
+          user.birthday ? new Date(user.birthday).toISOString().split('T')[0] : ''
+        )
+        setValue('country', user.city?.country?.name || '')
+        setValue('city', user.city?.name || '')
+      } catch (error) {
+        toast.error('Failed to load user data.')
+      }
+    }
+
+    fetchUserData()
+  }, [setValue])
+
+  useEffect(() => {
     async function fetchCities() {
       const country = countryData.find((c) => c.name === selectedCountry)
       if (!country) return
@@ -76,18 +104,39 @@ const UserSettingsPage = () => {
         const response = await geoService.getCitiesByCountry(country.id)
         setCitiesData(response)
         setCitiesComboItems(response.map((city) => ({ value: city.name, label: city.name })))
+
+        const currentCity = watch('city')
+        if (currentCity && response.some((city) => city.name === currentCity)) {
+          setValue('city', currentCity)
+        } else {
+          setValue('city', '')
+        }
       } catch {
         toast.error('Failed to fetch cities.')
       }
     }
 
     fetchCities()
-    setValue('city', '') // Reset city on country change
   }, [selectedCountry, countryData, setValue])
 
-  const onSubmit = (data: FormValues) => {
-    console.log('Form Submitted:', data)
-    toast.success('Profile updated successfully!')
+  const onSubmit = async (data: FormValues) => {
+    try {
+      const payload = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        userName: data.username,
+        description: data.description,
+        birthday: new Date(data.birthday),
+        height: Number(data.height),
+        weight: Number(data.weight),
+        cityId: citiesData.find((city) => city.name === data.city)?.id,
+        profilePictureId: null,
+      }
+      await userService.updateLoggedInUser(payload)
+      toast.success('Profile updated successfully!')
+    } catch (error) {
+      toast.error('Failed to update profile.')
+    }
   }
 
   return (
@@ -126,8 +175,7 @@ const UserSettingsPage = () => {
                 <Textarea
                   id="description"
                   className="min-h-[80px] sm:min-h-[132px]"
-                  placeholder="If her age is on the clock, she is ready for the ..."
-                  //   placeholder="Tell others about your community involvement or interests..."
+                  placeholder="Tell others about your community involvement or interests..."
                   rows={4}
                   {...register('description', { required: true })}
                 />
@@ -235,6 +283,25 @@ const UserSettingsPage = () => {
             {errors.weight && (
               <span className="text-sm text-red-500">
                 Enter a valid weight between 1 and 200 kg.
+              </span>
+            )}
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="height">Height (cm)</Label>
+            <Input
+              id="height"
+              type="number"
+              placeholder="170"
+              {...register('height', {
+                required: true,
+                min: 50,
+                max: 250,
+                validate: (val) => !isNaN(Number(val)),
+              })}
+            />
+            {errors.height && (
+              <span className="text-sm text-red-500">
+                Enter a valid height between 50 and 250 cm.
               </span>
             )}
           </div>

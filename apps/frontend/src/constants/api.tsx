@@ -7,6 +7,10 @@ export const API = {
     IS_EMAIL_UNIQUE: `${API_BASE_URL}/auth/is-email-unique`,
     IS_USERNAME_UNIQUE: `${API_BASE_URL}/auth/is-username-unique`,
   },
+  USER: {
+    BASE: `${API_BASE_URL}/user`,
+    UPDATE: `${API_BASE_URL}/user/`,
+  },
   GEO: {
     COUNTRIES: `${API_BASE_URL}/geo/countries`,
     CITIES: `${API_BASE_URL}/geo/cities`,

@@ -3,6 +3,7 @@ type User = {
   userName: string
   password: string
   email: string
+  description: string
 
   firstName: string
   lastName: string
@@ -14,13 +15,14 @@ type User = {
   city: {
     id: string
     name: string
-    country: {
-      id: string
-      name: string
-      code: string
-    }
   } | null
-
+  profilePictureId?: string | null
+  profilePicture: {
+    id: string
+    name: string
+    contentType: string
+    identifier: string
+  } | null
   createdAt: Date
   updatedAt: Date | null
   deleted: boolean

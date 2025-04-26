@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useEffect } from 'react'
 import { format, setYear } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 
@@ -30,6 +30,14 @@ export function DatePickerYearSelector({
     selected ? selected.getFullYear() : new Date().getFullYear()
   )
   const [month, setMonth] = React.useState<Date>(selected || new Date())
+
+  useEffect(() => {
+    if (selected) {
+      setDate(selected)
+      setSelectedYear(selected.getFullYear())
+      setMonth(selected)
+    }
+  }, [selected])
 
   const handleYearChange = (year: string) => {
     const numericYear = parseInt(year)

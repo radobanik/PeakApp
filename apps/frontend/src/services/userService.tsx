@@ -1,0 +1,44 @@
+import { API } from '@/constants/api'
+import { api } from './index'
+import { UserDetailResponse, UserUpdateRequest } from '@/types/userTypes'
+
+export async function getUser(userId: string): Promise<UserDetailResponse> {
+  try {
+    const response = await api.get(`${API.USER}/${userId}`)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function getLoggedInUser(): Promise<UserDetailResponse> {
+  try {
+    const response = await api.get(API.USER.BASE)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function updateUser(
+  userId: string,
+  data: UserUpdateRequest
+): Promise<UserDetailResponse> {
+  try {
+    const response = await api.put(`${API.USER.BASE}/${userId}`, data)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function updateLoggedInUser(
+    data: UserUpdateRequest
+  ): Promise<UserDetailResponse> {
+    try {
+      const response = await api.put(API.USER.BASE, data)
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
