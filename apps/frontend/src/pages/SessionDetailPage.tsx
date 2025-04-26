@@ -10,6 +10,7 @@ import ActivityTableEntry from '@/components/ActivityTableEntry'
 import noBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
 import { ScrollArea } from '@radix-ui/react-scroll-area'
 import { ScrollBar } from '@/components/ui/scroll-area'
+import { ROUTE } from '@/constants/routes'
 
 export default function SessionDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -64,7 +65,7 @@ export default function SessionDetailPage() {
       <HeaderBar />
       <div>
         <div className="flex flex-row justify-between p-4">
-          <BackButon backRoute={'/sessions'} />
+          <BackButon backRoute={ROUTE.SESSIONS} />
           <img src={threeDots} />
         </div>
         <div className="flex flex-col gap-4 p-4">

@@ -20,6 +20,8 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { Skeleton } from '@/components/ui/skeleton'
 import { TIME_FORMAT, DATE_FORMAT } from '@/constants/formats'
+import { perceivedDifficulty } from '@/types/utilsTypes'
+import { ROUTE } from '@/constants/routes'
 
 export default function ActivityDetailsPage() {
   const { id } = useParams<{ id: string }>()
@@ -49,7 +51,7 @@ export default function ActivityDetailsPage() {
       <HeaderBar />
       <div>
         <div className="flex flex-row justify-between p-4">
-          <BackButon backRoute={'/activities'} />
+          <BackButon backRoute={ROUTE.ACTIVITIES} />
           <img src={threeDots} />
         </div>
         <div className="flex flex-col gap-4 p-1">
@@ -100,10 +102,14 @@ export default function ActivityDetailsPage() {
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Difficulty</SelectLabel>
-                      <SelectItem value="EASY">Easy</SelectItem>
-                      <SelectItem value="MEDIUM">Medium</SelectItem>
-                      <SelectItem value="HARD">Hard</SelectItem>
-                      <SelectItem value="ULTRA_HARD">Ultra Hard</SelectItem>
+                      {Object.values(perceivedDifficulty).map((level) => (
+                        <SelectItem key={level} value={level}>
+                          {level
+                            .replace('_', ' ')
+                            .toLowerCase()
+                            .replace(/^\w/, (c) => c.toUpperCase())}
+                        </SelectItem>
+                      ))}
                     </SelectGroup>
                   </SelectContent>
                 </Select>

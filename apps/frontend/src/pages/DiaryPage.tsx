@@ -2,6 +2,7 @@ import HeaderBar from '@/components/HeaderBar'
 import { Button } from '@/components/ui/button'
 import { useNavigate } from 'react-router-dom'
 import { ClimbingStructureType } from '@/types/routeTypes'
+import { ROUTE } from '@/constants/routes'
 
 export type activityEntry = {
   id: string
@@ -23,10 +24,10 @@ export type SessionEntry = {
 export default function DiaryPage() {
   const navigate = useNavigate()
   const navigateToActivities = () => {
-    navigate('/activities')
+    navigate(ROUTE.ACTIVITIES)
   }
   const navigateToSessions = () => {
-    navigate('/sessions')
+    navigate(ROUTE.SESSIONS)
   }
 
   return (
