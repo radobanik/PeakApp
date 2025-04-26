@@ -1,6 +1,6 @@
 import { useForm, Controller } from 'react-hook-form'
-import { memo, useEffect, useState } from 'react'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { memo, useEffect, useRef, useState, ChangeEvent } from 'react'
+import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -8,11 +8,13 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { SearchComboBox, ComboboxItem } from '@/components/ui/custom/search-combo-box'
 import { DatePickerYearSelector } from '@/components/ui/custom/date-picker-year-selection'
-import diddyPfp from '@/assets/diddy.webp'
+import NoUserPhoto from '@/assets//NoUserPhoto.png'
 import * as geoService from '@/services/geoService'
-import { CitiesResponse, CountriesResponse } from '@/types/geoTypes'
-import { toast } from 'sonner'
 import * as userService from '@/services/userService'
+import { createFile, getFile } from '@/services/fileService'
+import { CitiesResponse, CountriesResponse } from '@/types/geoTypes'
+import { PeakFile } from '@/types/fileTypes'
+import { toast } from 'sonner'
 
 type FormValues = {
   username: string
@@ -52,7 +54,11 @@ const UserSettingsPage = () => {
   const [countriesComboItems, setCountriesComboItems] = useState<ComboboxItem[]>([])
   const [citiesData, setCitiesData] = useState<CitiesResponse>([])
   const [citiesComboItems, setCitiesComboItems] = useState<ComboboxItem[]>([])
+  const [uploadedAvatar, setUploadedAvatar] = useState<PeakFile | null>(null)
+  const [profilePicturePreview, setProfilePicturePreview] = useState<string | null>(NoUserPhoto)
+  const [profilePictureChecked, setProfilePictureChecked] = useState(false)
 
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
   const selectedCountry = watch('country')
 
   useEffect(() => {
@@ -74,7 +80,6 @@ const UserSettingsPage = () => {
     async function fetchUserData() {
       try {
         const user = await userService.getLoggedInUser()
-        console.log('user', user)
         setValue('username', user.userName)
         setValue('description', user.description)
         setValue('firstName', user.firstName)
@@ -87,8 +92,23 @@ const UserSettingsPage = () => {
         )
         setValue('country', user.city?.country?.name || '')
         setValue('city', user.city?.name || '')
+
+        if (user.profilePictureId) {
+          try {
+            const profilePicture = await getFile(user.profilePictureId)
+            setUploadedAvatar(profilePicture)
+            setProfilePicturePreview(profilePicture.url)
+          } catch (error) {
+            console.error('Failed to fetch profile picture:', error)
+            setProfilePicturePreview(NoUserPhoto)
+          }
+        } else {
+          setProfilePicturePreview(NoUserPhoto)
+        }
       } catch (error) {
         toast.error('Failed to load user data.')
+      } finally {
+        setProfilePictureChecked(true)
       }
     }
 
@@ -119,6 +139,20 @@ const UserSettingsPage = () => {
     fetchCities()
   }, [selectedCountry, countryData, setValue])
 
+  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      try {
+        const uploadedFile = await createFile(file)
+        setUploadedAvatar(uploadedFile)
+        setProfilePicturePreview(uploadedFile.url)
+        toast.success('Profile picture uploaded successfully!')
+      } catch {
+        toast.error('Failed to upload profile picture.')
+      }
+    }
+  }
+
   const onSubmit = async (data: FormValues) => {
     try {
       const payload = {
@@ -130,7 +164,7 @@ const UserSettingsPage = () => {
         height: Number(data.height),
         weight: Number(data.weight),
         cityId: citiesData.find((city) => city.name === data.city)?.id,
-        profilePictureId: null,
+        profilePictureId: uploadedAvatar?.id ?? null,
       }
       await userService.updateLoggedInUser(payload)
       toast.success('Profile updated successfully!')
@@ -149,10 +183,24 @@ const UserSettingsPage = () => {
           <div className="grid grid-cols-1 sm:[grid-template-columns:auto_1fr] gap-6 items-start">
             <div className="flex flex-col items-center gap-4">
               <Avatar className="h-45 w-45">
-                <AvatarImage src={diddyPfp} />
-                <AvatarFallback>U</AvatarFallback>
+                {profilePictureChecked && (
+                  <AvatarImage src={profilePicturePreview || NoUserPhoto} />
+                )}
               </Avatar>
-              <Button size="sm" className="w-50" variant="outline">
+              <Input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+              <Button
+                size="sm"
+                className="w-50"
+                variant="outline"
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+              >
                 Change Photo
               </Button>
             </div>
