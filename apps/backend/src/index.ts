@@ -4,6 +4,6 @@ import config from './core/config'
 /**
  * Port config
  */
-app.listen(config.port, () => {
-  console.log(`listening on port ${config.port}`)
+app.listen(config.PORT, () => {
+  console.log(`listening on port ${config.PORT}`)
 })

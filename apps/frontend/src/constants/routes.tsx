@@ -5,6 +5,7 @@ export const ROUTE = {
   DIARY: '/diary',
 
   DETAIL: '/detail',
+  SUBMIT: '/submit',
   SETTINGS: '/settings',
 
   COMMUNITY: '/community',

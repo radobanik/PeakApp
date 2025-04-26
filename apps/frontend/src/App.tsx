@@ -8,6 +8,7 @@ import { publicRoute } from '@/routing/publicRoute'
 import { Toaster } from '@/components/ui/sonner'
 import RouteDetailPage from './pages/RouteDetailPage'
 import DiaryPage from './pages/DiaryPage'
+import SubmitPage from './pages/SubmitPage'
 import { createContext, useEffect, useState } from 'react'
 import PageFrame from './components/PageFrame'
 
@@ -46,6 +47,7 @@ export default function App() {
             <Route path={ROUTE.HOME} element={privateRoute(<HomePage />)} />
             <Route path={ROUTE.DIARY} element={privateRoute(<DiaryPage />)} />
             <Route path={ROUTE.DETAIL} element={privateRoute(<RouteDetailPage />)} />
+            <Route path={ROUTE.SUBMIT} element={privateRoute(<SubmitPage />)} />
           </Route>
         </Routes>
 

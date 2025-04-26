@@ -25,7 +25,7 @@ const routes = [
     route: geoRouter,
   },
   {
-    path: '/file',
+    path: '/peak-file',
     route: peakFileRouter,
   },
   {

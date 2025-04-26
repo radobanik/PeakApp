@@ -1,9 +1,9 @@
 import { ClimbingStructureType } from '@prisma/client'
 import { GradeDetail, gradeDetailSelector } from '../grade'
-import { PeakFile, peakFileSelector } from '../peakFile'
 import { UserLabeled, userLabeledSelector } from '../user'
 import { OverlayPoint } from './overlayPoint/overlayPoint'
 import { ClimbingObjectNoRoutes, climbingObjectNoRoutesSelector } from '../climbingObject'
+import { RefObject, refObjectSelector } from '../common/refObject'
 
 type RouteDetail = {
   id: string
@@ -20,8 +20,8 @@ type RouteDetail = {
   longitude: number
   latitude: number
 
-  image: PeakFile | null
-  additionalImages: PeakFile[]
+  image: RefObject | null
+  additionalImages: RefObject[]
   overlay: OverlayPoint[]
 
   climbingObject: ClimbingObjectNoRoutes
@@ -49,7 +49,7 @@ const selector = {
   additionalImages: {
     select: {
       peakFile: {
-        select: peakFileSelector,
+        select: refObjectSelector,
       },
     },
   },

@@ -49,7 +49,8 @@ model PeakFile {
   createdAt   DateTime @default(now())
   name        String
   contentType String
-  path        String
+  identifier  String
+  source      PeakFileSource
 
   createdById String
   createdBy   User   @relation(fields: [createdById], references: [id])
@@ -62,6 +63,11 @@ model PeakFile {
   SessionPeakFile SessionPeakFile[] @relation(name: "SessionImages")
   sessionid String?
   session Session? @relation(fields: [sessionid], references: [id])
+}
+
+enum PeakFileSource {
+  S3_BUCKET
+  GENERIC_URL
 }
 
 model Grade {

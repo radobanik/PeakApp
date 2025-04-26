@@ -30,12 +30,4 @@ const create = async (data: PeakFileCreate, userRef: RefObject): Promise<PeakFil
   })
 }
 
-const exists = async (id: string): Promise<boolean> => {
-  const count = await peakFileClient.count({
-    where: { id },
-  })
-
-  return count > 0
-}
-
-export default { getById, deleteById, create, exists }
+export default { getById, deleteById, create }

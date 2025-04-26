@@ -1,4 +1,4 @@
-import { PeakFile, Prisma, PrismaClient, User } from '@prisma/client'
+import { Prisma, PrismaClient } from '@prisma/client'
 import {
   RouteCreate,
   RouteDetail,
@@ -26,9 +26,7 @@ const peakFileConnector = (image: RefObject) => ({ peakFile: toConnector(image) 
 // This is a workaround for the fact that Prisma nests additionalImages too much
 type RouteDetailDeepImage = {
   additionalImages: {
-    peakFile: PeakFile & {
-      createdBy: User
-    }
+    peakFile: RefObject
   }[]
 } & RouteDetail
 

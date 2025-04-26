@@ -95,7 +95,7 @@ const defaultRouteListParams = (params: IncommingRouteListParams): NonNullRouteL
     latitudeFrom: toNumber(latitudeFrom, -90),
     latitudeTo: toNumber(latitudeTo, 90),
     climbingStructureTypes: parseClimbingStructureTypes(climbingStructureTypes),
-    ...toNotNullListParams(listParams, config.listLimit.route),
+    ...toNotNullListParams(listParams, config.LIST_LIMIT.ROUTE),
   }
 }
 
