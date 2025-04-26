@@ -148,7 +148,7 @@ export default function DiaryPage() {
           <DataTable
             columns={activityColumns}
             data={activitiesQuery.data?.items ?? []}
-            setter={setSelectedActivity}
+            entityPath="activity/"
             pagination={{
               pageIndex: activitiesPageIndex,
               pageSize: activitiesPageSize,
@@ -167,7 +167,7 @@ export default function DiaryPage() {
           <DataTable
             columns={sessionColumns}
             data={sessionsQuery.data?.items ?? []}
-            setter={setSelectedSession}
+            entityPath="session/"
             pagination={{
               pageIndex: sessionsPageIndex,
               pageSize: sessionsPageSize,

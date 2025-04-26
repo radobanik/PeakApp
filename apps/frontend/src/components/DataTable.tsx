@@ -9,12 +9,13 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination } from './ui/DataTablePagination'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { Row } from 'react-day-picker'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setter: any
+  entityPath: string
   pageCount: number
   pagination: {
     pageIndex: number
@@ -24,10 +25,10 @@ interface DataTableProps<TData, TValue> {
   }
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends { id: string }, TValue>({
   columns,
   data,
-  setter,
+  entityPath,
   pageCount,
   pagination,
 }: DataTableProps<TData, TValue>) {
@@ -53,6 +54,11 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
   })
 
+  const navigate = useNavigate()
+  const changeRoute = (id: string) => {
+    navigate('/' + entityPath + id)
+  }
+
   return (
     <div className="rounded-md border text-white">
       <Table>
@@ -77,7 +83,7 @@ export function DataTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 onClick={() => {
-                  setter(row.original)
+                  changeRoute(row.original.id)
                 }}
                 className="even:bg-stone-600 odd:bg-stone-500 "
                 data-state={row.getIsSelected() && 'selected'}
