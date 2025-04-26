@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function ActivityDetailsPage() {
   const { id } = useParams<{ id: string }>()
@@ -77,14 +78,17 @@ export default function ActivityDetailsPage() {
             </div>
             <div className="flex flex-row gap-2 items-center">
               <label htmlFor="topped">Topped: </label>
-              <Input type="checkbox" id="topped" disabled checked={activityQuery.data?.topped} />
+              {activityQuery.isLoading && <Skeleton className="h-10 w-[5vw]" />}
+              {activityQuery.isSuccess && (
+                <Input type="checkbox" id="topped" disabled checked={activityQuery.data?.topped} />
+              )}
             </div>
           </div>
 
           <div className="flex flex-row justify-between p-4 ">
             <div>
               <label htmlFor="">Perceived Difficulty</label>
-              {activityQuery.isLoading && <div>Loading...</div>}
+              {activityQuery.isLoading && <Skeleton className="h-10 w-[40vw]" />}
               {activityQuery.isSuccess && (
                 <Select defaultValue={activityQuery.data?.perceivedDifficulty}>
                   <SelectTrigger className="w-[40vw]">
@@ -104,7 +108,7 @@ export default function ActivityDetailsPage() {
             </div>
             <div className="flex flex-col items-center justify-end">
               <label htmlFor="attempts">Number of Attempts </label>
-              {activityQuery.isLoading && <div>Loading...</div>}
+              {activityQuery.isLoading && <Skeleton className="h-10 w-[40vw]" />}
               {activityQuery.isSuccess && (
                 <Input
                   type="number"
@@ -118,6 +122,7 @@ export default function ActivityDetailsPage() {
           </div>
           <div className="p-4">
             <label htmlFor="notes">Notes</label>
+            {activityQuery.isLoading && <Skeleton className="h-[15vh] w-full" />}
             {activityQuery.isSuccess && (
               <Textarea
                 disabled
