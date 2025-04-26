@@ -134,7 +134,9 @@ export default function DiaryPage() {
       <div className="flex flex-col gap-4 p-4 w-3/4 ml-auto h-45vh border-1 bg-stone-800">
         <h3 className="text-2xl font-bold text-white">Unassigned Activities</h3>
         {activitiesQuery.isPending ? (
-          <div>Loading...</div>
+          <div className='text-white'>Loading...</div>
+        ) : activitiesQuery.isError ? (
+          <div className="text-white">{activitiesQuery.error.message}</div>
         ) : (
           <DataTable
             columns={activityColumns}
@@ -142,9 +144,11 @@ export default function DiaryPage() {
             setter={setSelectedActivity}
           />
         )}
-        <h3 className="text-2xl font-bol text-white">My Sessions</h3>
+        <h3 className="text-2xl font-bold text-white">My Sessions</h3>
         {sessionsQuery.isLoading ? (
           <div>Loading...</div>
+        ) : sessionsQuery.isError ? (
+          <div className="text-white">{sessionsQuery.error.message}</div>
         ) : (
           <DataTable
             columns={sessionColumns}

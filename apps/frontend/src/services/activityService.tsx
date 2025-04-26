@@ -5,7 +5,11 @@ import { PaginatedResponse } from '@/types'
 
 export async function getActivities(): Promise<PaginatedResponse<Activity>> {
   const response = await api.get(API.ACTIVITY.LIST)
-  console.log('returned data', response.data)
+  console.log('response', response)
+  if (response.status == 401) {
+    const error = new Error('Unauthorized user')
+    throw error
+  }
   return response.data
 }
 
