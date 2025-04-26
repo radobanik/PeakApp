@@ -52,7 +52,7 @@ export default function ActivitiesPage() {
             <Skeleton className="h-100 w-full" />
           </div>
         )}
-        {activitiesQuery.isError && <div>Error: {activitiesQuery.error.message}</div>}
+        {activitiesQuery.isError && <div>Error: {activitiesQuery.error.message}</div>} {/* TODO: Add proper Error handling*/}
         {activitiesQuery.isSuccess && (
           <div className="flex-1 overflow-auto">
             <ScrollTable entries={activitiesQuery.data.items} Component={ActivityTableEntry} />

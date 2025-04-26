@@ -10,7 +10,9 @@ export type ActivityTableEntryProps = {
 
 const ActivityTableEntry: FC<ActivityTableEntryProps> = ({ entry }: ActivityTableEntryProps) => {
   const date = new Date(entry.climbedAt).toLocaleDateString()
-  const attemptsString = entry.numOfAttempts === 1 ? ' attempt' : ' attempts'
+  const isSingleAttempt = entry.numOfAttempts === 1
+  const attemptsString = `${entry.numOfAttempts} attempt${isSingleAttempt ? '' : 's'}`
+
 
   const navigation = useNavigate()
   const navigateToActivity = () => {

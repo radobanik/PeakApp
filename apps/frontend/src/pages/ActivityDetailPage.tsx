@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import threeDots from '@/assets/ThreeDots.png'
 import noBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
 import BackButon from '@/components/BackButton'
-import { routeTypeToString } from '@/lib/utils'
+import { capitalize } from '@/lib/utils'
 import { format } from 'date-fns'
 import { Input } from '@/components/ui/input'
 import {
@@ -65,7 +65,7 @@ export default function ActivityDetailsPage() {
             </div>
             <div className="absolute bottom-1 right-1 flex flex-col justify-between items-center">
               <p>{activityQuery.data?.routeGrade.toUpperCase()}</p>
-              <p>{routeTypeToString(activityQuery.data?.routeType)}</p>
+              <p>{capitalize(activityQuery.data?.routeType)}</p>
             </div>
           </div>
 

@@ -20,7 +20,7 @@ const getAllUnassigned = async (req: Request, res: Response) => {
     res.status(HTTP_STATUS.UNAUTHORIZED_401)
     return
   }
-  const activities = await ActivityRepository.list(requestUser) // Replace null with appropriate arguments
+  const activities = await ActivityRepository.list(requestUser)
   res.status(HTTP_STATUS.OK_200).json(activities)
 }
 
