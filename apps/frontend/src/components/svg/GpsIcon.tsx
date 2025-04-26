@@ -1,7 +1,7 @@
 import { DEFAULT_SVG_ICON_PROPS, SvgIconProps } from '@/constants/svgConstants'
 import { memo } from 'react'
 
-const MapIcon = (props: SvgIconProps) => {
+const GpsIcon = (props: SvgIconProps) => {
   const { size, stroke, strokeWidth } = { ...DEFAULT_SVG_ICON_PROPS, ...props }
 
   return (
@@ -11,47 +11,55 @@ const MapIcon = (props: SvgIconProps) => {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      transform="matrix(1, 0, 0, 1, 0, 0)"
     >
-      <g id="SVGRepo_bgCarrier" strokeWidth="0" />
-      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" />
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
       <g id="SVGRepo_iconCarrier">
         <path
-          d="M22 9.00002V15C22 17.5 21.5 19.25 20.38 20.38L14 14L21.73 6.27002C21.91 7.06002 22 7.96002 22 9.00002Z"
+          d="M12 19.5C16.1421 19.5 19.5 16.1421 19.5 12C19.5 7.85786 16.1421 4.5 12 4.5C7.85786 4.5 4.5 7.85786 4.5 12C4.5 16.1421 7.85786 19.5 12 19.5Z"
           stroke={stroke}
           strokeWidth={strokeWidth}
           strokeLinecap="round"
           strokeLinejoin="round"
-        />
+        ></path>
         <path
-          d="M21.73 6.27L6.26999 21.73C3.25999 21.04 2 18.96 2 15V9C2 4 4 2 9 2H15C18.96 2 21.04 3.26 21.73 6.27Z"
+          d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"
           stroke={stroke}
           strokeWidth={strokeWidth}
           strokeLinecap="round"
           strokeLinejoin="round"
-        />{' '}
+        ></path>
         <path
-          d="M20.38 20.38C19.25 21.5 17.5 22 15 22H9.00003C7.96003 22 7.06002 21.91 6.27002 21.73L14 14L20.38 20.38Z"
+          d="M12 4V2"
           stroke={stroke}
           strokeWidth={strokeWidth}
           strokeLinecap="round"
           strokeLinejoin="round"
-        />
+        ></path>
         <path
-          d="M6.24002 7.97997C6.92002 5.04997 11.32 5.04997 12 7.97997C12.39 9.69997 11.31 11.16 10.36 12.06C9.67001 12.72 8.58003 12.72 7.88003 12.06C6.93003 11.16 5.84002 9.69997 6.24002 7.97997Z"
+          d="M4 12H2"
           stroke={stroke}
           strokeWidth={strokeWidth}
-        />
-        <path
-          d="M9.0946 8.69995H9.10359"
-          stroke={stroke}
-          strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-        />
+        ></path>
+        <path
+          d="M12 20V22"
+          stroke={stroke}
+          strokeWidth={strokeWidth}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        ></path>
+        <path
+          d="M20 12H22"
+          stroke={stroke}
+          strokeWidth={strokeWidth}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        ></path>
       </g>
     </svg>
   )
 }
 
-export default memo(MapIcon)
+export default memo(GpsIcon)
