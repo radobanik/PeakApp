@@ -3,6 +3,7 @@ import noBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
 import { FC } from 'react'
 import { ActivityEntry } from '@/pages/DiaryPage'
 import { Link } from 'react-router-dom'
+import { ROUTE } from '@/constants/routes'
 
 export type ActivityTableEntryProps = {
   entry: ActivityEntry
@@ -14,7 +15,7 @@ const ActivityTableEntry: FC<ActivityTableEntryProps> = ({ entry }: ActivityTabl
   const attemptsString = `${entry.numOfAttempts} attempt${isSingleAttempt ? '' : 's'}`
 
   return (
-    <Link to={`/activities/${entry.id}`} className="w-full">
+    <Link to={`${ROUTE.ACTIVITIES}/${entry.id}`} className="w-full">
       <div className="bg-stone-300 rounded-md p-2 flex flex-row gap-2 justify-between m-1">
         <div className="w-[70%] p-2">
           <h3 className="text-2xl">{entry.routeName}</h3>

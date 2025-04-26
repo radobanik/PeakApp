@@ -3,9 +3,7 @@ export const ROUTE = {
   LOGIN: '/login',
   REGISTER: '/register',
   DIARY: '/diary',
-  ACTIVITY: '/activity',
   ACTIVITIES: '/activities',
-  SESSION: '/session',
   SESSIONS: '/sessions',
 
   DETAIL: '/detail',
