@@ -13,7 +13,7 @@ import SessionsPage from './pages/SessionsPage'
 import ActivityDetailsPage from './pages/ActivityDetailPage'
 import SessionDetailPage from './pages/SessionDetailPage'
 
-import { Query, QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import SubmitPage from './pages/SubmitPage'
 import { createContext, useEffect, useState } from 'react'
@@ -44,18 +44,6 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          <Route path={ROUTE.LOGIN} element={publicRoute(<LoginPage />)} />
-          <Route path={ROUTE.REGISTER} element={publicRoute(<RegisterPage />)} />
-          <Route path={ROUTE.HOME} element={privateRoute(<HomePage />)} />
-          <Route path={ROUTE.DIARY} element={privateRoute(<DiaryPage />)} />
-          <Route path={ROUTE.ACTIVITIES} element={privateRoute(<ActivitiesPage />)} />
-          <Route path={ROUTE.ACTIVITIES + '/:id'} element={privateRoute(<ActivityDetailsPage />)} />
-          <Route path={ROUTE.SESSIONS} element={privateRoute(<SessionsPage />)} />
-          <Route path={ROUTE.SESSIONS + '/:id'} element={privateRoute(<SessionDetailPage />)} />
-          <Route path="/detail" element={privateRoute(<RouteDetailPage />)} />
-        </Routes>
       <ViewportContext.Provider value={{ isMobile }}>
         <BrowserRouter>
           <Routes>
@@ -68,7 +56,12 @@ export default function App() {
               <Route path={ROUTE.HOME} element={privateRoute(<HomePage />)} />
               <Route path={ROUTE.DIARY} element={privateRoute(<DiaryPage />)} />
               <Route path={ROUTE.ACTIVITIES} element={privateRoute(<ActivitiesPage />)} />
+              <Route
+                path={ROUTE.ACTIVITIES + '/:id'}
+                element={privateRoute(<ActivityDetailsPage />)}
+              />
               <Route path={ROUTE.SESSIONS} element={privateRoute(<SessionsPage />)} />
+              <Route path={ROUTE.SESSIONS + '/:id'} element={privateRoute(<SessionDetailPage />)} />
               <Route path={ROUTE.DETAIL} element={privateRoute(<RouteDetailPage />)} />
               <Route path={ROUTE.SUBMIT} element={privateRoute(<SubmitPage />)} />
             </Route>

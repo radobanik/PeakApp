@@ -1,4 +1,3 @@
-import HeaderBar from '@/components/HeaderBar'
 import { getActivities } from '@/services/activityService'
 import { useQuery } from '@tanstack/react-query'
 
@@ -26,7 +25,6 @@ export default function ActivitiesPage() {
 
   return (
     <main className="flex flex-col h-screen">
-      <HeaderBar />
       <div className="flex flex-1 overflow-hidden">
         {activitiesQuery.isLoading && (
           <div>
@@ -35,7 +33,8 @@ export default function ActivitiesPage() {
             <Skeleton className="h-100 w-full" />
           </div>
         )}
-        {activitiesQuery.isError && <div>Error: {activitiesQuery.error.message}</div>} {/* TODO: Add proper Error handling*/}
+        {activitiesQuery.isError && <div>Error: {activitiesQuery.error.message}</div>}{' '}
+        {/* TODO: Add proper Error handling*/}
         {activitiesQuery.isSuccess && (
           <div className="flex-1 overflow-auto">
             <ScrollTable entries={activitiesQuery.data.items} Component={ActivityTableEntry} />

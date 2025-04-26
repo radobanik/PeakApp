@@ -1,5 +1,4 @@
 import BackButon from '@/components/BackButton'
-import HeaderBar from '@/components/HeaderBar'
 import threeDots from '@/assets/ThreeDots.png'
 import { useQuery } from '@tanstack/react-query'
 import { getSessionById } from '@/services/sessionService'
@@ -62,7 +61,6 @@ export default function SessionDetailPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <HeaderBar />
       <div>
         <div className="flex flex-row justify-between p-4">
           <BackButon backRoute={ROUTE.SESSIONS} />

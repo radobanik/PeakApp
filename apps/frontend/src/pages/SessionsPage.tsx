@@ -1,4 +1,3 @@
-import HeaderBar from '@/components/HeaderBar'
 import { useQuery } from '@tanstack/react-query'
 
 import ScrollTable from '@/components/ScrollTable'
@@ -22,7 +21,6 @@ export default function ActivitiesPage() {
 
   return (
     <main className="flex flex-col h-screen">
-      <HeaderBar />
       <div className="flex flex-1 overflow-hidden">
         {sessionsQuery.isLoading && <div>Loading...</div>}
         {sessionsQuery.isError && <div>Error: {sessionsQuery.error.message}</div>}

@@ -1,4 +1,3 @@
-import HeaderBar from '@/components/HeaderBar'
 import { Button } from '@/components/ui/button'
 import { useNavigate } from 'react-router-dom'
 import { ClimbingStructureType } from '@/types/routeTypes'
@@ -32,7 +31,6 @@ export default function DiaryPage() {
 
   return (
     <main>
-      <HeaderBar />
       <div className="flex flex-col gap-4 p-4 ml-auto h-45vh">
         <Button className="" onClick={navigateToActivities}>
           My Activities

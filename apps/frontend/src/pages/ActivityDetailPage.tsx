@@ -1,4 +1,3 @@
-import HeaderBar from '@/components/HeaderBar'
 import { getActivityById } from '@/services/activityService'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
@@ -48,7 +47,6 @@ export default function ActivityDetailsPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <HeaderBar />
       <div>
         <div className="flex flex-row justify-between p-4">
           <BackButon backRoute={ROUTE.ACTIVITIES} />
