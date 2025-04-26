@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { Skeleton } from '@/components/ui/skeleton'
+import { TIME_FORMAT, DATE_FORMAT } from '@/constants/formats'
 
 export default function ActivityDetailsPage() {
   const { id } = useParams<{ id: string }>()
@@ -72,9 +73,11 @@ export default function ActivityDetailsPage() {
           <div className="flex flex-row justify-between p-4">
             <div>
               {activityQuery.isSuccess && (
-                <p>{format(activityQuery.data?.climbedAt, 'd. MM. y')}</p>
+                <p>{format(activityQuery.data?.climbedAt, DATE_FORMAT)}</p>
               )}
-              {activityQuery.isSuccess && <p>{format(activityQuery.data?.climbedAt, 'HH:mm')}</p>}
+              {activityQuery.isSuccess && (
+                <p>{format(activityQuery.data?.climbedAt, TIME_FORMAT)}</p>
+              )}
             </div>
             <div className="flex flex-row gap-2 items-center">
               <label htmlFor="topped">Topped: </label>
