@@ -21,9 +21,7 @@ const getAllUnassigned = async (req: Request, res: Response) => {
     return
   }
   const activities = await ActivityRepository.list(
-    requestUser,
-    normalizedParams.page,
-    normalizedParams.pageSize
+    requestUser
   ) // Replace null with appropriate arguments
   res.status(HTTP_STATUS.OK_200).json(activities)
 }

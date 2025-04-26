@@ -8,6 +8,8 @@ import { publicRoute } from '@/routing/publicRoute'
 import { Toaster } from '@/components/ui/sonner'
 import RouteDetailPage from './pages/RouteDetailPage'
 import DiaryPage from './pages/DiaryPage'
+import ActivitiesPage from './pages/ActivitiesPage'
+
 import { Query, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import SubmitPage from './pages/SubmitPage'
@@ -50,6 +52,7 @@ export default function App() {
             <Route element={<PageFrame />}>
               <Route path={ROUTE.HOME} element={privateRoute(<HomePage />)} />
               <Route path={ROUTE.DIARY} element={privateRoute(<DiaryPage />)} />
+              <Route path={ROUTE.ACTIVITIES} element={privateRoute(<ActivitiesPage />)} />
               <Route path={ROUTE.DETAIL} element={privateRoute(<RouteDetailPage />)} />
               <Route path={ROUTE.SUBMIT} element={privateRoute(<SubmitPage />)} />
             </Route>

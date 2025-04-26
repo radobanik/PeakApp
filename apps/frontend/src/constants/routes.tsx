@@ -3,6 +3,7 @@ export const ROUTE = {
   LOGIN: '/login',
   REGISTER: '/register',
   DIARY: '/diary',
+  ACTIVITIES: '/activities',
 
   DETAIL: '/detail',
   SUBMIT: '/submit',

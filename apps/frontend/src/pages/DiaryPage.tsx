@@ -6,6 +6,8 @@ import { getSessionById, getSessions } from '@/services/sessionService'
 import { useQuery } from '@tanstack/react-query'
 
 import toppedIcon from '../assets/toppedIcon.png'
+import { Button } from '@/components/ui/button'
+import { useNavigate } from 'react-router-dom'
 
 export type activityEntry = {
   id: string
@@ -95,16 +97,18 @@ const sessionColumns: ColumnDef<SessionEntry>[] = [
 ]
 
 export default function DiaryPage() {
-  const [selectedActivity, setSelectedActivity] = useState<activityEntry | null>(null)
-  const [selectedSession, setSelectedSession] = useState<SessionEntry | null>(null)
-
   const [activitiesPageIndex, setActivitiesPageIndex] = useState(0)
   const [activitiesPageSize, setActivitiesPageSize] = useState(5)
+
+  const navigate = useNavigate()
+  const navigateToActivities = () => {
+    navigate('/activities')
+  }
 
   const activitiesQuery = useQuery({
     queryKey: ['activities', activitiesPageIndex, activitiesPageSize],
     queryFn: async () =>
-      getActivities({ pageIndex: activitiesPageIndex, pageSize: activitiesPageSize }),
+      getActivities(),
     select: (data) => ({
       items: data.items.map((activity) => ({
         id: activity.id,
@@ -139,25 +143,9 @@ export default function DiaryPage() {
   return (
     <>
       <div className="flex flex-col gap-4 p-4 w-3/4 ml-auto h-45vh border-1 bg-stone-800">
-        <h3 className="text-2xl font-bold text-white">Unassigned Activities</h3>
-        {activitiesQuery.isPending ? (
-          <div className="text-white">Loading...</div>
-        ) : activitiesQuery.isError ? (
-          <div className="">{activitiesQuery.error.message}</div>
-        ) : (
-          <DataTable
-            columns={activityColumns}
-            data={activitiesQuery.data?.items ?? []}
-            entityPath="activity/"
-            pagination={{
-              pageIndex: activitiesPageIndex,
-              pageSize: activitiesPageSize,
-              setPageIndex: setActivitiesPageIndex,
-              setPageSize: setActivitiesPageSize,
-            }}
-            pageCount={Math.ceil((activitiesQuery.data?.totalCount ?? 0) / activitiesPageSize)}
-          />
-        )}
+        <Button className="" onClick={navigateToActivities}>
+          My Activities
+        </Button>
         <h3 className="text-2xl font-bold text-white">My Sessions</h3>
         {sessionsQuery.isLoading ? (
           <div>Loading...</div>
@@ -185,8 +173,4 @@ export default function DiaryPage() {
 
 function renderComponent() {
   return <div>Henlo</div>
-}
-
-function noDetail() {
-  return <div className="p-2 text-2xl">Select an activity or session to view details</div>
 }

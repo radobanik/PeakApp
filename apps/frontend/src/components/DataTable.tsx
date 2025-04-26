@@ -9,8 +9,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination } from './ui/DataTablePagination'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
-import { Row } from 'react-day-picker'
+import { useNavigate } from 'react-router-dom'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -55,9 +54,6 @@ export function DataTable<TData extends { id: string }, TValue>({
   })
 
   const navigate = useNavigate()
-  const changeRoute = (id: string) => {
-    navigate('/' + entityPath + id)
-  }
 
   return (
     <div className="rounded-md border text-white">
@@ -83,7 +79,7 @@ export function DataTable<TData extends { id: string }, TValue>({
               <TableRow
                 key={row.id}
                 onClick={() => {
-                  changeRoute(row.original.id)
+                  navigate(-1)
                 }}
                 className="even:bg-stone-600 odd:bg-stone-500 "
                 data-state={row.getIsSelected() && 'selected'}
