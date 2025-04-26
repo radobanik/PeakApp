@@ -3,11 +3,19 @@ import { api } from './index'
 import { Activity } from '@/types/activityTypes'
 import { PaginatedResponse } from '@/types'
 
-export async function getActivities(): Promise<PaginatedResponse<Activity>> {
-  const response = await api.get(API.ACTIVITY.LIST)
+interface getActivitiesParams {
+  pageIndex: number
+  pageSize: number
+}
+
+export async function getActivities({
+  pageIndex,
+  pageSize,
+}: getActivitiesParams): Promise<PaginatedResponse<Activity>> {
+  const response = await api.get(API.ACTIVITY.LIST + `?page=${pageIndex + 1}&pageSize=${pageSize}`)
   console.log('response', response)
-  if (response.status == 401) {
-    const error = new Error('Unauthorized user')
+  if (response.status != 200) {
+    const error = new Error('Error')
     throw error
   }
   return response.data

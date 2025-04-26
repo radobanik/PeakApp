@@ -100,11 +100,15 @@ export default function DiaryPage() {
   const [selectedActivity, setSelectedActivity] = useState<activityEntry | null>(null)
   const [selectedSession, setSelectedSession] = useState<SessionEntry | null>(null)
 
+  const [activitiesPageIndex, setActivitiesPageIndex] = useState(0)
+  const [activitiesPageSize, setActivitiesPageSize] = useState(5)
+
   const activitiesQuery = useQuery({
-    queryKey: ['activities'],
-    queryFn: async () => getActivities(),
-    select: (data) => {
-      return data.items.map((activity) => ({
+    queryKey: ['activities', activitiesPageIndex, activitiesPageSize],
+    queryFn: async () =>
+      getActivities({ pageIndex: activitiesPageIndex, pageSize: activitiesPageSize }),
+    select: (data) => ({
+      items: data.items.map((activity) => ({
         id: activity.id,
         climbedAt: activity.climbedAt,
         routeName: activity.route.name,
@@ -112,8 +116,9 @@ export default function DiaryPage() {
         routeType: activity.route.climbingStructureType,
         numOfAttempts: activity.numOfAttempts,
         topped: activity.topped,
-      }))
-    },
+      })),
+      totalCount: data.total,
+    }),
   })
 
   const sessionsQuery = useQuery({
@@ -134,18 +139,25 @@ export default function DiaryPage() {
       <div className="flex flex-col gap-4 p-4 w-3/4 ml-auto h-45vh border-1 bg-stone-800">
         <h3 className="text-2xl font-bold text-white">Unassigned Activities</h3>
         {activitiesQuery.isPending ? (
-          <div className='text-white'>Loading...</div>
+          <div className="text-white">Loading...</div>
         ) : activitiesQuery.isError ? (
-          <div className="text-white">{activitiesQuery.error.message}</div>
+          <div className="">{activitiesQuery.error.message}</div>
         ) : (
           <DataTable
             columns={activityColumns}
-            data={activitiesQuery.data ?? []}
+            data={activitiesQuery.data?.items ?? []}
             setter={setSelectedActivity}
+            pagination={{
+              pageIndex: activitiesPageIndex,
+              pageSize: activitiesPageSize,
+              setPageIndex: setActivitiesPageIndex,
+              setPageSize: setActivitiesPageSize,
+            }}
+            pageCount={Math.ceil((activitiesQuery.data?.totalCount ?? 0) / activitiesPageSize)}
           />
         )}
         <h3 className="text-2xl font-bold text-white">My Sessions</h3>
-        {sessionsQuery.isLoading ? (
+        {/* {sessionsQuery.isLoading ? (
           <div>Loading...</div>
         ) : sessionsQuery.isError ? (
           <div className="text-white">{sessionsQuery.error.message}</div>
@@ -155,7 +167,7 @@ export default function DiaryPage() {
             data={sessionsQuery.data ?? []}
             setter={setSelectedSession}
           />
-        )}
+        )} */}
       </div>
       <div className="w-3/4 h-30vh min-h-1/2 ml-auto ">{renderComponent()}</div>
     </>
