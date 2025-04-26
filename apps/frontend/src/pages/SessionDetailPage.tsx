@@ -20,15 +20,19 @@ export default function SessionDetailPage() {
 
   const placeholders = [
     {
+      id: 1,
       image: noBoulderPhoto,
     },
     {
+      id: 2,
       image: noBoulderPhoto,
     },
     {
+      id: 3,
       image: noBoulderPhoto,
     },
     {
+      id: 4,
       image: noBoulderPhoto,
     },
   ]
@@ -77,7 +81,7 @@ export default function SessionDetailPage() {
           <ScrollArea className="h-[20vh] w-full rounded-md border overflow-scroll">
             <div className="flex w-max space-x-4 p-4">
               {placeholders.map((placeholder) => (
-                <div className="rounded-md shrink-0">
+                <div key={placeholder.id} className="rounded-md shrink-0">
                   <img
                     src={placeholder.image}
                     className="max-h-[15vh] max-w-[15vh] rounded-md"
