@@ -229,6 +229,7 @@ model Session {
   createdById String
   createdBy   User     @relation(name: "SessionCreatedBy", fields: [createdById], references: [id])
 
+  name        String   @default("Session")
   note        String
 
   /* FOREIGN RELATIONSHIP */
