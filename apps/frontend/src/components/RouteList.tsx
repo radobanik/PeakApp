@@ -12,9 +12,9 @@ import {
 } from '@tanstack/react-table'
 
 declare module '@tanstack/react-table' {
-  interface ColumnMeta<TData, TValue> {
-    className?: string
-  }
+  // interface ColumnMeta<TData, TValue> {
+  //   className?: string
+  // }
 }
 import {
   Table,
@@ -178,7 +178,7 @@ export default function RouteList() {
         const response = await getRoutes(pagination.pageIndex + 1, pagination.pageSize)
         setData(response.items)
         setTotalPages(response.totalPages)
-      } catch (e) {
+      } catch {
         toast.error('Failed to fetch routes.')
       } finally {
         setLoading(false)

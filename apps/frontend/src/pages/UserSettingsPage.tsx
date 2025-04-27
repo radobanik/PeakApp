@@ -10,7 +10,7 @@ import { SearchComboBox, ComboboxItem } from '@/components/ui/custom/search-comb
 import { DatePickerYearSelector } from '@/components/ui/custom/date-picker-year-selection'
 import diddyPfp from '@/assets/diddy.webp'
 import * as geoService from '@/services/geoService'
-import { CountriesResponse } from '@/types/geoTypes'
+import { CitiesResponse, CountriesResponse } from '@/types/geoTypes'
 import { toast } from 'sonner'
 
 type FormValues = {
@@ -47,7 +47,7 @@ const UserSettingsPage = () => {
 
   const [countryData, setCountryData] = useState<CountriesResponse>([])
   const [countriesComboItems, setCountriesComboItems] = useState<ComboboxItem[]>([])
-  const [citiesData, setCitiesData] = useState<CountriesResponse>([])
+  const [citiesData, setCitiesData] = useState<CitiesResponse>([])
   const [citiesComboItems, setCitiesComboItems] = useState<ComboboxItem[]>([])
 
   const selectedCountry = watch('country')
