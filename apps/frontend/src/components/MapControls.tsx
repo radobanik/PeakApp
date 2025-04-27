@@ -38,10 +38,19 @@ const MapControls = memo(function MapControls({
     })
 
   const renderSearchBar = () => (
-    <div className="relative z-1000 max-w-120 h-8 flex justify-center items-center pl-4 pr-4">
-      <div className="bg-red-400 w-full h-full text-xl"> TUTO DADE DAJ SEARCH RADO</div>
-      {/* TODO: PA-63 Just replace the red box above with the Searchbar component
-       and use w-full h-full inside that component */}
+    <div className="relative z-1000 max-w-120 h-9 flex justify-center items-center pl-4 pr-4">
+      <input
+        type="text"
+        placeholder="Search..."
+        className="
+    w-full h-full px-4 py-2 mt-3 font-bold 
+    bg-gray-200 bg-opacity-5 backdrop-blur-sm
+    placeholder-gray-800 text-gray-800
+    border border-gray-200 border-opacity-50
+    rounded-md shadow-md
+    focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent
+  "
+      />
     </div>
   )
 
