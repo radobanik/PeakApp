@@ -70,7 +70,7 @@ export default function ActivityDetailsPage() {
       {
         /* TODO: Add more informative erorrs based on status code */
       }
-      toast.error('Error deleting activity')
+      toast.error('Error deleting Activity')
     },
   })
 
