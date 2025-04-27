@@ -43,6 +43,7 @@ export default function SessionDetailPage() {
     select: (data) => ({
       id: data.id,
       createdAt: data.createdAt,
+      name: data.name,
       note: data.note,
       assignedActivities: data.assignedActivities.map((activity) => ({
         id: activity.id,
@@ -67,6 +68,7 @@ export default function SessionDetailPage() {
           <img src={threeDots} />
         </div>
         <div className="flex flex-col gap-4 p-4">
+          <h1 className="text-2xl m-2">{sessionQuery.data?.name}</h1>
           {sessionQuery && (
             <Textarea
               disabled

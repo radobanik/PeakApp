@@ -8,6 +8,7 @@ type SessionDetail = {
   updatedAt: Date | null
   createdBy: UserLabeled
 
+  name: string
   note: string
 
   assignedActivities: ActivityDetail[]
@@ -22,6 +23,7 @@ const selector = {
     select: userLabeledSelector,
   },
 
+  name: true,
   note: true,
 
   assignedActivities: {
