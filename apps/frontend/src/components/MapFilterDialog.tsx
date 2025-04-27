@@ -1,5 +1,11 @@
 import { useEffect, useState, useMemo, useRef } from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
@@ -10,6 +16,18 @@ import { GradeDetail } from '@/types/gradeTypes'
 import { ClimbingStructureType } from '@/types/routeTypes'
 import * as gradeService from '@/services/gradeService'
 import { getTextColorForBackground } from '../lib/utils'
+
+const INITIAL_FILTERS: FilterClimbingObjectListParams = {
+  name: null,
+  routeName: null,
+  ratingFrom: null,
+  ratingTo: null,
+  latitudeFrom: null,
+  latitudeTo: null,
+  longitudeFrom: null,
+  longitudeTo: null,
+  climbingStructureTypes: [],
+}
 
 const climbingStructureStyles: Record<ClimbingStructureType, string> = {
   [ClimbingStructureType.TRAVERSE]: 'bg-green-100 text-green-800',
@@ -206,6 +224,7 @@ export default function FilterDialog({
       <DialogContent className="md:max-w-[600px] sm:m-4 md:m-4 lg:m-0 p-4">
         <DialogHeader>
           <DialogTitle>Filter Climbing Objects</DialogTitle>
+          <DialogDescription className="sr-only"></DialogDescription>
         </DialogHeader>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-5 py-4">
           <SingleSelectDropdown
@@ -243,11 +262,30 @@ export default function FilterDialog({
             </div>
           ))}
         </div>
-        <div className="flex justify-end space-x-2">
+        <div className="flex justify-between">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button onClick={() => onApply(filters)}>Apply</Button>
+          <div className="flex space-x-2">
+            <Button
+              variant="destructive"
+              onClick={() => {
+                setFilters(INITIAL_FILTERS)
+                onApply(INITIAL_FILTERS)
+                onOpenChange(false)
+              }}
+            >
+              Clear
+            </Button>
+            <Button
+              onClick={() => {
+                onApply(filters)
+                onOpenChange(false)
+              }}
+            >
+              Apply
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

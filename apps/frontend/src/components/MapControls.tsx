@@ -1,6 +1,5 @@
-import { MAX_ZOOM_LEVEL, MIN_ZOOM_LEVEL } from '@/constants/map'
-import clsx from 'clsx'
 import { memo, useContext, useState } from 'react'
+import clsx from 'clsx'
 import { useMap } from 'react-leaflet'
 import ZoomInIcon from './svg/ZoomInIcon'
 import ZoomOutIcon from './svg/ZoomOutIcon'
@@ -8,19 +7,26 @@ import AddPoiIcon from './svg/AddPoiIcon'
 import FilterIcon from './svg/FilterIcon'
 import { ViewportContext } from '@/App'
 import FilterDialog from './MapFilterDialog'
-
 import { FilterClimbingObjectListParams } from '@/types/climbingObjectTypes'
 
 type MapControlsProps = {
   zoomLevel: number
+  filters: FilterClimbingObjectListParams | null
+  onApplyFilters: (f: FilterClimbingObjectListParams) => void
 }
 
-const MapControls = ({ zoomLevel }: MapControlsProps) => {
+const MAX_ZOOM_LEVEL = 18
+const MIN_ZOOM_LEVEL = 3
+
+const MapControls = memo(function MapControls({
+  zoomLevel,
+  filters,
+  onApplyFilters,
+}: MapControlsProps) {
   const map = useMap()
   const { isMobile } = useContext(ViewportContext)
 
   const [filterDialogOpen, setFilterDialogOpen] = useState(false)
-  const [filters, setFilters] = useState<FilterClimbingObjectListParams | null>(null)
 
   const isZoomInDisabled = zoomLevel >= MAX_ZOOM_LEVEL
   const isZoomOutDisabled = zoomLevel <= MIN_ZOOM_LEVEL
@@ -74,7 +80,7 @@ const MapControls = ({ zoomLevel }: MapControlsProps) => {
       <div className="absolute w-full top-1">{renderSearchBar()}</div>
       <div
         className={clsx(
-          'absolute right-0 w-14 h-full flex justify-between space-y-5 flex-col pb-6',
+          'absolute right-0 w-14 h-full flex justify-between flex-col pb-6',
           isMobile ? 'pt-15 mr-2' : 'pt-3 mr-4'
         )}
       >
@@ -85,12 +91,13 @@ const MapControls = ({ zoomLevel }: MapControlsProps) => {
       <FilterDialog
         open={filterDialogOpen}
         onOpenChange={setFilterDialogOpen}
-        onApply={(filters) => {
-          console.log('Applied filters', filters)
+        onApply={(f) => {
+          onApplyFilters(f)
+          setFilterDialogOpen(false)
         }}
       />
     </div>
   )
-}
+})
 
-export default memo(MapControls)
+export default MapControls

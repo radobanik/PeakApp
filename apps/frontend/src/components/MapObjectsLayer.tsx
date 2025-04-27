@@ -1,4 +1,4 @@
-import { ClimbingObjectList } from '@/types/climbingObjectTypes'
+import { ClimbingObjectList, FilterClimbingObjectListParams } from '@/types/climbingObjectTypes'
 import { RouteSummary } from '@/types/routeTypes'
 import { memo, SetStateAction, useEffect, useRef } from 'react'
 import ReactDOMServer from 'react-dom/server'
@@ -61,6 +61,8 @@ type MapObjectLayerProps = {
 
   setRoute: React.Dispatch<SetStateAction<string | null>>
   routes: RouteSummary[] | null
+
+  filters: FilterClimbingObjectListParams | null
 }
 
 const MapObjectLayer = (props: MapObjectLayerProps) => {
@@ -87,6 +89,10 @@ const MapObjectLayer = (props: MapObjectLayerProps) => {
     const processChunk = () => {
       const chunk: ClimbingObjectList[] = pointQueue.current.splice(0, CHUNK_SIZE)
       const newMarkers: L.Marker[] = []
+
+      markersRef.current.clear()
+      routesClusterRef.current?.clearLayers()
+      climbingObjectClusterRef.current?.clearLayers()
 
       chunk.forEach((point) => {
         if (!markersRef.current.has(point.id)) {
@@ -150,15 +156,15 @@ const MapObjectLayer = (props: MapObjectLayerProps) => {
 
     try {
       const response = await getFilteredClimbingObject({
-        longitudeFrom: bounds.getWest(),
-        longitudeTo: bounds.getEast(),
-        latitudeFrom: bounds.getSouth(),
-        latitudeTo: bounds.getNorth(),
-        name: null,
-        routeName: null,
-        ratingFrom: null,
-        ratingTo: null,
-        climbingStructureTypes: [],
+        longitudeFrom: props.filters?.longitudeFrom ?? bounds.getWest(),
+        longitudeTo: props.filters?.longitudeTo ?? bounds.getEast(),
+        latitudeFrom: props.filters?.latitudeFrom ?? bounds.getSouth(),
+        latitudeTo: props.filters?.latitudeTo ?? bounds.getNorth(),
+        name: props.filters?.name ?? null,
+        routeName: props.filters?.routeName ?? null,
+        ratingFrom: props.filters?.ratingFrom ?? null,
+        ratingTo: props.filters?.ratingTo ?? null,
+        climbingStructureTypes: props.filters?.climbingStructureTypes ?? [],
       })
 
       const data = response
@@ -182,7 +188,7 @@ const MapObjectLayer = (props: MapObjectLayerProps) => {
     return () => {
       map.off('moveend', onMoveEnd)
     }
-  }, [map])
+  }, [map, props.filters])
 
   useEffect(() => {
     map.invalidateSize()
