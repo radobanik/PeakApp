@@ -11,6 +11,13 @@ import { Badge } from '@/components/ui/badge'
 import { getTextColorForBackground } from '../lib/utils'
 import { ClimbingStructureType } from '@/types/routeTypes'
 
+const climbingStructureStyles: Record<ClimbingStructureType, string> = {
+  [ClimbingStructureType.TRAVERSE]: 'bg-green-100 text-green-800',
+  [ClimbingStructureType.OVERHANG]: 'bg-blue-100 text-blue-800',
+  [ClimbingStructureType.SLAB]: 'bg-purple-100 text-purple-800',
+  [ClimbingStructureType.WALL]: 'bg-gray-100 text-gray-800',
+}
+
 export default function FilterDialog({
   open,
   onOpenChange,
@@ -223,7 +230,10 @@ export default function FilterDialog({
               >
                 {filters.climbingStructureTypes && filters.climbingStructureTypes.length > 0
                   ? filters.climbingStructureTypes.map((type) => (
-                      <Badge key={type} className="bg-blue-600 text-white px-2 py-1">
+                      <Badge
+                        key={type}
+                        className={`px-2 py-1 ${climbingStructureStyles[type]}`}
+                      >
                         {type}
                       </Badge>
                     ))
@@ -247,7 +257,7 @@ export default function FilterDialog({
                         {isSelected && <Check className="w-4 h-4 text-blue-600" />}
                         <Badge
                           className={`px-2 py-1 ${
-                            isSelected ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'
+                            isSelected ? climbingStructureStyles[type] : 'bg-gray-200 text-gray-800'
                           }`}
                         >
                           {type}
