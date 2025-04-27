@@ -158,7 +158,7 @@ const MapObjectLayer = (props: MapObjectLayerProps) => {
         routeName: null,
         ratingFrom: null,
         ratingTo: null,
-        climbingStructureTypes: null,
+        climbingStructureTypes: [],
       })
 
       const data = response

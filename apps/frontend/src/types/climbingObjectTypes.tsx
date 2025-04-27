@@ -1,4 +1,4 @@
-import { RouteSummary } from './routeTypes'
+import { ClimbingStructureType, RouteSummary } from './routeTypes'
 import { UserLabeled } from './userTypes'
 
 export type ClimbingObjectList = {
@@ -40,5 +40,5 @@ export type FilterClimbingObjectListParams = {
   latitudeTo: number | null
   longitudeFrom: number | null
   longitudeTo: number | null
-  climbingStructureTypes: string | null
+  climbingStructureTypes: ClimbingStructureType[]
 }

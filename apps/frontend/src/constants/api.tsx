@@ -33,6 +33,9 @@ export const API = {
     LIST: `${API_BASE_URL}/route/`,
   },
   CLIMBING_OBJECT: `${API_BASE_URL}/climbing-object`,
+  GRADE : {
+    LIST: `${API_BASE_URL}/grade`,
+  },
   PEAK_FILE: {
     BY_ID: (id: string) => `${API_BASE_URL}/peak-file/${id}`,
     CREATE: () => `${API_BASE_URL}/peak-file`,

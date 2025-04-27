@@ -1,12 +1,15 @@
 import { MAX_ZOOM_LEVEL, MIN_ZOOM_LEVEL } from '@/constants/map'
 import clsx from 'clsx'
-import { memo, useContext } from 'react'
+import { memo, useContext, useState } from 'react'
 import { useMap } from 'react-leaflet'
 import ZoomInIcon from './svg/ZoomInIcon'
 import ZoomOutIcon from './svg/ZoomOutIcon'
 import AddPoiIcon from './svg/AddPoiIcon'
 import FilterIcon from './svg/FilterIcon'
 import { ViewportContext } from '@/App'
+import FilterDialog from './MapFilterDialog'
+
+import { FilterClimbingObjectListParams } from '@/types/climbingObjectTypes'
 
 type MapControlsProps = {
   zoomLevel: number
@@ -15,6 +18,9 @@ type MapControlsProps = {
 const MapControls = ({ zoomLevel }: MapControlsProps) => {
   const map = useMap()
   const { isMobile } = useContext(ViewportContext)
+
+  const [filterDialogOpen, setFilterDialogOpen] = useState(false)
+  const [filters, setFilters] = useState<FilterClimbingObjectListParams | null>(null)
 
   const isZoomInDisabled = zoomLevel >= MAX_ZOOM_LEVEL
   const isZoomOutDisabled = zoomLevel <= MIN_ZOOM_LEVEL
@@ -34,8 +40,8 @@ const MapControls = ({ zoomLevel }: MapControlsProps) => {
   )
 
   const renderUpperButtonColumn = () => (
-    <div className="flex  flex-col space-y-5">
-      <button className={getButtonClassName()}>
+    <div className="flex flex-col space-y-5">
+      <button className={getButtonClassName()} onClick={() => setFilterDialogOpen(true)}>
         <FilterIcon />
       </button>
       <button className={getButtonClassName()}>
@@ -45,22 +51,18 @@ const MapControls = ({ zoomLevel }: MapControlsProps) => {
   )
 
   const renderLowerButtonColumn = () => (
-    <div className="flex  flex-col space-y-5">
+    <div className="flex flex-col space-y-5">
       <button
         className={getButtonClassName(isZoomInDisabled)}
         disabled={isZoomInDisabled}
-        onClick={() => {
-          map.zoomIn()
-        }}
+        onClick={() => map.zoomIn()}
       >
         <ZoomInIcon />
       </button>
       <button
         className={getButtonClassName(isZoomOutDisabled)}
         disabled={isZoomOutDisabled}
-        onClick={() => {
-          map.zoomOut()
-        }}
+        onClick={() => map.zoomOut()}
       >
         <ZoomOutIcon />
       </button>
@@ -79,6 +81,14 @@ const MapControls = ({ zoomLevel }: MapControlsProps) => {
         {renderUpperButtonColumn()}
         {renderLowerButtonColumn()}
       </div>
+
+      <FilterDialog
+        open={filterDialogOpen}
+        onOpenChange={setFilterDialogOpen}
+        onApply={(filters) => {
+          console.log('Applied filters', filters)
+        }}
+      />
     </div>
   )
 }
