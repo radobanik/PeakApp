@@ -1,7 +1,6 @@
-import { getActivityById } from '@/services/activityService'
-import { useQuery } from '@tanstack/react-query'
-import { useParams } from 'react-router-dom'
-import threeDots from '@/assets/ThreeDots.png'
+import { deleteActivity, getActivityById } from '@/services/activityService'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useNavigate, useParams } from 'react-router-dom'
 import noBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
 import BackButon from '@/components/BackButton'
 import { capitalize } from '@/lib/utils'
@@ -21,9 +20,18 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { TIME_FORMAT, DATE_FORMAT } from '@/constants/formats'
 import { perceivedDifficulty } from '@/types/utilsTypes'
 import { ROUTE } from '@/constants/routes'
+import { EntityOptionsDropdown } from '@/components/ui/custom/entity-option-dropdown'
+import { AlertDialogDelete } from '@/components/ui/custom/alert-dialog-delete'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 export default function ActivityDetailsPage() {
   const { id } = useParams<{ id: string }>()
+  const queryClient = useQueryClient()
+  const navigation = useNavigate()
+
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [isDeleted, setIsDeleted] = useState(false)
 
   if (!id) {
     throw new Error('Activity ID is required')
@@ -45,12 +53,45 @@ export default function ActivityDetailsPage() {
     }),
   })
 
+  const deleteMutation = useMutation({
+    mutationFn: async () => {
+      return deleteActivity(id)
+    },
+    onSuccess: () => {
+      navigation(ROUTE.ACTIVITIES)
+      queryClient.invalidateQueries({ queryKey: ['activities'] })
+      queryClient.removeQueries({ queryKey: [id] })
+      toast.success('Activity deleted successfully')
+      {
+        /* TODO: Investigate attempted retrieve of recently deleted Activity (even after these invalidations) */
+      }
+    },
+    onError: () => {
+      {
+        /* TODO: Add more informative erorrs based on status code */
+      }
+      toast.error('Error deleting activity')
+    },
+  })
+
+  useEffect(() => {
+    if (isDeleted) {
+      deleteMutation.mutate()
+      setIsDeleted(false)
+    }
+  }, [isDeleted])
+
   return (
     <div className="flex flex-col gap-4">
+      <AlertDialogDelete
+        isOpen={isDeleteDialogOpen}
+        setOpen={setIsDeleteDialogOpen}
+        setDelete={setIsDeleted}
+      />
       <div>
         <div className="flex flex-row justify-between p-4">
           <BackButon backRoute={ROUTE.ACTIVITIES} />
-          <img src={threeDots} />
+          <EntityOptionsDropdown setDelete={setIsDeleteDialogOpen} />
         </div>
         <div className="flex flex-col gap-4 p-1">
           <div className="relative mx-auto w-fit">
