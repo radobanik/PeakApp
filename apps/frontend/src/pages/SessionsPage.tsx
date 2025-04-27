@@ -20,7 +20,7 @@ export default function ActivitiesPage() {
   })
 
   return (
-    <main className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen">
       <div className="flex flex-1 overflow-hidden">
         {sessionsQuery.isLoading && <div>Loading...</div>}
         {sessionsQuery.isError && <div>Error: {sessionsQuery.error.message}</div>}
@@ -30,6 +30,6 @@ export default function ActivitiesPage() {
           </div>
         )}
       </div>
-    </main>
+    </div>
   )
 }

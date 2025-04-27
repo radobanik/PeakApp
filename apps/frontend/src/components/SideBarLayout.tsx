@@ -10,7 +10,9 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar'
-import { Title } from '@radix-ui/react-dialog'
+import PeakAppLogo from '@/assets/PeakAppLogo.png'
+import { useContext } from 'react'
+import { ViewportContext } from '@/App'
 
 type SidebarItem = {
   title: string
@@ -20,31 +22,22 @@ type SidebarItem = {
 
 type SidebarSection = {
   title: string
-  url: string
+  url?: string
   items?: SidebarItem[]
 }
 
 export type SidebarLayoutProps = {
-  logoTitle: string
   version?: string
   sections: SidebarSection[]
 } & React.ComponentProps<typeof Sidebar>
 
-export function SidebarLayout({ logoTitle, sections, ...props }: SidebarLayoutProps) {
+export function SidebarLayout({ sections, ...props }: SidebarLayoutProps) {
+  const { isMobile } = useContext(ViewportContext)
   return (
-    <Sidebar variant="sidebar" {...props}>
-      <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <a href="#">
-                <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-semibold">{logoTitle}</span>
-                </div>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+    <Sidebar collapsible={isMobile ? 'offcanvas' : 'none'} variant="sidebar" {...props}>
+      <SidebarHeader className="md:hidden w-full">
+        {/* TODO: Switch logo based on light/dark theme */}
+        <img src={PeakAppLogo} alt="PeakApp Logo" className="w-[80%]" />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>

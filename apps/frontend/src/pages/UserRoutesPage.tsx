@@ -1,5 +1,5 @@
 import RouteList from '@/components/RouteList'
 
-export default function RoutePage() {
+export default function UserRoutesPage() {
   return <RouteList />
 }

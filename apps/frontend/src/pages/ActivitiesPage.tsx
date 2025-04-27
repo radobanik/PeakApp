@@ -24,7 +24,7 @@ export default function ActivitiesPage() {
   })
 
   return (
-    <main className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen">
       <div className="flex flex-1 overflow-hidden">
         {activitiesQuery.isLoading && (
           <div>
@@ -41,6 +41,6 @@ export default function ActivitiesPage() {
           </div>
         )}
       </div>
-    </main>
+    </div>
   )
 }

@@ -1,5 +1,5 @@
 import { useForm, Controller } from 'react-hook-form'
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -24,7 +24,7 @@ type FormValues = {
   city: string
 }
 
-export default function UserSettings() {
+const UserSettingsPage = () => {
   const {
     register,
     control,
@@ -249,3 +249,5 @@ export default function UserSettings() {
     </form>
   )
 }
+
+export default memo(UserSettingsPage)

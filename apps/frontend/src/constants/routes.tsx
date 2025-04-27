@@ -14,5 +14,14 @@ export const ROUTE = {
 
   SETTINGS_USER: '/settings/user',
   SETTINGS_ROUTES: '/settings/routes',
-  SETTINGS_NOTIFICATIONS: '/settings/notifications',
 }
+
+export const SIDEBAR_ROUTES = [
+  {
+    title: 'Settings',
+    items: [
+      { title: 'User', url: ROUTE.SETTINGS_USER },
+      { title: 'Routes', url: ROUTE.SETTINGS_ROUTES },
+    ],
+  },
+]

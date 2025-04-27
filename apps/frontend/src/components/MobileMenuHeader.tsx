@@ -7,6 +7,7 @@ import diddyPfp from '@/assets/diddy.webp'
 import MapIcon from './svg/MapIcon'
 import CommunityIcon from './svg/CommunityIcon'
 import DiaryIcon from './svg/DiaryIcon'
+import { useSidebar } from './ui/sidebar'
 
 const MENU_ICON_BUTTONS = [
   {
@@ -27,6 +28,8 @@ const MENU_ICON_BUTTONS = [
 ]
 
 const MobileMenuHeader = () => {
+  const { toggleSidebar } = useSidebar()
+
   const renderMenuButton = ({
     title,
     icon: SVGIcon,
@@ -51,12 +54,12 @@ const MobileMenuHeader = () => {
   }
 
   const renderProfileButton = () => (
-    <Link to={ROUTE.SETTINGS} className="flex flex-1 justify-center h-full px-2 py-1">
+    <div onClick={toggleSidebar} className="flex flex-1 justify-center h-full px-2 py-1">
       <Avatar className="h-full flex justify-center items-center ">
         {/* TODO:: Add user photo and AvatarFallback with user initials */}
         <AvatarImage src={diddyPfp} className="h-full rounded-full"></AvatarImage>
       </Avatar>
-    </Link>
+    </div>
   )
 
   return (

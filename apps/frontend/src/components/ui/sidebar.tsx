@@ -164,6 +164,8 @@ function Sidebar({
         data-slot="sidebar"
         className={cn(
           'bg-sidebar text-sidebar-foreground flex h-full w-(--sidebar-width) flex-col',
+          'transition-width duration-300 ease-in-out',
+          { 'w-0': state === 'collapsed' },
           className
         )}
         {...props}
