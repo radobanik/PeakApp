@@ -1,10 +1,9 @@
-import { deleteActivity, getActivityById } from '@/services/activityService'
+import { deleteActivity, getActivityById, updateActivity } from '@/services/activityService'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import noBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
 import BackButon from '@/components/BackButton'
 import { capitalize } from '@/lib/utils'
-import { format } from 'date-fns'
 import { Input } from '@/components/ui/input'
 import {
   Select,
@@ -17,7 +16,6 @@ import {
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { Skeleton } from '@/components/ui/skeleton'
-import { TIME_FORMAT, DATE_FORMAT } from '@/constants/formats'
 import { perceivedDifficulty } from '@/types/utilsTypes'
 import { ROUTE } from '@/constants/routes'
 import { EntityOptionsDropdown } from '@/components/ui/custom/entity-option-dropdown'
@@ -38,22 +36,18 @@ import {
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DateTimePicker24h } from '@/components/ui/custom/date-time-picker'
+import { ActivityUpdate } from '@/types/activityTypes'
 
 const formSchema = z.object({
   climbedAt: z.coerce.date(),
   topped: z.boolean().optional(),
   perceivedDifficulty: z.nativeEnum(perceivedDifficulty),
-  numberOfAttempts: z
+  numberOfAttempts: z.coerce
     .number()
     .min(0, 'Invalid attempts amount')
     .max(100, 'Invalid attempts amount'),
   notes: z.string().optional(),
 })
-
-function onSubmit(data: z.infer<typeof formSchema>) {
-  // Handle form submission
-  console.log('Form submitted:', data)
-}
 
 export default function ActivityDetailsPage() {
   const { id } = useParams<{ id: string }>()
@@ -82,6 +76,29 @@ export default function ActivityDetailsPage() {
       topped: data.topped,
       notes: data.notes,
     }),
+  })
+
+  function onSubmit(data: z.infer<typeof formSchema>) {
+    const activityData: ActivityUpdate = {
+      climbedAt: data.climbedAt,
+      topped: data.topped ?? false,
+      perceivedDifficulty: data.perceivedDifficulty,
+      numOfAttempts: data.numberOfAttempts,
+      notes: data.notes ?? '',
+    }
+    UpdateMutation.mutate(activityData)
+    setIsEdit(false)
+  }
+
+  const UpdateMutation = useMutation({
+    mutationFn: async (data: ActivityUpdate) => {
+      updateActivity(id, data)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [id] })
+      toast.success('Activity updated successfully')
+    },
+    onError: () => {},
   })
 
   const deleteMutation = useMutation({
@@ -220,7 +237,7 @@ export default function ActivityDetailsPage() {
                         <FormItem>
                           <FormLabel>Perceived Difficulty</FormLabel>
                           <FormControl>
-                            <Select {...field} disabled={!isEdit}>
+                            <Select {...field} disabled={!isEdit} onValueChange={field.onChange}>
                               <SelectTrigger className="w-[40vw]">
                                 <SelectValue placeholder="Select a Difficulty" />
                               </SelectTrigger>
@@ -270,15 +287,26 @@ export default function ActivityDetailsPage() {
                 </div>
               </div>
               <div className="p-4">
-                <label htmlFor="notes">Notes</label>
                 {activityQuery.isLoading && <Skeleton className="h-[15vh] w-full" />}
                 {activityQuery.isSuccess && (
-                  <Textarea
-                    id="notes"
-                    disabled={!isEdit}
-                    placeholder="Write your Notes here..."
-                    className="resize-none h-[15vh] w-full"
-                    defaultValue={activityQuery.data.notes}
+                  <FormField
+                    control={form.control}
+                    name="notes"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Notes</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            disabled={!isEdit}
+                            placeholder="Write your Notes here..."
+                            className="resize-none h-[15vh] w-full"
+                            defaultValue={activityQuery.data.notes}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
                 )}
               </div>

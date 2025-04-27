@@ -5,10 +5,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
-import { DATE_FORMAT, TIME_FORMAT } from '@/constants/formats'
-
-const DATETIME_FORMAT = `${DATE_FORMAT}`
+import { DATE_FORMAT } from '@/constants/formats'
 
 interface DateTimePicker24hProps {
   value?: Date
@@ -43,7 +40,6 @@ export function DateTimePicker24h({
     }
   }
 
-  console.log('internalDate', internalDate)
   return (
     <Popover open={isOpen && !disabled} onOpenChange={(open) => !disabled && setIsOpen(open)}>
       <PopoverTrigger asChild>
