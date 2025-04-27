@@ -49,7 +49,7 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ViewportContext.Provider value={{ isMobile }}>
-        <SidebarProvider>
+        <SidebarProvider defaultOpen={false}>
           <BrowserRouter>
             <Routes>
               {/* Public routes */}
