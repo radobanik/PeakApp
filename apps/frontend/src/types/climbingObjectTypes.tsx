@@ -30,3 +30,15 @@ export interface ClimbingObjectNoRoutes {
   longitude: number
   latitude: number
 }
+
+export type FilterClimbingObjectListParams = {
+  name: string | null
+  routeName: string | null
+  ratingFrom: number | null
+  ratingTo: number | null
+  latitudeFrom: number | null
+  latitudeTo: number | null
+  longitudeFrom: number | null
+  longitudeTo: number | null
+  climbingStructureTypes: string | null
+}

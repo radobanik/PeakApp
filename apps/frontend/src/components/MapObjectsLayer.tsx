@@ -1,4 +1,3 @@
-import { API } from '@/constants/api'
 import { ClimbingObjectList } from '@/types/climbingObjectTypes'
 import { RouteSummary } from '@/types/routeTypes'
 import { memo, SetStateAction, useEffect, useRef } from 'react'
@@ -8,6 +7,7 @@ import * as L from 'leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
 import { toast } from 'sonner'
 import { ClusterIcon } from './ClusterIcon'
+import { getFilteredClimbingObject } from '@/services/climbingObjectService'
 
 const MAX_CLUSTER_ZOOM = 18
 const CHUNK_SIZE = 1000 // Process 1000 points at a time
@@ -28,32 +28,6 @@ const RED_POI_ICON = new L.Icon({
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
 })
-
-const fetchClimbingObjects = async (
-  lonFrom: number,
-  lonTo: number,
-  latFrom: number,
-  latTo: number
-) => {
-  try {
-    const url = new URL(API.CLIMBING_OBJECT)
-    const params = new URLSearchParams({
-      longitudeFrom: lonFrom.toString(),
-      longitudeTo: lonTo.toString(),
-      latitudeFrom: latFrom.toString(),
-      latitudeTo: latTo.toString(),
-    })
-
-    url.search = params.toString()
-    console.log(url.toString())
-    const response = await fetch(url.toString())
-    const data = await response.json()
-    return data
-  } catch {
-    toast.error('Could not load the climbing objects', { id: 'load-cos-error' })
-    return null
-  }
-}
 
 declare module 'leaflet' {
   interface MarkerOptions {
@@ -108,14 +82,14 @@ const MapObjectLayer = (props: MapObjectLayerProps) => {
       return
 
     isProcessing.current = true
-    const clusterGroup: L.MarkerClusterGroup | null = climbingObjectClusterRef.current
+    const clusterGroup = climbingObjectClusterRef.current
 
     const processChunk = () => {
       const chunk: ClimbingObjectList[] = pointQueue.current.splice(0, CHUNK_SIZE)
       const newMarkers: L.Marker[] = []
 
       chunk.forEach((point) => {
-        if (markersRef.current.get(point.id) === undefined) {
+        if (!markersRef.current.has(point.id)) {
           const mapMarker = L.marker([point.latitude, point.longitude], {
             icon: BLUE_POI_ICON,
             routesCount: point.routeCount ?? 0,
@@ -128,7 +102,7 @@ const MapObjectLayer = (props: MapObjectLayerProps) => {
         }
       })
 
-      if (newMarkers.length != 0) {
+      if (newMarkers.length !== 0) {
         clusterGroup?.addLayers(newMarkers) // Add multiple markers at once
       }
 
@@ -145,10 +119,8 @@ const MapObjectLayer = (props: MapObjectLayerProps) => {
   const renderRoutes = async (routes: RouteSummary[] | null) => {
     if (!routesClusterRef.current) return
 
-    const clusterGroup: L.MarkerClusterGroup | null = routesClusterRef.current
-    if (routes === null) {
-      return
-    }
+    const clusterGroup = routesClusterRef.current
+    if (!routes) return
 
     const processChunk = () => {
       const newMarkers: L.Marker[] = []
@@ -164,7 +136,7 @@ const MapObjectLayer = (props: MapObjectLayerProps) => {
         newMarkers.push(mapMarker)
       })
 
-      if (newMarkers.length != 0) {
+      if (newMarkers.length !== 0) {
         clusterGroup?.addLayers(newMarkers) // Add multiple markers at once
       }
     }
@@ -174,17 +146,28 @@ const MapObjectLayer = (props: MapObjectLayerProps) => {
 
   const handleMapChange = async () => {
     props.setZoomLevel(map.getZoom())
-    const b = map.getBounds()
+    const bounds = map.getBounds()
 
-    const data: ClimbingObjectList[] | null = await fetchClimbingObjects(
-      b.getWest(),
-      b.getEast(),
-      b.getSouth(),
-      b.getNorth()
-    )
-    console.log(data)
-    data?.forEach((p) => pointQueue.current.push(p))
-    renderClimbingObjects()
+    try {
+      const response = await getFilteredClimbingObject({
+        longitudeFrom: bounds.getWest(),
+        longitudeTo: bounds.getEast(),
+        latitudeFrom: bounds.getSouth(),
+        latitudeTo: bounds.getNorth(),
+        name: null,
+        routeName: null,
+        ratingFrom: null,
+        ratingTo: null,
+        climbingStructureTypes: null,
+      })
+
+      const data = response
+
+      data?.forEach((p) => pointQueue.current.push(p))
+      renderClimbingObjects()
+    } catch {
+      toast.error('Could not load the climbing objects', { id: 'load-cos-error' })
+    }
   }
 
   useEffect(() => {
