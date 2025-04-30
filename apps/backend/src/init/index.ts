@@ -7,6 +7,7 @@ import initActivities from './activity.init'
 import initSessions from './session.init'
 import initComments from './comment.init'
 import initLikes from './like.init'
+import initReviews from './review.init'
 
 /**
  * must be in the right order!
@@ -21,6 +22,7 @@ const initFunctions = [
   initSessions,
   initComments,
   initLikes,
+  initReviews,
 ]
 
 async function initAll() {
