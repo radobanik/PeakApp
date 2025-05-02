@@ -42,6 +42,8 @@ model User {
   climbingStructureUpdatedBy ClimbingObject[] @relation(name: "ClimbingObjectUpdatedBy")
   activityCreatedBy Activity[] @relation(name: "ActivityCreatedBy")
   Session Session[] @relation(name: "SessionCreatedBy")
+
+  comments Comment[] @relation(name: "UserComments")
 }
 
 model PeakFile {
@@ -231,6 +233,8 @@ model Session {
   assignedActivities  Activity[]
 
   PeakFile PeakFile[]
+
+  comments    Comment[] @relation(name: "SessionComments")
 }
 
 model SessionPeakFile {
@@ -241,4 +245,19 @@ model SessionPeakFile {
   peakFile  PeakFile @relation(name: "SessionImages",fields: [peakFileId], references: [id])
 
   @@id([sessionId, peakFileId])
+}
+
+model Comment {
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+
+  userId    String
+  user      User      @relation(name: "UserComments", fields: [userId], references: [id])
+
+  sessionId String
+  session   Session   @relation(name: "SessionComments", fields: [sessionId], references: [id])
+
+  deleted   Boolean   @default(false)
+  text      String
 }
