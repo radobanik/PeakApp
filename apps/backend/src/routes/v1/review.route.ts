@@ -16,4 +16,22 @@ reviewRouter.get(
   ReviewController.getMeForRoute
 )
 
+reviewRouter.post(
+  '/:id/me',
+  passport.authenticate('jwt', { session: false }),
+  ReviewController.create
+)
+
+reviewRouter.put(
+  '/:id/me',
+  passport.authenticate('jwt', { session: false }),
+  ReviewController.update
+)
+
+reviewRouter.delete(
+  '/:id/me',
+  passport.authenticate('jwt', { session: false }),
+  ReviewController.deleteByRouteId
+)
+
 export default reviewRouter

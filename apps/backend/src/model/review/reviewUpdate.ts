@@ -5,7 +5,7 @@ type ReviewUpdate = {
   text: string
 }
 
-const validate = (entuty: ReviewUpdate) => {
+const validate = (entity: ReviewUpdate) => {
   z.object({
     stars: z
       .number()
@@ -14,7 +14,7 @@ const validate = (entuty: ReviewUpdate) => {
     text: z.string().max(500, 'Review text must be at most 500 characters long.'),
   })
     .strict()
-    .safeParse(entuty)
+    .safeParse(entity)
 }
 
 export type { ReviewUpdate }
