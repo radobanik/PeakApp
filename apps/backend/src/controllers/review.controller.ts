@@ -84,6 +84,12 @@ const update = async (req: Request, res: Response) => {
     res.status(HTTP_STATUS.UNAUTHORIZED_401)
     return
   }
+
+  if (!(await ReviewRepository.exists(routeId, requestUser))) {
+    res.status(HTTP_STATUS.NOT_FOUND_404).json({ error: 'Review not found' })
+    return
+  }
+
   const validatedData = requestValidator(() => reviewCreateValidate(req.body), res)
   if (!validatedData) return
 
