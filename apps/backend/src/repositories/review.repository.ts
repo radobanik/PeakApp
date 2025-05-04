@@ -2,7 +2,6 @@ import { PrismaClient } from '@prisma/client'
 import { RefObject } from '../model/common/refObject'
 import { ReviewCreate, reviewDetailSelector, reviewListSelector } from '../model/review'
 import { toConnector } from './utils/connector'
-import { createListResponse } from '../model/common/listResponse'
 
 const reviewClient = new PrismaClient().review
 

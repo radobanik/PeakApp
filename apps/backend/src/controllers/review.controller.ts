@@ -4,7 +4,6 @@ import { ReviewRepository, RouteRepository } from '../repositories'
 import { HTTP_STATUS } from './utils/httpStatusCodes'
 import requestValidator from '../model/common/validator'
 import { reviewCreateValidate, reviewUpdateValidate } from '../model/review'
-import { createListResponse } from '../model/common/listResponse'
 import {
   IncommingListParams,
   NonNullListParams,
@@ -86,7 +85,7 @@ const update = async (req: Request, res: Response) => {
     return
   }
 
-  const validatedData = requestValidator(() => reviewCreateValidate(req.body), res)
+  const validatedData = requestValidator(() => reviewUpdateValidate(req.body), res)
   if (!validatedData) return
 
   const updatedReview = await ReviewRepository.update(validatedData, routeId, requestUser)
