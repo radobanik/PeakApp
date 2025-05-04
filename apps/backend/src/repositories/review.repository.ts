@@ -4,8 +4,8 @@ import { ReviewCreate, reviewDetailSelector, reviewListSelector } from '../model
 
 const reviewClient = new PrismaClient().review
 
-const getByRouteId = async (routeId: string, userRef: RefObject) => {
-  return reviewClient.findMany({
+const getUsersByRouteId = async (routeId: string, userRef: RefObject) => {
+  return reviewClient.findFirst({
     where: {
       routeId: routeId,
       createdBy: userRef,
@@ -50,7 +50,7 @@ const update = async (reviewData: ReviewCreate, routeId: string, author: RefObje
 }
 
 export default {
-  getByRouteId,
+  getUsersByRouteId,
   listByRouteId,
   create,
   update,
