@@ -2,11 +2,12 @@ import { PrismaClient } from '@prisma/client'
 import { RefObject } from '../model/common/refObject'
 import { ReviewCreate, reviewDetailSelector, reviewListSelector } from '../model/review'
 import { toConnector } from './utils/connector'
+import { createListResponse } from '../model/common/listResponse'
 
 const reviewClient = new PrismaClient().review
 
 const getUsersByRouteId = async (routeId: string, userRef: RefObject) => {
-  return reviewClient.findFirst({
+  return await reviewClient.findFirst({
     where: {
       routeId: routeId,
       createdBy: userRef,
@@ -15,13 +16,25 @@ const getUsersByRouteId = async (routeId: string, userRef: RefObject) => {
   })
 }
 
-const listByRouteId = async (routeId: string) => {
-  return reviewClient.findMany({
+const listByRouteId = async (
+  routeId: string,
+  user: RefObject,
+  pageNum: number,
+  pageSize: number
+) => {
+  const reviews = await reviewClient.findMany({
     where: {
       routeId: routeId,
+      createdBy: { NOT: user },
     },
+    skip: (pageNum - 1) * pageSize,
+    take: pageSize,
     select: reviewListSelector,
+    orderBy: {
+      createdAt: 'desc',
+    },
   })
+  return reviews
 }
 
 const create = async (reviewData: ReviewCreate, route: RefObject, userRef: RefObject) => {

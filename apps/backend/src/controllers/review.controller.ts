@@ -4,15 +4,30 @@ import { ReviewRepository, RouteRepository } from '../repositories'
 import { HTTP_STATUS } from './utils/httpStatusCodes'
 import requestValidator from '../model/common/validator'
 import { reviewCreateValidate, reviewUpdateValidate } from '../model/review'
+import { createListResponse } from '../model/common/listResponse'
+import {
+  IncommingListParams,
+  NonNullListParams,
+  toNotNullListParams,
+} from '../model/common/listParams'
+import config from '../core/config'
 
 const getAllForRoute = async (req: Request, res: Response) => {
   const routeId = req.params.id
+
+  const params = req.query as unknown as IncommingListParams
+  const normalizedParams: NonNullListParams = toNotNullListParams(params, config.LIST_LIMIT.DEFAULT)
   const requestUser = provideUserRefFromToken(req)
   if (requestUser === null) {
     res.status(HTTP_STATUS.UNAUTHORIZED_401)
     return
   }
-  const reviews = await ReviewRepository.listByRouteId(routeId)
+  const reviews = await ReviewRepository.listByRouteId(
+    routeId,
+    requestUser,
+    normalizedParams.page,
+    normalizedParams.pageSize
+  )
   res.status(HTTP_STATUS.OK_200).json(reviews)
 }
 
