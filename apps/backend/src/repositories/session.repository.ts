@@ -107,11 +107,20 @@ const update = async (
   return flattenAdditionalImages(nestedDetail as SessionDetailDeepImage)
 }
 
-const exists = async (author: RefObject, id: string): Promise<boolean> => {
+async function exists(author: RefObject, id: string): Promise<boolean> {
   const count = await sessionClient.count({
     where: {
       id: id,
       createdBy: author,
+    },
+  })
+  return count > 0
+}
+
+async function existsId(id: string): Promise<boolean> {
+  const count = await sessionClient.count({
+    where: {
+      id: id,
     },
   })
   return count > 0
@@ -129,5 +138,6 @@ export default {
   create,
   update,
   exists,
+  existsId,
   deleteById,
 }
