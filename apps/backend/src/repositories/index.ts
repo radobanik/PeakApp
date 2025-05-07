@@ -5,6 +5,7 @@ import RouteRepository from './route.repository'
 import ClimbingObjectRepository from './climbingObject.repository'
 import ActivityRepository from './activity.repository'
 import SessionRepository from './session.repository'
+import CommentRepository from './comment.repository'
 
 export {
   UserRepository,
@@ -14,4 +15,5 @@ export {
   ClimbingObjectRepository,
   ActivityRepository,
   SessionRepository,
+  CommentRepository,
 }
