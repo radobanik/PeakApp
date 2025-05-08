@@ -13,7 +13,7 @@ import {
   SESSION_4_ID,
   SESSION_5_ID,
 } from './session.init'
-import { Prisma, PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 
 const commentClient = new PrismaClient().comment
 
