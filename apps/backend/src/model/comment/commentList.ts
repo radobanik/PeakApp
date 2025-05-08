@@ -1,7 +1,3 @@
-import { session } from 'passport'
-import config from '../../core/config'
-import { IncommingListParams, NonNullListParams, toNotNullListParams } from '../common/listParams'
-import { RefObject } from '../common/refObject'
 import { UserLabeled, userLabeledSelector } from '../user'
 import {
   defaultListCursorParams,
