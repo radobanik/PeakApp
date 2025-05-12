@@ -86,7 +86,6 @@ export default function ActivityDetailsPage() {
       numOfAttempts: data.numberOfAttempts,
       notes: data.notes ?? '',
     }
-    console.log('ActivityData', activityData)
     UpdateMutation.mutate(activityData)
     setIsEdit(false)
   }
@@ -151,10 +150,8 @@ export default function ActivityDetailsPage() {
         notes: activityQuery.data?.notes,
       })
     }
-    console.log('updated', form.getValues())
   }, [activityQuery.isSuccess])
 
-  console.log('ActivityQuery', activityQuery.data)
   return (
     <div className="flex flex-col gap-4">
       <AlertDialogDelete
