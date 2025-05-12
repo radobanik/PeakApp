@@ -6,6 +6,7 @@ import initGeoData from './geo.init'
 import initActivities from './activity.init'
 import initSessions from './session.init'
 import initComments from './comment.init'
+import initLikes from './like.init'
 
 /**
  * must be in the right order!
@@ -19,6 +20,7 @@ const initFunctions = [
   initActivities,
   initSessions,
   initComments,
+  initLikes,
 ]
 
 async function initAll() {
