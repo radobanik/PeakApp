@@ -28,3 +28,11 @@ export interface Activity {
   topped: boolean
   route: Route
 }
+
+export type ActivityUpdate = {
+  climbedAt: Date
+  numOfAttempts: number
+  perceivedDifficulty: perceivedDifficulty
+  notes: string
+  topped: boolean
+}
