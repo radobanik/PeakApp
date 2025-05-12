@@ -20,6 +20,7 @@ type SessionList = {
   updatedAt: Date | null
   createdBy: UserLabeled
 
+  name: string
   note: string
 
   assignedActivities: ActivityList[]
@@ -33,6 +34,7 @@ const selector = {
     select: userLabeledSelector,
   },
 
+  name: true,
   note: true,
 
   assignedActivities: {

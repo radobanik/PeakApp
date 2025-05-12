@@ -12,6 +12,7 @@ export default function ActivitiesPage() {
       items: data.items.map((session) => ({
         id: session.id,
         createdAt: session.createdAt,
+        name: session.name,
         note: session.note,
         numberOfActivities: session.assignedActivities.length,
       })),

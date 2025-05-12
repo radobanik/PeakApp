@@ -12,6 +12,7 @@ export interface Session {
   createdAt: Date
   updatedAt: Date | null
   createdBy: User
+  name: string
   note: string
   assignedActivities: Activity[]
 }
