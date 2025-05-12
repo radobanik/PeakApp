@@ -7,7 +7,7 @@ import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { DATE_FORMAT } from '@/constants/formats'
 
-interface DateTimePicker24hProps {
+interface DatePickerProps {
   value?: Date
   onChange?: (date: Date | undefined) => void
   disabled?: boolean
@@ -15,13 +15,13 @@ interface DateTimePicker24hProps {
   placeholder?: string
 }
 
-export function DateTimePicker24h({
+export function DatePicker({
   value,
   onChange,
   disabled,
   className,
   placeholder = DATE_FORMAT,
-}: DateTimePicker24hProps) {
+}: DatePickerProps) {
   const [isOpen, setIsOpen] = React.useState(false)
   const [internalDate, setInternalDate] = React.useState<Date | undefined>(value)
 

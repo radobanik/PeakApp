@@ -35,7 +35,7 @@ import {
 } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import { DateTimePicker24h } from '@/components/ui/custom/date-time-picker'
+import { DatePicker } from '@/components/ui/custom/date-picker'
 import { ActivityUpdate } from '@/types/activityTypes'
 
 const formSchema = z.object({
@@ -86,11 +86,11 @@ export default function ActivityDetailsPage() {
       numOfAttempts: data.numberOfAttempts,
       notes: data.notes ?? '',
     }
-    UpdateMutation.mutate(activityData)
+    updateMutation.mutate(activityData)
     setIsEdit(false)
   }
 
-  const UpdateMutation = useMutation({
+  const updateMutation = useMutation({
     mutationFn: async (data: ActivityUpdate) => {
       updateActivity(id, data)
     },
@@ -194,7 +194,7 @@ export default function ActivityDetailsPage() {
                         <FormItem>
                           <FormLabel>Climbed at</FormLabel>
                           <FormControl>
-                            <DateTimePicker24h disabled={!isEdit} {...field} />
+                            <DatePicker disabled={!isEdit} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>

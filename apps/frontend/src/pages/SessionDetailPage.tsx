@@ -94,10 +94,10 @@ export default function SessionDetailPage() {
       note: data.note ?? '',
       photos: [],
     }
-    UpdateMutation.mutate(activityData)
+    updateMutation.mutate(activityData)
     setIsEdit(false)
   }
-  const UpdateMutation = useMutation({
+  const updateMutation = useMutation({
     mutationFn: async (data: SessionUpdate) => {
       updateSession(id, data)
     },
