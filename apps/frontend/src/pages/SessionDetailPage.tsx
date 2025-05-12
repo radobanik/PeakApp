@@ -1,8 +1,7 @@
 import BackButon from '@/components/BackButton'
-import threeDots from '@/assets/ThreeDots.png'
-import { useQuery } from '@tanstack/react-query'
-import { getSessionById } from '@/services/sessionService'
-import { useParams } from 'react-router-dom'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { deleteSession, getSessionById } from '@/services/sessionService'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Textarea } from '@/components/ui/textarea'
 import ScrollTable from '@/components/ScrollTable'
 import ActivityTableEntry from '@/components/ActivityTableEntry'
@@ -10,9 +9,18 @@ import noBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
 import { ScrollArea } from '@radix-ui/react-scroll-area'
 import { ScrollBar } from '@/components/ui/scroll-area'
 import { ROUTE } from '@/constants/routes'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
+import { AlertDialogDelete } from '@/components/ui/custom/alert-dialog-delete'
+import { EntityOptionsDropdown } from '@/components/ui/custom/entity-option-dropdown'
 
 export default function SessionDetailPage() {
   const { id } = useParams<{ id: string }>()
+  const queryClient = useQueryClient()
+  const navigation = useNavigate()
+
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [isDeleted, setIsDeleted] = useState(false)
 
   if (!id) {
     throw new Error('Activity ID is required')
@@ -60,12 +68,45 @@ export default function SessionDetailPage() {
     }),
   })
 
+  const deleteMutation = useMutation({
+    mutationFn: async () => {
+      return deleteSession(id)
+    },
+    onSuccess: () => {
+      navigation(ROUTE.ACTIVITIES)
+      queryClient.invalidateQueries({ queryKey: ['sessions'] })
+      queryClient.removeQueries({ queryKey: [id] })
+      toast.success('Session deleted successfully')
+      {
+        /* TODO: Investigate attempted retrieve of recently deleted Session (even after these invalidations) */
+      }
+    },
+    onError: () => {
+      {
+        /* TODO: Add more informative erorrs based on status code */
+      }
+      toast.error('Error deleting Session')
+    },
+  })
+
+  useEffect(() => {
+    if (isDeleted) {
+      deleteMutation.mutate()
+      setIsDeleted(false)
+    }
+  }, [isDeleted])
+
   return (
     <div className="flex flex-col gap-4">
+      <AlertDialogDelete
+        isOpen={isDeleteDialogOpen}
+        setOpen={setIsDeleteDialogOpen}
+        setDelete={setIsDeleted}
+      />
       <div>
         <div className="flex flex-row justify-between p-4">
           <BackButon backRoute={ROUTE.SESSIONS} />
-          <img src={threeDots} />
+          <EntityOptionsDropdown setDelete={setIsDeleteDialogOpen} />
         </div>
         <div className="flex flex-col gap-4 p-4">
           <h1 className="text-2xl m-2">{sessionQuery.data?.name}</h1>
