@@ -24,6 +24,36 @@ import { EntityOptionsDropdown } from '@/components/ui/custom/entity-option-drop
 import { AlertDialogDelete } from '@/components/ui/custom/alert-dialog-delete'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
+import { DateTimePicker24h } from '@/components/ui/custom/date-time-picker'
+
+const formSchema = z.object({
+  climbedAt: z.coerce.date(),
+  topped: z.boolean().optional(),
+  perceivedDifficulty: z.nativeEnum(perceivedDifficulty),
+  numberOfAttempts: z
+    .number()
+    .min(0, 'Invalid attempts amount')
+    .max(100, 'Invalid attempts amount'),
+  notes: z.string().optional(),
+})
+
+function onSubmit(data: z.infer<typeof formSchema>) {
+  // Handle form submission
+  console.log('Form submitted:', data)
+}
 
 export default function ActivityDetailsPage() {
   const { id } = useParams<{ id: string }>()
@@ -31,7 +61,8 @@ export default function ActivityDetailsPage() {
   const navigation = useNavigate()
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
-  const [isDeleted, setIsDeleted] = useState(false)
+  const [isDelete, setIsDelete] = useState(false)
+  const [isEdit, setIsEdit] = useState(false)
 
   if (!id) {
     throw new Error('Activity ID is required')
@@ -74,24 +105,47 @@ export default function ActivityDetailsPage() {
     },
   })
 
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      climbedAt: activityQuery.data?.climbedAt,
+      topped: activityQuery.data?.topped,
+      perceivedDifficulty: activityQuery.data?.perceivedDifficulty,
+      numberOfAttempts: activityQuery.data?.numOfAttempts,
+      notes: activityQuery.data?.notes,
+    },
+  })
+
   useEffect(() => {
-    if (isDeleted) {
+    if (isDelete) {
       deleteMutation.mutate()
-      setIsDeleted(false)
+      setIsDelete(false)
     }
-  }, [isDeleted])
+  }, [isDelete])
+
+  useEffect(() => {
+    if (activityQuery.isSuccess && !isEdit) {
+      form.reset({
+        climbedAt: activityQuery.data?.climbedAt,
+        topped: activityQuery.data?.topped,
+        perceivedDifficulty: activityQuery.data?.perceivedDifficulty,
+        numberOfAttempts: activityQuery.data?.numOfAttempts,
+        notes: activityQuery.data?.notes,
+      })
+    }
+  }, [activityQuery.isSuccess])
 
   return (
     <div className="flex flex-col gap-4">
       <AlertDialogDelete
         isOpen={isDeleteDialogOpen}
         setOpen={setIsDeleteDialogOpen}
-        setDelete={setIsDeleted}
+        setDelete={setIsDelete}
       />
       <div>
         <div className="flex flex-row justify-between p-4">
           <BackButon backRoute={ROUTE.ACTIVITIES} />
-          <EntityOptionsDropdown setDelete={setIsDeleteDialogOpen} />
+          <EntityOptionsDropdown setDelete={setIsDeleteDialogOpen} setIsEdit={setIsEdit} />
         </div>
         <div className="flex flex-col gap-4 p-1">
           <div className="relative mx-auto w-fit">
@@ -110,77 +164,129 @@ export default function ActivityDetailsPage() {
               <p>{capitalize(activityQuery.data?.routeType)}</p>
             </div>
           </div>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <div className="flex flex-row justify-between p-4">
+                <div className="flex flex-row gap-2 items-center">
+                  {activityQuery.isLoading && <Skeleton className="h-10 w-[5vw]" />}
+                  {activityQuery.isSuccess && (
+                    <FormField
+                      control={form.control}
+                      name="climbedAt"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Climbed at</FormLabel>
+                          <FormControl>
+                            <DateTimePicker24h disabled={!isEdit} {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+                </div>
+                <div className="flex flex-row gap-2 items-center">
+                  {activityQuery.isLoading && <Skeleton className="h-10 w-[5vw]" />}
+                  {activityQuery.isSuccess && (
+                    <FormField
+                      control={form.control}
+                      name="topped"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Topped</FormLabel>
+                          <FormControl>
+                            <Checkbox
+                              disabled={!isEdit}
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+                </div>
+              </div>
 
-          <div className="flex flex-row justify-between p-4">
-            <div>
-              {activityQuery.isSuccess && (
-                <p>{format(activityQuery.data?.climbedAt, DATE_FORMAT)}</p>
-              )}
-              {activityQuery.isSuccess && (
-                <p>{format(activityQuery.data?.climbedAt, TIME_FORMAT)}</p>
-              )}
-            </div>
-            <div className="flex flex-row gap-2 items-center">
-              <label htmlFor="topped">Topped: </label>
-              {activityQuery.isLoading && <Skeleton className="h-10 w-[5vw]" />}
-              {activityQuery.isSuccess && (
-                <Input type="checkbox" id="topped" disabled checked={activityQuery.data?.topped} />
-              )}
-            </div>
-          </div>
-
-          <div className="flex flex-row justify-between p-4 ">
-            <div>
-              <label htmlFor="">Perceived Difficulty</label>
-              {activityQuery.isLoading && <Skeleton className="h-10 w-[40vw]" />}
-              {activityQuery.isSuccess && (
-                <Select defaultValue={activityQuery.data?.perceivedDifficulty}>
-                  <SelectTrigger className="w-[40vw]">
-                    <SelectValue placeholder="Select a Difficulty" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Difficulty</SelectLabel>
-                      {Object.values(perceivedDifficulty).map((level) => (
-                        <SelectItem key={level} value={level}>
-                          {level
-                            .replace('_', ' ')
-                            .toLowerCase()
-                            .replace(/^\w/, (c) => c.toUpperCase())}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              )}
-            </div>
-            <div className="flex flex-col items-center justify-end">
-              <label htmlFor="attempts">Number of Attempts </label>
-              {activityQuery.isLoading && <Skeleton className="h-10 w-[40vw]" />}
-              {activityQuery.isSuccess && (
-                <Input
-                  type="number"
-                  id="attempts"
-                  disabled
-                  className="w-[40vw]"
-                  value={activityQuery.data?.numOfAttempts}
-                />
-              )}
-            </div>
-          </div>
-          <div className="p-4">
-            <label htmlFor="notes">Notes</label>
-            {activityQuery.isLoading && <Skeleton className="h-[15vh] w-full" />}
-            {activityQuery.isSuccess && (
-              <Textarea
-                disabled
-                id="notes"
-                placeholder="Write your Notes here..."
-                className="resize-none h-[15vh] w-full"
-                defaultValue={activityQuery.data.notes}
-              />
-            )}
-          </div>
+              <div className="flex flex-row justify-between p-4 ">
+                <div>
+                  {activityQuery.isLoading && <Skeleton className="h-10 w-[40vw]" />}
+                  {activityQuery.isSuccess && (
+                    <FormField
+                      control={form.control}
+                      name="perceivedDifficulty"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Perceived Difficulty</FormLabel>
+                          <FormControl>
+                            <Select {...field} disabled={!isEdit}>
+                              <SelectTrigger className="w-[40vw]">
+                                <SelectValue placeholder="Select a Difficulty" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectGroup>
+                                  <SelectLabel>Difficulty</SelectLabel>
+                                  {Object.values(perceivedDifficulty).map((level) => (
+                                    <SelectItem key={level} value={level}>
+                                      {level
+                                        .replace('_', ' ')
+                                        .toLowerCase()
+                                        .replace(/^\w/, (c) => c.toUpperCase())}
+                                    </SelectItem>
+                                  ))}
+                                </SelectGroup>
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+                </div>
+                <div className="flex flex-col items-center justify-end">
+                  {activityQuery.isLoading && <Skeleton className="h-10 w-[40vw]" />}
+                  {activityQuery.isSuccess && (
+                    <FormField
+                      control={form.control}
+                      name="numberOfAttempts"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Number of Attempts</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              disabled={!isEdit}
+                              className="w-[40vw]"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+                </div>
+              </div>
+              <div className="p-4">
+                <label htmlFor="notes">Notes</label>
+                {activityQuery.isLoading && <Skeleton className="h-[15vh] w-full" />}
+                {activityQuery.isSuccess && (
+                  <Textarea
+                    id="notes"
+                    disabled={!isEdit}
+                    placeholder="Write your Notes here..."
+                    className="resize-none h-[15vh] w-full"
+                    defaultValue={activityQuery.data.notes}
+                  />
+                )}
+              </div>
+              <Button disabled={!isEdit} type="submit">
+                Save
+              </Button>
+            </form>
+          </Form>
         </div>
       </div>
     </div>

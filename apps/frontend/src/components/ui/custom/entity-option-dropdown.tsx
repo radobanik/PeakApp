@@ -9,6 +9,7 @@ import threeDots from '@/assets/ThreeDots.png'
 
 interface EntityOptionsDropdownProps {
   setDelete: (value: boolean) => void
+  setIsEdit: (value: boolean) => void
 }
 
 export function EntityOptionsDropdown(props: EntityOptionsDropdownProps) {
@@ -19,7 +20,13 @@ export function EntityOptionsDropdown(props: EntityOptionsDropdownProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuGroup>
-          <DropdownMenuItem>Edit</DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {
+              props.setIsEdit(true)
+            }}
+          >
+            Edit
+          </DropdownMenuItem>
           <DropdownMenuItem onClick={() => props.setDelete(true)} className="text-red-500">
             Delete
           </DropdownMenuItem>
