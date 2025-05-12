@@ -44,7 +44,7 @@ const formSchema = z.object({
   perceivedDifficulty: z.nativeEnum(perceivedDifficulty),
   numberOfAttempts: z.coerce
     .number()
-    .min(0, 'Invalid attempts amount')
+    .min(1, 'Invalid attempts amount')
     .max(100, 'Invalid attempts amount'),
   notes: z.string().optional(),
 })
@@ -86,6 +86,7 @@ export default function ActivityDetailsPage() {
       numOfAttempts: data.numberOfAttempts,
       notes: data.notes ?? '',
     }
+    console.log('ActivityData', activityData)
     UpdateMutation.mutate(activityData)
     setIsEdit(false)
   }
@@ -150,8 +151,10 @@ export default function ActivityDetailsPage() {
         notes: activityQuery.data?.notes,
       })
     }
+    console.log('updated', form.getValues())
   }, [activityQuery.isSuccess])
 
+  console.log('ActivityQuery', activityQuery.data)
   return (
     <div className="flex flex-col gap-4">
       <AlertDialogDelete
@@ -229,33 +232,33 @@ export default function ActivityDetailsPage() {
               <div className="flex flex-row justify-between p-4 ">
                 <div>
                   {activityQuery.isLoading && <Skeleton className="h-10 w-[40vw]" />}
-                  {activityQuery.isSuccess && (
+                  {activityQuery.isSuccess && form.getValues().perceivedDifficulty && (
                     <FormField
                       control={form.control}
                       name="perceivedDifficulty"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Perceived Difficulty</FormLabel>
-                          <FormControl>
-                            <Select {...field} disabled={!isEdit} onValueChange={field.onChange}>
+                          <Select disabled={!isEdit} onValueChange={field.onChange} {...field}>
+                            <FormControl>
                               <SelectTrigger className="w-[40vw]">
                                 <SelectValue placeholder="Select a Difficulty" />
                               </SelectTrigger>
-                              <SelectContent>
-                                <SelectGroup>
-                                  <SelectLabel>Difficulty</SelectLabel>
-                                  {Object.values(perceivedDifficulty).map((level) => (
-                                    <SelectItem key={level} value={level}>
-                                      {level
-                                        .replace('_', ' ')
-                                        .toLowerCase()
-                                        .replace(/^\w/, (c) => c.toUpperCase())}
-                                    </SelectItem>
-                                  ))}
-                                </SelectGroup>
-                              </SelectContent>
-                            </Select>
-                          </FormControl>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectLabel>Difficulty</SelectLabel>
+                                {Object.values(perceivedDifficulty).map((level) => (
+                                  <SelectItem key={level} value={level}>
+                                    {level
+                                      .replace('_', ' ')
+                                      .toLowerCase()
+                                      .replace(/^\w/, (c) => c.toUpperCase())}
+                                  </SelectItem>
+                                ))}
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -300,7 +303,6 @@ export default function ActivityDetailsPage() {
                             disabled={!isEdit}
                             placeholder="Write your Notes here..."
                             className="resize-none h-[15vh] w-full"
-                            defaultValue={activityQuery.data.notes}
                             {...field}
                           />
                         </FormControl>
