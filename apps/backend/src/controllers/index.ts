@@ -7,6 +7,7 @@ import ClimbingObjectController from './climbingObject.controller'
 import ActivityController from './activity.controller'
 import SessionController from './session.controller'
 import CommentController from './comment.controller'
+import LikeController from './like.controller'
 
 export {
   UserController,
@@ -18,4 +19,5 @@ export {
   ActivityController,
   SessionController,
   CommentController,
+  LikeController,
 }
