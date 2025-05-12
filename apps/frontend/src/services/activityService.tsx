@@ -20,3 +20,14 @@ export async function getActivityById(id: string): Promise<Activity> {
   }
   return response.data
 }
+
+export async function deleteActivity(id: string): Promise<void> {
+  try {
+    const response = await api.delete(`${API.ACTIVITY.LIST}${id}`)
+    return response.data
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    const message = error.response?.data?.message || error.message || 'Failed to delete Activity.'
+    throw new Error(message)
+  }
+}

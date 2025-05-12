@@ -24,7 +24,7 @@ const ActivityTableEntry: FC<ActivityTableEntryProps> = ({ entry }: ActivityTabl
             <p>{entry.routeGrade.toUpperCase()}</p>
           </div>
           <div className="flex flex-row justify-between">
-            <p>{entry.numOfAttempts + attemptsString}</p>
+            <p>{attemptsString}</p>
             <div className="">{entry.topped && <img src={toppedIcon} />}</div>
           </div>
         </div>
