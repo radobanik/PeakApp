@@ -16,7 +16,7 @@ export type ActivityEntry = {
 export type SessionEntry = {
   id: string
   createdAt: Date
-  name: string,
+  name: string
   note: string
   numberOfActivities: number
 }

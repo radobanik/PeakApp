@@ -32,9 +32,8 @@ export default function ActivitiesPage() {
         <div className="flex flex-row items-center gap-4">
           <BackButon backRoute={ROUTE.DIARY} />
           <h1 className="text-2xl">My Activities</h1>
-
         </div>
-          <img src={plusIcon} alt="Add Activity" className="w-6 h-6 cursor-pointer" />
+        <img src={plusIcon} alt="Add Activity" className="w-6 h-6 cursor-pointer" />
       </div>
       <div className="flex flex-1 overflow-hidden">
         {activitiesQuery.isLoading && (
