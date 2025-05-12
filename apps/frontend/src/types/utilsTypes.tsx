@@ -1,6 +1,6 @@
 export enum perceivedDifficulty {
   EASY = 'EASY',
-  MODERATE = 'MODERATE',
+  MEDIUM = 'MEDIUM',
   HARD = 'HARD',
   ULTRA_HARD = 'ULTRA_HARD',
 }

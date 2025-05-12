@@ -15,6 +15,7 @@ const sessions = [
   {
     id: SESSION_1_ID,
     createdById: UserInit.USER_CHRIS_BROWN_ID,
+    name: 'Indoor session - EXTRA HARD',
     note: 'Great session! Climbed a lot of routes.',
     assignedActivities: {
       connect: [
@@ -27,6 +28,7 @@ const sessions = [
   {
     id: SESSION_2_ID,
     createdById: UserInit.USER_CHRIS_BROWN_ID,
+    name: 'Outdoor bouldering session',
     note: 'Mostly focused on technique and footwork; managed to flash a couple of tricky slab routes.',
     assignedActivities: {
       connect: [{ id: ActivityInit.ACTIVITY_3_CHRIS_BROWN_ID }],
@@ -36,6 +38,7 @@ const sessions = [
   {
     id: SESSION_3_ID,
     createdById: UserInit.USER_JOHN_DOE_ID,
+    name: 'Outdoor bouldering session with friends',
     note: 'Tried some new problems on the comp wall—super dynamic, got me pumped quickly.',
     assignedActivities: {
       connect: [
@@ -51,7 +54,8 @@ const sessions = [
   {
     id: SESSION_4_ID,
     createdById: UserInit.USER_JANE_DOE_ID,
-    note: 'GreTired from the start, but still had fun; climbed easier routes and practiced downclimbing.',
+    name: 'Birthday session',
+    note: 'Tired from the start, but still had fun; climbed easier routes and practiced downclimbing.',
     assignedActivities: {
       connect: [{ id: ActivityInit.ACTIVITY_11_JANE_DOE_ID }],
     },
@@ -60,6 +64,7 @@ const sessions = [
   {
     id: SESSION_5_ID,
     createdById: UserInit.USER_JANE_DOE_ID,
+    name: 'Friends meeting on boulder',
     note: 'Great session with friends! Lots of attempts on the cave section, made solid progress on my endurance.',
     assignedActivities: {
       connect: [{ id: ActivityInit.ACTIVITY_12_JANE_DOE_ID }],

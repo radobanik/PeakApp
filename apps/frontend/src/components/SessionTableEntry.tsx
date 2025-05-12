@@ -16,7 +16,7 @@ const SessionTableEntry: FC<SessionTableEntryProps> = ({ entry }: SessionTableEn
     <Link to={`${ROUTE.SESSIONS}/${entry.id}`}>
       <div className="bg-stone-300 rounded-md p-2 flex flex-row gap-2 justify-between m-1">
         <div className="w-[70%] p-2">
-          <h3 className="text-2xl">{entry.id}</h3>
+          <h3 className="text-2xl">{entry.name}</h3>
           <div className="flex flex-row justify-between">
             <p>{date}</p>
           </div>
