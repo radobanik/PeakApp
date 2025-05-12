@@ -95,7 +95,7 @@ export default function ActivityDetailsPage() {
       updateActivity(id, data)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [id] })
+      queryClient.removeQueries({ queryKey: [id] })
       toast.success('Activity updated successfully')
     },
     onError: () => {},
@@ -310,9 +310,20 @@ export default function ActivityDetailsPage() {
                   />
                 )}
               </div>
-              <Button disabled={!isEdit} type="submit">
-                Save
-              </Button>
+              {isEdit && (
+                <div className="flex flex-row justify-end p-4">
+                  <Button
+                    variant="secondary"
+                    onClick={() => {
+                      setIsEdit(false)
+                      form.reset()
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button type="submit">Save</Button>
+                </div>
+              )}
             </form>
           </Form>
         </div>

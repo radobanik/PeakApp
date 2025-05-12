@@ -16,3 +16,9 @@ export interface Session {
   note: string
   assignedActivities: Activity[]
 }
+
+export interface SessionUpdate {
+  name: string
+  note: string
+  photos: any[]
+}
