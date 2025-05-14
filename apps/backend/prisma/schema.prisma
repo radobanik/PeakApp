@@ -50,6 +50,8 @@ model User {
   comments          Comment[]  @relation(name: "UserComments")
   likes             Like[] @relation(name: "UserLikes")
   Review Review[] @relation()
+
+  reports Report[] @relation(name: "UserReports")
 }
 
 model PeakFile {
@@ -136,6 +138,7 @@ model Route {
   Activity Activity[] @relation()
 
   Review Review[] @relation()
+  reports Report[] @relation(name: "RouteReports")
 }
 
 model RoutePeakFile {
@@ -179,6 +182,7 @@ model ClimbingObject {
   latitude  Float
 
   routes Route[]
+  reports Report[] @relation(name: "ClimbingObjectsReports")
 }
 
 model Country {
@@ -307,4 +311,29 @@ model Review {
   createdBy User @relation(fields: [createdById], references: [id])
 
   @@id([routeId, createdById])
+}
+enum ReportStatus {
+  PENDING
+  RESOLVED
+}
+
+model Report {
+  id                String    @id @default(uuid())
+  createdAt         DateTime  @default(now())
+  reportStatus      ReportStatus @default(PENDING)
+  resolvedAt        DateTime?
+  
+  createdById       String
+  createdBy         User     @relation(name: "UserReports", fields: [createdById], references: [id])
+
+  routeId           String?
+  climbingObjectId  String?
+
+  route             Route?          @relation(name: "RouteReports", fields: [routeId], references: [id])
+  climbingObject    ClimbingObject? @relation(name: "ClimbingObjectsReports", fields: [climbingObjectId], references: [id])
+
+  title             String
+  reason            String
+
+  resolution        String?
 }
