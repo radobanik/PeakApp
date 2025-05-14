@@ -11,6 +11,7 @@ import sessionRouter from './session.route'
 import commentRouter from './comment.route'
 import likeRouter from './like.route'
 import reviewRouter from './review.route'
+import reportRouter from './report.route'
 
 const v1Router = Router()
 
@@ -62,6 +63,10 @@ const routes = [
   {
     path: '/review',
     route: reviewRouter,
+  },
+  {
+    path: '/report',
+    route: reportRouter,
   },
 ]
 
