@@ -33,6 +33,8 @@ import AllClimbingObjectList from './pages/Backoffice/AllClimbingObjectList'
 import AllRouteList from './pages/Backoffice/AllRouteList'
 import AllUserList from './pages/Backoffice/AllUserList'
 import Analytics from './pages/Backoffice/Analytics'
+import ReportPage from './pages/Backoffice/ReportPage'
+import ReportDetailPage from './pages/Backoffice/ReportDetailPage'
 
 type ViewportContextType = {
   isMobile: boolean
@@ -133,6 +135,12 @@ export default function App() {
                       <Route
                         path={ROUTE.NEW_ROUTES_DETAIL}
                         element={privateRoute(<ReviewRouteDetailPage />)}
+                      />
+                    </Route>
+                    <Route path={ROUTE.REPORTS} element={privateRoute(<ReportPage />)}>
+                      <Route
+                        path={ROUTE.REPORTS_DETAIL}
+                        element={privateRoute(<ReportDetailPage />)}
                       />
                     </Route>
                     <Route

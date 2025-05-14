@@ -54,4 +54,11 @@ export const API = {
     UPDATE: (id: string) => `${API_BASE_URL}/comment/${id}`,
     DELETE: (id: string) => `${API_BASE_URL}/comment/${id}`,
   },
+  REPORT: {
+    BY_ID: (id: string) => `${API_BASE_URL}/report/${id}`,
+    LIST: () => `${API_BASE_URL}/report/`,
+    CREATE: () => `${API_BASE_URL}/report/`,
+    RESOLVE: (id: string) => `${API_BASE_URL}/report/${id}/resolve`,
+    USER_PENDING: () => `${API_BASE_URL}/report/user-pending`,
+  },
 }
