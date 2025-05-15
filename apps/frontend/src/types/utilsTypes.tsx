@@ -4,3 +4,8 @@ export enum perceivedDifficulty {
   HARD = 'HARD',
   ULTRA_HARD = 'ULTRA_HARD',
 }
+
+export enum CommunityVariant {
+  RECENT = 'recent',
+  FRIENDS = 'friends',
+}

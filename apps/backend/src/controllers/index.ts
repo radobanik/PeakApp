@@ -25,6 +25,7 @@ export {
   SessionController,
   CommentController,
   LikeController,
+  CommunityController,
   ReviewController,
   ReportController,
   SearchController,

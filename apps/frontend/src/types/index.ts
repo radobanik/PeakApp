@@ -4,3 +4,9 @@ export interface PaginatedResponse<T> {
   total: number
   items: T[]
 }
+
+export interface ListCursorResponse<T> {
+  items: T[]
+  cursorId: string | null
+  hasNextPage: boolean
+}

@@ -23,5 +23,16 @@ type ListCursorResponse<T> = {
   hasNextPage: boolean
 }
 
+const createListCursorResponse = <T extends { id: string }>(
+  items: T[],
+  oldCursorId: string | null,
+  pageSize: number
+): ListCursorResponse<T> => {
+  return {
+    items,
+    cursorId: items.length > 0 ? items[items.length - 1].id : oldCursorId,
+    hasNextPage: items.length === pageSize,
+  }
+}
 export type { IncommingListCursorParams, NonNullListCursorParams, ListCursorResponse }
-export { defaultListCursorParams }
+export { defaultListCursorParams, createListCursorResponse }
