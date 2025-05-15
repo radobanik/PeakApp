@@ -18,6 +18,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import SubmitPage from './pages/SubmitPage'
 import { createContext, useEffect, useState } from 'react'
 import PageFrame from './components/PageFrame'
+import { SettingsLayout } from './components/SettingsLayout'
+import UserSettingsPage from './pages/UserSettingsPage'
+import UserRoutesPage from './pages/UserRoutesPage'
+import { SidebarProvider } from './components/ui/sidebar'
 
 type ViewportContextType = {
   isMobile: boolean
@@ -45,31 +49,41 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ViewportContext.Provider value={{ isMobile }}>
-        <BrowserRouter>
-          <Routes>
-            {/* Public routes */}
-            <Route path={ROUTE.LOGIN} element={publicRoute(<LoginPage />)} />
-            <Route path={ROUTE.REGISTER} element={publicRoute(<RegisterPage />)} />
+        <SidebarProvider defaultOpen={false}>
+          <BrowserRouter>
+            <Routes>
+              {/* Public routes */}
+              <Route path={ROUTE.LOGIN} element={publicRoute(<LoginPage />)} />
+              <Route path={ROUTE.REGISTER} element={publicRoute(<RegisterPage />)} />
 
-            {/* Private routes */}
-            <Route element={<PageFrame />}>
-              <Route path={ROUTE.HOME} element={privateRoute(<HomePage />)} />
-              <Route path={ROUTE.DIARY} element={privateRoute(<DiaryPage />)} />
-              <Route path={ROUTE.ACTIVITIES} element={privateRoute(<ActivitiesPage />)} />
-              <Route
-                path={ROUTE.ACTIVITIES + '/:id'}
-                element={privateRoute(<ActivityDetailsPage />)}
-              />
-              <Route path={ROUTE.SESSIONS} element={privateRoute(<SessionsPage />)} />
-              <Route path={ROUTE.SESSIONS + '/:id'} element={privateRoute(<SessionDetailPage />)} />
-              <Route path={ROUTE.DETAIL} element={privateRoute(<RouteDetailPage />)} />
-              <Route path={ROUTE.SUBMIT} element={privateRoute(<SubmitPage />)} />
-            </Route>
-          </Routes>
+              {/* Private routes */}
+              <Route element={<PageFrame />}>
+                <Route path={ROUTE.HOME} element={privateRoute(<HomePage />)} />
+                <Route path={ROUTE.DIARY} element={privateRoute(<DiaryPage />)} />
+                <Route path={ROUTE.ACTIVITIES} element={privateRoute(<ActivitiesPage />)} />
+                <Route
+                  path={ROUTE.ACTIVITIES + '/:id'}
+                  element={privateRoute(<ActivityDetailsPage />)}
+                />
+                <Route path={ROUTE.SESSIONS} element={privateRoute(<SessionsPage />)} />
+                <Route
+                  path={ROUTE.SESSIONS + '/:id'}
+                  element={privateRoute(<SessionDetailPage />)}
+                />
+                <Route path={ROUTE.DETAIL} element={privateRoute(<RouteDetailPage />)} />
+                <Route path={ROUTE.SUBMIT} element={privateRoute(<SubmitPage />)} />
 
-          {/* Toast notifications */}
-          <Toaster position="top-center" />
-        </BrowserRouter>
+                <Route path={ROUTE.SETTINGS} element={privateRoute(<SettingsLayout />)}>
+                  <Route path={ROUTE.SETTINGS_USER} element={privateRoute(<UserSettingsPage />)} />
+                  <Route path={ROUTE.SETTINGS_ROUTES} element={privateRoute(<UserRoutesPage />)} />
+                </Route>
+              </Route>
+            </Routes>
+
+            {/* Toast notifications */}
+            <Toaster position="top-center" />
+          </BrowserRouter>
+        </SidebarProvider>
       </ViewportContext.Provider>
     </QueryClientProvider>
   )

@@ -25,6 +25,9 @@ export const API = {
     UPDATE: `${API_BASE_URL}/session/`,
     DELETE: `${API_BASE_URL}/session/`,
   },
+  ROUTE: {
+    LIST: `${API_BASE_URL}/route/`,
+  },
   CLIMBING_OBJECT: `${API_BASE_URL}/climbing-object`,
   PEAK_FILE: {
     BY_ID: (id: string) => `${API_BASE_URL}/peak-file/${id}`,

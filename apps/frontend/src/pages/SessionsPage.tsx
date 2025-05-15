@@ -25,7 +25,7 @@ export default function ActivitiesPage() {
   })
 
   return (
-    <main className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen">
       <div className="flex flex-row items-center justify-between p-4 gap-4">
         <div className="flex flex-row items-center gap-4">
           <BackButton backRoute={ROUTE.DIARY} />
@@ -42,6 +42,6 @@ export default function ActivitiesPage() {
           </div>
         )}
       </div>
-    </main>
+    </div>
   )
 }
