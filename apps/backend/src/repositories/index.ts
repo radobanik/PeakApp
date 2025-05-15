@@ -7,6 +7,7 @@ import ActivityRepository from './activity.repository'
 import SessionRepository from './session.repository'
 import CommentRepository from './comment.repository'
 import LikeRepository from './like.repository'
+import CommunityRepository from './community.repository'
 
 export {
   UserRepository,
@@ -18,4 +19,5 @@ export {
   SessionRepository,
   CommentRepository,
   LikeRepository,
+  CommunityRepository,
 }
