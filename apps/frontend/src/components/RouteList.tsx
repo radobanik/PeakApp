@@ -10,12 +10,6 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table'
-
-declare module '@tanstack/react-table' {
-  // interface ColumnMeta<TData, TValue> {
-  //   className?: string
-  // }
-}
 import {
   Table,
   TableBody,
@@ -50,6 +44,15 @@ import {
 import chroma from 'chroma-js'
 import { useContext } from 'react'
 import { ViewportContext } from '@/App'
+
+// Extend the ColumnMeta interface to include className
+// ESLint exceptionn is needed as TS is shit
+declare module '@tanstack/react-table' {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  interface ColumnMeta<TData, TValue> {
+    className?: string
+  }
+}
 
 const climbingStructureStyles: Record<ClimbingStructureType, string> = {
   [ClimbingStructureType.TRAVERSE]: 'bg-green-100 text-green-800',
