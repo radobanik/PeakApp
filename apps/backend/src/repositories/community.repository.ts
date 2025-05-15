@@ -3,6 +3,8 @@ import { CommunitySessionDetail, CommunitySessionList } from '../model/community
 import { createListCursorResponse, ListCursorResponse } from '../model/common/listCursorResponse'
 import { sessionDetailSelector, sessionListSelector } from '../model/session'
 import { RefObject } from '../model/common/refObject'
+import { activityDetailSelector } from '../model/activity'
+import { routeListSelector } from '../model/route'
 
 const sessionClient = new PrismaClient().session
 const likeClient = new PrismaClient().like
@@ -62,6 +64,16 @@ const getSession = async (
     },
     select: {
       ...sessionDetailSelector,
+      assignedActivities: {
+        select: {
+          ...activityDetailSelector,
+          route: {
+            select: {
+              ...routeListSelector,
+            },
+          },
+        },
+      },
       _count: {
         select: {
           likes: true,
@@ -70,7 +82,7 @@ const getSession = async (
       },
     },
   })
-
+  console.log('session', session)
   const likesCount = await likeClient.count({
     where: {
       user: userRef,
@@ -81,7 +93,12 @@ const getSession = async (
   const { _count, ...sessionDetail } = session!
   const sessionsWithLikeInfo = {
     id: sessionDetail.id,
-    session: sessionDetail,
+    session: {
+      ...sessionDetail,
+      photos: sessionDetail.photos.map((photo: { peakFile: { id: string } }) => ({
+        id: photo.peakFile.id,
+      })),
+    },
     likes: _count.likes,
     comments: _count.comments,
     hasLiked: likesCount > 0,

@@ -2,9 +2,12 @@ import { api } from '.'
 import { API } from '@/constants/api'
 import { ListCursorResponse } from '@/types'
 import { CommunityVariant } from '@/types/utilsTypes'
-import { CommunitySessionList } from 'backend/src/model/community'
+import { CommunitySessionDetail, CommunitySessionList } from 'backend/src/model/community'
 
-export const getSession = async (sessionId: string): Promise<void> => {}
+export const getSession = async (sessionId: string): Promise<CommunitySessionDetail> => {
+  const response = await api.get(API.COMMUNITY.BY_ID(sessionId))
+  return response.data
+}
 
 export const list = async (
   cursorId: string | null,
