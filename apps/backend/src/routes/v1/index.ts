@@ -10,6 +10,7 @@ import activityRouter from './activity.route'
 import sessionRouter from './session.route'
 import commentRouter from './comment.route'
 import likeRouter from './like.route'
+import communityRouter from './community.route'
 
 const v1Router = Router()
 
@@ -57,6 +58,10 @@ const routes = [
   {
     path: '/like',
     route: likeRouter,
+  },
+  {
+    path: '/community',
+    route: communityRouter,
   },
 ]
 

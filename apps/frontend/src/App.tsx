@@ -22,6 +22,7 @@ import { SettingsLayout } from './components/SettingsLayout'
 import UserSettingsPage from './pages/UserSettingsPage'
 import UserRoutesPage from './pages/UserRoutesPage'
 import { SidebarProvider } from './components/ui/sidebar'
+import CommunityPage from './pages/CommunityPageLayout'
 
 type ViewportContextType = {
   isMobile: boolean
@@ -71,7 +72,13 @@ export default function App() {
                   element={privateRoute(<SessionDetailPage />)}
                 />
                 <Route path={ROUTE.DETAIL} element={privateRoute(<RouteDetailPage />)} />
-                <Route path={ROUTE.SUBMIT} element={privateRoute(<SubmitPage />)} />
+                <Route path={ROUTE.COMMUNITY} element={privateRoute(<CommunityPage />)}>
+                <Route
+                  path={ROUTE.COMMUNITY + '/:id'}
+                  element={privateRoute(<SessionDetailPage />)}
+                />
+              </Route>
+              <Route path={ROUTE.SUBMIT} element={privateRoute(<SubmitPage />)} />
 
                 <Route path={ROUTE.SETTINGS} element={privateRoute(<SettingsLayout />)}>
                   <Route path={ROUTE.SETTINGS_USER} element={privateRoute(<UserSettingsPage />)} />

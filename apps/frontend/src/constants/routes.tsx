@@ -11,6 +11,7 @@ export const ROUTE = {
   SETTINGS: '/settings',
 
   COMMUNITY: '/community',
+  COMMUNITY_DETAIL: (id: string) => `/community/${id}`,
 
   SETTINGS_USER: '/settings/user',
   SETTINGS_ROUTES: '/settings/routes',
