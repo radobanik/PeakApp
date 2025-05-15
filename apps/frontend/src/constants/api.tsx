@@ -49,6 +49,7 @@ export const API = {
     DELETE: (id: string) => `${API_BASE_URL}/peak-file/${id}`,
   },
   COMMUNITY: {
+    BY_ID: (id: string) => `${API_BASE_URL}/community/${id}`,
     LIST: () => `${API_BASE_URL}/community/`,
   },
   LIKE: {

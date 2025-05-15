@@ -16,9 +16,7 @@ const list = async (req: Request, res: Response) => {
     return
   }
 
-  console.log('Listing community sessions', req.query)
   const params = defaultCommunityListParams(req.query as unknown as IncommingCommunityListParams)
-  console.log('Listing community sessions', params)
 
   const validatedCursos =
     params.cursorId == null ? true : await SessionRepository.existsId(params.cursorId)
@@ -35,4 +33,21 @@ const list = async (req: Request, res: Response) => {
   res.status(HTTP_STATUS.OK_200).json(sessions)
 }
 
-export default { list }
+const getById = async (req: Request, res: Response) => {
+  const userRef = provideUserRefFromToken(req)
+  if (!userRef) {
+    res.status(HTTP_STATUS.UNAUTHORIZED_401).json({ error: 'Unauthorized' })
+    return
+  }
+
+  const validatedSession = SessionRepository.existsId(req.params.id)
+  if (!validatedSession) {
+    res.status(HTTP_STATUS.NOT_FOUND_404).json({ error: 'Session not found' })
+    return
+  }
+
+  const session = await CommunityRepository.getSession(userRef, req.params.id)
+  res.status(HTTP_STATUS.OK_200).json(session)
+}
+
+export default { list, getById }

@@ -56,7 +56,7 @@ export default function CommunityPageLayout() {
             }
           }}
         >
-          <DialogContent>
+          <DialogContent className="h-[90vh] w-[90vw] min-w-[300px] min-h-[360px]">
             <Outlet />
           </DialogContent>
         </Dialog>
