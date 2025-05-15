@@ -130,7 +130,7 @@ model Route {
    * SAVED RELATIONSHIP
    */
   savedBy User[] @relation("RouteSaves")
-  Activity Activity[] @relation()
+  Activity Activity[] @relation(name: "RouteActivity")
 }
 
 model RoutePeakFile {
@@ -218,9 +218,9 @@ model Activity {
 
   /* FOREIGN RELATIONSHIP */
   sessionid String?
-  session   Session? @relation( fields: [sessionid], references: [id])
+  session   Session? @relation(name: "SessionActivity", fields: [sessionid], references: [id])
   routeId   String
-  route     Route @relation(fields: [routeId], references: [id])
+  route     Route @relation(name: "RouteActivity", fields: [routeId], references: [id])
 }
 
 model Session {
@@ -237,7 +237,7 @@ model Session {
 
   /* FOREIGN RELATIONSHIP */
   photos              SessionPeakFile[]
-  assignedActivities  Activity[]
+  assignedActivities  Activity[] @relation(name: "SessionActivity")
 
   PeakFile PeakFile[]
 

@@ -23,6 +23,7 @@ import UserSettingsPage from './pages/UserSettingsPage'
 import UserRoutesPage from './pages/UserRoutesPage'
 import { SidebarProvider } from './components/ui/sidebar'
 import CommunityPage from './pages/CommunityPageLayout'
+import CommunitySessionDetailPage from './pages/CommunitySessionDetailPage'
 
 type ViewportContextType = {
   isMobile: boolean
@@ -75,7 +76,7 @@ export default function App() {
                 <Route path={ROUTE.COMMUNITY} element={privateRoute(<CommunityPage />)}>
                 <Route
                   path={ROUTE.COMMUNITY + '/:id'}
-                  element={privateRoute(<SessionDetailPage />)}
+                  element={privateRoute(<CommunitySessionDetailPage />)}
                 />
               </Route>
               <Route path={ROUTE.SUBMIT} element={privateRoute(<SubmitPage />)} />
