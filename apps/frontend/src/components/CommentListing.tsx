@@ -3,7 +3,7 @@ import { InfiniteData, useInfiniteQuery, useMutation, useQueryClient } from '@ta
 import { CommentList } from 'backend/src/model/comment'
 import { ListCursorResponse } from 'backend/src/model/common/listCursorResponse'
 import Comment from '@/components/Comment'
-import { FC, use, useState } from 'react'
+import { FC, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import CommentCreateTemplate from '@/components/CommentCreateTemplate'
@@ -132,10 +132,8 @@ const CommentListing: FC<CommentListProps> = (props: CommentListProps) => {
         {commentsQuery.isSuccess && commentsQuery.hasNextPage && (
           <div className="flex justify-center items-center">
             <Button
-              variant="outline"
-              onClick={() => {
-                commentsQuery.fetchNextPage()
-              }}
+              className="bg-blue-500 text-white p-2 rounded"
+              onClick={() => commentsQuery.fetchNextPage()}
             >
               Load more
             </Button>
