@@ -24,6 +24,7 @@ import UserRoutesPage from './pages/UserRoutesPage'
 import { SidebarProvider } from './components/ui/sidebar'
 import ActivityCreatePage from './pages/ActivityCreatePage'
 import SessionCreatePage from './pages/SessionCreate'
+import PhotoComponentPage from './pages/PhotoComponentPage'
 
 type ViewportContextType = {
   isMobile: boolean
@@ -101,6 +102,11 @@ export default function App() {
                       element={privateRoute(<UserRoutesPage />)}
                     />
                   </Route>
+
+                  <Route
+                    path={ROUTE.PHOTO_COMPONENT}
+                    element={privateRoute(<PhotoComponentPage />)}
+                  />
                 </Route>
               </Routes>
 

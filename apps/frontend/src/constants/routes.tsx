@@ -16,6 +16,8 @@ export const ROUTE = {
 
   SETTINGS_USER: '/settings/user',
   SETTINGS_ROUTES: '/settings/routes',
+
+  PHOTO_COMPONENT: '/photo-component',
 }
 
 export const SIDEBAR_ROUTES = [
