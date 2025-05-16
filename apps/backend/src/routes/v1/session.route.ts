@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { SessionController } from '../../controllers'
+import { ActivityController, SessionController } from '../../controllers'
 import passport from 'passport'
 
 const sessionRouter = Router()
@@ -9,6 +9,11 @@ sessionRouter.get(
   '/:id',
   passport.authenticate('jwt', { session: false }),
   SessionController.getById
+)
+sessionRouter.get(
+  '/:id/activities',
+  passport.authenticate('jwt', { session: false }),
+  ActivityController.getBySessionId
 )
 sessionRouter.post('/', passport.authenticate('jwt', { session: false }), SessionController.create)
 sessionRouter.put(

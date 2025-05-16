@@ -8,28 +8,33 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
+import { useNavigate } from 'react-router-dom'
 
 interface AlertDialogProps {
   isOpen: boolean
-  setOpen: (value: boolean) => void
-  setDelete: (value: boolean) => void
+  setIsOpen: (value: boolean) => void
+  backRoute: string
 }
 
-export function AlertDialogDelete(props: AlertDialogProps) {
+export function AlertDialogCancel_(props: AlertDialogProps) {
+  const navigate = useNavigate()
   return (
     <AlertDialog open={props.isOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+          <AlertDialogTitle>Are you sure you want to exit?</AlertDialogTitle>
+          <AlertDialogDescription>You will lose all entered data.</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => props.setOpen(false)}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel onClick={() => props.setIsOpen(false)}>Cancel</AlertDialogCancel>
           <AlertDialogAction
             className="bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700"
-            onClick={() => props.setDelete(true)}
+            onClick={() => {
+              props.setIsOpen(false)
+              navigate(props.backRoute)
+            }}
           >
-            Delete
+            Proceed
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

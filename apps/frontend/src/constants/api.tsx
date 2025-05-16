@@ -16,14 +16,17 @@ export const API = {
     CITIES: `${API_BASE_URL}/geo/cities`,
   },
   ACTIVITY: {
-    LIST: `${API_BASE_URL}/activity/`,
+    LIST_UNASSIGNED: `${API_BASE_URL}/activity/unassigned`,
     BY_ID: `${API_BASE_URL}/activity/`,
     CREATE: `${API_BASE_URL}/activity/`,
     UPDATE: `${API_BASE_URL}/activity/`,
     DELETE: `${API_BASE_URL}/activity/`,
+    ASSIGN: `${API_BASE_URL}/activity/assign`,
+    UNASSIGN: `${API_BASE_URL}/activity/unassign`,
   },
   SESSION: {
     LIST: `${API_BASE_URL}/session/`,
+    LIST_ACTIVITIES: (id: string) => `${API_BASE_URL}/session/${id}/activities`,
     BY_ID: `${API_BASE_URL}/session/`,
     CREATE: `${API_BASE_URL}/session/`,
     UPDATE: `${API_BASE_URL}/session/`,
@@ -31,6 +34,7 @@ export const API = {
   },
   ROUTE: {
     LIST: `${API_BASE_URL}/route/`,
+    BY_ID: `${API_BASE_URL}/route/`,
   },
   CLIMBING_OBJECT: `${API_BASE_URL}/climbing-object`,
   PEAK_FILE: {

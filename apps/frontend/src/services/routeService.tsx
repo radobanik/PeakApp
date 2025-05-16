@@ -1,5 +1,6 @@
-import { API } from '@/constants/api'
+import { Route } from '@/types/activityTypes'
 import { api } from './index'
+import { API } from '@/constants/api'
 import { RouteDetailListResponse } from '@/types/routeTypes'
 
 export async function getRoutes(
@@ -17,4 +18,13 @@ export async function getRoutes(
   } catch (error) {
     throw error
   }
+}
+
+export async function getRouteById(id: string): Promise<Route> {
+  const response = await api.get(`${API.ROUTE.BY_ID}${id}`)
+  if (response.status != 200) {
+    const error = new Error('Error')
+    throw error
+  }
+  return response.data
 }

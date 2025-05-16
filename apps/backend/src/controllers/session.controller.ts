@@ -123,7 +123,7 @@ const deleteById = async (req: Request, res: Response) => {
   for (let i = 0; i < entity.assignedActivities.length; i++) {
     const activityId = entity.assignedActivities[i].id
 
-    await ActivityRepository.unassign(activityId)
+    await ActivityRepository.unassign(requestUser, [activityId])
   }
 
   await SessionRepository.deleteById(sessionId)

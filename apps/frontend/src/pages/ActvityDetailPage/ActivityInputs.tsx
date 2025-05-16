@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useContext, useEffect } from 'react'
 import { z } from 'zod'
 import { ActivityDetailContext } from '../ActivityDetailPage'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { ROUTE } from '@/constants/routes'
 import { useForm } from 'react-hook-form'
@@ -49,6 +49,7 @@ export function ActivityInputs() {
   const { activityId, activityQuery, isEdit, setIsEdit, isDelete, setIsDelete } =
     useContext(ActivityDetailContext)
   const queryClient = useQueryClient()
+  const location = useLocation()
   const navigation = useNavigate()
 
   const UpdateMutation = useMutation({
@@ -67,7 +68,7 @@ export function ActivityInputs() {
       return deleteActivity(activityId)
     },
     onSuccess: () => {
-      navigation(ROUTE.ACTIVITIES)
+      navigation(location.state?.from || ROUTE.ACTIVITIES)
       queryClient.invalidateQueries({ queryKey: ['activities'] })
       queryClient.removeQueries({ queryKey: [activityId] })
       toast.success('Activity deleted successfully')
@@ -90,7 +91,6 @@ export function ActivityInputs() {
       numOfAttempts: data.numberOfAttempts,
       notes: data.notes ?? '',
     }
-    console.log('ActivityData', activityData)
     UpdateMutation.mutate(activityData)
     setIsEdit(false)
   }
@@ -98,11 +98,12 @@ export function ActivityInputs() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      climbedAt: activityQuery.data?.climbedAt,
-      topped: activityQuery.data?.topped,
-      perceivedDifficulty: activityQuery.data?.perceivedDifficulty,
-      numberOfAttempts: activityQuery.data?.numOfAttempts,
-      notes: activityQuery.data?.notes,
+      climbedAt: activityQuery.data?.climbedAt ?? new Date(),
+      topped: activityQuery.data?.topped ?? false,
+      perceivedDifficulty:
+        activityQuery.data?.perceivedDifficulty ?? (null as unknown as perceivedDifficulty),
+      numberOfAttempts: activityQuery.data?.numOfAttempts ?? 0,
+      notes: activityQuery.data?.notes ?? '',
     },
   })
 
@@ -116,7 +117,6 @@ export function ActivityInputs() {
         notes: activityQuery.data?.notes,
       })
     }
-    console.log('updated', form.getValues())
   }, [activityQuery.isSuccess])
 
   useEffect(() => {

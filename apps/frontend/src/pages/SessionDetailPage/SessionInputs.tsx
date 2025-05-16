@@ -29,12 +29,12 @@ const formSchema = z.object({
 })
 
 export function SessionInputs() {
-  const { sessionId, sessionQuery, isEdit, setIsEdit, isDelete, setIsDelete } =
+  const { sessionId, sessionQuery, isEdit, setIsEdit, isDelete, setIsDelete, setCurrentView } =
     useContext(SessionDetailContext)
   const queryClient = useQueryClient()
   const navigation = useNavigate()
 
-  const UpdateMutation = useMutation({
+  const updateMutation = useMutation({
     mutationFn: async (data: SessionUpdate) => {
       updateSession(sessionId, data)
     },
@@ -50,7 +50,7 @@ export function SessionInputs() {
       return deleteSession(sessionId)
     },
     onSuccess: () => {
-      navigation(ROUTE.ACTIVITIES)
+      navigation(ROUTE.SESSIONS)
       queryClient.invalidateQueries({ queryKey: ['activities'] })
       queryClient.removeQueries({ queryKey: [sessionId] })
       toast.success('Activity deleted successfully')
@@ -71,7 +71,7 @@ export function SessionInputs() {
       note: data.note ?? '',
       photos: [],
     }
-    UpdateMutation.mutate(activityData)
+    updateMutation.mutate(activityData)
     setIsEdit(false)
   }
 
@@ -100,10 +100,10 @@ export function SessionInputs() {
   }, [sessionQuery.isSuccess])
 
   return (
-    <div>
+    <div className="flex flex-col gap-4 lg:items-center">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <div className="flex flex-col gap-4 p-4">
+          <div className="flex flex-col gap-4 p-4  ">
             <FormField
               control={form.control}
               name="name"
@@ -113,7 +113,7 @@ export function SessionInputs() {
                   <FormControl>
                     <Input
                       readOnly={!isEdit}
-                      placeholder="Write your Notes here..."
+                      placeholder="Write Session name here..."
                       defaultValue={sessionQuery.data?.name}
                       className="text-2xl"
                       {...field}
@@ -145,27 +145,33 @@ export function SessionInputs() {
               />
             )}
 
+            {isEdit && (
+              <div className="flex flex-row justify-end p-4">
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    setIsEdit(false)
+                    form.reset()
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit">Save</Button>
+              </div>
+            )}
+            <div className="flex flex-row justify-end gap-4">
+              <Button disabled={isEdit} onClick={() => setCurrentView('activities')}>
+                Change Activities
+              </Button>
+            </div>
             {sessionQuery.isSuccess && (
               <ScrollTable
                 entries={sessionQuery.data?.assignedActivities}
                 Component={ActivityTableEntry}
+                backRoute={`${ROUTE.SESSIONS}/${sessionId}`}
               />
             )}
           </div>
-          {isEdit && (
-            <div className="flex flex-row justify-end p-4">
-              <Button
-                variant="secondary"
-                onClick={() => {
-                  setIsEdit(false)
-                  form.reset()
-                }}
-              >
-                Cancel
-              </Button>
-              <Button type="submit">Save</Button>
-            </div>
-          )}
         </form>
       </Form>
     </div>

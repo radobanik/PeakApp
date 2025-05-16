@@ -4,6 +4,8 @@ import { useSession } from './SessionDetailPage/useSessionDetail'
 import SessionDetail from './SessionDetailPage/SessionDetail'
 import { SessionQueryType } from '@/types/sessionTypes'
 
+type detailView = 'session' | 'activities'
+
 export type SessionDetailContextType = {
   sessionId: string
   sessionQuery: SessionQueryType
@@ -16,6 +18,9 @@ export type SessionDetailContextType = {
 
   isEdit: boolean
   setIsEdit: (editActivity: boolean) => void
+
+  currentView: detailView
+  setCurrentView: (view: detailView) => void
 }
 
 export const SessionDetailContext = createContext<SessionDetailContextType>({
@@ -27,6 +32,8 @@ export const SessionDetailContext = createContext<SessionDetailContextType>({
   setIsDelete: () => {},
   isEdit: false,
   setIsEdit: () => {},
+  currentView: 'session',
+  setCurrentView: () => {},
 })
 
 export default function ActivityDetailPage() {
@@ -34,6 +41,7 @@ export default function ActivityDetailPage() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [isDelete, setIsDelete] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
+  const [currentView, setCurrentView] = useState<detailView>('session')
 
   // TODO: Change this to happy path
   if (!id) {
@@ -53,6 +61,8 @@ export default function ActivityDetailPage() {
         setIsDelete,
         isEdit,
         setIsEdit,
+        currentView,
+        setCurrentView,
       }}
     >
       <SessionDetail />

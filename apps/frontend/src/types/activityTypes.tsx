@@ -30,6 +30,19 @@ export interface Activity {
   route: Route
 }
 
+export type ActivityCreate = {
+  route: {
+    id: string
+  }
+  reviewStars: number
+  reviewText: string
+  climbedAt: Date
+  numOfAttempts: number
+  perceivedDifficulty: perceivedDifficulty
+  notes: string
+  topped: boolean
+}
+
 export type ActivityUpdate = {
   climbedAt: Date
   numOfAttempts: number

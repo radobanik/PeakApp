@@ -4,6 +4,7 @@ import { ActivityDetailContext } from '../ActivityDetailPage'
 import EntityDetailHeader from '@/components/EntityDetailHeader'
 import ActivityMeta from './ActivityMeta'
 import { ActivityInputs } from './ActivityInputs'
+import { ROUTE } from '@/constants/routes'
 
 export default function ActivityDetail() {
   const { isDeleteDialogOpen, setIsDeleteDialogOpen, setIsDelete } =
@@ -16,7 +17,7 @@ export default function ActivityDetail() {
         setOpen={setIsDeleteDialogOpen}
         setDelete={setIsDelete}
       />
-      <EntityDetailHeader />
+      <EntityDetailHeader backRoute={ROUTE.ACTIVITIES} />
       <ActivityMeta />
       <ActivityInputs />
     </div>

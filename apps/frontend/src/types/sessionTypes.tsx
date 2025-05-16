@@ -18,6 +18,7 @@ export interface Session {
   createdBy: User
   name: string
   note: string
+  photos: PeakFile[]
   assignedActivities: Activity[]
 }
 
@@ -25,6 +26,15 @@ export interface SessionUpdate {
   name: string
   note: string
   photos: PeakFile[]
+}
+
+export interface SessionCreate {
+  name: string
+  note: string
+  photos: PeakFile[]
+  assignedActivities: {
+    id: string
+  }[]
 }
 
 export type SessionQueryType = UseQueryResult<
