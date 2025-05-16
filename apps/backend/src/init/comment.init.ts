@@ -126,14 +126,14 @@ export const COMMENTS = [
   {
     id: '0c660a0d-242a-487b-bdeb-0ecb5721a10a',
     text: 'The crimps felt sharp but doable.',
-    sessionId: SESSION_1_ID,
+    sessionId: SESSION_2_ID,
     userId: USER_JOHN_DOE_ID,
     createdAt: '2025-04-24T22:10:25.460035Z',
   },
   {
     id: '74515105-4a4d-41ad-a015-9c937a2ecba7',
     text: 'Fell on the last move, heartbreaking!',
-    sessionId: SESSION_2_ID,
+    sessionId: SESSION_1_ID,
     userId: USER_JANE_DOE_ID,
     createdAt: '2025-04-24T22:10:26.460035Z',
   },

@@ -11,6 +11,7 @@ type CommentList = {
   updatedAt: Date | null
   user: UserLabeled
   text: string
+  canEdit: boolean
 }
 
 const selector = {

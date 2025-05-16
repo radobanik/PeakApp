@@ -43,4 +43,10 @@ export const API = {
     CREATE_EXISTING: () => `${API_BASE_URL}/peak-file/existing`,
     DELETE: (id: string) => `${API_BASE_URL}/peak-file/${id}`,
   },
+  COMMENT: {
+    LIST: () => `${API_BASE_URL}/comment/`,
+    CREATE: () => `${API_BASE_URL}/comment/`,
+    UPDATE: (id: string) => `${API_BASE_URL}/comment/${id}`,
+    DELETE: (id: string) => `${API_BASE_URL}/comment/${id}`,
+  },
 }
