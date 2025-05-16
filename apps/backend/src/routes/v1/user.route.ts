@@ -11,13 +11,28 @@ const userRouter = Router()
  * @swagger
  * /users:
  *   get:
+ *     summary: Get logged-in user
+ *     responses:
+ *       200:
+ *         description: returns the logged-in user
+ */
+userRouter.get(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  UserController.getLoggedInUser
+)
+
+/**
+ * @swagger
+ * /user/all:
+ *   get:
  *     summary: Get all users
  *     responses:
  *       200:
  *         description: List of users
  */
 userRouter.get(
-  '/',
+  '/all',
   passport.authenticate('jwt', { session: false }),
   checkRoles([Role.ADMIN]),
   UserController.userList
@@ -76,7 +91,26 @@ userRouter.put(
   '/:id',
   passport.authenticate('jwt', { session: false }),
   checkAdminOrOwner(),
-  UserController.getUserById
+  UserController.updateUser
+)
+
+/**
+ * @swagger
+ * /user
+ *   put:
+ *     summary: Update a logged-in user
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *     responses:
+ *       200:
+ *         description: User updated
+ */
+userRouter.put(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  UserController.updateLoggedInUser
 )
 
 /**

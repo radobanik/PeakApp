@@ -76,8 +76,8 @@ const routeAndReviews: RouteAndReviews = {
 
 export default function RouteDetailPage() {
   return (
-    <main>
+    <div>
       <RouteDetailWithComments {...routeAndReviews} />
-    </main>
+    </div>
   )
 }

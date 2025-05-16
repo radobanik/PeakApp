@@ -7,6 +7,10 @@ export const API = {
     IS_EMAIL_UNIQUE: `${API_BASE_URL}/auth/is-email-unique`,
     IS_USERNAME_UNIQUE: `${API_BASE_URL}/auth/is-username-unique`,
   },
+  USER: {
+    BASE: `${API_BASE_URL}/user`,
+    UPDATE: `${API_BASE_URL}/user/`,
+  },
   GEO: {
     COUNTRIES: `${API_BASE_URL}/geo/countries`,
     CITIES: `${API_BASE_URL}/geo/cities`,
@@ -24,6 +28,9 @@ export const API = {
     CREATE: `${API_BASE_URL}/session/`,
     UPDATE: `${API_BASE_URL}/session/`,
     DELETE: `${API_BASE_URL}/session/`,
+  },
+  ROUTE: {
+    LIST: `${API_BASE_URL}/route/`,
   },
   CLIMBING_OBJECT: `${API_BASE_URL}/climbing-object`,
   PEAK_FILE: {

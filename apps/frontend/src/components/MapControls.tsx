@@ -20,13 +20,13 @@ const MapControls = ({ zoomLevel }: MapControlsProps) => {
   const isZoomOutDisabled = zoomLevel <= MIN_ZOOM_LEVEL
 
   const getButtonClassName = (isDisabled: boolean = false) =>
-    clsx('relative z-[1000] bg-gray-200 rounded-xl p-3 shadow-xl', {
+    clsx('relative z-1000 bg-gray-200 rounded-xl p-3 shadow-xl', {
       'cursor-not-allowed opacity-50': isDisabled,
       'cursor-pointer': !isDisabled,
     })
 
   const renderSearchBar = () => (
-    <div className="relative z-[1000] max-w-120 h-8 flex justify-center items-center pl-4 pr-4">
+    <div className="relative z-1000 max-w-120 h-8 flex justify-center items-center pl-4 pr-4">
       <div className="bg-red-400 w-full h-full text-xl"> TUTO DADE DAJ SEARCH RADO</div>
       {/* TODO: PA-63 Just replace the red box above with the Searchbar component
        and use w-full h-full inside that component */}

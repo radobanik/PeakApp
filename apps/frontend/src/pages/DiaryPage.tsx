@@ -16,6 +16,7 @@ export type ActivityEntry = {
 export type SessionEntry = {
   id: string
   createdAt: Date
+  name: string
   note: string
   numberOfActivities: number
 }
@@ -30,13 +31,13 @@ export default function DiaryPage() {
   }
 
   return (
-    <main>
+    <div>
       <div className="flex flex-col gap-4 p-4 ml-auto h-45vh">
         <Button className="" onClick={navigateToActivities}>
           My Activities
         </Button>
         <Button onClick={navigateToSessions}>My Sessions</Button>
       </div>
-    </main>
+    </div>
   )
 }

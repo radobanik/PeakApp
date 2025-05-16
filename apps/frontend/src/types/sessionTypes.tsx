@@ -1,4 +1,5 @@
 import { Activity } from './activityTypes'
+import { PeakFile } from './fileTypes'
 
 export interface User {
   id: string
@@ -12,6 +13,13 @@ export interface Session {
   createdAt: Date
   updatedAt: Date | null
   createdBy: User
+  name: string
   note: string
   assignedActivities: Activity[]
+}
+
+export interface SessionUpdate {
+  name: string
+  note: string
+  photos: PeakFile[]
 }

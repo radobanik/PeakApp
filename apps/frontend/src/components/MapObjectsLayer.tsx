@@ -2,10 +2,12 @@ import { API } from '@/constants/api'
 import { ClimbingObjectList } from '@/types/climbingObjectTypes'
 import { RouteSummary } from '@/types/routeTypes'
 import { memo, SetStateAction, useEffect, useRef } from 'react'
+import ReactDOMServer from 'react-dom/server'
 import { useMap } from 'react-leaflet'
 import * as L from 'leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
 import { toast } from 'sonner'
+import { ClusterIcon } from './ClusterIcon'
 
 const MAX_CLUSTER_ZOOM = 18
 const CHUNK_SIZE = 1000 // Process 1000 points at a time
@@ -53,6 +55,29 @@ const fetchClimbingObjects = async (
   }
 }
 
+declare module 'leaflet' {
+  interface MarkerOptions {
+    routesCount?: number
+  }
+
+  interface MarkerClusterOptions {
+    routesCount?: number
+  }
+}
+
+const customClusterIcon = (cluster: L.MarkerCluster): L.DivIcon => {
+  const markers = cluster.getAllChildMarkers()
+
+  const totalRoutes = markers.reduce((sum, m) => sum + (m.options.routesCount || 0), 0)
+  const count = markers.length
+
+  return L.divIcon({
+    html: ReactDOMServer.renderToString(<ClusterIcon count={count} totalRoutes={totalRoutes} />),
+    className: '',
+    iconSize: L.point(50, 50, true),
+  })
+}
+
 type MapObjectLayerProps = {
   mapRef: React.RefObject<L.Map | null>
   setZoomLevel: React.Dispatch<SetStateAction<number>>
@@ -91,13 +116,13 @@ const MapObjectLayer = (props: MapObjectLayerProps) => {
 
       chunk.forEach((point) => {
         if (markersRef.current.get(point.id) === undefined) {
-          const mapMarker = L.marker([point.latitude, point.longitude], { icon: BLUE_POI_ICON }).on(
-            'click',
-            () => {
-              props.setClimbingObject((co) => (point.id === co ? null : point.id))
-              props.setRoute(null)
-            }
-          )
+          const mapMarker = L.marker([point.latitude, point.longitude], {
+            icon: BLUE_POI_ICON,
+            routesCount: point.routeCount ?? 0,
+          }).on('click', () => {
+            props.setClimbingObject((co) => (point.id === co ? null : point.id))
+            props.setRoute(null)
+          })
           newMarkers.push(mapMarker)
           markersRef.current.set(point.id, mapMarker)
         }
@@ -201,6 +226,7 @@ const MapObjectLayer = (props: MapObjectLayerProps) => {
         chunkedLoading={true}
         maxClusterRadius={MAX_CLUSTER_RADIUS}
         disableClusteringAtZoom={MAX_CLUSTER_ZOOM}
+        iconCreateFunction={customClusterIcon}
         // eslint-disable-next-line react/no-children-prop
         children={null}
       />

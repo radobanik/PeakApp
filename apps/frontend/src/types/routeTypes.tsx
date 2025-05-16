@@ -2,6 +2,7 @@ import { UserLabeled } from './authTypes'
 import { GradeDetail } from './gradeTypes'
 import { ClimbingObjectNoRoutes } from './climbingObjectTypes'
 import { RefObject } from './refObject'
+import { Pagination } from './paginationTypes'
 
 export interface OverlayPoint {
   relX: number
@@ -45,4 +46,8 @@ export type RouteSummary = {
   climbingStructureType: ClimbingStructureType
   longitude: number
   latitude: number
+}
+
+export interface RouteDetailListResponse extends Pagination {
+  items: RouteDetail[]
 }
