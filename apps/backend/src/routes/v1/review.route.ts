@@ -22,16 +22,16 @@ reviewRouter.post(
   ReviewController.create
 )
 
-reviewRouter.put(
+reviewRouter.patch(
   '/:id/me',
   passport.authenticate('jwt', { session: false }),
   ReviewController.update
 )
 
 reviewRouter.delete(
-  '/:id/me',
+  '/:routeId/:userId',
   passport.authenticate('jwt', { session: false }),
-  ReviewController.deleteByRouteId
+  ReviewController.deleteByRouteUserId
 )
 
 export default reviewRouter

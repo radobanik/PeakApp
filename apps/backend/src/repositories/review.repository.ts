@@ -63,22 +63,22 @@ const update = async (reviewData: ReviewCreate, routeId: string, author: RefObje
   })
 }
 
-const deleteByRouteId = async (routeId: string, author: RefObject) => {
+const deleteByRouteId = async (routeId: string, authorId: string) => {
   await reviewClient.delete({
     where: {
       routeId_createdById: {
         routeId: routeId,
-        createdById: author.id,
+        createdById: authorId,
       },
     },
   })
 }
 
-const exists = async (routeId: string, author: RefObject): Promise<boolean> => {
+const exists = async (routeId: string, authorId: string): Promise<boolean> => {
   const count = await reviewClient.count({
     where: {
       routeId: routeId,
-      createdById: author.id,
+      createdById: authorId,
     },
   })
   return count > 0

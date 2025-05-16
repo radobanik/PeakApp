@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { provideUserRefFromToken } from '../auth/authUtils'
-import { ReviewRepository, RouteRepository } from '../repositories'
+import { ReviewRepository, RouteRepository, UserRepository } from '../repositories'
 import { HTTP_STATUS } from './utils/httpStatusCodes'
 import requestValidator from '../model/common/validator'
 import { reviewCreateValidate, reviewUpdateValidate } from '../model/review'
@@ -10,6 +10,23 @@ import {
   toNotNullListParams,
 } from '../model/common/listParams'
 import config from '../core/config'
+import { RefObject } from '../model/common/refObject'
+import { Role } from '@prisma/client'
+
+const validateUser = async (
+  userRef: RefObject,
+  reviewUserId: string,
+  res: Response
+): Promise<boolean> => {
+  const user = await UserRepository.getUserById(userRef.id)
+
+  if (reviewUserId !== user!.id && !user!.roles.includes(Role.ADMIN)) {
+    res.status(HTTP_STATUS.FORBIDDEN_403).json({ error: 'Forbidden' })
+    return false
+  }
+
+  return true
+}
 
 const getAllForRoute = async (req: Request, res: Response) => {
   const routeId = req.params.id
@@ -80,7 +97,7 @@ const update = async (req: Request, res: Response) => {
     return
   }
 
-  if (!(await ReviewRepository.exists(routeId, requestUser))) {
+  if (!(await ReviewRepository.exists(routeId, requestUser.id))) {
     res.status(HTTP_STATUS.NOT_FOUND_404).json({ error: 'Review not found' })
     return
   }
@@ -92,19 +109,24 @@ const update = async (req: Request, res: Response) => {
   res.status(HTTP_STATUS.OK_200).json(updatedReview)
 }
 
-const deleteByRouteId = async (req: Request, res: Response) => {
-  const routeId = req.params.id
+const deleteByRouteUserId = async (req: Request, res: Response) => {
+  const routeId = req.params.routeId
+  const userId = req.params.userId
+
   const requestUser = provideUserRefFromToken(req)
   if (requestUser === null) {
     res.status(HTTP_STATUS.UNAUTHORIZED_401)
     return
   }
-  if (!(await ReviewRepository.exists(routeId, requestUser))) {
+  if (!(await ReviewRepository.exists(routeId, userId))) {
     res.status(HTTP_STATUS.NOT_FOUND_404).json({ error: 'Review not found' })
     return
   }
 
-  await ReviewRepository.deleteByRouteId(routeId, requestUser)
+  if (!validateUser(requestUser, userId, res)) {
+    return
+  }
+  await ReviewRepository.deleteByRouteId(routeId, userId)
   res.status(HTTP_STATUS.NO_CONTENT_204).send()
 }
 
@@ -113,5 +135,5 @@ export default {
   getMeForRoute,
   create,
   update,
-  deleteByRouteId,
+  deleteByRouteUserId,
 }
