@@ -49,6 +49,7 @@ model User {
 
   comments          Comment[]  @relation(name: "UserComments")
   likes             Like[] @relation(name: "UserLikes")
+  Review Review[] @relation()
 }
 
 model PeakFile {
@@ -131,6 +132,8 @@ model Route {
    */
   savedBy User[] @relation("RouteSaves")
   Activity Activity[] @relation()
+
+  Review Review[] @relation()
 }
 
 model RoutePeakFile {
@@ -280,4 +283,18 @@ model Like {
   session   Session   @relation(name: "SessionLikes", fields: [sessionId], references: [id])
 
   @@unique([userId, sessionId], name: "user_session_unique")
+}
+model Review {
+  createdAt DateTime @default(now())
+  updatedAt DateTime?
+
+  stars Int
+  text  String
+
+  routeId String
+  route Route @relation(fields: [routeId], references: [id])
+  createdById  String
+  createdBy User @relation(fields: [createdById], references: [id])
+
+  @@id([routeId, createdById])
 }

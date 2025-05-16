@@ -8,6 +8,7 @@ import ActivityController from './activity.controller'
 import SessionController from './session.controller'
 import CommentController from './comment.controller'
 import LikeController from './like.controller'
+import ReviewController from './review.controller'
 
 export {
   UserController,
@@ -20,4 +21,5 @@ export {
   SessionController,
   CommentController,
   LikeController,
+  ReviewController,
 }
