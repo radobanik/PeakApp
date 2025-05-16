@@ -5,6 +5,7 @@ import initClimbingObjects from './climbingObject.init'
 import initGeoData from './geo.init'
 import initActivities from './activity.init'
 import initSessions from './session.init'
+import initComments from './comment.init'
 
 /**
  * must be in the right order!
@@ -17,6 +18,7 @@ const initFunctions = [
   initGeoData,
   initActivities,
   initSessions,
+  initComments,
 ]
 
 async function initAll() {

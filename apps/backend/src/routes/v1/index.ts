@@ -8,6 +8,7 @@ import climbingObjectRouter from './climbingObject.route'
 import geoRouter from './geo.route'
 import activityRouter from './activity.route'
 import sessionRouter from './session.route'
+import commentRouter from './comment.route'
 
 const v1Router = Router()
 
@@ -47,6 +48,10 @@ const routes = [
   {
     path: '/session',
     route: sessionRouter,
+  },
+  {
+    path: '/comment',
+    route: commentRouter,
   },
 ]
 
