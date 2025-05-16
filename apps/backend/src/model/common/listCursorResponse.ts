@@ -13,7 +13,7 @@ type NonNullListCursorParams = {
 const defaultListCursorParams = (params: IncommingListCursorParams): NonNullListCursorParams => {
   return {
     cursorId: params.cursorId ?? null,
-    pageSize: toNumber(params.cursorId ?? null, 20),
+    pageSize: toNumber(params.pageSize ?? null, 20),
   }
 }
 

@@ -7,7 +7,6 @@ type CommentUpdate = {
 const validate = (entity: CommentUpdate) =>
   z
     .object({
-      id: z.string().uuid('Invalid comment ID.'),
       text: z
         .string()
         .min(1, 'Comment text must be at least 1 character long.')

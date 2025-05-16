@@ -24,6 +24,13 @@ const validateUser = async (
 }
 
 const listBySession = async (req: Request, res: Response) => {
+  const userRef = provideUserRefFromToken(req)
+  if (userRef === null) {
+    res.status(HTTP_STATUS.UNAUTHORIZED_401).json({ error: 'Unauthorized' })
+    return
+  }
+  const user = await UserRepository.getUserById(userRef.id)
+
   const params = defaultCommentListParams(req.query as unknown as IncommingCommentListParams)
   const sessionId = params.sessionId
 
@@ -41,8 +48,11 @@ const listBySession = async (req: Request, res: Response) => {
   const comments = await CommentRepository.listBySession(
     sessionId,
     params.cursorId,
-    params.pageSize
+    params.pageSize,
+    userRef,
+    user!.roles.includes(Role.ADMIN)
   )
+
   res.status(HTTP_STATUS.OK_200).json(comments)
 }
 
