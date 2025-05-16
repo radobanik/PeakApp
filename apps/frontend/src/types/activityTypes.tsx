@@ -1,3 +1,4 @@
+import { UseQueryResult } from '@tanstack/react-query'
 import { ClimbingStructureType } from './routeTypes'
 import { perceivedDifficulty } from './utilsTypes'
 
@@ -36,3 +37,18 @@ export type ActivityUpdate = {
   notes: string
   topped: boolean
 }
+
+export type ActivityQueryType = UseQueryResult<
+  {
+    id: string
+    climbedAt: Date
+    routeName: string
+    routeGrade: string
+    routeType: ClimbingStructureType
+    perceivedDifficulty: perceivedDifficulty
+    numOfAttempts: number
+    topped: boolean
+    notes: string
+  },
+  Error
+>

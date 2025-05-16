@@ -10,7 +10,7 @@ import RouteDetailPage from './pages/RouteDetailPage'
 import DiaryPage from './pages/DiaryPage'
 import ActivitiesPage from './pages/ActivitiesPage'
 import SessionsPage from './pages/SessionsPage'
-import ActivityDetailsPage from './pages/ActivityDetailPage'
+import ActivityDetailPage from './pages/ActivityDetailPage'
 import SessionDetailPage from './pages/SessionDetailPage'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -63,7 +63,7 @@ export default function App() {
                 <Route path={ROUTE.ACTIVITIES} element={privateRoute(<ActivitiesPage />)} />
                 <Route
                   path={ROUTE.ACTIVITIES + '/:id'}
-                  element={privateRoute(<ActivityDetailsPage />)}
+                  element={privateRoute(<ActivityDetailPage />)}
                 />
                 <Route path={ROUTE.SESSIONS} element={privateRoute(<SessionsPage />)} />
                 <Route
