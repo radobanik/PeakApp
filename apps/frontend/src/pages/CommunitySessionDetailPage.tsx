@@ -7,6 +7,7 @@ import Like from '@/components/Like'
 import { Separator } from '@/components/ui/separator'
 import ActivityTableEntry from '@/components/ActivityTableEntry'
 import { ClimbingStructureType } from '@/types/routeTypes'
+import CommentListing from '@/components/CommentListing'
 
 export default function CommunitySessionDetailPage() {
   const params = useParams()
@@ -16,7 +17,6 @@ export default function CommunitySessionDetailPage() {
     enabled: !!params.id,
   })
 
-  console.log('sessionQuery', sessionQuery.data)
   return (
     <div className="w-full h-full flex flex-col overflow-auto">
       {sessionQuery.isLoading && (
@@ -82,6 +82,13 @@ export default function CommunitySessionDetailPage() {
                   />
                 ))}
               </div>
+            </div>
+            <div className="w-full">
+              <p className="text-md font-bold">Comments</p>
+              <CommentListing
+                sessionId={sessionQuery.data.session.id}
+                className="flex-1 overflow-auto"
+              />
             </div>
           </div>
         </>

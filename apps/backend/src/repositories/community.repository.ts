@@ -82,7 +82,6 @@ const getSession = async (
       },
     },
   })
-  console.log('session', session)
   const likesCount = await likeClient.count({
     where: {
       user: userRef,

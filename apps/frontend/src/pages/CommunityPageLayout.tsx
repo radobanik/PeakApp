@@ -4,7 +4,7 @@ import CommunityPosts from '@/components/CommunityPosts'
 import { CommunityVariant } from '@/types/utilsTypes'
 import { Outlet, useMatch, useNavigate } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 
 export default function CommunityPageLayout() {
   const isDetail = useMatch(ROUTE.COMMUNITY_DETAIL(':id'))
@@ -57,6 +57,9 @@ export default function CommunityPageLayout() {
           }}
         >
           <DialogContent className="h-[90vh] w-[90vw] min-w-[300px] min-h-[360px]">
+            <DialogHeader>
+              <DialogTitle></DialogTitle>
+            </DialogHeader>
             <Outlet />
           </DialogContent>
         </Dialog>
