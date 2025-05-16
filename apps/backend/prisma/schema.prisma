@@ -48,6 +48,7 @@ model User {
   Session           Session[]  @relation(name: "SessionCreatedBy")
 
   comments          Comment[]  @relation(name: "UserComments")
+  likes             Like[] @relation(name: "UserLikes")
 }
 
 model PeakFile {
@@ -241,6 +242,7 @@ model Session {
   PeakFile PeakFile[]
 
   comments    Comment[] @relation(name: "SessionComments")
+  likes Like[] @relation(name: "SessionLikes")
 }
 
 model SessionPeakFile {
@@ -266,4 +268,16 @@ model Comment {
 
   deleted   Boolean   @default(false)
   text      String
+}
+
+model Like {
+  id        String    @id @default(uuid())
+
+  userId    String
+  user      User      @relation(name: "UserLikes", fields: [userId], references: [id])
+
+  sessionId String
+  session   Session   @relation(name: "SessionLikes", fields: [sessionId], references: [id])
+
+  @@unique([userId, sessionId], name: "user_session_unique")
 }
