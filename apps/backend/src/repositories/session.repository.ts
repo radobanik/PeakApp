@@ -75,7 +75,7 @@ const create = async (sessionData: SessionCreate, userRef: RefObject): Promise<S
     },
     select: sessionDetailSelector,
   })
-  return flattenAdditionalImages(nestedDetail as SessionDetailDeepImage)
+  return flattenAdditionalImages(nestedDetail as unknown as SessionDetailDeepImage)
 }
 
 const update = async (
@@ -96,7 +96,7 @@ const update = async (
     },
     select: sessionDetailSelector,
   })
-  return flattenAdditionalImages(nestedDetail as SessionDetailDeepImage)
+  return flattenAdditionalImages(nestedDetail as unknown as SessionDetailDeepImage)
 }
 
 async function exists(author: RefObject, id: string): Promise<boolean> {
