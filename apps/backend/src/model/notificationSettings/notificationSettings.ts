@@ -4,10 +4,10 @@ type NotificationSettings = {
   id: string
   userId: string
 
-  disabled: boolean
-  disableLikes: boolean
-  disableComments: boolean
-  emailNotifications: boolean
+  enableApp: boolean
+  enableLikes: boolean
+  enableComments: boolean
+  enableEmail: boolean
 
   createdAt: Date
   updatedAt: Date | null
@@ -16,10 +16,10 @@ type NotificationSettings = {
 const notificationSettingsSelector = {
   id: true,
   userId: true,
-  disabled: true,
-  disableLikes: true,
-  disableComments: true,
-  emailNotifications: true,
+  enableApp: true,
+  enableLikes: true,
+  enableComments: true,
+  enableEmail: true,
   createdAt: true,
   updatedAt: true,
 }

@@ -21,17 +21,17 @@ export type NotificationListItem = {
 }
 
 export type NotificationSettings = {
-  disabled: boolean
-  disableLikes: boolean
-  disableComments: boolean
-  emailNotifications: boolean
+  enableApp: boolean
+  enableLikes: boolean
+  enableComments: boolean
+  enableEmail: boolean
 }
 
 export type NotificationSettingsUpdateRequest = {
-  disabled?: boolean
-  disableLikes?: boolean
-  disableComments?: boolean
-  emailNotifications?: boolean
+  enableApp?: boolean
+  enableLikes?: boolean
+  enableComments?: boolean
+  enableEmail?: boolean
 }
 
 export type NotificationResponse = Notification

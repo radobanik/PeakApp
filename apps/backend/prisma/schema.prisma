@@ -372,10 +372,10 @@ model UserNotificationSettings {
   userId            String   @unique
   user              User     @relation(fields: [userId], references: [id])
 
-  disabled          Boolean  @default(false) // disable all notifications
-  disableLikes      Boolean  @default(false)
-  disableComments   Boolean  @default(false)
-  emailNotifications Boolean @default(true)
+  enableApp         Boolean  @default(false) // disable all notifications
+  enableLikes       Boolean  @default(false)
+  enableComments    Boolean  @default(false)
+  enableEmail       Boolean @default(true)
 
   createdAt         DateTime @default(now())
   updatedAt         DateTime?

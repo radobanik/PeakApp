@@ -37,10 +37,10 @@ export type UserDetail = {
     }
   } | null
   notificationSettings: {
-    disabled: boolean
-    disableLikes: boolean
-    disableComments: boolean
-    emailNotifications: boolean
+    enableApp: boolean
+    enableLikes: boolean
+    enableComments: boolean
+    enableEmail: boolean
   }
 }
 

@@ -104,10 +104,10 @@ const createUser = async (userData: UserCreate): Promise<UserDetail> => {
         roles: { set: [Role.USER] },
         notificationSettings: {
           create: {
-            disabled: false,
-            disableLikes: false,
-            disableComments: false,
-            emailNotifications: false,
+            enableApp: true,
+            enableLikes: true,
+            enableComments: true,
+            enableEmail: false,
           },
         },
       },

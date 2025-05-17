@@ -22,10 +22,10 @@ type UserDetail = {
     }
   } | null
   notificationSettings: {
-    disabled: boolean
-    disableLikes: boolean
-    disableComments: boolean
-    emailNotifications: boolean
+    enableApp: boolean
+    enableLikes: boolean
+    enableComments: boolean
+    enableEmail: boolean
   } | null
   profilePictureId: string | null
   createdAt: Date
@@ -49,10 +49,10 @@ const selector = {
 
   notificationSettings: {
     select: {
-      disabled: true,
-      disableLikes: true,
-      disableComments: true,
-      emailNotifications: true,
+      enableApp: true,
+      enableLikes: true,
+      enableComments: true,
+      enableEmail: true,
     },
   },
 
