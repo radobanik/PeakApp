@@ -55,16 +55,18 @@ const markAsRead = async (id: string): Promise<Notification> => {
 }
 
 const listAndMarkAllAsRead = async (userId: string): Promise<NotificationList[]> => {
+  var beforeUpdate = await notificationClient.findMany({
+    where: { userId },
+    orderBy: { createdAt: 'desc' },
+    select: notificationListSelector,
+  })
+
   await notificationClient.updateMany({
     where: { userId, isRead: false },
     data: { isRead: true },
   })
 
-  return await notificationClient.findMany({
-    where: { userId },
-    orderBy: { createdAt: 'desc' },
-    select: notificationListSelector,
-  })
+  return beforeUpdate
 }
 
 const countUnreadByUser = async (userId: string): Promise<number> => {

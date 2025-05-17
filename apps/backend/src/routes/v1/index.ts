@@ -70,7 +70,7 @@ const routes = [
     route: reportRouter,
   },
   {
-    path: '/notification',
+    path: '/notifications',
     route: notificationRouter,
   },
 ]
