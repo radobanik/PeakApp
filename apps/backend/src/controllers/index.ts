@@ -10,6 +10,7 @@ import CommentController from './comment.controller'
 import LikeController from './like.controller'
 import ReviewController from './review.controller'
 import ReportController from './report.controller'
+import NotificationController from './notification.controller'
 
 export {
   UserController,
@@ -24,4 +25,5 @@ export {
   LikeController,
   ReviewController,
   ReportController,
+  NotificationController,
 }
