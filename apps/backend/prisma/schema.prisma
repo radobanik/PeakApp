@@ -31,6 +31,8 @@ model User {
   updatedAt         DateTime?
   deleted           Boolean  @default(false)
 
+  notificationSettings UserNotificationSettings?
+
   /**
    * SAVED RELATIONSHIP
    */
@@ -363,4 +365,18 @@ model Notification {
   
   createdAt   DateTime @default(now())
   updatedAt DateTime?
+}
+
+model UserNotificationSettings {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id])
+
+  disabled          Boolean  @default(false) // disable all notifications
+  disableLikes      Boolean  @default(false)
+  disableComments   Boolean  @default(false)
+  emailNotifications Boolean @default(true)
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime?
 }
