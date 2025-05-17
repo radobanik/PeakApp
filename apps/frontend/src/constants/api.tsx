@@ -64,5 +64,6 @@ export const API = {
   NOTIFICATIONS: {
     LIST_AS_READ: () => `${API_BASE_URL}/notifications/read`,
     UNREAD_COUNT: () => `${API_BASE_URL}/notifications/unread/count`,
+    SETTINGS: () => `${API_BASE_URL}/notification-settings`,
   },
 }
