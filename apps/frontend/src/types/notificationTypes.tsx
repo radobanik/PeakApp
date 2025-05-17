@@ -1,3 +1,4 @@
+import { Pagination } from './paginationTypes'
 import type { UserLabeled } from './userTypes'
 
 export type Notification = {
@@ -34,5 +35,7 @@ export type NotificationSettingsUpdateRequest = {
 }
 
 export type NotificationResponse = Notification
-export type NotificationListResponse = NotificationListItem[]
 export type NotificationSettingsResponse = NotificationSettings
+export interface NotificationListResponse extends Pagination {
+  items: NotificationListItem[]
+}

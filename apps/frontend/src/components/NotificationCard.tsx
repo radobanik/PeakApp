@@ -10,15 +10,15 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
   return (
     <Card
       className={cn(
-        'border-l-4 rounded-sm shadow-sm',
+        'rounded-sm shadow-sm',
         notification.isRead ? 'border-gray-300' : 'border-blue-500 bg-blue-50'
       )}
     >
-      <CardContent className="py-4 space-y-1">
+      <CardContent className="space-y-2 py-0">
         <div className="text-sm text-muted-foreground">
           {new Date(notification.createdAt).toLocaleString()}
         </div>
-        <div className="font-medium text-base">{notification.title}</div>
+        <div className="font-medium text-xl">{notification.title}</div>
         <p className="text-sm text-gray-700">{notification.message}</p>
       </CardContent>
     </Card>

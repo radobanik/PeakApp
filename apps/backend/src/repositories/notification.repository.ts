@@ -7,6 +7,7 @@ import {
   notificationListSelector,
   notificationSelector,
 } from '../model/notification'
+import { createListResponse, ListResponse } from '../model/common/listResponse'
 
 const notificationClient = new PrismaClient().notification
 
@@ -54,19 +55,39 @@ const markAsRead = async (id: string): Promise<Notification> => {
   })
 }
 
-const listAndMarkAllAsRead = async (userId: string): Promise<NotificationList[]> => {
-  var beforeUpdate = await notificationClient.findMany({
+const listAndMarkAllAsRead = async (
+  userId: string,
+  page: number,
+  pageSize: number
+): Promise<ListResponse<NotificationList>> => {
+  const total = await notificationClient.count({
+    where: { userId },
+  })
+
+  const notifications = await notificationClient.findMany({
     where: { userId },
     orderBy: { createdAt: 'desc' },
+    skip: (page - 1) * pageSize,
+    take: pageSize,
     select: notificationListSelector,
   })
 
-  await notificationClient.updateMany({
-    where: { userId, isRead: false },
-    data: { isRead: true },
-  })
+  const idsToMarkRead = notifications
+    .filter(n => !n.isRead)
+    .map(n => n.id)
 
-  return beforeUpdate
+  if (idsToMarkRead.length > 0) {
+    await notificationClient.updateMany({
+      where: {
+        id: { in: idsToMarkRead },
+        userId,
+        isRead: false,
+      },
+      data: { isRead: true },
+    })
+  }
+
+  return createListResponse(notifications, total, page, pageSize)
 }
 
 const countUnreadByUser = async (userId: string): Promise<number> => {

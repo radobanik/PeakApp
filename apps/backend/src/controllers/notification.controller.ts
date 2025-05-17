@@ -9,6 +9,12 @@ import {
   validateNotificationCreate,
   validateNotificationUpdate,
 } from '../model/notification'
+import {
+  IncommingListParams,
+  NonNullListParams,
+  toNotNullListParams,
+} from '../model/common/listParams'
+import config from '../core/config'
 
 const listByLoggedInUser = async (req: Request, res: Response): Promise<void> => {
   const user = provideUserRefFromToken(req)
@@ -84,13 +90,20 @@ const deleteById = async (req: Request<{ id: string }>, res: Response): Promise<
 }
 
 const listAndMarkAllAsRead = async (req: Request, res: Response): Promise<void> => {
+  const params = req.query as unknown as IncommingListParams
+  const normalizedParams: NonNullListParams = toNotNullListParams(params, config.LIST_LIMIT.DEFAULT)
+
   const user = provideUserRefFromToken(req)
   if (!user) {
     res.status(HTTP_STATUS.UNAUTHORIZED_401).json({ error: 'Unauthorized' })
     return
   }
 
-  const notifications = await NotificationRepository.listAndMarkAllAsRead(user.id)
+  const notifications = await NotificationRepository.listAndMarkAllAsRead(
+    user.id,
+    normalizedParams.page,
+    normalizedParams.pageSize
+  )
   res.status(HTTP_STATUS.OK_200).json(notifications)
 }
 

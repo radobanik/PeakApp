@@ -1,10 +1,15 @@
 import { API } from '@/constants/api'
 import { api } from './index'
-import { NotificationListItem } from '@/types/notificationTypes'
+import { NotificationListResponse } from '@/types/notificationTypes'
 
-export async function getAndReadAllNotifications(): Promise<NotificationListItem[]> {
+export async function getAndReadAllNotifications(
+  page: number = 1,
+  pageSize: number = 10
+): Promise<NotificationListResponse> {
   try {
-    const response = await api.get(`${API.NOTIFICATIONS.LIST_AS_READ()}`)
+    const response = await api.get(API.NOTIFICATIONS.LIST_AS_READ(), {
+      params: { page, pageSize },
+    })
     return response.data
   } catch (error) {
     throw error

@@ -35,6 +35,7 @@ import AllUserList from './pages/Backoffice/AllUserList'
 import Analytics from './pages/Backoffice/Analytics'
 import ReportPage from './pages/Backoffice/ReportPage'
 import ReportDetailPage from './pages/Backoffice/ReportDetailPage'
+import NotificationsPage from './pages/NotificationsPage/NotificationsPage'
 
 type ViewportContextType = {
   isMobile: boolean
@@ -159,6 +160,10 @@ export default function App() {
                       <Route path={ROUTE.ALL_USERS_DETAIL} element={privateRoute(<div />)} />
                     </Route>
                     <Route path={ROUTE.ANALYTICS} element={privateRoute(<Analytics />)}></Route>
+                    <Route
+                      path={ROUTE.SETTINGS_NOTIFICATIONS}
+                      element={privateRoute(<NotificationsPage />)}
+                    />
                   </Route>
                 </Route>
               </Routes>
