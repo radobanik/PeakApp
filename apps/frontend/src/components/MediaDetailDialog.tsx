@@ -9,6 +9,9 @@ type MediaDetailDialogProps = {
   media: PeakFile | null
 }
 
+/**
+ * dialog popup to show media detail (image/video) in enlarged view (when clicked on eye icon on image/video)
+ */
 const MediaDetailDialog: FC<MediaDetailDialogProps> = ({ isOpen, onOpenChange, media }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>

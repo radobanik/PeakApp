@@ -70,7 +70,7 @@ export default function SessionCreateInputs() {
   })
 
   return (
-    <div className="flex flex-col gap-4 lg:items-center w-[80vh]">
+    <div className="flex flex-col gap-4 lg:items-center">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="flex flex-col gap-4 p-4">

@@ -10,13 +10,16 @@ import { createFile } from '@/services/fileService'
 import PlusIcon from './svg/PlusIcon'
 import { AlertDialogDelete } from './ui/custom/alert-dialog-delete'
 
-type PhotoScrollProps = {
+type MediaScrollProps = {
   media: PeakFile[]
   setMedia: (files: PeakFile[]) => void
   editable: boolean
 }
 
-const MediaScroll: FC<PhotoScrollProps> = ({ media, setMedia, editable }: PhotoScrollProps) => {
+/**
+ * component to render a horizontally scrollable area with media items (images/videos)
+ */
+const MediaScroll: FC<MediaScrollProps> = ({ media, setMedia, editable }: MediaScrollProps) => {
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false)
   const [selectedMedia, setSelectedMedia] = useState<PeakFile | null>(null)
   const [rootHeight, setRootHeight] = useState<number>(0)
