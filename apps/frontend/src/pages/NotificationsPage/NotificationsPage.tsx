@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import NotificationCard from '@/components/NotificationCard'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -15,6 +15,7 @@ import { useNotificationsQuery } from './useNotificationsQuery'
 import { useNotificationSettingsQuery } from './useNotificationsSettingsQuery'
 import { useNotificationsSettingsUpdateQuery } from './useNotificationsSettingsUpdateQuery'
 import type { NotificationSettings } from '@/types/notificationTypes'
+import { useNotificationContext } from '@/App'
 
 const NotificationsPage = () => {
   const [page, setPage] = useState(1)
@@ -22,9 +23,17 @@ const NotificationsPage = () => {
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [dialogSettings, setDialogSettings] = useState<NotificationSettings | null>(null)
 
-  const { data, isLoading, isError } = useNotificationsQuery(page, pageSize)
+  const { unreadCount, refetchUnread } = useNotificationContext()
+
+  const { data, isLoading, isError, isSuccess } = useNotificationsQuery(page, pageSize)
   const notifications = data?.items ?? []
   const totalPages = data?.totalPages ?? 1
+
+  useEffect(() => {
+    if (isSuccess && unreadCount > 0) {
+      refetchUnread()
+    }
+  }, [isSuccess])
 
   const {
     data: notificationSettings,
