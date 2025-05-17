@@ -3,13 +3,13 @@ import { Dialog, DialogContent, DialogOverlay, DialogTitle } from '@/components/
 import noBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
 import { PeakFile } from '@/types/fileTypes'
 
-type PhotoDetailDialogProps = {
+type MediaDetailDialogProps = {
   isOpen: boolean
   onOpenChange: (open: boolean) => void
   media: PeakFile | null
 }
 
-const PhotoDetailDialog: FC<PhotoDetailDialogProps> = ({ isOpen, onOpenChange, media }) => {
+const MediaDetailDialog: FC<MediaDetailDialogProps> = ({ isOpen, onOpenChange, media }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogOverlay />
@@ -31,4 +31,4 @@ const PhotoDetailDialog: FC<PhotoDetailDialogProps> = ({ isOpen, onOpenChange, m
   )
 }
 
-export default PhotoDetailDialog
+export default MediaDetailDialog

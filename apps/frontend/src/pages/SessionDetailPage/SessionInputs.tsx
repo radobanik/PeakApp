@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { z } from 'zod'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
@@ -22,10 +22,14 @@ import { deleteSession, updateSession } from '@/services/sessionService'
 import { SessionUpdate } from '@/types/sessionTypes'
 import ScrollTable from '@/components/ScrollTable'
 import ActivityTableEntry from '@/components/ActivityTableEntry'
+import MediaScroll from '@/components/MediaScroll'
+import { PeakFile } from '@/types/fileTypes'
+import { getFile } from '@/services/fileService'
 
 const formSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   note: z.string().optional(),
+  photos: z.array(z.object({ id: z.string() })).optional(),
 })
 
 export function SessionInputs() {
@@ -33,6 +37,7 @@ export function SessionInputs() {
     useContext(SessionDetailContext)
   const queryClient = useQueryClient()
   const navigation = useNavigate()
+  const [media, setMedia] = useState<PeakFile[]>([])
 
   const updateMutation = useMutation({
     mutationFn: async (data: SessionUpdate) => {
@@ -66,12 +71,15 @@ export function SessionInputs() {
     },
   })
   function onSubmit(data: z.infer<typeof formSchema>) {
-    const activityData: SessionUpdate = {
+    const sessionData: SessionUpdate = {
       name: data.name ?? '',
       note: data.note ?? '',
-      photos: [],
+      photos: media.map((file) => ({
+        id: file.id,
+      })),
     }
-    updateMutation.mutate(activityData)
+    console.log('Activity data:', sessionData)
+    updateMutation.mutate(sessionData)
     setIsEdit(false)
   }
 
@@ -80,6 +88,7 @@ export function SessionInputs() {
     defaultValues: {
       name: sessionQuery.data?.name,
       note: sessionQuery.data?.note,
+      photos: sessionQuery.data?.photos ?? [],
     },
   })
 
@@ -91,12 +100,26 @@ export function SessionInputs() {
   }, [isDelete])
 
   useEffect(() => {
-    if (sessionQuery.isSuccess && !isEdit) {
-      form.reset({
-        name: sessionQuery.data?.name,
-        note: sessionQuery.data?.note,
-      })
+    console.log('SessionQuery:', sessionQuery.data)
+    console.log('success', sessionQuery.isSuccess)
+    const processFiles = async () => {
+      if (sessionQuery.isSuccess && !isEdit) {
+        const fileRefs = sessionQuery.data?.photos ?? []
+
+        form.reset({
+          name: sessionQuery.data?.name,
+          note: sessionQuery.data?.note,
+          photos: fileRefs,
+        })
+
+        const peakFilePromises = fileRefs.map((ref) => getFile(ref.id))
+        setMedia(await Promise.all(peakFilePromises))
+        console.log(fileRefs)
+        console.log(media)
+        console.log(sessionId)
+      }
     }
+    processFiles()
   }, [sessionQuery.isSuccess])
 
   return (
@@ -143,6 +166,13 @@ export function SessionInputs() {
                   </FormItem>
                 )}
               />
+            )}
+
+            {sessionQuery.isSuccess && (
+              /* TODO it overflows when adding more pictures, FIX*/
+              <div className="p-4 h-[20vh]">
+                <MediaScroll {...{ media: media, setMedia: setMedia, editable: isEdit }} />
+              </div>
             )}
 
             {isEdit && (

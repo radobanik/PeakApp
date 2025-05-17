@@ -1,6 +1,7 @@
-import { ActivityDetail, activityDetailSelector } from '../activity'
+import { ActivityDetail } from '../activity'
 import { UserLabeled, userLabeledSelector } from '../user'
 import { RefObject, refObjectSelector } from '../common/refObject'
+import { routeListSelector } from '../route'
 
 type SessionDetail = {
   id: string
@@ -27,7 +28,24 @@ const selector = {
   note: true,
 
   assignedActivities: {
-    select: activityDetailSelector,
+    select: {
+      id: true,
+      createdAt: true,
+      updatedAt: true,
+      createdBy: {
+        select: userLabeledSelector,
+      },
+      climbedAt: true,
+      reviewStars: true,
+      reviewText: true,
+      numOfAttempts: true,
+      perceivedDifficulty: true,
+      notes: true,
+      topped: true,
+      route: {
+        select: routeListSelector,
+      },
+    },
   },
   photos: {
     select: {

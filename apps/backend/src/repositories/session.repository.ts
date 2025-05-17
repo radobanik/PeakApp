@@ -27,14 +27,16 @@ const flattenAdditionalImages = (entity: SessionDetailDeepImage): SessionDetail 
   }
 }
 
-const getById = async (author: RefObject, id: string): Promise<SessionList | null> => {
-  return await sessionClient.findUnique({
+const getById = async (author: RefObject, id: string): Promise<SessionDetail | null> => {
+  const nestedDetail = await sessionClient.findUnique({
     where: {
       id: id,
       createdBy: author,
     },
-    select: sessionListSelector,
+    select: sessionDetailSelector,
   })
+
+  return flattenAdditionalImages(nestedDetail as unknown as SessionDetailDeepImage)
 }
 
 const list = async (

@@ -3,7 +3,7 @@ import { ChangeEvent, FC, useEffect, useRef, useState } from 'react'
 import { Button } from './ui/button'
 import TrashIcon from './svg/TrashIcon'
 import EyeDetailIcon from './svg/EyeDetailIcon'
-import PhotoDetailDialog from './PhotoDetailDialog'
+import MediaDetailDialog from './MediaDetailDialog'
 import VideoIcon from './svg/VideoIcon'
 import { PeakFile } from '@/types/fileTypes'
 import { createFile } from '@/services/fileService'
@@ -16,7 +16,7 @@ type PhotoScrollProps = {
   editable: boolean
 }
 
-const PhotoScroll: FC<PhotoScrollProps> = ({ media, setMedia, editable }: PhotoScrollProps) => {
+const MediaScroll: FC<PhotoScrollProps> = ({ media, setMedia, editable }: PhotoScrollProps) => {
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false)
   const [selectedMedia, setSelectedMedia] = useState<PeakFile | null>(null)
   const [rootHeight, setRootHeight] = useState<number>(0)
@@ -70,9 +70,9 @@ const PhotoScroll: FC<PhotoScrollProps> = ({ media, setMedia, editable }: PhotoS
   }
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full border rounded-lg p-4">
       {/* --- Render the scrollable area with media items --- */}
-      <ScrollArea className="w-full h-full rounded-lg m-4" ref={rootRef}>
+      <ScrollArea className="w-full h-full rounded-lg" ref={rootRef}>
         {/* Scrollable area */}
         <div className="flex w-full h-full space-x-4  items-center">
           {/* Hidden file input */}
@@ -96,77 +96,83 @@ const PhotoScroll: FC<PhotoScrollProps> = ({ media, setMedia, editable }: PhotoS
           )}
 
           {/* MEDIA */}
-          {media.map((file) => (
-            /* Media container */
-            <div
-              key={file.id}
-              className="group relative overflow-hidden flex-shrink-0 rounded-lg cursor-pointer"
-              onClick={(e) => {
-                e.stopPropagation()
-                handleMediaClick(file)
-              }}
-              style={{ height: rootHeight, width: rootHeight }}
-            >
-              {file.contentType.startsWith('image/') ? (
-                /* Image */
-                <img
-                  src={file.url}
-                  className={`h-full w-full object-cover transition-transform duration-200 ${selectedMedia?.id === file.id ? 'scale-110' : ''}`}
-                />
-              ) : (
-                /* Video with icon */
-                <div className="relative h-full w-full flex items-center justify-center">
-                  <video
+          {media.length > 0 ? (
+            media.map((file) => (
+              /* Media container */
+              <div
+                key={file.id}
+                className="group relative overflow-hidden flex-shrink-0 rounded-lg cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handleMediaClick(file)
+                }}
+                style={{ height: rootHeight, width: rootHeight }}
+              >
+                {file.contentType.startsWith('image/') ? (
+                  /* Image */
+                  <img
                     src={file.url}
                     className={`h-full w-full object-cover transition-transform duration-200 ${selectedMedia?.id === file.id ? 'scale-110' : ''}`}
                   />
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-1/2 w-1/2">
-                    <VideoIcon />
+                ) : (
+                  /* Video with icon */
+                  <div className="relative h-full w-full flex items-center justify-center">
+                    <video
+                      src={file.url}
+                      className={`h-full w-full object-cover transition-transform duration-200 ${selectedMedia?.id === file.id ? 'scale-110' : ''}`}
+                    />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-1/2 w-1/2">
+                      <VideoIcon />
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {/* Overlay with Detail + Edit */}
-              <div
-                className={`absolute inset-0 transition-opacity duration-200 ${selectedMedia?.id === file.id ? 'opacity-100' : 'opacity-0'}`}
-              >
-                {/* Button container */}
+                {/* Overlay with Detail + Edit */}
                 <div
-                  className={`h-full w-full flex items-center justify-center gap-4 z-50 relative ${selectedMedia?.id === file.id ? '' : 'hidden'}`}
+                  className={`absolute inset-0 transition-opacity duration-200 ${selectedMedia?.id === file.id ? 'opacity-100' : 'opacity-0'}`}
                 >
-                  <Button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation() // otherwise click event will be registered by image, nulling selectedMedia
-                      handleOpenDetailDialog()
-                    }}
+                  {/* Button container */}
+                  <div
+                    className={`h-full w-full flex items-center justify-center gap-4 z-50 relative ${selectedMedia?.id === file.id ? '' : 'hidden'}`}
                   >
-                    <EyeDetailIcon />
-                  </Button>
-                  {editable && (
                     <Button
                       type="button"
-                      variant={'destructive'}
                       onClick={(e) => {
                         e.stopPropagation() // otherwise click event will be registered by image, nulling selectedMedia
-                        setIsDeleteDialogOpen(true)
+                        handleOpenDetailDialog()
                       }}
                     >
-                      <TrashIcon />
+                      <EyeDetailIcon />
                     </Button>
-                  )}
+                    {editable && (
+                      <Button
+                        type="button"
+                        variant={'destructive'}
+                        onClick={(e) => {
+                          e.stopPropagation() // otherwise click event will be registered by image, nulling selectedMedia
+                          setIsDeleteDialogOpen(true)
+                        }}
+                      >
+                        <TrashIcon />
+                      </Button>
+                    )}
+                  </div>
+                  {/* div for changing bg color when hovered on */}
+                  <div className="absolute inset-0  bg-gray-700 opacity-50 z-10" />
                 </div>
-                {/* div for changing bg color when hovered on */}
-                <div className="absolute inset-0  bg-gray-700 opacity-50 z-10" />
               </div>
+            ))
+          ) : (
+            <div className="flex-grow flex items-center justify-center h-full">
+              <p className="text-muted-foreground md">No media available</p>
             </div>
-          ))}
+          )}
         </div>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
 
       {/* --- Render the PhotoDetailDialog component --- */}
-      <PhotoDetailDialog
+      <MediaDetailDialog
         isOpen={isDetailDialogOpen}
         onOpenChange={handleCloseDetailDialog}
         media={selectedMedia}
@@ -181,4 +187,4 @@ const PhotoScroll: FC<PhotoScrollProps> = ({ media, setMedia, editable }: PhotoS
   )
 }
 
-export default PhotoScroll
+export default MediaScroll
