@@ -35,6 +35,7 @@ model User {
    * SAVED RELATIONSHIP
    */
   savedRoutes       Route[]  @relation("RouteSaves")
+  notifications     Notification[]  
 
   /**
    * FOREIGN RELATIONSHIPS
@@ -349,4 +350,17 @@ model Report {
   reason            String
 
   resolution        String?
+}
+
+model Notification {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+
+  title       String
+  message     String
+  isRead      Boolean  @default(false)
+  
+  createdAt   DateTime @default(now())
+  updatedAt DateTime?
 }
