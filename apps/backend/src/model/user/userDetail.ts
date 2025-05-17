@@ -21,6 +21,12 @@ type UserDetail = {
       code: string
     }
   } | null
+  notificationSettings: {
+    disabled: boolean
+    disableLikes: boolean
+    disableComments: boolean
+    emailNotifications: boolean
+  } | null
   profilePictureId: string | null
   createdAt: Date
   updatedAt: Date | null
@@ -40,6 +46,15 @@ const selector = {
   birthday: true,
   height: true,
   weight: true,
+
+  notificationSettings: {
+    select: {
+      disabled: true,
+      disableLikes: true,
+      disableComments: true,
+      emailNotifications: true,
+    },
+  },
 
   cityId: true,
 
