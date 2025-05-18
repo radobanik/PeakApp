@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '@prisma/client'
+import { ApprovalState, Prisma, PrismaClient } from '@prisma/client'
 import {
   RouteCreate,
   RouteDetail,
@@ -30,7 +30,8 @@ type RouteDetailDeepImage = {
   }[]
 } & RouteDetail
 
-const flattenAdditionalImages = (entity: RouteDetailDeepImage): RouteDetail => {
+const flattenAdditionalImages = (entity: RouteDetailDeepImage): RouteDetail | null => {
+  if (!entity) return null
   return {
     ...entity,
     additionalImages: entity.additionalImages.map((img) => img.peakFile),
@@ -56,7 +57,7 @@ const list = async (
   return createListResponse(routes, totalRoutes, pageNum, pageSize)
 }
 
-const getById = async (id: string): Promise<RouteDetail> => {
+const getById = async (id: string): Promise<RouteDetail | null> => {
   const nestedDetail = await routeClient.findUnique({
     where: {
       id: id,
@@ -67,7 +68,7 @@ const getById = async (id: string): Promise<RouteDetail> => {
   return flattenAdditionalImages(nestedDetail as RouteDetailDeepImage)
 }
 
-const create = async (route: RouteCreate, userRef: RefObject): Promise<RouteDetail> => {
+const create = async (route: RouteCreate, userRef: RefObject): Promise<RouteDetail | null> => {
   const nestedDetail = await routeClient.create({
     data: {
       ...route,
@@ -84,7 +85,11 @@ const create = async (route: RouteCreate, userRef: RefObject): Promise<RouteDeta
   return flattenAdditionalImages(nestedDetail as RouteDetailDeepImage)
 }
 
-const update = async (id: string, route: RouteUpdate, userRef: RefObject): Promise<RouteDetail> => {
+const update = async (
+  id: string,
+  route: RouteUpdate,
+  userRef: RefObject
+): Promise<RouteDetail | null> => {
   const nestedDetail = await routeClient.update({
     where: { id },
     data: {
@@ -122,6 +127,24 @@ const exists = async (id: string): Promise<boolean> => {
   return count > 0
 }
 
+const changeApprovalState = async (
+  id: string,
+  approvalState: ApprovalState,
+  user: RefObject
+): Promise<RouteDetail | null> => {
+  const nestedDetail = await routeClient.update({
+    where: { id },
+    data: {
+      approvalState: approvalState,
+      updatedAt: new Date(),
+      updatedBy: toConnector(user),
+    },
+    select: routeDetailSelector,
+  })
+
+  return flattenAdditionalImages(nestedDetail as RouteDetailDeepImage)
+}
+
 export type { RouteWhere, RouteOrder }
 
 export default {
@@ -131,4 +154,5 @@ export default {
   update,
   deleteById,
   exists,
+  changeApprovalState,
 }

@@ -8,6 +8,7 @@ import * as L from 'leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
 import { toast } from 'sonner'
 import { ClusterIcon } from './ClusterIcon'
+import { PaginatedResponse } from '@/types'
 
 const MAX_CLUSTER_ZOOM = 18
 const CHUNK_SIZE = 1000 // Process 1000 points at a time
@@ -36,7 +37,7 @@ const fetchClimbingObjects = async (
   latTo: number
 ) => {
   try {
-    const url = new URL(API.CLIMBING_OBJECT)
+    const url = new URL(API.CLIMBING_OBJECT.LIST)
     const params = new URLSearchParams({
       longitudeFrom: lonFrom.toString(),
       longitudeTo: lonTo.toString(),
@@ -176,14 +177,14 @@ const MapObjectLayer = (props: MapObjectLayerProps) => {
     props.setZoomLevel(map.getZoom())
     const b = map.getBounds()
 
-    const data: ClimbingObjectList[] | null = await fetchClimbingObjects(
+    const data: PaginatedResponse<ClimbingObjectList> | null = await fetchClimbingObjects(
       b.getWest(),
       b.getEast(),
       b.getSouth(),
       b.getNorth()
     )
     console.log(data)
-    data?.forEach((p) => pointQueue.current.push(p))
+    data?.items?.forEach((p) => pointQueue.current.push(p))
     renderClimbingObjects()
   }
 

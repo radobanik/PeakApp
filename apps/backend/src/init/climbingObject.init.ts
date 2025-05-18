@@ -70,10 +70,12 @@ async function initClimbingObjects() {
         update: {
           ...obj,
           deleted: false,
+          approvalState: 'APPROVED',
         },
         create: {
           ...obj,
           deleted: false,
+          approvalState: 'APPROVED',
         },
       })
     )

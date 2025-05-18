@@ -1,4 +1,4 @@
-import { User } from '@prisma/client'
+import { ApprovalState, User } from '@prisma/client'
 import { Route } from '../route'
 
 type ClimbingObject = {
@@ -14,6 +14,7 @@ type ClimbingObject = {
   latitude: number
 
   routes: Route[]
+  approvalState: ApprovalState
 }
 
 export type { ClimbingObject }

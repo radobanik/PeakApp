@@ -3,6 +3,7 @@ import { GradeDetail } from './gradeTypes'
 import { ClimbingObjectNoRoutes } from './climbingObjectTypes'
 import { RefObject } from './refObject'
 import { Pagination } from './paginationTypes'
+import { ApprovalState } from './approvalTypes'
 
 export interface OverlayPoint {
   relX: number
@@ -36,6 +37,7 @@ export interface RouteDetail {
   overlay: OverlayPoint[]
 
   climbingObject: ClimbingObjectNoRoutes
+  approvalState: ApprovalState
 }
 
 export type RouteSummary = {
@@ -46,6 +48,7 @@ export type RouteSummary = {
   climbingStructureType: ClimbingStructureType
   longitude: number
   latitude: number
+  approvalState: ApprovalState
 }
 
 export interface RouteDetailListResponse extends Pagination {

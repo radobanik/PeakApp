@@ -9,11 +9,14 @@ import {
   ClimbingObjectUpdate,
   climbingObjectUpdateValidate,
   NonNullClimbingObjectListParams,
+  validateClimbingObjectListParams,
 } from '../model/climbingObject'
 import requestValidator from '../model/common/validator'
 import { ClimbingObjectOrder, ClimbingObjectWhere } from '../repositories/climbingObject.repository'
 import { RouteWhere } from '../repositories/route.repository'
 import { provideUserRefFromToken, returnUnauthorized } from '../auth/authUtils'
+import { getOrderBy } from '../model/route'
+import { ApprovalState } from '@prisma/client'
 
 const getById = async (req: Request, res: Response) => {
   const climbingObjectId = req.params.id
@@ -30,12 +33,23 @@ const list = async (req: Request, res: Response) => {
   const params = req.query as unknown as IncommingClimbingObjectListParams
   const normalizedParams: NonNullClimbingObjectListParams = defaultClimbingObjectListParams(params)
 
+  try {
+    validateClimbingObjectListParams(normalizedParams)
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      res.status(HTTP_STATUS.BAD_REQUEST_400).json({ error: error.message })
+    } else {
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR_500).json({ error: 'Internal server error' })
+    }
+    return
+  }
+
   const routeWhere: RouteWhere = {
     AND: [
       { climbingStructureType: { in: normalizedParams.climbingStructureTypes } },
       { grade: { rating: { gte: normalizedParams.ratingFrom, lte: normalizedParams.ratingTo } } },
       { name: { contains: normalizedParams.routeName as string, mode: 'insensitive' } },
-      { approvalState: { in: normalizedParams.approvalStates } },
+      { approvalState: ApprovalState.APPROVED },
     ],
   }
 
@@ -47,6 +61,7 @@ const list = async (req: Request, res: Response) => {
           { longitude: { gte: normalizedParams.longitudeFrom, lte: normalizedParams.longitudeTo } },
           { latitude: { gte: normalizedParams.latitudeFrom, lte: normalizedParams.latitudeTo } },
           { routes: { some: routeWhere } },
+          { approvalState: { in: normalizedParams.approvalStates } },
         ],
       },
       {
@@ -55,9 +70,16 @@ const list = async (req: Request, res: Response) => {
     ],
   }
 
-  const orderBy: ClimbingObjectOrder[] = [{ id: 'asc' }]
+  const orderBy: ClimbingObjectOrder[] = getOrderBy(normalizedParams.sort, normalizedParams.order)
+  orderBy.push({ id: 'asc' })
 
-  const climbingObjectListResult = await ClimbingObjectRepository.list(where, routeWhere, orderBy)
+  const climbingObjectListResult = await ClimbingObjectRepository.list(
+    where,
+    routeWhere,
+    orderBy,
+    normalizedParams.page,
+    normalizedParams.pageSize
+  )
   res.status(HTTP_STATUS.OK_200).json(climbingObjectListResult)
 }
 
@@ -131,10 +153,43 @@ const deleteById = async (req: Request, res: Response) => {
   res.status(HTTP_STATUS.NO_CONTENT_204).send()
 }
 
+const changeApprovalState = async (
+  req: Request<{ id: string }, object, { approvalState: ApprovalState }>,
+  res: Response
+) => {
+  const userRef = provideUserRefFromToken(req as unknown as Request)
+  if (userRef === null) {
+    returnUnauthorized(res)
+    return
+  }
+  const climbingObjectId = req.params.id
+  const climbingObject = await ClimbingObjectRepository.getById(climbingObjectId)
+
+  if (climbingObject == null) {
+    res.status(HTTP_STATUS.NOT_FOUND_404).json({ error: 'Climbing object not found' })
+    return
+  }
+
+  const approvalState = req.query.approvalState as ApprovalState
+  if (approvalState === 'PENDING' || climbingObject.approvalState != 'PENDING') {
+    res.status(HTTP_STATUS.BAD_REQUEST_400).json({ error: 'Invalid state' })
+    return
+  }
+
+  const updated = await ClimbingObjectRepository.changeApprovalState(
+    climbingObjectId,
+    approvalState,
+    userRef
+  )
+  res.status(HTTP_STATUS.OK_200).json(updated)
+  return
+}
+
 export default {
   getById,
   create,
   update,
   deleteById,
   list,
+  changeApprovalState,
 }

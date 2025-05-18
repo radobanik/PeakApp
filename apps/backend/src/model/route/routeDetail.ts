@@ -1,4 +1,4 @@
-import { ClimbingStructureType } from '@prisma/client'
+import { ApprovalState, ClimbingStructureType } from '@prisma/client'
 import { GradeDetail, gradeDetailSelector } from '../grade'
 import { UserLabeled, userLabeledSelector } from '../user'
 import { OverlayPoint } from './overlayPoint/overlayPoint'
@@ -25,6 +25,7 @@ type RouteDetail = {
   overlay: OverlayPoint[]
 
   climbingObject: ClimbingObjectNoRoutes
+  approvalState: ApprovalState
 }
 
 const selector = {
@@ -57,6 +58,7 @@ const selector = {
   climbingObject: {
     select: climbingObjectNoRoutesSelector,
   },
+  approvalState: true,
 }
 
 export type { RouteDetail }

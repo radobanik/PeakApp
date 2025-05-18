@@ -19,6 +19,7 @@ import {
   toClimbingObjectList,
   selector as climbingObjectListSelector,
   defaultClimbingObjectListParams,
+  validateClimbingObjectListParams,
 } from './climbingObjectList'
 import {
   ClimbingObjectNoRoutes,
@@ -44,4 +45,5 @@ export {
   climbingObjectCreateValidate,
   climbingObjectUpdateValidate,
   defaultClimbingObjectListParams,
+  validateClimbingObjectListParams,
 }

@@ -1,3 +1,4 @@
+import { ApprovalState } from './approvalTypes'
 import { RouteSummary } from './routeTypes'
 import { UserLabeled } from './userTypes'
 
@@ -7,6 +8,7 @@ export type ClimbingObjectList = {
   longitude: number
   latitude: number
   routeCount: number
+  approvalState: ApprovalState
 }
 
 export type ClimbingObjectDetail = {
@@ -22,6 +24,8 @@ export type ClimbingObjectDetail = {
   latitude: number
 
   routes: RouteSummary[]
+
+  approvalState: ApprovalState
 }
 
 export interface ClimbingObjectNoRoutes {
@@ -29,4 +33,5 @@ export interface ClimbingObjectNoRoutes {
   name: string
   longitude: number
   latitude: number
+  approvalState: ApprovalState
 }

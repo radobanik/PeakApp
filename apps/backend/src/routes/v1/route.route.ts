@@ -8,5 +8,6 @@ routeRouter.get('/:id', RouteController.getById)
 routeRouter.post('/', RouteController.create)
 routeRouter.put('/:id', RouteController.update)
 routeRouter.delete('/:id', RouteController.deleteById)
+routeRouter.patch('/:id/approval', RouteController.changeApprovalState)
 
 export default routeRouter

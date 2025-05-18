@@ -118,10 +118,39 @@ const deleteById = async (req: Request, res: Response) => {
   res.status(HTTP_STATUS.NO_CONTENT_204).send()
 }
 
+const changeApprovalState = async (
+  req: Request<{ id: string }, object, { approvalState: ApprovalState }>,
+  res: Response
+) => {
+  const userRef = provideUserRefFromToken(req as unknown as Request)
+  if (userRef === null) {
+    returnUnauthorized(res)
+    return
+  }
+  const routeId = req.params.id
+  const climbingObject = await RouteRepository.getById(routeId)
+
+  if (climbingObject == null) {
+    res.status(HTTP_STATUS.NOT_FOUND_404).json({ error: 'Route not found' })
+    return
+  }
+
+  const approvalState = req.query.approvalState as ApprovalState
+  if (approvalState === 'PENDING' || climbingObject.approvalState != 'PENDING') {
+    res.status(HTTP_STATUS.BAD_REQUEST_400).json({ error: 'Invalid state' })
+    return
+  }
+
+  const updated = await RouteRepository.changeApprovalState(routeId, approvalState, userRef)
+  res.status(HTTP_STATUS.OK_200).json(updated)
+  return
+}
+
 export default {
   getById,
   create,
   update,
   deleteById,
   list,
+  changeApprovalState,
 }

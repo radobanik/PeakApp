@@ -1,6 +1,13 @@
 import { ApprovalState, ClimbingStructureType } from '@prisma/client'
 import { RouteWhere } from '../../repositories/route.repository'
-import { parseApprovalStates, toNumber } from '../common/listParams'
+import {
+  parseApprovalStates,
+  IncommingListParams,
+  NonNullListParams,
+  toNotNullListParams,
+  toNumber,
+  validateListParams,
+} from '../common/listParams'
 import { parseClimbingStructureTypes } from '../route'
 
 type ClimbingObjectList = {
@@ -9,6 +16,7 @@ type ClimbingObjectList = {
   longitude: number
   latitude: number
   routeCount: number
+  approvalState: ApprovalState
 }
 
 type ClimbingObjectListQueryOutput = {
@@ -19,6 +27,7 @@ type ClimbingObjectListQueryOutput = {
   _count: {
     routes: number
   }
+  approvalState: ApprovalState
 }
 
 const selector = (routeWhere: RouteWhere) => ({
@@ -33,6 +42,7 @@ const selector = (routeWhere: RouteWhere) => ({
       },
     },
   },
+  approvalState: true,
 })
 
 type IncommingClimbingObjectListParams = {
@@ -46,7 +56,7 @@ type IncommingClimbingObjectListParams = {
   longitudeTo: number | null
   climbingStructureTypes: string | null
   approvalStates: string | null
-}
+} & IncommingListParams
 
 type NonNullClimbingObjectListParams = {
   name: string
@@ -59,22 +69,42 @@ type NonNullClimbingObjectListParams = {
   longitudeTo: number
   climbingStructureTypes: ClimbingStructureType[]
   approvalStates: ApprovalState[]
+} & NonNullListParams
+
+const validSortFields = ['name']
+
+const validateClimbingObjectListParams = (params: NonNullClimbingObjectListParams) => {
+  validateListParams(params, validSortFields)
 }
 
 const defaultClimbingObjectListParams = (
   params: IncommingClimbingObjectListParams
 ): NonNullClimbingObjectListParams => {
+  const {
+    name,
+    routeName,
+    ratingFrom,
+    ratingTo,
+    longitudeFrom,
+    longitudeTo,
+    latitudeFrom,
+    latitudeTo,
+    climbingStructureTypes,
+    ...listParams
+  } = params
+
   return {
-    name: params.name || '',
-    routeName: params.routeName || '',
-    ratingFrom: toNumber(params.ratingFrom, 0),
-    ratingTo: toNumber(params.ratingTo, 10000000),
-    latitudeFrom: toNumber(params.latitudeFrom, -90),
-    latitudeTo: toNumber(params.latitudeTo, 90),
-    longitudeFrom: toNumber(params.longitudeFrom, -180),
-    longitudeTo: toNumber(params.longitudeTo, 180),
-    climbingStructureTypes: parseClimbingStructureTypes(params.climbingStructureTypes),
+    name: name || '',
+    routeName: routeName || '',
+    ratingFrom: toNumber(ratingFrom, 0),
+    ratingTo: toNumber(ratingTo, 10000000),
+    latitudeFrom: toNumber(latitudeFrom, -90),
+    latitudeTo: toNumber(latitudeTo, 90),
+    longitudeFrom: toNumber(longitudeFrom, -180),
+    longitudeTo: toNumber(longitudeTo, 180),
+    climbingStructureTypes: parseClimbingStructureTypes(climbingStructureTypes),
     approvalStates: parseApprovalStates(params.approvalStates),
+    ...toNotNullListParams(listParams, 10000000000),
   }
 }
 
@@ -87,6 +117,7 @@ const toClimbingObjectList = (
     longitude: climbingObject.longitude,
     latitude: climbingObject.latitude,
     routeCount: climbingObject._count.routes,
+    approvalState: climbingObject.approvalState,
   }
 }
 
@@ -96,4 +127,9 @@ export type {
   IncommingClimbingObjectListParams,
   NonNullClimbingObjectListParams,
 }
-export { selector, toClimbingObjectList, defaultClimbingObjectListParams }
+export {
+  selector,
+  toClimbingObjectList,
+  defaultClimbingObjectListParams,
+  validateClimbingObjectListParams,
+}

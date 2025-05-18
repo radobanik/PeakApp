@@ -1,6 +1,6 @@
 import { getTopLoggerGyms, GymListResponse, Gym } from './gyms'
 import { Climb, getTopLoggerClimbs } from './climbs'
-import { ClimbingStructureType, Prisma, PrismaClient } from '@prisma/client'
+import { ApprovalState, ClimbingStructureType, Prisma, PrismaClient } from '@prisma/client'
 import { frenchGrades } from '../grade.init'
 import { TOP_LOGGER_USER_ID } from '../user.init'
 import { assert } from 'console'
@@ -104,6 +104,7 @@ const createAllClimbingEntities = async () => {
         createdAt: new Date(),
         createdBy: toConnectorId(TOP_LOGGER_USER_ID),
         name: `${gym.name} ${wall.nameLoc}`,
+        approvalState: ApprovalState.APPROVED,
         ...coCoordinates,
       }
       climbingObjects.push(climbingObject)
@@ -160,6 +161,7 @@ const createAllClimbingEntities = async () => {
         overlay: [],
         description: '',
         image: undefined,
+        approvalState: ApprovalState.APPROVED,
       }
       routes.push(route)
     }

@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '@prisma/client'
+import { ApprovalState, Prisma, PrismaClient } from '@prisma/client'
 import {
   ClimbingObjectCreate,
   ClimbingObjectDetail,
@@ -12,6 +12,7 @@ import { toConnector } from './utils/connector'
 import { RouteWhere } from './route.repository'
 import { routeListSelector } from '../model/route'
 import { RefObject } from '../model/common/refObject'
+import { createListResponse, ListResponse } from '../model/common/listResponse'
 
 type ClimbingObjectWhere = Prisma.ClimbingObjectWhereInput
 type ClimbingObjectOrder = Prisma.ClimbingObjectOrderByWithRelationInput
@@ -29,15 +30,24 @@ const detailSelector = {
 const list = async (
   where: ClimbingObjectWhere,
   routeWhere: RouteWhere,
-  orderBy: ClimbingObjectOrder[]
-): Promise<ClimbingObjectList[]> => {
-  const routes: ClimbingObjectListQueryOutput[] = await climbingObjectClient.findMany({
-    where,
-    orderBy,
-    select: climbingObjectListSelector(routeWhere),
-  })
+  orderBy: ClimbingObjectOrder[],
+  pageNum: number,
+  pageSize: number
+): Promise<ListResponse<ClimbingObjectList>> => {
+  const climbingObjectsRawOutput: ClimbingObjectListQueryOutput[] =
+    await climbingObjectClient.findMany({
+      where,
+      orderBy,
+      skip: (pageNum - 1) * pageSize,
+      take: pageSize,
+      select: climbingObjectListSelector(routeWhere),
+    })
 
-  return routes.map(toClimbingObjectList)
+  const climbingObjectList: ClimbingObjectList[] =
+    climbingObjectsRawOutput.map(toClimbingObjectList)
+
+  const totalCount = await climbingObjectClient.count({ where })
+  return createListResponse(climbingObjectList, totalCount, pageNum, pageSize)
 }
 
 const getById = async (id: string): Promise<ClimbingObjectDetail | null> => {
@@ -101,6 +111,22 @@ const exists = async (id: string): Promise<boolean> => {
   return count > 0
 }
 
+const changeApprovalState = async (
+  id: string,
+  approvalState: ApprovalState,
+  user: RefObject
+): Promise<ClimbingObjectDetail> => {
+  return await climbingObjectClient.update({
+    where: { id },
+    data: {
+      approvalState: approvalState,
+      updatedAt: new Date(),
+      updatedBy: toConnector(user),
+    },
+    select: detailSelector,
+  })
+}
+
 export type { ClimbingObjectWhere, ClimbingObjectOrder }
 
 export default {
@@ -110,4 +136,5 @@ export default {
   update,
   deleteById,
   exists,
+  changeApprovalState,
 }

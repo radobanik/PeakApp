@@ -1,4 +1,4 @@
-import { ClimbingStructureType } from '@prisma/client'
+import { ApprovalState, ClimbingStructureType } from '@prisma/client'
 import { Grade } from '../grade'
 import { PeakFile } from '../peakFile'
 import { User } from '../user'
@@ -26,6 +26,8 @@ type Route = {
   overlay: OverlayPoint[]
 
   climbingObject: ClimbingObject
+
+  approvalState: ApprovalState
 }
 
 export type { Route }

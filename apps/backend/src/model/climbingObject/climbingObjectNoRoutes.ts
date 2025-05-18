@@ -1,8 +1,11 @@
+import { ApprovalState } from '@prisma/client'
+
 type ClimbingObjectNoRoutes = {
   id: string
   name: string
   longitude: number
   latitude: number
+  approvalState: ApprovalState
 }
 
 const selector = {
@@ -10,6 +13,7 @@ const selector = {
   name: true,
   longitude: true,
   latitude: true,
+  approvalState: true,
 }
 
 export type { ClimbingObjectNoRoutes }

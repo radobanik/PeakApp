@@ -20,6 +20,7 @@ type RouteList = {
   climbingStructureType: ClimbingStructureType
   longitude: number
   latitude: number
+  approvalState: ApprovalState
 }
 
 const selector = {
@@ -32,6 +33,7 @@ const selector = {
   climbingStructureType: true,
   longitude: true,
   latitude: true,
+  approvalState: true,
 }
 
 type IncommingRouteListParams = {

@@ -1,3 +1,4 @@
+import { ApprovalState } from '@prisma/client'
 import { RouteList, routeListSelector } from '../route'
 import { UserLabeled, userLabeledSelector } from '../user'
 
@@ -14,6 +15,7 @@ type ClimbingObjectDetail = {
   latitude: number
 
   routes: RouteList[]
+  approvalState: ApprovalState
 }
 
 const selector = {
@@ -33,6 +35,7 @@ const selector = {
   routes: {
     select: routeListSelector,
   },
+  approvalState: true,
 }
 
 export type { ClimbingObjectDetail }

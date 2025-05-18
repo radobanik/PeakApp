@@ -1,4 +1,4 @@
-import { ClimbingStructureType, PrismaClient } from '@prisma/client'
+import { ApprovalState, ClimbingStructureType, PrismaClient } from '@prisma/client'
 import * as UserInit from './user.init'
 import * as GradeInit from './grade.init'
 import * as ClimbingObjectInit from './climbingObject.init'
@@ -382,10 +382,12 @@ async function initRoutes() {
         update: {
           ...route,
           deleted: false,
+          approvalState: ApprovalState.APPROVED,
         },
         create: {
           ...route,
           deleted: false,
+          approvalState: ApprovalState.APPROVED,
         },
       })
     )
