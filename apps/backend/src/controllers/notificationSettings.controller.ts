@@ -19,10 +19,7 @@ const getCurrent = async (req: Request, res: Response): Promise<void> => {
   res.status(HTTP_STATUS.OK_200).json(settings)
 }
 
-const updateCurrent = async (
-  req: Request<{}, {}, NotificationSettingsUpdate>,
-  res: Response
-): Promise<void> => {
+const updateCurrent = async (req: Request, res: Response): Promise<void> => {
   const user = provideUserRefFromToken(req)
   if (!user) {
     res.status(HTTP_STATUS.UNAUTHORIZED_401).json({ error: 'Unauthorized' })
@@ -43,7 +40,7 @@ const getByUserId = async (req: Request<{ id: string }>, res: Response): Promise
 }
 
 const updateByUserId = async (
-  req: Request<{ id: string }, {}, NotificationSettingsUpdate>,
+  req: Request<{ id: string }, object, NotificationSettingsUpdate>,
   res: Response
 ): Promise<void> => {
   const { id } = req.params

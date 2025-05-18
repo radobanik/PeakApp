@@ -1,4 +1,7 @@
-import { NotificationSettings, notificationSettingsSelector } from '../notificationSettings/notificationSettings'
+import {
+  NotificationSettings,
+  notificationSettingsSelector,
+} from '../notificationSettings/notificationSettings'
 import {
   NotificationSettingsCreate,
   validateNotificationSettingsCreate,
@@ -8,11 +11,7 @@ import {
   validateNotificationSettingsUpdate,
 } from '../notificationSettings/notificationSettingsUpdate'
 
-export type {
-  NotificationSettings,
-  NotificationSettingsCreate,
-  NotificationSettingsUpdate,
-}
+export type { NotificationSettings, NotificationSettingsCreate, NotificationSettingsUpdate }
 export {
   validateNotificationSettingsCreate,
   validateNotificationSettingsUpdate,

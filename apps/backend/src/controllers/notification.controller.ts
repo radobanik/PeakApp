@@ -4,7 +4,6 @@ import NotificationRepository from '../repositories/notification.repository'
 import { provideUserRefFromToken } from '../auth/authUtils'
 import requestValidator from '../model/common/validator'
 import {
-  NotificationCreate,
   NotificationUpdate,
   validateNotificationCreate,
   validateNotificationUpdate,
@@ -39,7 +38,7 @@ const getById = async (req: Request, res: Response): Promise<void> => {
   res.status(HTTP_STATUS.OK_200).json(notification)
 }
 
-const create = async (req: Request<{}, {}, NotificationCreate>, res: Response): Promise<void> => {
+const create = async (req: Request, res: Response): Promise<void> => {
   const validated = requestValidator(() => validateNotificationCreate(req.body), res)
   if (!validated) return
 
@@ -48,7 +47,7 @@ const create = async (req: Request<{}, {}, NotificationCreate>, res: Response): 
 }
 
 const update = async (
-  req: Request<{ id: string }, {}, NotificationUpdate>,
+  req: Request<{ id: string }, object, NotificationUpdate>,
   res: Response
 ): Promise<void> => {
   const { id } = req.params

@@ -4,7 +4,7 @@ import { z } from 'zod'
 type NotificationCreate = {
   userId: string
   title: string
-  message: string,
+  message: string
   type: NotificationType
 }
 

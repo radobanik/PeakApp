@@ -1,4 +1,4 @@
-import { NotificationType } from "@prisma/client"
+import { NotificationType } from '@prisma/client'
 
 type NotificationList = {
   id: string
