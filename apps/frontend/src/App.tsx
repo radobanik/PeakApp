@@ -66,15 +66,31 @@ const NotificationContext = createContext<NotificationContextType>({
 export const useNotificationContext = () => useContext(NotificationContext)
 
 export const NotificationProvider = ({ children }: { children: React.ReactNode }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(() => !!localStorage.getItem('token'))
+
+  useEffect(() => {
+    const checkToken = () => {
+      setIsLoggedIn(!!localStorage.getItem('token'))
+    }
+
+    window.addEventListener('storage', checkToken)
+    return () => window.removeEventListener('storage', checkToken)
+  }, [])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsLoggedIn(!!localStorage.getItem('token'))
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [])
+
   const { data = 0, refetch } = useQuery({
     queryKey: ['notification-unread-count'],
     queryFn: getUnreadNotificationCount,
-    refetchInterval: 5000, // 5 seconds
+    enabled: isLoggedIn,
+    refetchInterval: isLoggedIn ? 5000 : false,
   })
-
-  useEffect(() => {
-    console.log('[NotificationProvider] Unread count:', data)
-  }, [data])
 
   return (
     <NotificationContext.Provider value={{ unreadCount: data, refetchUnread: refetch }}>
