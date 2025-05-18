@@ -35,6 +35,7 @@ const list = async (req: Request, res: Response) => {
       { climbingStructureType: { in: normalizedParams.climbingStructureTypes } },
       { grade: { rating: { gte: normalizedParams.ratingFrom, lte: normalizedParams.ratingTo } } },
       { name: { contains: normalizedParams.routeName as string, mode: 'insensitive' } },
+      { approvalState: { in: normalizedParams.approvalStates } },
     ],
   }
 

@@ -55,3 +55,12 @@ type UserUpdate = {
 
 export type UserDetailResponse = UserDetail
 export type UserUpdateRequest = UserUpdate
+
+export type UserList = {
+  id: string
+  userName: string
+  email: string
+
+  firstName: string
+  lastName: string
+}

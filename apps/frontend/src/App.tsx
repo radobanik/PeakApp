@@ -24,6 +24,15 @@ import UserRoutesPage from './pages/UserRoutesPage'
 import { SidebarProvider } from './components/ui/sidebar'
 import ActivityCreatePage from './pages/ActivityCreatePage'
 import SessionCreatePage from './pages/SessionCreate'
+import { ApprovalProvider } from './components/backoffice/ApprovalProvider'
+import ReviewObjectsPage from './pages/Backoffice/ReviewObjectsPage'
+import ReviewObjectDetailPage from './pages/Backoffice/ReviewObjectDetailPage'
+import ReviewRoutesPage from './pages/Backoffice/ReviewRoutesPage'
+import ReviewRouteDetailPage from './pages/Backoffice/ReviewRouteDetailPage'
+import AllClimbingObjectList from './pages/Backoffice/AllClimbingObjectList'
+import AllRouteList from './pages/Backoffice/AllRouteList'
+import AllUserList from './pages/Backoffice/AllUserList'
+import Analytics from './pages/Backoffice/Analytics'
 
 type ViewportContextType = {
   isMobile: boolean
@@ -100,6 +109,48 @@ export default function App() {
                       path={ROUTE.SETTINGS_ROUTES}
                       element={privateRoute(<UserRoutesPage />)}
                     />
+                    <Route
+                      path={ROUTE.NEW_CLIMBING_OBJECTS}
+                      element={privateRoute(
+                        <ApprovalProvider>
+                          <ReviewObjectsPage />
+                        </ApprovalProvider>
+                      )}
+                    >
+                      <Route
+                        path={ROUTE.NEW_CLIMBING_OBJECTS_DETAIL}
+                        element={privateRoute(<ReviewObjectDetailPage />)}
+                      />
+                    </Route>
+                    <Route
+                      path={ROUTE.NEW_ROUTES}
+                      element={privateRoute(
+                        <ApprovalProvider>
+                          <ReviewRoutesPage />
+                        </ApprovalProvider>
+                      )}
+                    >
+                      <Route
+                        path={ROUTE.NEW_ROUTES_DETAIL}
+                        element={privateRoute(<ReviewRouteDetailPage />)}
+                      />
+                    </Route>
+                    <Route
+                      path={ROUTE.ALL_CLIMBING_OBJECTS}
+                      element={privateRoute(<AllClimbingObjectList />)}
+                    >
+                      <Route
+                        path={ROUTE.ALL_CLIMBING_OBJECTS_DETAIL}
+                        element={privateRoute(<div />)}
+                      />
+                    </Route>
+                    <Route path={ROUTE.ALL_ROUTES} element={privateRoute(<AllRouteList />)}>
+                      <Route path={ROUTE.ALL_ROUTES_DETAIL} element={privateRoute(<div />)} />
+                    </Route>
+                    <Route path={ROUTE.ALL_USERS} element={privateRoute(<AllUserList />)}>
+                      <Route path={ROUTE.ALL_USERS_DETAIL} element={privateRoute(<div />)} />
+                    </Route>
+                    <Route path={ROUTE.ANALYTICS} element={privateRoute(<Analytics />)}></Route>
                   </Route>
                 </Route>
               </Routes>

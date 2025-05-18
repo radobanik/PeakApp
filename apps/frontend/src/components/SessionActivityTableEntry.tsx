@@ -7,6 +7,7 @@ import { SessionActivitiesContext } from '@/pages/SessionDetailPage/SessionDetai
 
 export type SessionActivityTableEntryProps = {
   entry: ActivityEntry
+  backRoute: string
 }
 
 export default function SessionActivityTableEntry({ entry }: SessionActivityTableEntryProps) {

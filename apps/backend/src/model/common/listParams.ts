@@ -1,3 +1,5 @@
+import { ApprovalState } from '@prisma/client'
+
 type IncommingListParams = {
   sort: string | null
   order: string | null
@@ -60,5 +62,26 @@ const parseSortAndOrderBy = (sort: string[], order: string[]) => {
   })
 }
 
+const parseApprovalStates = (approvalStates: string | null) => {
+  console.log(approvalStates)
+  const types = parseArray(approvalStates).map((value) => {
+    if (Object.values(ApprovalState).includes(value as ApprovalState)) {
+      return value as ApprovalState
+    } else {
+      throw new Error(`Invalid approval state: ${value}`)
+    }
+  })
+
+  // all types if none are provided
+  return types.length > 0 ? types : Object.values(ApprovalState)
+}
+
 export type { IncommingListParams, NonNullListParams }
-export { toNotNullListParams, validateListParams, parseSortAndOrderBy, parseArray, toNumber }
+export {
+  toNotNullListParams,
+  validateListParams,
+  parseSortAndOrderBy,
+  parseApprovalStates,
+  parseArray,
+  toNumber,
+}

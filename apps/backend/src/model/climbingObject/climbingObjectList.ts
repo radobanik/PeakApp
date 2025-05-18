@@ -1,6 +1,6 @@
-import { ClimbingStructureType } from '@prisma/client'
+import { ApprovalState, ClimbingStructureType } from '@prisma/client'
 import { RouteWhere } from '../../repositories/route.repository'
-import { toNumber } from '../common/listParams'
+import { parseApprovalStates, toNumber } from '../common/listParams'
 import { parseClimbingStructureTypes } from '../route'
 
 type ClimbingObjectList = {
@@ -45,6 +45,7 @@ type IncommingClimbingObjectListParams = {
   longitudeFrom: number | null
   longitudeTo: number | null
   climbingStructureTypes: string | null
+  approvalStates: string | null
 }
 
 type NonNullClimbingObjectListParams = {
@@ -57,6 +58,7 @@ type NonNullClimbingObjectListParams = {
   longitudeFrom: number
   longitudeTo: number
   climbingStructureTypes: ClimbingStructureType[]
+  approvalStates: ApprovalState[]
 }
 
 const defaultClimbingObjectListParams = (
@@ -72,6 +74,7 @@ const defaultClimbingObjectListParams = (
     longitudeFrom: toNumber(params.longitudeFrom, -180),
     longitudeTo: toNumber(params.longitudeTo, 180),
     climbingStructureTypes: parseClimbingStructureTypes(params.climbingStructureTypes),
+    approvalStates: parseApprovalStates(params.approvalStates),
   }
 }
 

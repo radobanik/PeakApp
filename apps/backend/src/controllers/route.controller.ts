@@ -29,7 +29,6 @@ const getById = async (req: Request, res: Response) => {
 const list = async (req: Request, res: Response) => {
   const params = req.query as unknown as IncommingRouteListParams
   const normalizedParams: NonNullRouteListParams = defaultRouteListParams(params)
-
   const where: RouteWhere = {
     AND: [
       {
@@ -38,6 +37,7 @@ const list = async (req: Request, res: Response) => {
           { longitude: { gte: normalizedParams.longitudeFrom, lte: normalizedParams.longitudeTo } },
           { latitude: { gte: normalizedParams.latitudeFrom, lte: normalizedParams.latitudeTo } },
           { climbingStructureType: { in: normalizedParams.climbingStructureTypes } },
+          { approvalState: { in: normalizedParams.approvalStates } },
           {
             grade: { rating: { gte: normalizedParams.ratingFrom, lte: normalizedParams.ratingTo } },
           },

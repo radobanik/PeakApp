@@ -20,7 +20,11 @@ const deleteById = async (id: string): Promise<void> => {
 }
 
 const create = async (data: PeakFileCreate, userRef: RefObject): Promise<PeakFile> => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   return await peakFileClient.create({
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     data: {
       ...data,
       createdAt: new Date(),

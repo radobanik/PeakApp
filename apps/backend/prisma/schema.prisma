@@ -109,6 +109,8 @@ model Route {
   updatedById String?
   updatedBy   User?   @relation(name: "RouteUpdatedBy", fields: [updatedById], references: [id])
 
+  approvalState  ApprovalState @default(PENDING)
+
   name                  String
   description           String                @default("")
   climbingStructureType ClimbingStructureType
@@ -153,6 +155,12 @@ enum ClimbingStructureType {
   WALL
 }
 
+enum ApprovalState {
+  APPROVED
+  REJECTED
+  PENDING
+}
+
 model ClimbingObject {
   id        String    @id @default(uuid())
   createdAt DateTime  @default(now())
@@ -163,6 +171,8 @@ model ClimbingObject {
   createdBy   User    @relation(name: "ClimbingObjectCreatedBy", fields: [createdById], references: [id])
   updatedById String?
   updatedBy   User?   @relation(name: "ClimbingObjectUpdatedBy", fields: [updatedById], references: [id])
+
+  approvalState  ApprovalState @default(PENDING)
 
   name      String
   longitude Float

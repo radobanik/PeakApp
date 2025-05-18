@@ -1,6 +1,8 @@
 import { API } from '@/constants/api'
 import { api } from './index'
 import { UserDetailResponse, UserUpdateRequest } from '@/types/userTypes'
+import { PaginatedResponse } from '@/types'
+import { UserList } from '@/types/userTypes'
 
 export async function getUser(userId: string): Promise<UserDetailResponse> {
   try {
@@ -35,6 +37,23 @@ export async function updateUser(
 export async function updateLoggedInUser(data: UserUpdateRequest): Promise<UserDetailResponse> {
   try {
     const response = await api.put(API.USER.BASE, data)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function getUsers(
+  page: number = 1,
+  pageSize: number = 10
+): Promise<PaginatedResponse<UserList>> {
+  try {
+    const response = await api.get(API.USER.LIST(), {
+      params: {
+        page,
+        pageSize,
+      },
+    })
     return response.data
   } catch (error) {
     throw error

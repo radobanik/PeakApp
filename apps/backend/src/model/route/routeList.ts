@@ -1,8 +1,9 @@
 import config from '../../core/config'
-import { ClimbingStructureType } from '@prisma/client'
+import { ClimbingStructureType, ApprovalState } from '@prisma/client'
 import {
   IncommingListParams,
   NonNullListParams,
+  parseApprovalStates,
   parseArray,
   toNotNullListParams,
   toNumber,
@@ -42,6 +43,7 @@ type IncommingRouteListParams = {
   latitudeFrom: number | null
   latitudeTo: number | null
   climbingStructureTypes: string | null
+  approvalStates: string | null
 } & IncommingListParams
 
 type NonNullRouteListParams = {
@@ -53,6 +55,7 @@ type NonNullRouteListParams = {
   latitudeFrom: number
   latitudeTo: number
   climbingStructureTypes: ClimbingStructureType[]
+  approvalStates: ApprovalState[]
 } & NonNullListParams
 
 const validSortFields = ['name', 'rating']
@@ -84,6 +87,7 @@ const defaultRouteListParams = (params: IncommingRouteListParams): NonNullRouteL
     latitudeFrom,
     latitudeTo,
     climbingStructureTypes,
+    approvalStates,
     ...listParams
   } = params
   return {
@@ -95,6 +99,7 @@ const defaultRouteListParams = (params: IncommingRouteListParams): NonNullRouteL
     latitudeFrom: toNumber(latitudeFrom, -90),
     latitudeTo: toNumber(latitudeTo, 90),
     climbingStructureTypes: parseClimbingStructureTypes(climbingStructureTypes),
+    approvalStates: parseApprovalStates(approvalStates),
     ...toNotNullListParams(listParams, config.LIST_LIMIT.ROUTE),
   }
 }

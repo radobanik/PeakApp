@@ -8,6 +8,8 @@ export const API = {
     IS_USERNAME_UNIQUE: `${API_BASE_URL}/auth/is-username-unique`,
   },
   USER: {
+    LIST: () => `${API_BASE_URL}/user/`,
+    BY_ID: (id: string) => `${API_BASE_URL}/user/${id}`,
     BASE: `${API_BASE_URL}/user`,
     UPDATE: `${API_BASE_URL}/user/`,
   },
@@ -32,11 +34,14 @@ export const API = {
     UPDATE: `${API_BASE_URL}/session/`,
     DELETE: `${API_BASE_URL}/session/`,
   },
+  CLIMBING_OBJECT: {
+    LIST: `${API_BASE_URL}/climbing-object/`,
+    BY_ID: `${API_BASE_URL}/climbing-object/`,
+  },
   ROUTE: {
     LIST: `${API_BASE_URL}/route/`,
     BY_ID: `${API_BASE_URL}/route/`,
   },
-  CLIMBING_OBJECT: `${API_BASE_URL}/climbing-object`,
   PEAK_FILE: {
     BY_ID: (id: string) => `${API_BASE_URL}/peak-file/${id}`,
     CREATE: () => `${API_BASE_URL}/peak-file`,

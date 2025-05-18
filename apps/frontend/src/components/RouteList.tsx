@@ -54,7 +54,7 @@ declare module '@tanstack/react-table' {
   }
 }
 
-const climbingStructureStyles: Record<ClimbingStructureType, string> = {
+export const climbingStructureStyles: Record<ClimbingStructureType, string> = {
   [ClimbingStructureType.TRAVERSE]: 'bg-green-100 text-green-800',
   [ClimbingStructureType.OVERHANG]: 'bg-blue-100 text-blue-800',
   [ClimbingStructureType.SLAB]: 'bg-purple-100 text-purple-800',
