@@ -48,6 +48,7 @@ export default function NotificationsSettingsDialog({
       <DialogContent className="w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-2xl p-7">
         <DialogHeader>
           <DialogTitle>Notification Settings</DialogTitle>
+          <DialogDescription className="sr-only"></DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-2">
