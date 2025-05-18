@@ -1,4 +1,5 @@
-import { Prisma, PrismaClient, Role } from '@prisma/client'
+import prisma from '../core/prisma/client'
+import { Prisma, Role } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import {
   UserCreate,
@@ -13,7 +14,7 @@ import { createListResponse, ListResponse } from '../model/common/listResponse'
 type UserWhere = Prisma.UserWhereInput
 type UserOrder = Prisma.UserOrderByWithRelationInput
 
-const userClient = new PrismaClient().user
+const userClient = prisma.user
 
 const userDetailSelectorWithCity = {
   ...userDetailSelector,

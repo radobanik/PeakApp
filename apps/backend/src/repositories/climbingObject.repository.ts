@@ -1,4 +1,5 @@
-import { ApprovalState, Prisma, PrismaClient } from '@prisma/client'
+import prisma from '../core/prisma/client'
+import { ApprovalState, Prisma } from '@prisma/client'
 import {
   ClimbingObjectCreate,
   ClimbingObjectDetail,
@@ -17,7 +18,7 @@ import { createListResponse, ListResponse } from '../model/common/listResponse'
 type ClimbingObjectWhere = Prisma.ClimbingObjectWhereInput
 type ClimbingObjectOrder = Prisma.ClimbingObjectOrderByWithRelationInput
 
-const climbingObjectClient = new PrismaClient().climbingObject
+const climbingObjectClient = prisma.climbingObject
 
 // idk why, but this redefinition worked (it is the same!!!), otherwise routeListSelector was selecting all fields
 const detailSelector = {

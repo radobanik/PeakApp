@@ -1,7 +1,7 @@
-import { PrismaClient, Role } from '@prisma/client'
+import prisma from '../core/prisma/client'
+import { Role } from '@prisma/client'
 import bcrypt from 'bcrypt'
 
-const userClient = new PrismaClient().user
 const saltRounds = 10
 
 export const USER_JOHN_DOE_ID = '6e32c2b2-6cd0-4b3b-8adf-cf707d8cb0d9'
@@ -70,7 +70,7 @@ const sampleUsers = [
 
 async function initUsers() {
   for (const user of sampleUsers) {
-    await userClient.upsert({
+    await prisma.user.upsert({
       where: { id: user.id },
       update: user,
       create: user,

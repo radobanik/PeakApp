@@ -1,3 +1,4 @@
+import prisma from '../core/prisma/client'
 import {
   USER_CHRIS_BROWN_ID,
   USER_EMILY_JOHNSON_ID,
@@ -13,9 +14,6 @@ import {
   SESSION_4_ID,
   SESSION_5_ID,
 } from './session.init'
-import { PrismaClient } from '@prisma/client'
-
-const commentClient = new PrismaClient().comment
 
 export const COMMENTS = [
   {
@@ -163,7 +161,7 @@ export const COMMENTS = [
 async function initComments() {
   await Promise.all(
     COMMENTS.map((comment) =>
-      commentClient.upsert({
+      prisma.comment.upsert({
         where: {
           id: comment.id,
         },

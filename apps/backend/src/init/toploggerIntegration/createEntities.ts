@@ -1,13 +1,11 @@
+import prisma from '../../core/prisma/client'
 import { getTopLoggerGyms, GymListResponse, Gym } from './gyms'
 import { Climb, getTopLoggerClimbs } from './climbs'
-import { ApprovalState, ClimbingStructureType, Prisma, PrismaClient } from '@prisma/client'
+import { ApprovalState, ClimbingStructureType, Prisma } from '@prisma/client'
 import { frenchGrades } from '../grade.init'
 import { TOP_LOGGER_USER_ID } from '../user.init'
 import { assert } from 'console'
 import { toConnectorId } from '../../repositories/utils/connector'
-
-const routeClient = new PrismaClient().route
-const climbingObjectClient = new PrismaClient().climbingObject
 
 type LongitudeLatitude = {
   longitude: number
@@ -169,7 +167,7 @@ const createAllClimbingEntities = async () => {
 
     await Promise.all(
       climbingObjects.map((co) =>
-        climbingObjectClient.upsert({
+        prisma.climbingObject.upsert({
           create: co,
           update: co,
           where: { id: co.id },
@@ -179,7 +177,7 @@ const createAllClimbingEntities = async () => {
 
     await Promise.all(
       routes.map((route) =>
-        routeClient.upsert({
+        prisma.route.upsert({
           create: route,
           update: route,
           where: { id: route.id },

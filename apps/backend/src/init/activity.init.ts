@@ -1,8 +1,7 @@
-import { Difficulty, PrismaClient } from '@prisma/client'
+import prisma from '../core/prisma/client'
+import { Difficulty } from '@prisma/client'
 import * as UserInit from './user.init'
 import * as RouteInit from './route.init'
-
-const activityClient = new PrismaClient().activity
 
 // Activity IDs
 export const ACTIVITY_1_CHRIS_BROWN_ID = '3b2f6d1a-81f6-4e4e-b79f-9c47996b5ecf'
@@ -207,7 +206,7 @@ const activities = [
 async function initActivities() {
   await Promise.all(
     activities.map((activity) =>
-      activityClient.upsert({
+      prisma.activity.upsert({
         where: { id: activity.id },
         update: activity,
         create: activity,

@@ -1,6 +1,6 @@
-import { PrismaClient } from '@prisma/client'
+import prisma from '../core/prisma/client'
 
-const likeClient = new PrismaClient().like
+const likeClient = prisma.like
 
 const likesCountOnSession = async (sessionId: string) => {
   const likes = await likeClient.findMany({

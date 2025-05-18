@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import prisma from '../core/prisma/client'
 import { createListResponse, ListResponse } from '../model/common/listResponse'
 import { toConnector, xToManyCreator, xToManyUpdater } from './utils/connector'
 import { RefObject } from '../model/common/refObject'
@@ -11,7 +11,7 @@ import {
   SessionUpdate,
 } from '../model/session'
 
-const sessionClient = new PrismaClient().session
+const sessionClient = prisma.session
 const peakFileConnector = (image: RefObject) => ({ peakFile: toConnector(image) })
 
 type SessionDetailDeepImage = {

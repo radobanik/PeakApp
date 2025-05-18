@@ -1,8 +1,6 @@
-import { PrismaClient } from '@prisma/client'
+import prisma from '../core/prisma/client'
 import * as UserInit from './user.init'
 import * as ActivityInit from './activity.init'
-
-const sessionClient = new PrismaClient().session
 
 // Activity IDs
 export const SESSION_1_ID = 'e9f1d6a2-75f5-4b3a-9e6e-cc3e8dbb476e'
@@ -76,7 +74,7 @@ const sessions = [
 async function initSessions() {
   await Promise.all(
     sessions.map((activity) =>
-      sessionClient.upsert({
+      prisma.session.upsert({
         where: { id: activity.id },
         update: activity,
         create: activity,

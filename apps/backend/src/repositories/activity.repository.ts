@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma/client'
 import {
   activityDetailSelector,
   ActivityList,
@@ -12,7 +11,7 @@ import { toConnector } from './utils/connector'
 import { RefObject } from '../model/common/refObject'
 import prisma from '../core/prisma/client'
 
-const activityClient = new PrismaClient().activity
+const activityClient = prisma.activity
 
 const getById = async (author: RefObject, id: string): Promise<ActivityDetail | null> => {
   return activityClient.findUnique({

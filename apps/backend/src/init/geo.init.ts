@@ -1,9 +1,8 @@
-import { PrismaClient } from '@prisma/client'
+import prisma from '../core/prisma/client'
 import * as fs from 'fs'
 import * as path from 'path'
 import { Prisma } from '@prisma/client'
 
-const prisma = new PrismaClient()
 const DATA_PATH = path.join(__dirname, '../../prisma/data/country.json')
 
 async function initGeoData() {

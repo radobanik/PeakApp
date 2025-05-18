@@ -1,9 +1,9 @@
-import { PrismaClient } from '@prisma/client'
+import prisma from '../core/prisma/client'
 import { RefObject } from '../model/common/refObject'
 import { ReviewCreate, reviewDetailSelector, reviewListSelector } from '../model/review'
 import { toConnector } from './utils/connector'
 
-const reviewClient = new PrismaClient().review
+const reviewClient = prisma.review
 
 const getUsersByRouteId = async (routeId: string, userRef: RefObject) => {
   return await reviewClient.findFirst({

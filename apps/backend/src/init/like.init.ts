@@ -1,3 +1,4 @@
+import prisma from '../core/prisma/client'
 import {
   USER_CHRIS_BROWN_ID,
   USER_EMILY_JOHNSON_ID,
@@ -13,9 +14,6 @@ import {
   SESSION_4_ID,
   SESSION_5_ID,
 } from './session.init'
-import { PrismaClient } from '@prisma/client'
-
-const likeClient = new PrismaClient().like
 
 export const LIKES = [
   { sessionId: SESSION_1_ID, userId: USER_JOHN_DOE_ID },
@@ -79,7 +77,7 @@ export const LIKES = [
 async function initLikes() {
   await Promise.all(
     LIKES.map((like) =>
-      likeClient.upsert({
+      prisma.like.upsert({
         where: {
           user_session_unique: {
             userId: like.userId,

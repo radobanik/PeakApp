@@ -1,9 +1,7 @@
-import { PrismaClient } from '@prisma/client'
 import { GeoCountry, geoCountrySelector } from '../model/geo/geoCountry'
 import { GeoCity, geoCitySelector } from '../model/geo/geoCity'
 import { GeoCityWithCountry, geoCityWithCountrySelector } from '../model/geo/geoCityWithCountry'
-
-const prisma = new PrismaClient()
+import prisma from '../core/prisma/client'
 
 const getAllCountries = async (): Promise<GeoCountry[]> => {
   return await prisma.country.findMany({

@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import prisma from '../core/prisma/client'
 import {
   ROUTE_1_ID,
   ROUTE_2_ID,
@@ -38,8 +38,6 @@ import {
   USER_JOHN_DOE_ID,
   USER_MICHAEL_SMITH_ID,
 } from './user.init'
-
-const reviewClient = new PrismaClient().review
 
 export const REVIEWS = [
   {
@@ -527,7 +525,7 @@ export const REVIEWS = [
 async function initReviews() {
   await Promise.all(
     REVIEWS.map((review) =>
-      reviewClient.upsert({
+      prisma.review.upsert({
         where: {
           routeId_createdById: {
             createdById: review.userId,

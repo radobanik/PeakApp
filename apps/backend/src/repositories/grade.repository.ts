@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import prisma from '../core/prisma/client'
 import {
   GradeCreate,
   GradeDetail,
@@ -7,7 +7,7 @@ import {
   gradeListSelector,
 } from '../model/grade'
 
-const gradeClient = new PrismaClient().grade
+const gradeClient = prisma.grade
 
 const getAll = async (): Promise<GradeList[]> => {
   return await gradeClient.findMany({

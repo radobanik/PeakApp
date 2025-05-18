@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client'
+import prisma from '../core/prisma/client'
 import * as UserInit from './user.init'
-
-const prisma = new PrismaClient()
 
 // Climbing Object IDs
 export const CLIMBING_OBJECT_1_ID = 'a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d'

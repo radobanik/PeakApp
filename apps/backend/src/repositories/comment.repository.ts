@@ -1,11 +1,11 @@
-import { PrismaClient } from '@prisma/client'
 import { CommentList } from '../model/comment/commentList'
 import { CommentCreate, commentListSelector, CommentUpdate } from '../model/comment'
 import { RefObject } from '../model/common/refObject'
 import { toConnector } from './utils/connector'
 import { ListCursorResponse } from '../model/common/listCursorResponse'
+import prisma from '../core/prisma/client'
 
-const commentClient = new PrismaClient().comment
+const commentClient = prisma.comment
 
 const getById = async (id: string): Promise<CommentList | null> => {
   return await commentClient

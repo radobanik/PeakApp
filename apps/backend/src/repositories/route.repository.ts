@@ -1,4 +1,5 @@
-import { ApprovalState, Prisma, PrismaClient } from '@prisma/client'
+import prisma from '../core/prisma/client'
+import { ApprovalState, Prisma } from '@prisma/client'
 import {
   RouteCreate,
   RouteDetail,
@@ -20,7 +21,7 @@ import { createListResponse, ListResponse } from '../model/common/listResponse'
 type RouteWhere = Prisma.RouteWhereInput
 type RouteOrder = Prisma.RouteOrderByWithRelationInput
 
-const routeClient = new PrismaClient().route
+const routeClient = prisma.route
 const peakFileConnector = (image: RefObject) => ({ peakFile: toConnector(image) })
 
 // This is a workaround for the fact that Prisma nests additionalImages too much

@@ -1,6 +1,4 @@
-import { PrismaClient } from '@prisma/client'
-
-const gradeClient = new PrismaClient().grade
+import prisma from '../core/prisma/client'
 
 export const GRADE_2_ID = 'a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d'
 export const GRADE_2_PLUS_ID = 'f6e5d4c3-b2a1-49f8-87e6-5d4c3b2a1f0e'
@@ -79,7 +77,7 @@ const frenchGrades = [
 async function initGrades() {
   await Promise.all(
     frenchGrades.map((grade) =>
-      gradeClient.upsert({
+      prisma.grade.upsert({
         where: { id: grade.id },
         update: grade,
         create: grade,

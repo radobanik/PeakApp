@@ -1,9 +1,8 @@
-import { ApprovalState, ClimbingStructureType, PrismaClient } from '@prisma/client'
+import prisma from '../core/prisma/client'
+import { ApprovalState, ClimbingStructureType } from '@prisma/client'
 import * as UserInit from './user.init'
 import * as GradeInit from './grade.init'
 import * as ClimbingObjectInit from './climbingObject.init'
-
-const routeClient = new PrismaClient().route
 
 export const ROUTE_1_ID = '3f6c2d90-5a4e-4c2d-92c7-51e1cba12a77'
 export const ROUTE_2_ID = 'e59f9c13-4f7b-4c82-8c3e-7a44efc40a9d'
@@ -377,7 +376,7 @@ const routes = [
 async function initRoutes() {
   await Promise.all(
     routes.map((route) =>
-      routeClient.upsert({
+      prisma.route.upsert({
         where: { id: route.id },
         update: {
           ...route,
