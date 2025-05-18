@@ -14,6 +14,9 @@ const notificationClient = new PrismaClient().notification
 
 const listByUser = async (userId: string): Promise<NotificationList[]> => {
   const settings = await NotificationSettingsRepository.getByUserId(userId)
+
+  if (!settings || !settings.allowedTypes || !settings.enableApp) return []
+
   return await notificationClient.findMany({
     where: {
       userId,
@@ -65,11 +68,17 @@ const listAndMarkAllAsRead = async (
   page: number,
   pageSize: number
 ): Promise<ListResponse<NotificationList>> => {
+  const settings = await NotificationSettingsRepository.getByUserId(userId)
+  if (!settings || !settings.allowedTypes || !settings.enableApp)
+    return createListResponse([], 0, 0, 0)
+
   const total = await notificationClient.count({
-    where: { userId },
+    where: {
+      userId,
+      type: { in: settings?.allowedTypes },
+    },
   })
 
-  const settings = await NotificationSettingsRepository.getByUserId(userId)
   const notifications = await notificationClient.findMany({
     where: {
       userId,
@@ -99,6 +108,9 @@ const listAndMarkAllAsRead = async (
 
 const countUnreadByUser = async (userId: string): Promise<number> => {
   const settings = await NotificationSettingsRepository.getByUserId(userId)
+
+  if (!settings || !settings.allowedTypes || !settings.enableApp) return 0
+
   const count = await notificationClient.count({
     where: {
       userId,
