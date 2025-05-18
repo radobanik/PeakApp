@@ -1,4 +1,4 @@
-import { JSX, useState } from 'react'
+import React, { JSX, useState } from 'react'
 import {
   ColumnDef,
   flexRender,
@@ -28,7 +28,6 @@ import {
   ChevronsRightIcon,
   ColumnsIcon,
 } from 'lucide-react'
-import { UseQueryResult } from '@tanstack/react-query'
 import { PaginatedResponse } from '@/types'
 import { useNavigate } from 'react-router-dom'
 
@@ -42,29 +41,33 @@ declare module '@tanstack/react-table' {
 }
 
 type TableListProps<T> = {
-  queryToUse: (page: number, pageSize: number) => UseQueryResult<PaginatedResponse<T>>
+  data: PaginatedResponse<T> | undefined
+  isLoading: boolean
+  isError: boolean
+  error: Error | null
+  isSuccess: boolean
+  pagination: { pageIndex: number; pageSize: number }
+  setPagination: React.Dispatch<React.SetStateAction<{ pageIndex: number; pageSize: number }>>
   columnDefiniton: ColumnDef<T>[]
   parentRoute: string
   noResult: JSX.Element
 }
 
-export const TableList = <T,>(props: TableListProps<T>): JSX.Element => {
+export const TableList = <T extends { id: string }>(props: TableListProps<T>): JSX.Element => {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 50 })
   const navigate = useNavigate()
 
-  const query = props.queryToUse(pagination.pageIndex + 1, pagination.pageSize)
   const table = useReactTable({
-    data: query.data?.items ?? [],
+    data: props.data?.items ?? [],
     columns: props.columnDefiniton,
     manualPagination: true,
-    pageCount: Math.floor((query.data?.total ?? 0) / pagination.pageSize) + 1,
+    pageCount: Math.floor((props.data?.total ?? 0) / props.pagination.pageSize) + 1,
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
-    onPaginationChange: setPagination,
+    onPaginationChange: props.setPagination,
     state: {
       columnVisibility,
-      pagination,
+      pagination: props.pagination,
     },
     meta: {
       className: '',
@@ -115,27 +118,27 @@ export const TableList = <T,>(props: TableListProps<T>): JSX.Element => {
               ))}
             </TableHeader>
             <TableBody>
-              {query.isLoading && (
+              {props.isLoading && (
                 <TableRow>
                   <TableCell colSpan={props.columnDefiniton.length} className="text-center py-10">
                     Loading...
                   </TableCell>
                 </TableRow>
               )}
-              {query.isError && (
+              {props.isError && (
                 <TableRow>
                   <TableCell colSpan={props.columnDefiniton.length} className="text-center py-10">
-                    <div className="text-center">{query.error.message}</div>
+                    <div className="text-center">{props.error!.message}</div>
                   </TableCell>
                 </TableRow>
               )}
-              {query.isSuccess && (
+              {props.isSuccess && (
                 <>
-                  {query.data.items.length > 0 &&
+                  {props.data!.items.length > 0 &&
                     table.getRowModel().rows.map((row) => (
                       <TableRow
                         key={row.id}
-                        onClick={() => navigate(`${props.parentRoute}/${row.id}`)}
+                        onClick={() => navigate(`${props.parentRoute}/${row.original.id}`)}
                       >
                         {row.getVisibleCells().map((cell) => (
                           <TableCell
@@ -147,7 +150,7 @@ export const TableList = <T,>(props: TableListProps<T>): JSX.Element => {
                         ))}
                       </TableRow>
                     ))}
-                  {query.data.items.length === 0 && (
+                  {props.data!.items.length === 0 && (
                     <TableRow>
                       <TableCell
                         colSpan={props.columnDefiniton.length}

@@ -8,6 +8,7 @@ import SessionRepository from './session.repository'
 import CommentRepository from './comment.repository'
 import LikeRepository from './like.repository'
 import ReviewRepository from './review.repository'
+import ReportRepository from './report.repository'
 
 export {
   UserRepository,
@@ -20,4 +21,5 @@ export {
   CommentRepository,
   LikeRepository,
   ReviewRepository,
+  ReportRepository,
 }

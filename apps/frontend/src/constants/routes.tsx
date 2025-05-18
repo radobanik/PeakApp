@@ -22,6 +22,9 @@ export const ROUTE = {
   NEW_CLIMBING_OBJECTS: '/settings/new-climbing-objects',
   NEW_CLIMBING_OBJECTS_DETAIL: '/settings/new-climbing-objects/:id',
 
+  REPORTS: '/settings/reports',
+  REPORTS_DETAIL: '/settings/reports/:id',
+
   ALL_CLIMBING_OBJECTS: '/settings/all-climbing-objects',
   ALL_CLIMBING_OBJECTS_DETAIL: '/settings/all-climbing-objects/:id',
   ALL_ROUTES: '/settings/all-routes',
@@ -40,7 +43,7 @@ export const SIDEBAR_ROUTES = [
 
       { title: 'Review new objects', url: ROUTE.NEW_CLIMBING_OBJECTS },
       { title: 'Review new routes', url: ROUTE.NEW_ROUTES },
-      { title: 'Review reports', url: '#' },
+      { title: 'Review reports', url: ROUTE.REPORTS },
       { title: 'All objects', url: ROUTE.ALL_CLIMBING_OBJECTS },
       { title: 'All routes', url: ROUTE.ALL_ROUTES },
       { title: 'All users', url: ROUTE.ALL_USERS },

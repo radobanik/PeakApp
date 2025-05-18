@@ -1,4 +1,3 @@
-import { useCallback } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
 import { useQuery } from '@tanstack/react-query'
 import { TableList } from '../../components/backoffice/TableList'
@@ -7,6 +6,7 @@ import { getUsers } from '@/services/userService'
 import { Outlet, useMatch } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
 import { cn } from '@/lib/utils'
+import { useState } from 'react'
 
 const columns: ColumnDef<UserList>[] = [
   {
@@ -24,17 +24,22 @@ const columns: ColumnDef<UserList>[] = [
 
 export default function AllUserList() {
   const isDetail = useMatch(ROUTE.ALL_USERS_DETAIL)
-  const useTableQuery = useCallback((page: number, pageSize: number) => {
-    return useQuery({
-      queryKey: ['all_users', page, pageSize],
-      queryFn: () => getUsers(page, pageSize),
-    })
-  }, [])
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 15 })
+  const usersQuery = useQuery({
+    queryKey: ['all_users', pagination.pageIndex, pagination.pageSize],
+    queryFn: () => getUsers(pagination.pageIndex + 1, pagination.pageSize),
+  })
   return (
     <div className="flex justify-center space-x-4 h-full w-full">
       <div className={cn('flex-1 h-full', isDetail ? 'hidden sm:flex' : '')}>
         <TableList
-          queryToUse={useTableQuery}
+          data={usersQuery.data}
+          isLoading={usersQuery.isLoading}
+          isError={usersQuery.isError}
+          error={usersQuery.error}
+          isSuccess={usersQuery.isSuccess}
+          pagination={pagination}
+          setPagination={setPagination}
           columnDefiniton={columns}
           parentRoute={ROUTE.ALL_USERS}
           noResult={<div className="text-center">No users found</div>}

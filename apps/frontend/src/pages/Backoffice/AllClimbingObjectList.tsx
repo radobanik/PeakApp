@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useState } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
 import { ClimbingObjectList } from '@/types/climbingObjectTypes'
 import { useQuery } from '@tanstack/react-query'
@@ -37,23 +37,31 @@ const columns: ColumnDef<ClimbingObjectList>[] = [
 
 export default function AllClimbingObjectList() {
   const isDetail = useMatch(ROUTE.ALL_CLIMBING_OBJECTS_DETAIL)
-  const useTableQuery = useCallback((page: number, pageSize: number) => {
-    return useQuery({
-      queryKey: ['all_objects', page, pageSize],
-      queryFn: async () => getClimbingObjects(),
-      select: (data) => ({
-        items: data.slice((page - 1) * pageSize, page * pageSize),
-        total: data.length,
-        page: page,
-        pageSize: pageSize,
-      }),
-    })
-  }, [])
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 15 })
+  const objectsQuery = useQuery({
+    queryKey: ['all_objects', pagination.pageIndex, pagination.pageSize],
+    queryFn: async () => getClimbingObjects(),
+    select: (data) => ({
+      items: data.slice(
+        pagination.pageIndex * pagination.pageSize,
+        (pagination.pageIndex + 1) * pagination.pageSize
+      ),
+      total: data.length,
+      page: pagination.pageIndex + 1,
+      pageSize: pagination.pageSize,
+    }),
+  })
   return (
     <div className="flex justify-center space-x-4 h-full w-full">
       <div className={cn('flex-1 h-full', isDetail ? 'hidden sm:flex' : '')}>
         <TableList
-          queryToUse={useTableQuery}
+          data={objectsQuery.data}
+          isLoading={objectsQuery.isLoading}
+          isError={objectsQuery.isError}
+          error={objectsQuery.error}
+          isSuccess={objectsQuery.isSuccess}
+          pagination={pagination}
+          setPagination={setPagination}
           columnDefiniton={columns}
           parentRoute={ROUTE.ALL_CLIMBING_OBJECTS}
           noResult={<div className="text-center">No climbing objects found</div>}

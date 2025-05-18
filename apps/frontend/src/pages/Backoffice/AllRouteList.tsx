@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useState } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
 import { climbingStructureStyles } from '@/components/RouteList'
 import { useQuery } from '@tanstack/react-query'
@@ -65,17 +65,22 @@ const columns: ColumnDef<RouteSummary>[] = [
 
 export default function AllRouteList() {
   const isDetail = useMatch(ROUTE.ALL_ROUTES_DETAIL)
-  const useTableQuery = useCallback((page: number, pageSize: number) => {
-    return useQuery({
-      queryKey: ['all_routes', page, pageSize],
-      queryFn: () => getRoutes(page, pageSize),
-    })
-  }, [])
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 15 })
+  const routesQuery = useQuery({
+    queryKey: ['all_routes', pagination.pageIndex, pagination.pageSize],
+    queryFn: () => getRoutes(pagination.pageIndex + 1, pagination.pageSize),
+  })
   return (
     <div className="flex justify-center space-x-4 h-full w-full">
       <div className={cn('flex-1 h-full', isDetail ? 'hidden sm:flex' : '')}>
         <TableList
-          queryToUse={useTableQuery}
+          data={routesQuery.data}
+          isLoading={routesQuery.isLoading}
+          isError={routesQuery.isError}
+          error={routesQuery.error}
+          isSuccess={routesQuery.isSuccess}
+          pagination={pagination}
+          setPagination={setPagination}
           columnDefiniton={columns}
           parentRoute={ROUTE.ALL_ROUTES}
           noResult={<div className="text-center">No routes found</div>}
