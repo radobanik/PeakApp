@@ -1,8 +1,8 @@
 import { UseQueryResult } from '@tanstack/react-query'
 import { Activity } from './activityTypes'
-import { PeakFile } from './fileTypes'
 import { ClimbingStructureType } from './routeTypes'
 import { perceivedDifficulty } from './utilsTypes'
+import { RefObject } from 'backend/src/model/common/refObject'
 
 export interface User {
   id: string
@@ -18,20 +18,20 @@ export interface Session {
   createdBy: User
   name: string
   note: string
-  photos: PeakFile[]
+  photos: RefObject[]
   assignedActivities: Activity[]
 }
 
 export interface SessionUpdate {
   name: string
   note: string
-  photos: PeakFile[]
+  photos: RefObject[]
 }
 
 export interface SessionCreate {
   name: string
   note: string
-  photos: PeakFile[]
+  photos: RefObject[]
   assignedActivities: {
     id: string
   }[]
@@ -55,6 +55,7 @@ export type SessionQueryType = UseQueryResult<
       notes: string
     }[]
     createdBy: User
+    photos: RefObject[]
   },
   Error
 >

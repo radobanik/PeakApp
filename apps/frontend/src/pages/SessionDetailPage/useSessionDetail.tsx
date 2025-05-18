@@ -11,6 +11,7 @@ export const useSession = (id: string) => {
       createdAt: data.createdAt,
       name: data.name,
       note: data.note,
+      photos: data.photos,
       assignedActivities: data.assignedActivities.map((activity) => ({
         id: activity.id,
         climbedAt: activity.climbedAt,

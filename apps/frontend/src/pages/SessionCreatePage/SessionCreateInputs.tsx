@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { NewSessionContext } from '../SessionCreate'
@@ -22,6 +22,8 @@ import { SessionCreate } from '@/types/sessionTypes'
 import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
+import MediaScroll from '@/components/MediaScroll'
+import { PeakFile } from '@/types/fileTypes'
 
 const formSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -30,6 +32,7 @@ const formSchema = z.object({
 
 export default function SessionCreateInputs() {
   const { setIsOpen, checkedEntriesIds, allEntries } = useContext(NewSessionContext)
+  const [media, setMedia] = useState<PeakFile[]>([])
 
   const checkedEntries = allEntries.filter((entry) => checkedEntriesIds.includes(entry.id))
   const navigate = useNavigate()
@@ -52,7 +55,9 @@ export default function SessionCreateInputs() {
     const activityData: SessionCreate = {
       name: data.name ?? '',
       note: data.note ?? '',
-      photos: [],
+      photos: media.map((file) => ({
+        id: file.id,
+      })),
       assignedActivities: checkedEntriesIds.map((id) => ({
         id: id,
       })),
@@ -104,6 +109,11 @@ export default function SessionCreateInputs() {
                 </FormItem>
               )}
             />
+
+            <div className="p-4 h-[20vh] w-full">
+              {/* TODO it overflows when adding more pictures, FIX*/}
+              <MediaScroll {...{ media: media, setMedia: setMedia, editable: true }} />
+            </div>
 
             <div className="flex flex-row justify-end p-4">
               <Button
