@@ -1,5 +1,5 @@
 import prisma from '../core/prisma/client'
-import { Prisma, Role } from '@prisma/client'
+import { NotificationType, Prisma, Role } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import {
   UserCreate,
@@ -105,9 +105,13 @@ const createUser = async (userData: UserCreate): Promise<UserDetail> => {
         notificationSettings: {
           create: {
             enableApp: true,
-            enableLikes: true,
-            enableComments: true,
             enableEmail: false,
+            allowedTypes: [
+              NotificationType.LIKE,
+              NotificationType.COMMENT,
+              NotificationType.FOLLOW,
+              NotificationType.ACHIEVEMENT,
+            ],
           },
         },
       },

@@ -18,11 +18,16 @@ const updateByUserId = async (
   userId: string,
   data: NotificationSettingsUpdate
 ): Promise<NotificationSettings> => {
-  return await client.update({
-    where: { userId },
-    data,
-    select: notificationSettingsSelector,
-  })
+  try {
+    return await client.update({
+      where: { userId },
+      data,
+      select: notificationSettingsSelector,
+    })
+  } catch (error) {
+    console.error('Error updating notification settings:', error)
+    throw error
+  }
 }
 
 export default {

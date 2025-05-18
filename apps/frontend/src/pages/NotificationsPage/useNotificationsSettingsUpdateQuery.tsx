@@ -13,8 +13,7 @@ export const useNotificationsSettingsUpdateQuery = () => {
       updateNotificationSettings({
         enableEmail: model.enableEmail,
         enableApp: model.enableApp,
-        enableComments: model.enableComments,
-        enableLikes: model.enableLikes,
+        allowedTypes: model.allowedTypes,
       }),
     onSuccess: (updated: NotificationSettings) => {
       queryClient.setQueryData(['notification-settings'], updated)

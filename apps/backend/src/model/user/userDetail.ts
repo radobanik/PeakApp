@@ -1,4 +1,5 @@
 import { Role } from '@prisma/client'
+import { allow } from 'joi'
 
 type UserDetail = {
   id: string
@@ -23,9 +24,8 @@ type UserDetail = {
   } | null
   notificationSettings: {
     enableApp: boolean
-    enableLikes: boolean
-    enableComments: boolean
     enableEmail: boolean
+    allowedTypes: string[]
   } | null
   profilePictureId: string | null
   createdAt: Date
@@ -50,9 +50,8 @@ const selector = {
   notificationSettings: {
     select: {
       enableApp: true,
-      enableLikes: true,
-      enableComments: true,
       enableEmail: true,
+      allowedTypes: true,
     },
   },
 

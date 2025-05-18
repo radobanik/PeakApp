@@ -1,9 +1,15 @@
 import { useEffect, useState } from 'react'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
-import { NotificationSettings } from '@/types/notificationTypes'
+import { NotificationSettings, NotificationType } from './../types/notificationTypes'
 
 export default function NotificationsSettingsDialog({
   open,
@@ -24,7 +30,16 @@ export default function NotificationsSettingsDialog({
     }
   }, [open, initialSettings])
 
-  const update = (key: keyof NotificationSettings, value: boolean) => {
+  const toggleType = (type: NotificationType, enabled: boolean) => {
+    setSettings((prev) => ({
+      ...prev,
+      allowedTypes: enabled
+        ? [...prev.allowedTypes, type]
+        : prev.allowedTypes.filter((t) => t !== type),
+    }))
+  }
+
+  const update = (key: keyof Omit<NotificationSettings, 'allowedTypes'>, value: boolean) => {
     setSettings((prev) => ({ ...prev, [key]: value }))
   }
 
@@ -33,7 +48,6 @@ export default function NotificationsSettingsDialog({
       <DialogContent className="w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-2xl p-7">
         <DialogHeader>
           <DialogTitle>Notification Settings</DialogTitle>
-          <DialogDescription className="sr-only"></DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-2">
@@ -56,6 +70,7 @@ export default function NotificationsSettingsDialog({
               onCheckedChange={(val) => update('enableEmail', val)}
             />
           </div>
+
           <div className="pt-2">
             <Label className="text-2sm text-muted-foreground">
               What do you want to be notified for?
@@ -64,15 +79,15 @@ export default function NotificationsSettingsDialog({
           <div className="flex items-center justify-between">
             <Label>Like Notifications</Label>
             <Switch
-              checked={settings.enableLikes}
-              onCheckedChange={(val) => update('enableLikes', val)}
+              checked={settings.allowedTypes.includes(NotificationType.LIKES)}
+              onCheckedChange={(val) => toggleType(NotificationType.LIKES, val)}
             />
           </div>
           <div className="flex items-center justify-between">
             <Label>Comment Notifications</Label>
             <Switch
-              checked={settings.enableComments}
-              onCheckedChange={(val) => update('enableComments', val)}
+              checked={settings.allowedTypes.includes(NotificationType.COMMENTS)}
+              onCheckedChange={(val) => toggleType(NotificationType.COMMENTS, val)}
             />
           </div>
         </div>

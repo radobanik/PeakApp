@@ -359,6 +359,8 @@ model Notification {
   userId      String
   user        User     @relation(fields: [userId], references: [id])
 
+  type        NotificationType
+
   title       String
   message     String
   isRead      Boolean  @default(false)
@@ -367,14 +369,21 @@ model Notification {
   updatedAt DateTime?
 }
 
+enum NotificationType {
+  LIKE
+  COMMENT
+  FOLLOW
+  ACHIEVEMENT
+}
+
 model UserNotificationSettings {
   id                String   @id @default(uuid())
   userId            String   @unique
   user              User     @relation(fields: [userId], references: [id])
 
+  allowedTypes      NotificationType[]
+
   enableApp         Boolean  @default(false) // disable all notifications
-  enableLikes       Boolean  @default(false)
-  enableComments    Boolean  @default(false)
   enableEmail       Boolean @default(true)
 
   createdAt         DateTime @default(now())

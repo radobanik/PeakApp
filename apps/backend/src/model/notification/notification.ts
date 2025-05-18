@@ -1,10 +1,11 @@
-import { User } from '@prisma/client'
+import { NotificationType } from '@prisma/client'
 import { UserLabeled, userLabeledSelector } from '../user'
 
 type Notification = {
   id: string
 
   user: UserLabeled
+  type: NotificationType
 
   title: string
   message: string
@@ -18,6 +19,7 @@ const notificationSelector = {
   id: true,
   createdAt: true,
   updatedAt: true,
+  type: true,
   user: {
     select: userLabeledSelector,
   },

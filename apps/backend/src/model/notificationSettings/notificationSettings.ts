@@ -1,3 +1,4 @@
+import { allow } from 'joi'
 import { z } from 'zod'
 
 type NotificationSettings = {
@@ -5,9 +6,8 @@ type NotificationSettings = {
   userId: string
 
   enableApp: boolean
-  enableLikes: boolean
-  enableComments: boolean
   enableEmail: boolean
+  allowedTypes: string[]
 
   createdAt: Date
   updatedAt: Date | null
@@ -17,9 +17,8 @@ const notificationSettingsSelector = {
   id: true,
   userId: true,
   enableApp: true,
-  enableLikes: true,
-  enableComments: true,
   enableEmail: true,
+  allowedTypes: true,
   createdAt: true,
   updatedAt: true,
 }

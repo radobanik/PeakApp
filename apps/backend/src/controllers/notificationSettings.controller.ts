@@ -23,6 +23,7 @@ const updateCurrent = async (
   req: Request<{}, {}, NotificationSettingsUpdate>,
   res: Response
 ): Promise<void> => {
+  console.log('updateCurrent', req.body)
   const user = provideUserRefFromToken(req)
   if (!user) {
     res.status(HTTP_STATUS.UNAUTHORIZED_401).json({ error: 'Unauthorized' })

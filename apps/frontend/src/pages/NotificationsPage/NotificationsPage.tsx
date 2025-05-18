@@ -57,8 +57,7 @@ const NotificationsPage = () => {
     const initial = notificationSettings ?? {
       enableApp: false,
       enableEmail: false,
-      enableLikes: false,
-      enableComments: false,
+      allowedTypes: [],
     }
     setDialogSettings(initial)
     setSettingsOpen(true)

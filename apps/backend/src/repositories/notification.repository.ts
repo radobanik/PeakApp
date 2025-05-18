@@ -72,9 +72,7 @@ const listAndMarkAllAsRead = async (
     select: notificationListSelector,
   })
 
-  const idsToMarkRead = notifications
-    .filter(n => !n.isRead)
-    .map(n => n.id)
+  const idsToMarkRead = notifications.filter((n) => !n.isRead).map((n) => n.id)
 
   if (idsToMarkRead.length > 0) {
     await notificationClient.updateMany({

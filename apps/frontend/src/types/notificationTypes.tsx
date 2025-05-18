@@ -1,9 +1,15 @@
 import { Pagination } from './paginationTypes'
 import type { UserLabeled } from './userTypes'
 
+export enum NotificationType {
+  LIKES = 'LIKE',
+  COMMENTS = 'COMMENT',
+}
+
 export type Notification = {
   id: string
   user: UserLabeled
+  type: NotificationType
   title: string
   message: string
   isRead: boolean
@@ -15,6 +21,7 @@ export type NotificationListItem = {
   id: string
   title: string
   message: string
+  type: NotificationType
   isRead: boolean
   createdAt: string
   updatedAt: string | null
@@ -22,15 +29,13 @@ export type NotificationListItem = {
 
 export type NotificationSettings = {
   enableApp: boolean
-  enableLikes: boolean
-  enableComments: boolean
   enableEmail: boolean
+  allowedTypes: NotificationType[]
 }
 
 export type NotificationSettingsUpdateRequest = {
   enableApp?: boolean
-  enableLikes?: boolean
-  enableComments?: boolean
+  allowedTypes?: NotificationType[]
   enableEmail?: boolean
 }
 
