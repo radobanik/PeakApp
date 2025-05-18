@@ -41,7 +41,7 @@ function HeaderBar() {
           </Avatar>
 
           {unreadCount > 0 && (
-            <div className="absolute bottom-0 right-0 translate-x-1/4 translate-y-[-25%] bg-red-500 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center shadow-md z-50">
+            <div className="absolute bottom-0 right-0 translate-x-1/4 translate-y-[-25%] bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center shadow-md z-50">
               {unreadCount > 9 ? '9+' : unreadCount}
             </div>
           )}

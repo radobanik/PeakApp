@@ -8,6 +8,7 @@ import MapIcon from './svg/MapIcon'
 import CommunityIcon from './svg/CommunityIcon'
 import DiaryIcon from './svg/DiaryIcon'
 import { useSidebar } from './ui/sidebar'
+import { useNotificationContext } from '@/App'
 
 const MENU_ICON_BUTTONS = [
   {
@@ -29,6 +30,7 @@ const MENU_ICON_BUTTONS = [
 
 const MobileMenuHeader = () => {
   const { toggleSidebar } = useSidebar()
+  const { unreadCount } = useNotificationContext()
 
   const renderMenuButton = ({
     title,
@@ -55,10 +57,18 @@ const MobileMenuHeader = () => {
 
   const renderProfileButton = () => (
     <div onClick={toggleSidebar} className="flex flex-1 justify-center h-full px-2 py-1">
-      <Avatar className="h-full flex justify-center items-center ">
-        {/* TODO:: Add user photo and AvatarFallback with user initials */}
-        <AvatarImage src={diddyPfp} className="h-full rounded-full"></AvatarImage>
-      </Avatar>
+      <div className="relative h-full aspect-square flex items-center justify-center">
+        <Avatar className="h-full aspect-square">
+          {/* TODO: Add fallback */}
+          <AvatarImage src={diddyPfp} className="h-full w-full rounded-full object-cover" />
+        </Avatar>
+
+        {unreadCount > 0 && (
+          <div className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center shadow-md z-50">
+            {unreadCount > 9 ? '9+' : unreadCount}
+          </div>
+        )}
+      </div>
     </div>
   )
 
