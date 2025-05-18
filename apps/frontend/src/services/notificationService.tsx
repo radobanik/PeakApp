@@ -32,7 +32,6 @@ export async function getUnreadNotificationCount(): Promise<number> {
 export async function getNotificationSettings(): Promise<NotificationSettings> {
   try {
     const response = await api.get(API.NOTIFICATIONS.SETTINGS())
-    console.log('SERVICE SETTINGS:', response.data)
     return response.data
   } catch (error) {
     throw error
@@ -43,7 +42,6 @@ export async function updateNotificationSettings(
   settings: NotificationSettingsUpdateRequest
 ): Promise<NotificationSettings> {
   try {
-    console.log('sending  SETTINGS:', settings)
     const response = await api.put(API.NOTIFICATIONS.SETTINGS(), settings)
     return response.data
   } catch (error) {

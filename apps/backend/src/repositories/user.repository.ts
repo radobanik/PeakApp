@@ -90,8 +90,6 @@ const createUser = async (userData: UserCreate): Promise<UserDetail> => {
   try {
     const hashedPassword = await bcrypt.hash(userData.password, 10)
     const birthdayDate = userData.birthday ? new Date(userData.birthday) : null
-    console.log('userData', userData)
-    console.log('birthdayDate', birthdayDate)
 
     const { cityId, ...restUserData } = userData
 
