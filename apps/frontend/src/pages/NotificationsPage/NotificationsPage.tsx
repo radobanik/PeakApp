@@ -25,7 +25,7 @@ const NotificationsPage = () => {
 
   const { unreadCount, refetchUnread } = useNotificationContext()
 
-  const { data, isLoading, isError, isSuccess } = useNotificationsQuery(page, pageSize)
+  const { data, isLoading, isError, isSuccess, refetch } = useNotificationsQuery(page, pageSize)
   const notifications = data?.items ?? []
   const totalPages = data?.totalPages ?? 1
 
@@ -48,7 +48,10 @@ const NotificationsPage = () => {
 
   const handleSaveSettings = (updated: NotificationSettings) => {
     saveSettings(updated, {
-      onSuccess: () => toast.success('Notification settings saved.'),
+      onSuccess: () => {
+        toast.success('Notification settings saved.')
+        refetch()
+      },
       onError: () => toast.error('Failed to save notification settings.'),
     })
   }

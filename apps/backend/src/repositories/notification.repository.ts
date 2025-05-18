@@ -8,12 +8,17 @@ import {
   notificationSelector,
 } from '../model/notification'
 import { createListResponse, ListResponse } from '../model/common/listResponse'
+import NotificationSettingsRepository from '../repositories/notificationSettings.repository'
 
 const notificationClient = new PrismaClient().notification
 
 const listByUser = async (userId: string): Promise<NotificationList[]> => {
+  const settings = await NotificationSettingsRepository.getByUserId(userId)
   return await notificationClient.findMany({
-    where: { userId },
+    where: {
+      userId,
+      type: { in: settings?.allowedTypes },
+    },
     orderBy: { createdAt: 'desc' },
     select: notificationListSelector,
   })
@@ -64,8 +69,12 @@ const listAndMarkAllAsRead = async (
     where: { userId },
   })
 
+  const settings = await NotificationSettingsRepository.getByUserId(userId)
   const notifications = await notificationClient.findMany({
-    where: { userId },
+    where: {
+      userId,
+      type: { in: settings?.allowedTypes },
+    },
     orderBy: { createdAt: 'desc' },
     skip: (page - 1) * pageSize,
     take: pageSize,
@@ -89,10 +98,12 @@ const listAndMarkAllAsRead = async (
 }
 
 const countUnreadByUser = async (userId: string): Promise<number> => {
+  const settings = await NotificationSettingsRepository.getByUserId(userId)
   const count = await notificationClient.count({
     where: {
       userId,
       isRead: false,
+      type: { in: settings?.allowedTypes },
     },
   })
 

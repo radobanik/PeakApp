@@ -11,7 +11,7 @@ const notificationRouter = Router()
  * @swagger
  * /notifications:
  *   get:
- *     summary: Get notifications for logged-in user
+ *     summary: Get filtered notifications for logged-in user
  *     responses:
  *       200:
  *         description: List of notifications
@@ -26,7 +26,7 @@ notificationRouter.get(
  * @swagger
  * /notifications/read:
  *   get:
- *     summary: Get all notifications for logged-in user and mark them as read
+ *     summary: Get all filtered notifications for logged-in user and mark them as read
  *     responses:
  *       200:
  *         description: List of notifications (now marked as read)
@@ -136,7 +136,7 @@ notificationRouter.delete(
  * @swagger
  * /notifications/unread/count:
  *   get:
- *     summary: Get count of unread notifications for logged-in user
+ *     summary: Get count of unread filtered notifications for logged-in user
  *     responses:
  *       200:
  *         description: Number of unread notifications

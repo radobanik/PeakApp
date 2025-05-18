@@ -1,5 +1,4 @@
-import { Role } from '@prisma/client'
-import { allow } from 'joi'
+import { NotificationType, Role } from '@prisma/client'
 
 type UserDetail = {
   id: string
@@ -25,7 +24,7 @@ type UserDetail = {
   notificationSettings: {
     enableApp: boolean
     enableEmail: boolean
-    allowedTypes: string[]
+    allowedTypes: NotificationType[]
   } | null
   profilePictureId: string | null
   createdAt: Date

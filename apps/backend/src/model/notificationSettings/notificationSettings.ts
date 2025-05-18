@@ -1,5 +1,4 @@
-import { allow } from 'joi'
-import { z } from 'zod'
+import { NotificationType } from '@prisma/client'
 
 type NotificationSettings = {
   id: string
@@ -7,7 +6,7 @@ type NotificationSettings = {
 
   enableApp: boolean
   enableEmail: boolean
-  allowedTypes: string[]
+  allowedTypes: NotificationType[]
 
   createdAt: Date
   updatedAt: Date | null
