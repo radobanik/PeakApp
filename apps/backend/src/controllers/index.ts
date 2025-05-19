@@ -14,6 +14,7 @@ import ReportController from './report.controller'
 import SearchController from './search.controller'
 import NotificationController from './notification.controller'
 import NotificationSettingsController from './notificationSettings.controller'
+import AchievementController from './achievement.controller'
 
 export {
   UserController,
@@ -32,4 +33,5 @@ export {
   SearchController,
   NotificationController,
   NotificationSettingsController,
+  AchievementController,
 }

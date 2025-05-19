@@ -37,6 +37,8 @@ export const ROUTE = {
   ALL_USERS_DETAIL: '/settings/all-users/:id',
   ANALYTICS: '/settings/analytics',
   SETTINGS_NOTIFICATIONS: '/settings/notifications',
+
+  ALL_ACHIEVEMENTS: '/settings/achievements',
 }
 
 export const SIDEBAR_ROUTES = [
@@ -52,6 +54,7 @@ export const SIDEBAR_ROUTES = [
       { title: 'All objects', url: ROUTE.ALL_CLIMBING_OBJECTS },
       { title: 'All routes', url: ROUTE.ALL_ROUTES },
       { title: 'All users', url: ROUTE.ALL_USERS },
+      { title: 'All achievements', url: ROUTE.ALL_ACHIEVEMENTS },
       { title: 'Analytics', url: ROUTE.ANALYTICS },
       { title: 'Notifications', url: ROUTE.SETTINGS_NOTIFICATIONS },
     ],

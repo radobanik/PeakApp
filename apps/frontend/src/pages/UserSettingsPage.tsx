@@ -15,6 +15,8 @@ import * as userService from '@/services/userService'
 import * as fileService from '@/services/fileService'
 import { PeakFile } from '@/types/fileTypes'
 import { toast } from 'sonner'
+import { AchievementListing } from '@/components/achievementListing'
+import { UserDetailResponse } from '@/types/userTypes'
 
 type FormValues = {
   username: string
@@ -57,6 +59,7 @@ const UserSettingsPage = () => {
   const [uploadedAvatar, setUploadedAvatar] = useState<PeakFile | null>(null)
   const [profilePicturePreview, setProfilePicturePreview] = useState<string | null>(NoUserPhoto)
   const [profilePictureChecked, setProfilePictureChecked] = useState(false)
+  const [loggedInUser, setLoggedInUser] = useState<UserDetailResponse | null>(null)
 
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const selectedCountry = watch('country')
@@ -80,6 +83,7 @@ const UserSettingsPage = () => {
     async function fetchUserData() {
       try {
         const user = await userService.getLoggedInUser()
+        setLoggedInUser(user)
         setValue('username', user.userName)
         setValue('description', user.description)
         setValue('firstName', user.firstName)
@@ -233,6 +237,15 @@ const UserSettingsPage = () => {
               </div>
             </div>
           </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Achievements</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <AchievementListing userId={loggedInUser?.id} />
         </CardContent>
       </Card>
 

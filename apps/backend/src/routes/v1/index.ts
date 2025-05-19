@@ -17,6 +17,7 @@ import notificationRouter from './notification.route'
 import notificationSettingsRouter from './notificationSettings.route'
 import searchRouter from './search.route'
 import emailRouter from '../emailRoutes'
+import achievementRouter from './achievement.route'
 
 const v1Router = Router()
 
@@ -93,6 +94,10 @@ const routes = [
   {
     path: '/email',
     route: emailRouter,
+  },
+  {
+    path: '/achievement',
+    route: achievementRouter,
   },
 ]
 

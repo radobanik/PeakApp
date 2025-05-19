@@ -10,6 +10,8 @@ import LikeRepository from './like.repository'
 import CommunityRepository from './community.repository'
 import ReviewRepository from './review.repository'
 import ReportRepository from './report.repository'
+import AchievementRepository from './achievement.repository'
+import AchievementMiscRepository from './achievementMisc.repository'
 
 export {
   UserRepository,
@@ -24,4 +26,6 @@ export {
   CommunityRepository,
   ReviewRepository,
   ReportRepository,
+  AchievementRepository,
+  AchievementMiscRepository,
 }

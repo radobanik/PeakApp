@@ -38,6 +38,7 @@ import ReportDetailPage from './pages/Backoffice/ReportDetailPage'
 import NotificationsPage from './pages/NotificationsPage/NotificationsPage'
 import { getUnreadNotificationCount } from './services/notificationService'
 import ClimbingObjectDetailPage from './pages/ClimbingObjectDetailPage'
+import AchievementsPage from './pages/Backoffice/AchievementsPage'
 
 type ViewportContextType = {
   isMobile: boolean
@@ -191,6 +192,10 @@ export default function App() {
                           element={privateRoute(<ReviewObjectDetailPage />)}
                         />
                       </Route>
+                      <Route
+                        path={ROUTE.ALL_ACHIEVEMENTS}
+                        element={privateRoute(<AchievementsPage />)}
+                      />
                       <Route
                         path={ROUTE.NEW_ROUTES}
                         element={privateRoute(

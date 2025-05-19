@@ -95,4 +95,11 @@ export const API = {
   EMAIL: {
     TEST: `${API_BASE_URL}/email/test/`,
   },
+  ACHIEVEMENT: {
+    BY_USER: (userId: string) => `${API_BASE_URL}/achievement/user/${userId}`,
+    ALL: () => `${API_BASE_URL}/achievement/`,
+    CREATE: () => `${API_BASE_URL}/achievement/`,
+    UPDATE: (id: string) => `${API_BASE_URL}/achievement/${id}`,
+    DELETE: (id: string) => `${API_BASE_URL}/achievement/${id}`,
+  },
 }

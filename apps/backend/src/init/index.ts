@@ -10,6 +10,7 @@ import initLikes from './like.init'
 import initReviews from './review.init'
 import initReports from './report.init'
 import initFollows from './follows.init'
+import initAchievements from './achievement.init'
 
 /**
  * must be in the right order!
@@ -27,6 +28,7 @@ const initFunctions = [
   initReviews,
   initReports,
   initFollows,
+  initAchievements,
 ]
 
 async function initAll() {

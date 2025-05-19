@@ -90,6 +90,7 @@ model PeakFile {
   SessionPeakFile    SessionPeakFile[] @relation(name: "SessionImages")
   sessionid          String?
   session            Session? @relation(fields: [sessionid], references: [id])
+  achievementIcon    Achievement? @relation(name: "AchievementIcon")
 }
 
 enum PeakFileSource {
@@ -389,4 +390,26 @@ model UserNotificationSettings {
 
   createdAt         DateTime @default(now())
   updatedAt         DateTime?
+}
+
+enum AchievementType {
+  DAYS_REGISTERED
+  COMMENTS_COUNT
+  SESSIONS_COUNT
+  MAX_ACTIVITY_PER_SESSION
+  MAX_LIKE_ON_SESSION
+  ROUTE_TOPPED_COUNT
+  ROUTE_REVIEW_COUNT
+}
+
+model Achievement {
+  id   String @id @default(uuid())
+  name String
+  description String
+  minimumValue Int
+  
+  type AchievementType
+  
+  iconId String? @unique
+  icon PeakFile? @relation(name: "AchievementIcon", fields: [iconId], references: [id])
 }
