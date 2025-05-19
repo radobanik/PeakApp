@@ -44,6 +44,8 @@ import {
 import chroma from 'chroma-js'
 import { useContext } from 'react'
 import { ViewportContext } from '@/App'
+import { GradeBadge } from './GradyBadge'
+import { RouteStructureTypeBadge } from './RouteStructureTypeBadge'
 
 // Extend the ColumnMeta interface to include className
 // ESLint exceptionn is needed as TS is shit
@@ -61,11 +63,6 @@ export const climbingStructureStyles: Record<ClimbingStructureType, string> = {
   [ClimbingStructureType.WALL]: 'bg-gray-100 text-gray-800',
 }
 
-function getTextColorForBackground(bgColor: string): string {
-  const luminance = chroma(bgColor).luminance()
-  return luminance > 0.5 ? '#000000' : '#FFFFFF'
-}
-
 const columns: ColumnDef<RouteDetail>[] = [
   { accessorKey: 'name', header: 'Name' },
   { accessorKey: 'description', header: 'Description' },
@@ -77,38 +74,12 @@ const columns: ColumnDef<RouteDetail>[] = [
   {
     accessorKey: 'grade',
     header: 'Grade',
-    cell: ({ row }) => {
-      const grade = row.original.grade
-      return (
-        <span
-          className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
-          style={{
-            backgroundColor: grade.color,
-            color: getTextColorForBackground(grade.color),
-          }}
-        >
-          {grade.name}
-        </span>
-      )
-    },
+    cell: ({ row }) => <GradeBadge grade={row.original.grade} />,
   },
   {
     accessorKey: 'climbingStructureType',
     header: 'Type',
-    cell: ({ row }) => {
-      const structureType = row.original.climbingStructureType
-      return (
-        <span
-          className={cn(
-            'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium',
-            climbingStructureStyles[structureType] ||
-              climbingStructureStyles[ClimbingStructureType.WALL]
-          )}
-        >
-          {structureType}
-        </span>
-      )
-    },
+    cell: ({ row }) => <RouteStructureTypeBadge type={row.original.climbingStructureType} />,
   },
   {
     id: 'longLat',
