@@ -14,6 +14,7 @@ import reviewRouter from './review.route'
 import reportRouter from './report.route'
 import notificationRouter from './notification.route'
 import notificationSettingsRouter from './notificationSettings.route'
+import searchRouter from './search.route'
 
 const v1Router = Router()
 
@@ -77,6 +78,8 @@ const routes = [
   {
     path: '/notification-settings',
     route: notificationSettingsRouter,
+    path: '/search',
+    route: searchRouter,
   },
 ]
 
