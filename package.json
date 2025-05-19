@@ -43,9 +43,6 @@
     "numeral": "^2.0.6",
     "react-leaflet": "^5.0.0",
     "react-leaflet-cluster": "^2.1.0",
-    "aws-sdk": "^2.1692.0",
-    "mock-aws-s3": "^4.0.2",
-    "nock": "^14.0.4",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   }
