@@ -39,7 +39,7 @@ const Like: FC<LikeProps> = (props: LikeProps) => {
           likeMutation.mutate()
         }}
       >
-        <LikeIcon liked={likeStatus} size="calc(var(--spacing) * 8)" />
+        <LikeIcon liked={likeStatus} size="25px" />
       </div>
       <p>{likes}</p>
     </div>
