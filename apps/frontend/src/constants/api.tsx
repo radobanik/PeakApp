@@ -48,6 +48,14 @@ export const API = {
     CREATE_EXISTING: () => `${API_BASE_URL}/peak-file/existing`,
     DELETE: (id: string) => `${API_BASE_URL}/peak-file/${id}`,
   },
+  COMMUNITY: {
+    BY_ID: (id: string) => `${API_BASE_URL}/community/${id}`,
+    LIST: () => `${API_BASE_URL}/community/`,
+  },
+  LIKE: {
+    LIKE: (sessionId: string) => `${API_BASE_URL}/like/${sessionId}`,
+    UNLIKE: (sessionId: string) => `${API_BASE_URL}/like/${sessionId}`,
+  },
   COMMENT: {
     LIST: () => `${API_BASE_URL}/comment/`,
     CREATE: () => `${API_BASE_URL}/comment/`,

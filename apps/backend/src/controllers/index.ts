@@ -8,6 +8,7 @@ import ActivityController from './activity.controller'
 import SessionController from './session.controller'
 import CommentController from './comment.controller'
 import LikeController from './like.controller'
+import CommunityController from './community.controller'
 import ReviewController from './review.controller'
 import ReportController from './report.controller'
 import SearchController from './search.controller'
@@ -25,6 +26,7 @@ export {
   SessionController,
   CommentController,
   LikeController,
+  CommunityController,
   ReviewController,
   ReportController,
   SearchController,

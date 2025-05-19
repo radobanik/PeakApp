@@ -41,15 +41,6 @@ export default function AllClimbingObjectList() {
   const objectsQuery = useQuery({
     queryKey: ['all_objects', pagination.pageIndex, pagination.pageSize],
     queryFn: async () => getClimbingObjects(),
-    select: (data) => ({
-      items: data.slice(
-        pagination.pageIndex * pagination.pageSize,
-        (pagination.pageIndex + 1) * pagination.pageSize
-      ),
-      total: data.length,
-      page: pagination.pageIndex + 1,
-      pageSize: pagination.pageSize,
-    }),
   })
   return (
     <div className="flex justify-center space-x-4 h-full w-full">

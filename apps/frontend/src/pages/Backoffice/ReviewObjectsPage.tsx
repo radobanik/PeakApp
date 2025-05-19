@@ -18,10 +18,6 @@ export default function ReviewObjectsPage() {
   const query = useQuery({
     queryKey: ['new_objects', page],
     queryFn: async () => getNewObjects(),
-    select: (data) => ({
-      items: data.slice((page - 1) * 15, page * 15),
-      total: data.length,
-    }),
   })
 
   return (

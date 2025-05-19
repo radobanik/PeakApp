@@ -10,6 +10,7 @@ import activityRouter from './activity.route'
 import sessionRouter from './session.route'
 import commentRouter from './comment.route'
 import likeRouter from './like.route'
+import communityRouter from './community.route'
 import reviewRouter from './review.route'
 import reportRouter from './report.route'
 import notificationRouter from './notification.route'
@@ -64,6 +65,10 @@ const routes = [
     route: likeRouter,
   },
   {
+    path: '/community',
+    route: communityRouter,
+  },
+  {
     path: '/review',
     route: reviewRouter,
   },
@@ -78,6 +83,8 @@ const routes = [
   {
     path: '/notification-settings',
     route: notificationSettingsRouter,
+  },
+  {
     path: '/search',
     route: searchRouter,
   },

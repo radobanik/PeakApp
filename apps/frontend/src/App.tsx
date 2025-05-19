@@ -22,6 +22,8 @@ import { SettingsLayout } from './components/SettingsLayout'
 import UserSettingsPage from './pages/UserSettingsPage'
 import UserRoutesPage from './pages/UserRoutesPage'
 import { SidebarProvider } from './components/ui/sidebar'
+import CommunityPage from './pages/CommunityPageLayout'
+import CommunitySessionDetailPage from './pages/CommunitySessionDetailPage'
 import ActivityCreatePage from './pages/ActivityCreatePage'
 import SessionCreatePage from './pages/SessionCreate'
 import { ApprovalProvider } from './components/backoffice/ApprovalProvider'
@@ -151,6 +153,12 @@ export default function App() {
                       element={privateRoute(<SessionCreatePage />)}
                     />
                     <Route path={ROUTE.DETAIL} element={privateRoute(<RouteDetailPage />)} />
+                    <Route path={ROUTE.COMMUNITY} element={privateRoute(<CommunityPage />)}>
+                      <Route
+                        path={ROUTE.COMMUNITY + '/:id'}
+                        element={privateRoute(<CommunitySessionDetailPage />)}
+                      />
+                    </Route>
                     <Route path={ROUTE.SUBMIT} element={privateRoute(<SubmitPage />)} />
 
                     <Route path={ROUTE.SETTINGS} element={privateRoute(<SettingsLayout />)}>
