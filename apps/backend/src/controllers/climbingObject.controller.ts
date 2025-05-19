@@ -19,14 +19,28 @@ import { getOrderBy } from '../model/route'
 import { ApprovalState } from '@prisma/client'
 
 const getById = async (req: Request, res: Response) => {
+  const params = req.query as unknown as IncommingClimbingObjectListParams
+  const normalizedParams: NonNullClimbingObjectListParams = defaultClimbingObjectListParams(params)
+
   const climbingObjectId = req.params.id
   const climbingObject = await ClimbingObjectRepository.getById(climbingObjectId)
 
   if (climbingObject == null) {
     res.status(HTTP_STATUS.NOT_FOUND_404).json({ error: 'Climbing object not found' })
-  } else {
-    res.status(HTTP_STATUS.OK_200).json(climbingObject)
+    return
   }
+
+  const filteredRoutes = climbingObject.routes.filter(
+    (route) =>
+      route.grade.rating >= normalizedParams.ratingFrom &&
+      route.grade.rating <= normalizedParams.ratingTo &&
+      normalizedParams.climbingStructureTypes.includes(route.climbingStructureType)
+  )
+
+  res.status(HTTP_STATUS.OK_200).json({
+    ...climbingObject,
+    routes: filteredRoutes,
+  })
 }
 
 const list = async (req: Request, res: Response) => {

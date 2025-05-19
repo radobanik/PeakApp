@@ -1,50 +1,23 @@
-import LMap from '@/components/LMap'
-import { API } from '@/constants/api'
-import { ClimbingObjectDetail } from '@/types/climbingObjectTypes'
-import React, { useEffect, useState } from 'react'
-import { toast } from 'sonner'
-import clsx from 'clsx'
-import RouteListTable from '@/components/RouteListTable'
-import { RouteSummary } from '@/types/routeTypes'
-import { useNavigate } from 'react-router-dom'
-import { ROUTE } from '@/constants/routes'
 import { CreateClimbingObjectDialog } from '@/components/dialog/CreateClimbingObjectDialog'
+import LMap from '@/components/LMap'
+import RouteListTable from '@/components/RouteListTable'
+import { ROUTE } from '@/constants/routes'
+import { getClimbingObjectDetail } from '@/services/climbingObjectService'
+import { ClimbingObjectDetail, FilterClimbingObjectListParams } from '@/types/climbingObjectTypes'
+import { RouteSummary } from '@/types/routeTypes'
+import clsx from 'clsx'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 const TABLE_ENTRIES_LIMIT = 5
-
-const fetchClimbingObjectDetail = async (
-  climbingObjectId: string,
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
-) => {
-  setIsLoading(true)
-  try {
-    const response = await fetch(`${API.CLIMBING_OBJECT.BY_ID}${climbingObjectId}`)
-    console.log('response', response)
-    const data = await response.json()
-
-    if (!response.ok) {
-      return null
-    }
-
-    return data
-  } catch (error: unknown) {
-    let message: string = 'Could not load the climbing object'
-    if (error instanceof Error) {
-      message = error.message || message
-    }
-
-    toast.error(message, { id: `load-${climbingObjectId}-e` })
-    return null
-  } finally {
-    setIsLoading(false)
-  }
-}
 
 export default function HomePage() {
   const [climbingObjectId, setClimbingObjectId] = useState<string | null>(null)
   const [climbingObjectDetail, setClimbingObjectDetail] = useState<ClimbingObjectDetail | null>(
     null
   )
+  const [filters, setFilters] = useState<FilterClimbingObjectListParams | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isPoiCreationOpen, setIsPoiCreationOpen] = useState<boolean>(false)
 
@@ -75,11 +48,26 @@ export default function HomePage() {
       return
     }
 
-    fetchClimbingObjectDetail(climbingObjectId, setIsLoading).then((d) => {
-      if (d !== null) {
-        setClimbingObjectDetail(d)
+    const fetchDetail = async () => {
+      setIsLoading(true)
+      try {
+        const detail = await getClimbingObjectDetail(climbingObjectId, filters)
+
+        setClimbingObjectDetail(detail)
+      } catch (error) {
+        let message = 'Could not load the climbing object'
+        if (error instanceof Error) {
+          message = error.message || message
+        }
+
+        toast.error(message, { id: `load-${climbingObjectId}-e` })
+        setClimbingObjectDetail(null)
+      } finally {
+        setIsLoading(false)
       }
-    })
+    }
+
+    fetchDetail()
   }, [climbingObjectId])
 
   return (
@@ -88,6 +76,8 @@ export default function HomePage() {
       <LMap
         setClimbingObjectId={setClimbingObjectId}
         routes={climbingObjectDetail?.routes ?? null}
+        filters={filters}
+        setFilters={setFilters}
         setIsPoiCreationOpen={setIsPoiCreationOpen}
       />
       <div

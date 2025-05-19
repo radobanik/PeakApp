@@ -1,5 +1,4 @@
-import { API } from '@/constants/api'
-import { ClimbingObjectList } from '@/types/climbingObjectTypes'
+import { ClimbingObjectList, FilterClimbingObjectListParams } from '@/types/climbingObjectTypes'
 import { RouteSummary } from '@/types/routeTypes'
 import { memo, SetStateAction, useEffect, useRef } from 'react'
 import ReactDOMServer from 'react-dom/server'
@@ -8,7 +7,7 @@ import * as L from 'leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
 import { toast } from 'sonner'
 import { ClusterIcon } from './ClusterIcon'
-import { PaginatedResponse } from '@/types'
+import { getFilteredClimbingObject } from '@/services/climbingObjectService'
 import { useNavigate } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
 
@@ -31,32 +30,6 @@ const RED_POI_ICON = new L.Icon({
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
 })
-
-const fetchClimbingObjects = async (
-  lonFrom: number,
-  lonTo: number,
-  latFrom: number,
-  latTo: number
-) => {
-  try {
-    const url = new URL(API.CLIMBING_OBJECT.LIST)
-    const params = new URLSearchParams({
-      longitudeFrom: lonFrom.toString(),
-      longitudeTo: lonTo.toString(),
-      latitudeFrom: latFrom.toString(),
-      latitudeTo: latTo.toString(),
-    })
-
-    url.search = params.toString()
-    console.log(url.toString())
-    const response = await fetch(url.toString())
-    const data = await response.json()
-    return data
-  } catch {
-    toast.error('Could not load the climbing objects', { id: 'load-cos-error' })
-    return null
-  }
-}
 
 declare module 'leaflet' {
   interface MarkerOptions {
@@ -88,6 +61,8 @@ type MapObjectLayerProps = {
   setClimbingObjectId: React.Dispatch<SetStateAction<string | null>>
 
   routes: RouteSummary[] | null
+
+  filters: FilterClimbingObjectListParams | null
 }
 
 const MapObjectLayer = ({
@@ -95,6 +70,7 @@ const MapObjectLayer = ({
   setZoomLevel,
   setClimbingObjectId,
   routes,
+  filters,
 }: MapObjectLayerProps) => {
   const map = useMap()
 
@@ -120,7 +96,7 @@ const MapObjectLayer = ({
       return
 
     isProcessing.current = true
-    const clusterGroup: L.MarkerClusterGroup | null = climbingObjectClusterRef.current
+    const clusterGroup = climbingObjectClusterRef.current
 
     const processChunk = () => {
       const chunk: ClimbingObjectList[] = pointQueue.current.splice(0, CHUNK_SIZE)
@@ -128,7 +104,7 @@ const MapObjectLayer = ({
 
       chunk.forEach((point) => {
         // For eaach point, check if it already exists in the map
-        if (markersRef.current.get(point.id) === undefined) {
+        if (!markersRef.current.has(point.id)) {
           // If it doesn't exist, create a new marker on given coords with POI icon and route count
           const mapMarker = L.marker([point.latitude, point.longitude], {
             icon: BLUE_POI_ICON,
@@ -153,7 +129,7 @@ const MapObjectLayer = ({
         }
       })
 
-      if (newMarkers.length != 0) {
+      if (newMarkers.length !== 0) {
         clusterGroup?.addLayers(newMarkers) // Add multiple markers at once
       }
 
@@ -169,11 +145,8 @@ const MapObjectLayer = ({
 
   const renderRoutes = async (routes: RouteSummary[] | null) => {
     if (!routesClusterRef.current) return
-
-    const clusterGroup: L.MarkerClusterGroup | null = routesClusterRef.current
-    if (routes === null) {
-      return
-    }
+    const clusterGroup = routesClusterRef.current
+    if (!routes) return
 
     const processChunk = () => {
       const newMarkers: L.Marker[] = []
@@ -189,7 +162,7 @@ const MapObjectLayer = ({
         newMarkers.push(mapMarker)
       })
 
-      if (newMarkers.length != 0) {
+      if (newMarkers.length !== 0) {
         clusterGroup?.addLayers(newMarkers) // Add multiple markers at once
       }
     }
@@ -199,22 +172,40 @@ const MapObjectLayer = ({
 
   const handleMapChange = async () => {
     setZoomLevel(map.getZoom())
-    const b = map.getBounds()
+    const bounds = map.getBounds()
 
-    const data: PaginatedResponse<ClimbingObjectList> | null = await fetchClimbingObjects(
-      b.getWest(),
-      b.getEast(),
-      b.getSouth(),
-      b.getNorth()
-    )
+    try {
+      const response = await getFilteredClimbingObject({
+        longitudeFrom: filters?.longitudeFrom ?? bounds.getWest(),
+        longitudeTo: filters?.longitudeTo ?? bounds.getEast(),
+        latitudeFrom: filters?.latitudeFrom ?? bounds.getSouth(),
+        latitudeTo: filters?.latitudeTo ?? bounds.getNorth(),
+        name: filters?.name ?? null,
+        routeName: filters?.routeName ?? null,
+        ratingFrom: filters?.ratingFrom ?? null,
+        ratingTo: filters?.ratingTo ?? null,
+        climbingStructureTypes: filters?.climbingStructureTypes ?? [],
+      })
 
-    data?.items?.forEach((p) => pointQueue.current.push(p))
-    renderClimbingObjects()
+      const data = response?.items || []
+
+      data?.forEach((p) => pointQueue.current.push(p))
+      renderClimbingObjects()
+    } catch {
+      toast.error('Could not load the climbing objects', { id: 'load-cos-error' })
+    }
   }
+
+  useEffect(() => {
+    markersRef.current.clear()
+    routesClusterRef.current?.clearLayers()
+    climbingObjectClusterRef.current?.clearLayers()
+  }, [filters])
 
   useEffect(() => {
     map.zoomControl.remove()
     mapRef.current = map
+
     const onMoveEnd = () => {
       handleMapChange()
     }
@@ -226,12 +217,12 @@ const MapObjectLayer = ({
 
     map.on('moveend', onMoveEnd)
     map.on('click', onMapClick)
-
+    handleMapChange()
     return () => {
       map.off('moveend', onMoveEnd)
       map.off('click', onMapClick)
     }
-  }, [map])
+  }, [map, filters])
 
   // Rerender routes
   useEffect(() => {

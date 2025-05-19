@@ -6,7 +6,6 @@ import { Search } from '../model/search/search'
 
 const getSearches = async (req: Request, res: Response): Promise<void> => {
   const { token } = req.query
-  console.log('getSearches', req.query)
   if (!token || typeof token !== 'string' || token.trim().length === 0) {
     res.status(HTTP_STATUS.BAD_REQUEST_400).json({ error: 'Missing or invalid search token.' })
     return

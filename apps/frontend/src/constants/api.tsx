@@ -54,6 +54,9 @@ export const API = {
     UPDATE: (routeId: string) => `${API_BASE_URL}/review/${routeId}/me`,
     DELETE_MINE: (routeId: string) => `${API_BASE_URL}/review/${routeId}/me`,
   },
+  GRADE: {
+    LIST: `${API_BASE_URL}/grade`,
+  },
   PEAK_FILE: {
     BY_ID: (id: string) => `${API_BASE_URL}/peak-file/${id}`,
     CREATE: () => `${API_BASE_URL}/peak-file`,

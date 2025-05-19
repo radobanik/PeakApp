@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
 import { ClimbingObjectList } from '@/types/climbingObjectTypes'
 import { useQuery } from '@tanstack/react-query'
-import { getClimbingObjects } from '@/services/climbingObjectService'
+import { getFilteredClimbingObject } from '@/services/climbingObjectService'
 import { TableList } from '../../components/backoffice/TableList'
 import { Outlet, useMatch } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
@@ -40,7 +40,17 @@ export default function AllClimbingObjectList() {
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 15 })
   const objectsQuery = useQuery({
     queryKey: ['all_objects', pagination.pageIndex, pagination.pageSize],
-    queryFn: async () => getClimbingObjects(),
+
+    queryFn: async () => getFilteredClimbingObject(null),
+    select: (data) => ({
+      items: data.items.slice(
+        pagination.pageIndex * pagination.pageSize,
+        (pagination.pageIndex + 1) * pagination.pageSize
+      ),
+      total: data.items.length,
+      page: pagination.pageIndex + 1,
+      pageSize: pagination.pageSize,
+    }),
   })
   return (
     <div className="flex justify-center space-x-4 h-full w-full">

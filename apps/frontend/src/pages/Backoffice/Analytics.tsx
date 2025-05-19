@@ -1,6 +1,6 @@
 import LoadingSpinner from '@/components/LoadingSpinner'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { getClimbingObjects } from '@/services/climbingObjectService'
+import { getFilteredClimbingObject } from '@/services/climbingObjectService'
 import { getRoutes } from '@/services/routeService'
 import { getUsers } from '@/services/userService'
 import { useQuery } from '@tanstack/react-query'
@@ -8,8 +8,8 @@ import { useQuery } from '@tanstack/react-query'
 export default function Analytics() {
   const objectsQuery = useQuery({
     queryKey: ['analytics-objects'],
-    queryFn: () => getClimbingObjects(),
-    select: (data) => data.length,
+    queryFn: () => getFilteredClimbingObject(null),
+    select: (data) => data.items.length,
   })
   const routeQuery = useQuery({
     queryKey: ['analytics-routes'],

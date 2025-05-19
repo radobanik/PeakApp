@@ -1,5 +1,5 @@
 import { ApprovalState } from './approvalTypes'
-import { RouteSummary } from './routeTypes'
+import { ClimbingStructureType, RouteSummary } from './routeTypes'
 import { UserLabeled } from './userTypes'
 
 export type ClimbingObjectList = {
@@ -34,4 +34,16 @@ export interface ClimbingObjectNoRoutes {
   longitude: number
   latitude: number
   approvalState: ApprovalState
+}
+
+export type FilterClimbingObjectListParams = {
+  name: string | null
+  routeName: string | null
+  ratingFrom: number | null
+  ratingTo: number | null
+  latitudeFrom: number | null
+  latitudeTo: number | null
+  longitudeFrom: number | null
+  longitudeTo: number | null
+  climbingStructureTypes: ClimbingStructureType[]
 }

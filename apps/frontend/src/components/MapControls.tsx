@@ -1,6 +1,5 @@
-import { MAX_ZOOM_LEVEL, MIN_ZOOM_LEVEL } from '@/constants/map'
+import { memo, useContext, useEffect, useState } from 'react'
 import clsx from 'clsx'
-import { memo, useContext, useEffect } from 'react'
 import { useMap } from 'react-leaflet'
 import ZoomInIcon from './svg/ZoomInIcon'
 import ZoomOutIcon from './svg/ZoomOutIcon'
@@ -9,18 +8,30 @@ import FilterIcon from './svg/FilterIcon'
 import { ViewportContext } from '@/App'
 import { SearchBar } from './searchbar/SearchBar'
 import { useSearchSuggestions } from './searchbar/useSearchSuggestions'
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
+import FilterDialog from './MapFilterDialog'
+import { FilterClimbingObjectListParams } from '@/types/climbingObjectTypes'
 
 type MapControlsProps = {
   zoomLevel: number
+  filters: FilterClimbingObjectListParams | null
+  onApplyFilters: (f: FilterClimbingObjectListParams) => void
   setIsPoiCreationOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const MapControls = ({ zoomLevel, setIsPoiCreationOpen }: MapControlsProps) => {
+const MAX_ZOOM_LEVEL = 18
+const MIN_ZOOM_LEVEL = 3
+
+const MapControls = memo(function MapControls({
+  zoomLevel,
+  onApplyFilters,
+  setIsPoiCreationOpen,
+}: MapControlsProps) {
   const map = useMap()
   const { isMobile } = useContext(ViewportContext)
+
+  const [filterDialogOpen, setFilterDialogOpen] = useState(false)
 
   const navigate = useNavigate()
 
@@ -64,7 +75,7 @@ const MapControls = ({ zoomLevel, setIsPoiCreationOpen }: MapControlsProps) => {
     const { data: suggestions } = useSearchSuggestions(query)
 
     return (
-      <div className="relative z-[1000000] max-w-[30rem] px-2">
+      <div className="relative z-[999] max-w-[30rem] px-2">
         <SearchBar
           value={query}
           onChange={setQuery}
@@ -77,8 +88,8 @@ const MapControls = ({ zoomLevel, setIsPoiCreationOpen }: MapControlsProps) => {
   }
 
   const renderUpperButtonColumn = () => (
-    <div className="flex  flex-col space-y-5">
-      <button className={getButtonClassName()}>
+    <div className="flex flex-col space-y-5">
+      <button className={getButtonClassName()} onClick={() => setFilterDialogOpen(true)}>
         <FilterIcon />
       </button>
       <button className={getButtonClassName()} onClick={handleCreatePoiClick}>
@@ -88,22 +99,18 @@ const MapControls = ({ zoomLevel, setIsPoiCreationOpen }: MapControlsProps) => {
   )
 
   const renderLowerButtonColumn = () => (
-    <div className="flex  flex-col space-y-5">
+    <div className="flex flex-col space-y-5">
       <button
         className={getButtonClassName(isZoomInDisabled)}
         disabled={isZoomInDisabled}
-        onClick={() => {
-          map.zoomIn()
-        }}
+        onClick={() => map.zoomIn()}
       >
         <ZoomInIcon />
       </button>
       <button
         className={getButtonClassName(isZoomOutDisabled)}
         disabled={isZoomOutDisabled}
-        onClick={() => {
-          map.zoomOut()
-        }}
+        onClick={() => map.zoomOut()}
       >
         <ZoomOutIcon />
       </button>
@@ -115,15 +122,24 @@ const MapControls = ({ zoomLevel, setIsPoiCreationOpen }: MapControlsProps) => {
       <div className="absolute w-full top-1">{renderSearchBar()}</div>
       <div
         className={clsx(
-          'absolute right-0 w-14 h-full flex justify-between space-y-5 flex-col pb-6',
+          'absolute right-0 w-14 h-full flex justify-between flex-col pb-6',
           isMobile ? 'pt-15 mr-2' : 'pt-3 mr-4'
         )}
       >
         {renderUpperButtonColumn()}
         {renderLowerButtonColumn()}
       </div>
+
+      <FilterDialog
+        open={filterDialogOpen}
+        onOpenChange={setFilterDialogOpen}
+        onApply={(f) => {
+          onApplyFilters(f)
+          setFilterDialogOpen(false)
+        }}
+      />
     </div>
   )
-}
+})
 
-export default memo(MapControls)
+export default MapControls
