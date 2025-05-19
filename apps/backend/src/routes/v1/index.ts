@@ -12,6 +12,8 @@ import commentRouter from './comment.route'
 import likeRouter from './like.route'
 import reviewRouter from './review.route'
 import reportRouter from './report.route'
+import notificationRouter from './notification.route'
+import notificationSettingsRouter from './notificationSettings.route'
 
 const v1Router = Router()
 
@@ -67,6 +69,14 @@ const routes = [
   {
     path: '/report',
     route: reportRouter,
+  },
+  {
+    path: '/notifications',
+    route: notificationRouter,
+  },
+  {
+    path: '/notification-settings',
+    route: notificationSettingsRouter,
   },
 ]
 

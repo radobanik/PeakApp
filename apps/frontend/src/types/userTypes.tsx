@@ -36,6 +36,12 @@ export type UserDetail = {
       code: string
     }
   } | null
+  notificationSettings: {
+    enableApp: boolean
+    enableLikes: boolean
+    enableComments: boolean
+    enableEmail: boolean
+  }
 }
 
 type UserUpdate = {

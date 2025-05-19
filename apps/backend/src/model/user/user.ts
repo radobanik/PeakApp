@@ -12,6 +12,13 @@ type User = {
   height: number | null
   weight: number | null
 
+  notificationSettings: {
+    disabled: boolean
+    disableLikes: boolean
+    disableComments: boolean
+    emailNotifications: boolean
+  }
+
   city: {
     id: string
     name: string

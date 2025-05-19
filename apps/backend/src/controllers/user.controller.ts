@@ -103,13 +103,11 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
 
 const updateLoggedInUser = async (req: Request, res: Response) => {
   const userId = provideUserRefFromToken(req as unknown as Request)?.id
-  console.log('userId', userId)
   if (!userId) {
     res.status(HTTP_STATUS.UNAUTHORIZED_401).json({ error: 'Unauthorized' })
     return
   }
 
-  console.log('req.body', req.body)
   const validatedData = requestValidator(() => userUpdateValidate(req.body), res)
   if (!validatedData) return
 

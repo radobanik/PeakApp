@@ -1,4 +1,4 @@
-import { Role } from '@prisma/client'
+import { NotificationType, Role } from '@prisma/client'
 
 type UserDetail = {
   id: string
@@ -21,6 +21,11 @@ type UserDetail = {
       code: string
     }
   } | null
+  notificationSettings: {
+    enableApp: boolean
+    enableEmail: boolean
+    allowedTypes: NotificationType[]
+  } | null
   profilePictureId: string | null
   createdAt: Date
   updatedAt: Date | null
@@ -40,6 +45,14 @@ const selector = {
   birthday: true,
   height: true,
   weight: true,
+
+  notificationSettings: {
+    select: {
+      enableApp: true,
+      enableEmail: true,
+      allowedTypes: true,
+    },
+  },
 
   cityId: true,
 
