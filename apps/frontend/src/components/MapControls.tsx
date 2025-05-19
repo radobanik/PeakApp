@@ -39,7 +39,7 @@ const MapControls = ({ zoomLevel }: MapControlsProps) => {
     input.addEventListener('blur', onBlur)
 
     return () => {
-      input.removeEventListener('focus', onFocus) 
+      input.removeEventListener('focus', onFocus)
       input.removeEventListener('blur', onBlur)
     }
   }, [map])
@@ -49,7 +49,7 @@ const MapControls = ({ zoomLevel }: MapControlsProps) => {
     const { data: suggestions } = useSearchSuggestions(query)
 
     return (
-      <div className="relative z-[1000000] max-w-[30rem] px-4 pt-2">
+      <div className="relative z-[1000000] max-w-[30rem] px-2">
         <SearchBar
           value={query}
           onChange={setQuery}
@@ -66,7 +66,7 @@ const MapControls = ({ zoomLevel }: MapControlsProps) => {
   }
 
   const renderUpperButtonColumn = () => (
-    <div className="flex  flex-col space-y-5 pt-2">
+    <div className="flex  flex-col space-y-5">
       <button className={getButtonClassName()}>
         <FilterIcon />
       </button>
