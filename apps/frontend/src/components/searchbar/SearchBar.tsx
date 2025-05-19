@@ -86,7 +86,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       {isActive && hasSuggestions && (
         <div
           ref={suggestionBoxRef}
-          className="absolute mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg z-[1001] max-h-120 overflow-y-auto text-gray-800"
+          className="absolute mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg z-[1001] max-h-115 overflow-y-auto text-gray-800"
         >
           {suggestions!.climbingObjects.length > 0 && (
             <div>
@@ -102,7 +102,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                   }}
                   className="px-4 py-2 cursor-pointer hover:bg-blue-100"
                 >
-                  <div className="font-semibold">{obj.name}</div>
+                  <div className="font-semibold text-sm">{obj.name}</div>
                   <div className="text-sm text-gray-600">
                     {obj.routeCount} routes | ({obj.latitude.toFixed(4)}, {obj.longitude.toFixed(4)}
                     )
@@ -125,7 +125,10 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                   }}
                   className="px-4 py-2 cursor-pointer hover:bg-blue-100"
                 >
-                  <div className="font-semibold">{route.name}</div>
+                  <div className="mt-1 flex items-center space-x-2">
+                    <div className="font-semibold text-sm">{route.name}</div>
+                    <div className="text-sm text-gray-600">{route.description}</div>
+                  </div>
                   <div className="mt-1 flex items-center space-x-2">
                     <GradeBadge grade={route.grade} />
                     <RouteStructureTypeBadge type={route.climbingStructureType} />
