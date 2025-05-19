@@ -37,10 +37,22 @@ export const API = {
   CLIMBING_OBJECT: {
     LIST: `${API_BASE_URL}/climbing-object/`,
     BY_ID: `${API_BASE_URL}/climbing-object/`,
+    CREATE: `${API_BASE_URL}/climbing-object/`,
   },
   ROUTE: {
     LIST: `${API_BASE_URL}/route/`,
     BY_ID: `${API_BASE_URL}/route/`,
+    CREATE: `${API_BASE_URL}/route/`,
+  },
+  GRADE: {
+    LIST: () => `${API_BASE_URL}/grade`,
+  },
+  REVIEW: {
+    LIST: (routeId: string) => `${API_BASE_URL}/review/${routeId}`,
+    GET_MINE: (routeId: string) => `${API_BASE_URL}/review/${routeId}/me`,
+    CREATE: (routeId: string) => `${API_BASE_URL}/review/${routeId}/me`,
+    UPDATE: (routeId: string) => `${API_BASE_URL}/review/${routeId}/me`,
+    DELETE_MINE: (routeId: string) => `${API_BASE_URL}/review/${routeId}/me`,
   },
   PEAK_FILE: {
     BY_ID: (id: string) => `${API_BASE_URL}/peak-file/${id}`,

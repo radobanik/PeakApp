@@ -132,6 +132,7 @@ model Route {
   name                  String
   description           String                @default("")
   climbingStructureType ClimbingStructureType
+  starRating            Float                   @default(0)
 
   gradeId String
   grade   Grade  @relation(fields: [gradeId], references: [id])
@@ -242,8 +243,8 @@ model Activity {
   createdBy   User     @relation(name: "ActivityCreatedBy", fields: [createdById], references: [id])
 
   climbedAt   DateTime
-  reviewStars Int
-  reviewText  String
+  reviewStars Int     // TODO: ??????
+  reviewText  String  // TODO: ??????
   numOfAttempts Int
   perceivedDifficulty Difficulty
   notes       String

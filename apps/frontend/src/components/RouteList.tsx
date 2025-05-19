@@ -1,15 +1,8 @@
 import { useEffect, useState } from 'react'
 import { getRoutes } from '@/services/routeService'
 import { RouteDetail } from '@/types/routeTypes'
-import { ClimbingStructureType } from '@/types/routeTypes'
 import { toast } from 'sonner'
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-  VisibilityState,
-} from '@tanstack/react-table'
+import { flexRender, getCoreRowModel, useReactTable, VisibilityState } from '@tanstack/react-table'
 import {
   Table,
   TableBody,
@@ -42,8 +35,7 @@ import {
 } from '@/components/ui/select'
 import { useContext } from 'react'
 import { ViewportContext } from '@/App'
-import { GradeBadge } from './GradyBadge'
-import { RouteStructureTypeBadge } from './RouteStructureTypeBadge'
+import { ROUTE_TABLE_COLUMNS } from '@/constants/routeConstants'
 
 // Extend the ColumnMeta interface to include className
 // ESLint exceptionn is needed as TS is shit
@@ -54,68 +46,7 @@ declare module '@tanstack/react-table' {
   }
 }
 
-export const climbingStructureStyles: Record<ClimbingStructureType, string> = {
-  [ClimbingStructureType.TRAVERSE]: 'bg-green-100 text-green-800',
-  [ClimbingStructureType.OVERHANG]: 'bg-blue-100 text-blue-800',
-  [ClimbingStructureType.SLAB]: 'bg-purple-100 text-purple-800',
-  [ClimbingStructureType.WALL]: 'bg-gray-100 text-gray-800',
-}
-
-const columns: ColumnDef<RouteDetail>[] = [
-  { accessorKey: 'name', header: 'Name' },
-  { accessorKey: 'description', header: 'Description' },
-  {
-    accessorFn: (row) => row.climbingObject?.name ?? 'Unknown Object',
-    id: 'climbingObject',
-    header: 'Climbing Object',
-  },
-  {
-    accessorKey: 'grade',
-    header: 'Grade',
-    cell: ({ row }) => <GradeBadge grade={row.original.grade} />,
-  },
-  {
-    accessorKey: 'climbingStructureType',
-    header: 'Type',
-    cell: ({ row }) => <RouteStructureTypeBadge type={row.original.climbingStructureType} />,
-  },
-  {
-    id: 'longLat',
-    header: 'Long/Lat',
-    cell: ({ row }) => {
-      const longitude = row.original.longitude.toFixed(2)
-      const latitude = row.original.latitude.toFixed(2)
-      return (
-        <span>
-          {longitude}, {latitude}
-        </span>
-      )
-    },
-  },
-  {
-    id: 'actions',
-    header: '',
-    enableHiding: false,
-    cell: ({ row }) => (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon">
-            <span className="text-lg">⋮</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuCheckboxItem onClick={() => alert(`Edit route: ${row.original.name}`)}>
-            Edit
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem onClick={() => alert(`Delete route: ${row.original.name}`)}>
-            Delete
-          </DropdownMenuCheckboxItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    ),
-    meta: { className: 'w-12 text-right' },
-  },
-]
+const columns = ROUTE_TABLE_COLUMNS
 
 export default function RouteList() {
   const [data, setData] = useState<RouteDetail[]>([])

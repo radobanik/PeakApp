@@ -12,9 +12,7 @@ import ActivitiesPage from './pages/ActivitiesPage'
 import SessionsPage from './pages/SessionsPage'
 import ActivityDetailPage from './pages/ActivityDetailPage'
 import SessionDetailPage from './pages/SessionDetailPage'
-
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
-
 import SubmitPage from './pages/SubmitPage'
 import { createContext, useContext, useEffect, useState } from 'react'
 import PageFrame from './components/PageFrame'
@@ -39,6 +37,7 @@ import ReportPage from './pages/Backoffice/ReportPage'
 import ReportDetailPage from './pages/Backoffice/ReportDetailPage'
 import NotificationsPage from './pages/NotificationsPage/NotificationsPage'
 import { getUnreadNotificationCount } from './services/notificationService'
+import ClimbingObjectDetailPage from './pages/ClimbingObjectDetailPage'
 
 type ViewportContextType = {
   isMobile: boolean
@@ -133,6 +132,15 @@ export default function App() {
                   {/* Private routes */}
                   <Route element={<PageFrame />}>
                     <Route path={ROUTE.HOME} element={privateRoute(<HomePage />)} />
+                    <Route
+                      path={ROUTE.ROUTE + '/:routeId'}
+                      element={privateRoute(<RouteDetailPage />)}
+                    />
+                    <Route
+                      path={ROUTE.CLIMBING_OBJECT + '/:climbingObjectId'}
+                      element={privateRoute(<ClimbingObjectDetailPage />)}
+                    />
+
                     <Route path={ROUTE.DIARY} element={privateRoute(<DiaryPage />)} />
                     <Route path={ROUTE.ACTIVITIES} element={privateRoute(<ActivitiesPage />)} />
                     <Route

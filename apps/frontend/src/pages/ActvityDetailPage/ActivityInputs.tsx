@@ -57,7 +57,7 @@ export function ActivityInputs() {
       updateActivity(activityId, data)
     },
     onSuccess: () => {
-      queryClient.removeQueries({ queryKey: [activityId] })
+      queryClient.removeQueries({ queryKey: ['activity', activityId] })
       toast.success('Activity updated successfully')
     },
     onError: () => {},
@@ -70,7 +70,7 @@ export function ActivityInputs() {
     onSuccess: () => {
       navigation(location.state?.from || ROUTE.ACTIVITIES)
       queryClient.invalidateQueries({ queryKey: ['activities'] })
-      queryClient.removeQueries({ queryKey: [activityId] })
+      queryClient.removeQueries({ queryKey: ['activity', activityId] })
       toast.success('Activity deleted successfully')
       {
         /* TODO: Investigate attempted retrieve of recently deleted Activity (even after these invalidations) */

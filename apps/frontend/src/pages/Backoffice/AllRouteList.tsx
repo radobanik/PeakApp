@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
-import { climbingStructureStyles } from '@/components/RouteList'
 import { useQuery } from '@tanstack/react-query'
 import { getRoutes } from '@/services/routeService'
 import { ClimbingStructureType, RouteSummary } from '@/types/routeTypes'
@@ -8,6 +7,7 @@ import { cn, getTextColorForBackground } from '@/lib/utils'
 import { TableList } from '../../components/backoffice/TableList'
 import { Outlet, useMatch } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
+import { CLIMBING_STRUCTURE_STYLES } from '@/constants/routeConstants'
 
 const columns: ColumnDef<RouteSummary>[] = [
   { accessorKey: 'name', header: 'Name' },
@@ -39,8 +39,8 @@ const columns: ColumnDef<RouteSummary>[] = [
         <span
           className={cn(
             'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium',
-            climbingStructureStyles[structureType] ||
-              climbingStructureStyles[ClimbingStructureType.WALL]
+            CLIMBING_STRUCTURE_STYLES[structureType] ||
+              CLIMBING_STRUCTURE_STYLES[ClimbingStructureType.WALL]
           )}
         >
           {structureType}

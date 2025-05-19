@@ -17,6 +17,7 @@ type Route = {
   description: string
   grade: Grade
   climbingStructureType: ClimbingStructureType
+  rating: number
 
   longitude: number
   latitude: number

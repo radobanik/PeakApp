@@ -4,7 +4,6 @@ import { useContext, useEffect, useState } from 'react'
 import { SessionDetailContext } from '../SessionDetailPage'
 import { ActivityEntry } from '../DiaryPage'
 import { SessionActivitiesContext } from './SessionDetail'
-import { useAssignedActivities, useUnassignedActivities } from './useSessionDetail'
 import { Button } from '@/components/ui/button'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
@@ -13,6 +12,7 @@ import {
 } from '@/services/activityService'
 import { toast } from 'sonner'
 import { ROUTE } from '@/constants/routes'
+import { useAssignedActivitiesQuery, useUnassignedActivitiesQuery } from '@/services/queryHooks'
 
 export default function SessionActivitiesInput() {
   const { sessionId, setCurrentView } = useContext(SessionDetailContext)
@@ -21,8 +21,8 @@ export default function SessionActivitiesInput() {
   const [initializedChecked, setInitializedChecked] = useState(false)
   const [allActivities, setAllActivities] = useState<ActivityEntry[]>([])
 
-  const assignedActivities = useAssignedActivities(sessionId)
-  const unassignedActivities = useUnassignedActivities()
+  const assignedActivities = useAssignedActivitiesQuery(sessionId)
+  const unassignedActivities = useUnassignedActivitiesQuery()
 
   const queryClient = useQueryClient()
 

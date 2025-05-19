@@ -1,25 +1,54 @@
-import { FC } from 'react'
-import RouteDetailBase, { RouteDetailBaseProps } from './RouteDetailBase'
-import { RouteReview, RouteReviewProps } from './RouteReview'
+import RouteDetailBase from './RouteDetailBase'
 import { PeakFile } from '@/types/fileTypes'
 import NoBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
 import { Button } from './ui/button'
+import { RouteDetail } from '@/types/routeTypes'
+import RouteReviews from './review/RouteReviews'
+import { useContext, useEffect, useState } from 'react'
+import { ActivityCreateContext } from '@/App'
+import { useNavigate } from 'react-router-dom'
+import { ROUTE } from '@/constants/routes'
+import ReportButton from './ReportButton'
+import { getFile } from '@/services/fileService'
 
-export interface RouteAndReviews extends RouteDetailBaseProps {
-  reviews: RouteReviewProps[]
-  image: PeakFile | null
+type RouteDetailWithCommentsProps = {
+  routeData: RouteDetail
 }
 
-export const RouteDetailWithComments: FC<RouteAndReviews> = (routeAndReviews: RouteAndReviews) => {
-  const imageUrl = routeAndReviews.image?.url ?? NoBoulderPhoto
+export const RouteDetailWithComments = ({ routeData }: RouteDetailWithCommentsProps) => {
+  const [image, setImage] = useState<PeakFile | null>(null)
+  const { setRouteId } = useContext(ActivityCreateContext)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const fetchImage = async () => {
+      if (routeData.image?.id) {
+        try {
+          const imageFile = await getFile(routeData.image.id)
+          setImage(imageFile)
+        } catch (error) {
+          console.error('Failed to fetch image:', error)
+        }
+      }
+    }
+    fetchImage()
+  }, [routeData.image?.id])
+
+  const imageUrl = image?.url ?? NoBoulderPhoto
+
+  const handleAddToDiaryClick = () => {
+    setRouteId(routeData.id)
+    navigate(ROUTE.ACTIVITIES_NEW)
+  }
+
   return (
-    <div className="flex flex-col w-full h-full">
+    <div className="flex flex-col w-full h-full px-4">
       {/* Image */}
       <img src={imageUrl} alt="route photo" className="w-full h-full object-fill"></img>
 
       <div className="mx-2 my-2 space-y-2">
         {/* Route details */}
-        <RouteDetailBase {...routeAndReviews} />
+        <RouteDetailBase route={routeData} />
 
         {/* Buttons */}
         <div className="flex justify-between">
@@ -47,27 +76,14 @@ export const RouteDetailWithComments: FC<RouteAndReviews> = (routeAndReviews: Ro
             </svg>
             Open on map
           </Button>
-          <Button variant="destructive">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              stroke="currentColor"
-              fill="currentColor"
-              strokeWidth={5}
-              viewBox="0 0 50 50"
-            >
-              <path d="M 7.7070312 6.2929688 L 6.2929688 7.7070312 L 23.585938 25 L 6.2929688 42.292969 L 7.7070312 43.707031 L 25 26.414062 L 42.292969 43.707031 L 43.707031 42.292969 L 26.414062 25 L 43.707031 7.7070312 L 42.292969 6.2929688 L 25 23.585938 L 7.7070312 6.2929688 z"></path>
-            </svg>
-            Remove this entry
+          <Button variant="default" onClick={handleAddToDiaryClick}>
+            Add to diary
           </Button>
         </div>
 
         {/* Reviews */}
-        <div>
-          <h1 className="text-2xl font-semibold">Reviews</h1>
-          {routeAndReviews.reviews.map((routeReview) => (
-            <RouteReview key={routeReview.id} {...routeReview} />
-          ))}
-        </div>
+        <RouteReviews routeId={routeData.id} showCurrentUserReview={true} />
+        <ReportButton name={routeData.name} routeId={routeData.id} />
       </div>
     </div>
   )

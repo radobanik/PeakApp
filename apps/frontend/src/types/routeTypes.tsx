@@ -28,6 +28,7 @@ export interface RouteDetail {
   description: string
   grade: GradeDetail
   climbingStructureType: ClimbingStructureType
+  starRating: number
 
   longitude: number
   latitude: number
@@ -46,9 +47,40 @@ export type RouteSummary = {
   description: string
   grade: GradeDetail
   climbingStructureType: ClimbingStructureType
+  starRating: number
   longitude: number
   latitude: number
   approvalState: ApprovalState
+}
+
+export type RouteCreate = {
+  name: string
+  description: string
+  grade: RefObject
+  climbingStructureType: ClimbingStructureType
+
+  longitude: number
+  latitude: number
+
+  image: RefObject | null
+  additionalImages: RefObject[]
+  overlay: OverlayPoint[]
+
+  climbingObject: RefObject
+}
+
+export type RouteUpdate = {
+  name: string
+  description: string
+  grade: RefObject
+  climbingStructureType: ClimbingStructureType
+
+  longitude: number
+  latitude: number
+
+  image: RefObject | null
+  additionalImages: RefObject[]
+  overlay: OverlayPoint[]
 }
 
 export interface RouteDetailListResponse extends Pagination {

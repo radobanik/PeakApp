@@ -9,6 +9,8 @@ import MarkerClusterGroup from 'react-leaflet-cluster'
 import { toast } from 'sonner'
 import { ClusterIcon } from './ClusterIcon'
 import { PaginatedResponse } from '@/types'
+import { useNavigate } from 'react-router-dom'
+import { ROUTE } from '@/constants/routes'
 
 const MAX_CLUSTER_ZOOM = 18
 const CHUNK_SIZE = 1000 // Process 1000 points at a time
@@ -83,14 +85,17 @@ type MapObjectLayerProps = {
   mapRef: React.RefObject<L.Map | null>
   setZoomLevel: React.Dispatch<SetStateAction<number>>
 
-  climbingObject: string | null
-  setClimbingObject: React.Dispatch<SetStateAction<string | null>>
+  setClimbingObjectId: React.Dispatch<SetStateAction<string | null>>
 
-  setRoute: React.Dispatch<SetStateAction<string | null>>
   routes: RouteSummary[] | null
 }
 
-const MapObjectLayer = (props: MapObjectLayerProps) => {
+const MapObjectLayer = ({
+  mapRef,
+  setZoomLevel,
+  setClimbingObjectId,
+  routes,
+}: MapObjectLayerProps) => {
   const map = useMap()
 
   const markersRef = useRef<Map<string, L.Marker>>(new Map()) // Store markers by idx
@@ -99,6 +104,12 @@ const MapObjectLayer = (props: MapObjectLayerProps) => {
 
   const pointQueue = useRef<ClimbingObjectList[]>([]) // Queue for async point additions
   const isProcessing = useRef(false)
+
+  const navigate = useNavigate()
+
+  const handleRouteClick = (routeId: string) => {
+    navigate(`${ROUTE.ROUTE}/${routeId}`)
+  }
 
   const renderClimbingObjects = async () => {
     if (
@@ -116,14 +127,27 @@ const MapObjectLayer = (props: MapObjectLayerProps) => {
       const newMarkers: L.Marker[] = []
 
       chunk.forEach((point) => {
+        // For eaach point, check if it already exists in the map
         if (markersRef.current.get(point.id) === undefined) {
+          // If it doesn't exist, create a new marker on given coords with POI icon and route count
           const mapMarker = L.marker([point.latitude, point.longitude], {
             icon: BLUE_POI_ICON,
             routesCount: point.routeCount ?? 0,
-          }).on('click', () => {
-            props.setClimbingObject((co) => (point.id === co ? null : point.id))
-            props.setRoute(null)
-          })
+          }).on(
+            // When clicked on this exact POI, set it as selected climbing obj
+            'click',
+            (e) => {
+              setClimbingObjectId(point.id)
+
+              setTimeout(() => {
+                map.setView([point.latitude, point.longitude], map.getZoom())
+              }, 50)
+
+              // Stop propagation to prevent the map click from immediately clearing the selection
+              // (check useEffect below)
+              L.DomEvent.stopPropagation(e)
+            }
+          )
           newMarkers.push(mapMarker)
           markersRef.current.set(point.id, mapMarker)
         }
@@ -158,7 +182,7 @@ const MapObjectLayer = (props: MapObjectLayerProps) => {
         const mapMarker = L.marker([route.latitude, route.longitude], { icon: RED_POI_ICON }).on(
           'click',
           () => {
-            props.setRoute(route.id)
+            handleRouteClick(route.id)
           }
         )
 
@@ -174,7 +198,7 @@ const MapObjectLayer = (props: MapObjectLayerProps) => {
   }
 
   const handleMapChange = async () => {
-    props.setZoomLevel(map.getZoom())
+    setZoomLevel(map.getZoom())
     const b = map.getBounds()
 
     const data: PaginatedResponse<ClimbingObjectList> | null = await fetchClimbingObjects(
@@ -183,42 +207,44 @@ const MapObjectLayer = (props: MapObjectLayerProps) => {
       b.getSouth(),
       b.getNorth()
     )
-    console.log(data)
+
     data?.items?.forEach((p) => pointQueue.current.push(p))
     renderClimbingObjects()
   }
 
   useEffect(() => {
     map.zoomControl.remove()
-    props.mapRef.current = map
+    mapRef.current = map
     const onMoveEnd = () => {
       handleMapChange()
     }
 
+    // When clicked directly on map, clear climbing object and route
+    const onMapClick = () => {
+      setClimbingObjectId(null)
+    }
+
     map.on('moveend', onMoveEnd)
+    map.on('click', onMapClick)
 
     return () => {
       map.off('moveend', onMoveEnd)
+      map.off('click', onMapClick)
     }
   }, [map])
 
+  // Rerender routes
   useEffect(() => {
     map.invalidateSize()
     routesClusterRef.current?.clearLayers()
-    if (props.climbingObject !== null) {
-      setTimeout(() => {
-        map.setView(
-          markersRef.current.get(props.climbingObject || '')?.getLatLng() ?? map.getCenter(),
-          map.getZoom()
-        )
-      }, 50)
-    }
-    renderRoutes(props.routes)
-  }, [props.routes])
+    renderRoutes(routes)
+  }, [routes])
 
+  // Initial load of climbing objects
   useEffect(() => {
     handleMapChange()
   }, [])
+
   return (
     <>
       {/* Climbing objects */}

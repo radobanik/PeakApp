@@ -1,17 +1,16 @@
 import { useContext, useEffect } from 'react'
 import { NewSessionContext } from '../SessionCreate'
-import { useUnassignedActivities } from './useSessionCreate'
-// import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import ScrollTable from '@/components/ScrollTable'
 import SessionActivityTableEntry from '@/components/SessionActivityTableEntry'
 import { ROUTE } from '@/constants/routes'
+import { useUnassignedActivitiesQuery } from '@/services/queryHooks'
 
 export default function SessionCreateActivities() {
   const { allEntries, setAllEntries, checkedEntriesIds, setCurrentView } =
     useContext(NewSessionContext)
-  const unassignedActivities = useUnassignedActivities()
+  const unassignedActivities = useUnassignedActivitiesQuery()
 
   const handleCheckedEntries = async (checkedEntriedsIds: string[]) => {
     if (checkedEntriedsIds.length === 0) {

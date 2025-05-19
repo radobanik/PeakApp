@@ -1,8 +1,8 @@
 import { createContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useSession } from './SessionDetailPage/useSessionDetail'
 import SessionDetail from './SessionDetailPage/SessionDetail'
 import { SessionQueryType } from '@/types/sessionTypes'
+import { useSessionQuery } from '@/services/queryHooks'
 
 type detailView = 'session' | 'activities'
 
@@ -48,7 +48,7 @@ export default function ActivityDetailPage() {
     throw new Error('Session ID is required')
   }
 
-  const sessionQuery = useSession(id)
+  const sessionQuery = useSessionQuery(id)
 
   return (
     <SessionDetailContext.Provider

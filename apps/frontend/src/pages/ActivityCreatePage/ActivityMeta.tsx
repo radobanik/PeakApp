@@ -3,13 +3,13 @@ import { useContext } from 'react'
 
 import noBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
 import { ActivityCreateContext } from '@/App'
-import { getRoute } from './useActivityCreate'
+import { useRouteQuery } from '@/services/queryHooks'
 
 export default function ActivityMeta() {
   const { routeId } = useContext(ActivityCreateContext)
   if (!routeId) return null
 
-  const RouteData = getRoute(routeId)
+  const RouteData = useRouteQuery(routeId)
 
   return (
     <div className="flex flex-col gap-4 p-1">

@@ -1,13 +1,7 @@
 import React from 'react'
 import { cn } from '@/lib/utils'
 import { ClimbingStructureType } from '@/types/routeTypes'
-
-const climbingStructureStyles: Record<ClimbingStructureType, string> = {
-  [ClimbingStructureType.TRAVERSE]: 'bg-green-100 text-green-800',
-  [ClimbingStructureType.OVERHANG]: 'bg-blue-100 text-blue-800',
-  [ClimbingStructureType.SLAB]: 'bg-purple-100 text-purple-800',
-  [ClimbingStructureType.WALL]: 'bg-gray-100 text-gray-800',
-}
+import { CLIMBING_STRUCTURE_STYLES } from '@/constants/routeConstants'
 
 interface RouteStructureTypeBadgeProps {
   type: ClimbingStructureType
@@ -15,7 +9,7 @@ interface RouteStructureTypeBadgeProps {
 
 export const RouteStructureTypeBadge: React.FC<RouteStructureTypeBadgeProps> = ({ type }) => {
   const badgeClass =
-    climbingStructureStyles[type] ?? climbingStructureStyles[ClimbingStructureType.WALL]
+    CLIMBING_STRUCTURE_STYLES[type] ?? CLIMBING_STRUCTURE_STYLES[ClimbingStructureType.WALL]
 
   return (
     <span

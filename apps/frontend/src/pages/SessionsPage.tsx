@@ -1,29 +1,14 @@
-import { useQuery } from '@tanstack/react-query'
-
 import ScrollTable from '@/components/ScrollTable'
-import { getSessions } from '@/services/sessionService'
 import SessionTableEntry from '@/components/SessionTableEntry'
 import { ROUTE } from '@/constants/routes'
 
 import BackButton from '@/components/BackButton'
 import plusIcon from '@/assets/Plus.svg'
 import { Link } from 'react-router-dom'
+import { useSessionsQuery } from '@/services/queryHooks'
 
-export default function ActivitiesPage() {
-  const sessionsQuery = useQuery({
-    queryKey: ['sessions'],
-    queryFn: async () => getSessions(),
-    select: (data) => ({
-      items: data.items.map((session) => ({
-        id: session.id,
-        createdAt: session.createdAt,
-        name: session.name,
-        note: session.note,
-        numberOfActivities: session.assignedActivities.length,
-      })),
-      totalCount: data.total,
-    }),
-  })
+export default function SessionsPage() {
+  const sessionsQuery = useSessionsQuery()
 
   return (
     <div className="flex flex-col h-screen">

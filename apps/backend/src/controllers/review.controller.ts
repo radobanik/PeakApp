@@ -55,10 +55,6 @@ const getMeForRoute = async (req: Request, res: Response) => {
     return
   }
   const review = await ReviewRepository.getUsersByRouteId(routeId, requestUser)
-  if (review == null) {
-    res.status(HTTP_STATUS.NOT_FOUND_404).json({ error: 'Review not found' })
-    return
-  }
   res.status(HTTP_STATUS.OK_200).json(review)
 }
 

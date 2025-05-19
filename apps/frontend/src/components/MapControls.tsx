@@ -10,17 +10,32 @@ import { ViewportContext } from '@/App'
 import { SearchBar } from './searchbar/SearchBar'
 import { useSearchSuggestions } from './searchbar/useSearchSuggestions'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { ROUTE } from '@/constants/routes'
 
 type MapControlsProps = {
   zoomLevel: number
+  setIsPoiCreationOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const MapControls = ({ zoomLevel }: MapControlsProps) => {
+const MapControls = ({ zoomLevel, setIsPoiCreationOpen }: MapControlsProps) => {
   const map = useMap()
   const { isMobile } = useContext(ViewportContext)
 
+  const navigate = useNavigate()
+
+  const handleSearchRouteClick = (routeId: string) => {
+    navigate(`${ROUTE.ROUTE}/${routeId}`)
+  }
+
+  const handleSearchClimbingObjectClick = (climbingObjectId: string) => {
+    navigate(`${ROUTE.CLIMBING_OBJECT}/${climbingObjectId}`)
+  }
+
   const isZoomInDisabled = zoomLevel >= MAX_ZOOM_LEVEL
   const isZoomOutDisabled = zoomLevel <= MIN_ZOOM_LEVEL
+
+  const handleCreatePoiClick = () => setIsPoiCreationOpen(true)
 
   const getButtonClassName = (isDisabled: boolean = false) =>
     clsx('relative z-1000 bg-gray-200 rounded-xl p-3 shadow-xl', {
@@ -54,12 +69,8 @@ const MapControls = ({ zoomLevel }: MapControlsProps) => {
           value={query}
           onChange={setQuery}
           suggestions={suggestions}
-          onSelectClimbingObject={(id) => {
-            console.log('Selected climbing object:', id)
-          }}
-          onSelectRoute={(id) => {
-            console.log('Selected route:', id)
-          }}
+          onSelectClimbingObject={handleSearchClimbingObjectClick}
+          onSelectRoute={handleSearchRouteClick}
         />
       </div>
     )
@@ -70,7 +81,7 @@ const MapControls = ({ zoomLevel }: MapControlsProps) => {
       <button className={getButtonClassName()}>
         <FilterIcon />
       </button>
-      <button className={getButtonClassName()}>
+      <button className={getButtonClassName()} onClick={handleCreatePoiClick}>
         <AddPoiIcon />
       </button>
     </div>

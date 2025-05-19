@@ -4,6 +4,8 @@ export type UserLabeled = {
 
   firstName: string
   lastName: string
+
+  profilePictureId: string | null
 }
 
 export type UserDetail = {

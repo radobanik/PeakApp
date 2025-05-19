@@ -13,6 +13,8 @@ type UserList = {
 
   firstName: string
   lastName: string
+
+  profilePictureId: string | null
 }
 
 const selector = {
@@ -22,6 +24,8 @@ const selector = {
 
   firstName: true,
   lastName: true,
+
+  profilePictureId: true,
 }
 
 type IncommingUserListParams = {

@@ -10,13 +10,12 @@ import MapControls from './MapControls'
 const MAX_BOUNDS = L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180))
 
 type LMapProps = {
-  climbingObject: string | null
-  setClimbingObject: React.Dispatch<SetStateAction<string | null>>
-  setRoute: React.Dispatch<SetStateAction<string | null>>
+  setClimbingObjectId: React.Dispatch<SetStateAction<string | null>>
   routes: RouteSummary[] | null
+  setIsPoiCreationOpen: React.Dispatch<SetStateAction<boolean>>
 }
 
-const LMap = (props: LMapProps) => {
+const LMap = ({ setClimbingObjectId, routes, setIsPoiCreationOpen }: LMapProps) => {
   const mapRef = useRef<L.Map | null>(null)
   const [zoomLevel, setZoomLevel] = useState(DEFAULT_ZOOM_LEVEL)
 
@@ -38,12 +37,10 @@ const LMap = (props: LMapProps) => {
         <MapObjectsLayer
           mapRef={mapRef}
           setZoomLevel={setZoomLevel}
-          climbingObject={props.climbingObject}
-          setClimbingObject={props.setClimbingObject}
-          setRoute={props.setRoute}
-          routes={props.routes}
+          setClimbingObjectId={setClimbingObjectId}
+          routes={routes}
         />
-        <MapControls zoomLevel={zoomLevel} />
+        <MapControls zoomLevel={zoomLevel} setIsPoiCreationOpen={setIsPoiCreationOpen} />
       </MapContainer>
     </div>
   )

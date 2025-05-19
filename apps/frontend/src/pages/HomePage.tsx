@@ -1,12 +1,25 @@
 import LMap from '@/components/LMap'
 import { API } from '@/constants/api'
 import { ClimbingObjectDetail } from '@/types/climbingObjectTypes'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import clsx from 'clsx'
+import RouteListTable from '@/components/RouteListTable'
+import { RouteSummary } from '@/types/routeTypes'
+import { useNavigate } from 'react-router-dom'
+import { ROUTE } from '@/constants/routes'
+import { CreateClimbingObjectDialog } from '@/components/dialog/CreateClimbingObjectDialog'
 
-const fetchClimbingObjectDetail = async (pointId: string) => {
+const TABLE_ENTRIES_LIMIT = 5
+
+const fetchClimbingObjectDetail = async (
+  climbingObjectId: string,
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  setIsLoading(true)
   try {
-    const response = await fetch(`${API.CLIMBING_OBJECT}/${pointId}`)
+    const response = await fetch(`${API.CLIMBING_OBJECT.BY_ID}${climbingObjectId}`)
+    console.log('response', response)
     const data = await response.json()
 
     if (!response.ok) {
@@ -20,40 +33,83 @@ const fetchClimbingObjectDetail = async (pointId: string) => {
       message = error.message || message
     }
 
-    toast.error(message, { id: `load-${pointId}-e` })
+    toast.error(message, { id: `load-${climbingObjectId}-e` })
     return null
+  } finally {
+    setIsLoading(false)
   }
 }
 
 export default function HomePage() {
-  const [climbingObject, setClimbingObject] = useState<string | null>(null)
+  const [climbingObjectId, setClimbingObjectId] = useState<string | null>(null)
   const [climbingObjectDetail, setClimbingObjectDetail] = useState<ClimbingObjectDetail | null>(
     null
   )
-  const [route, setRoute] = useState<string | null>(null)
-  console.log('selected route', route) // TODO: Will be removed in the implementation of the route detail page
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isPoiCreationOpen, setIsPoiCreationOpen] = useState<boolean>(false)
+
+  const navigate = useNavigate()
+
+  const tableData = (climbingObjectDetail?.routes ?? []).slice(0, TABLE_ENTRIES_LIMIT)
+
+  const handleRowClick = ({ id }: RouteSummary) => {
+    setClimbingObjectId(null)
+    setClimbingObjectDetail(null)
+    navigate(`${ROUTE.ROUTE}/${id}`)
+  }
+
+  const handleBottomSheetExpansion = () => {
+    setClimbingObjectDetail(null)
+    const id = climbingObjectId
+    setClimbingObjectId(null)
+    navigate(`${ROUTE.CLIMBING_OBJECT}/${id}`)
+  }
 
   useEffect(() => {
-    if (climbingObject === null) {
-      setClimbingObjectDetail(null)
+    setClimbingObjectId(null)
+    window.scrollTo(0, 0)
+  }, [isPoiCreationOpen])
+
+  useEffect(() => {
+    if (climbingObjectId === null) {
       return
     }
 
-    fetchClimbingObjectDetail(climbingObject).then((d) => {
+    fetchClimbingObjectDetail(climbingObjectId, setIsLoading).then((d) => {
       if (d !== null) {
         setClimbingObjectDetail(d)
       }
     })
-  }, [climbingObject])
+  }, [climbingObjectId])
 
   return (
     <div className="h-full w-full">
+      <CreateClimbingObjectDialog isOpen={isPoiCreationOpen} setIsOpen={setIsPoiCreationOpen} />
       <LMap
-        climbingObject={climbingObject}
-        setClimbingObject={setClimbingObject}
-        setRoute={setRoute}
+        setClimbingObjectId={setClimbingObjectId}
         routes={climbingObjectDetail?.routes ?? null}
-      ></LMap>
+        setIsPoiCreationOpen={setIsPoiCreationOpen}
+      />
+      <div
+        className={clsx(
+          'absolute z-2000 w-full h-90 flex flex-col items-center rounded-t-4xl overflow-hidden bottom-0 bg-background',
+          'transition-transform duration-400 ease-in-out',
+          climbingObjectId ? 'translate-y-0' : 'translate-y-[100%]'
+        )}
+      >
+        <div className="flex flex-col h-full w-full items-center">
+          <div
+            className="w-full h-8 flex items-center justify-center cursor-grab active:cursor-grabbing"
+            onClick={handleBottomSheetExpansion}
+          >
+            <div className="w-10 h-1 bg-gray-300 rounded-full" />
+          </div>
+          <div className="w-[90%]">
+            <h3 className="font-bold text-2xl my-3">{climbingObjectDetail?.name}</h3>
+            <RouteListTable data={tableData} isLoading={isLoading} onRowClick={handleRowClick} />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

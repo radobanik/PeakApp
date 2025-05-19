@@ -88,6 +88,7 @@ const routes = [
     path: '/search',
     route: searchRouter,
   },
+  { path: '/search', route: searchRouter },
 ]
 
 routes.forEach((route) => {

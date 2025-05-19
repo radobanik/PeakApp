@@ -1,8 +1,8 @@
 import { createContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import ActivityDetail from './ActvityDetailPage/ActivityDetail'
-import { useActivity } from './ActvityDetailPage/useActivityDetail'
 import { ActivityQueryType } from '@/types/activityTypes'
+import { useActivityQuery } from '@/services/queryHooks'
 
 export type ActivityDetailContextType = {
   activityId: string
@@ -40,7 +40,7 @@ export default function ActivityDetailPage() {
     throw new Error('Activity ID is required')
   }
 
-  const activityQuery = useActivity(id)
+  const activityQuery = useActivityQuery(id)
 
   return (
     <ActivityDetailContext.Provider
