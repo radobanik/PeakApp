@@ -81,6 +81,10 @@ const create = async (req: Request, res: Response) => {
     return
   }
   const route = await RouteRepository.getById(routeId)
+  if (route === null) {
+    res.status(HTTP_STATUS.NOT_FOUND_404).json({ error: 'Route not found' })
+    return
+  }
 
   const validatedData = requestValidator(() => reviewCreateValidate(req.body), res)
   if (!validatedData) return
