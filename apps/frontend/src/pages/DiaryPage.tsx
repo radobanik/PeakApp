@@ -32,7 +32,7 @@ export default function DiaryPage() {
 
   return (
     <div>
-      <div className="flex flex-col gap-4 p-4 ml-auto h-45vh">
+      <div className="flex flex-col gap-4 p-4 ml-auto h-45vh lg:w-[50%] lg:mx-auto md:w-[70%] md:mx-auto">
         <Button className="" onClick={navigateToActivities}>
           My Activities
         </Button>

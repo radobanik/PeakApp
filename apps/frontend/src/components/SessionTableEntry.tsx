@@ -6,14 +6,18 @@ import { ROUTE } from '@/constants/routes'
 
 export type SessionTableEntryProps = {
   entry: SessionEntry
+  backRoute: string
 }
 
-const SessionTableEntry: FC<SessionTableEntryProps> = ({ entry }: SessionTableEntryProps) => {
+const SessionTableEntry: FC<SessionTableEntryProps> = ({
+  entry,
+  backRoute,
+}: SessionTableEntryProps) => {
   const date = new Date(entry.createdAt).toLocaleDateString()
   const activityString = entry.numberOfActivities === 1 ? ' activity' : ' activities'
 
   return (
-    <Link to={`${ROUTE.SESSIONS}/${entry.id}`}>
+    <Link to={`${ROUTE.SESSIONS}/${entry.id}`} state={{ from: backRoute }} className="w-full">
       <div className="bg-stone-300 rounded-md p-2 flex flex-row gap-2 justify-between m-1">
         <div className="w-[70%] p-2">
           <h3 className="text-2xl">{entry.name}</h3>

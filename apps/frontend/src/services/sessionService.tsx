@@ -21,6 +21,16 @@ export async function updateSession(id: string, session: SessionUpdate): Promise
   return response.data
 }
 
+export async function createSession(session: SessionUpdate): Promise<Session> {
+  const response = await api.post(API.SESSION.CREATE, session)
+  if (response.status != 201) {
+    const error = new Error('Error')
+    throw error
+  }
+  console.log('response: ', response.data)
+  return response.data
+}
+
 export async function deleteSession(id: string): Promise<void> {
   try {
     const response = await api.delete(`${API.SESSION.LIST}${id}`)

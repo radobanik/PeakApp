@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { ActivityRepository } from '../repositories'
+import { ActivityRepository, SessionRepository } from '../repositories'
 import { HTTP_STATUS } from './utils/httpStatusCodes'
 import { ActivityCreate, activityCreateValidate, activityUpdateValidate } from '../model/activity'
 import requestValidator from '../model/common/validator'
@@ -29,6 +29,22 @@ const getById = async (req: Request, res: Response) => {
   } else {
     res.status(HTTP_STATUS.OK_200).json(activity)
   }
+}
+
+const getBySessionId = async (req: Request, res: Response) => {
+  const sessionId = req.params.id
+  const requestUser = provideUserRefFromToken(req)
+  if (requestUser === null) {
+    res.status(HTTP_STATUS.UNAUTHORIZED_401)
+    return
+  }
+  const session = await SessionRepository.getById(requestUser, sessionId)
+  if (session == null) {
+    res.status(HTTP_STATUS.NOT_FOUND_404).json({ error: 'Session not found' })
+    return
+  }
+  const activites = session.assignedActivities
+  res.status(HTTP_STATUS.OK_200).json(activites)
 }
 
 const create = async (req: Request, res: Response) => {
@@ -92,10 +108,39 @@ const deleteById = async (req: Request, res: Response) => {
   res.status(HTTP_STATUS.NO_CONTENT_204).send()
 }
 
+const unassign = async (req: Request, res: Response) => {
+  const { activityIds } = req.body
+  const requestUser = provideUserRefFromToken(req)
+  if (requestUser === null) {
+    res.status(HTTP_STATUS.UNAUTHORIZED_401)
+    return
+  }
+  await ActivityRepository.unassign(requestUser, activityIds)
+  res.status(HTTP_STATUS.NO_CONTENT_204).send()
+}
+
+const assign = async (req: Request, res: Response) => {
+  const { activityIds, sessionId } = req.body
+  const requestUser = provideUserRefFromToken(req)
+  if (requestUser === null) {
+    res.status(HTTP_STATUS.UNAUTHORIZED_401)
+    return
+  }
+  if ((await SessionRepository.exists(requestUser, sessionId)) === false) {
+    res.status(HTTP_STATUS.NOT_FOUND_404).json({ error: 'Session not found' })
+    return
+  }
+  await ActivityRepository.assign(requestUser, activityIds, sessionId)
+  res.status(HTTP_STATUS.NO_CONTENT_204).send()
+}
+
 export default {
   getAllUnassigned,
+  getBySessionId,
   getById,
   create,
   update,
   deleteById,
+  unassign,
+  assign,
 }

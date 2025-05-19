@@ -46,6 +46,14 @@ const list = async (
     where: {
       createdBy: author,
     },
+    orderBy: [
+      {
+        createdAt: 'desc',
+      },
+      {
+        name: 'asc',
+      },
+    ],
     skip: (pageNum - 1) * pageSize,
     take: pageSize,
     select: sessionListSelector,

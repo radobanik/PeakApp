@@ -5,7 +5,7 @@ import passport from 'passport'
 const activityRouter = Router()
 
 activityRouter.get(
-  '/',
+  '/unassigned',
   passport.authenticate('jwt', { session: false }),
   ActivityController.getAllUnassigned
 )
@@ -28,6 +28,17 @@ activityRouter.delete(
   '/:id',
   passport.authenticate('jwt', { session: false }),
   ActivityController.deleteById
+)
+
+activityRouter.post(
+  '/unassign',
+  passport.authenticate('jwt', { session: false }),
+  ActivityController.unassign
+)
+activityRouter.post(
+  '/assign',
+  passport.authenticate('jwt', { session: false }),
+  ActivityController.assign
 )
 
 export default activityRouter

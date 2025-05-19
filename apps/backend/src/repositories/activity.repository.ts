@@ -10,6 +10,7 @@ import {
 import { createListResponse, ListResponse } from '../model/common/listResponse'
 import { toConnector } from './utils/connector'
 import { RefObject } from '../model/common/refObject'
+import prisma from '../core/prisma/client'
 
 const activityClient = new PrismaClient().activity
 
@@ -31,6 +32,16 @@ const list = async (author: RefObject): Promise<ListResponse<ActivityList>> => {
       session: null,
     },
     select: activityListSelector,
+    orderBy: [
+      {
+        climbedAt: 'desc',
+      },
+      {
+        route: {
+          name: 'asc',
+        },
+      },
+    ],
   })
 
   const totalActivities = await activityClient.count({
@@ -91,16 +102,41 @@ const deleteById = async (id: string) => {
   })
 }
 
-const unassign = async (id: string) => {
-  await activityClient.update({
-    where: {
-      id: id,
-    },
-    data: {
-      session: {
-        disconnect: true,
-      },
-    },
+const unassign = async (author: RefObject, ids: string[]) => {
+  await prisma.$transaction(
+    ids.map((id) =>
+      activityClient.update({
+        where: {
+          id: id,
+          createdBy: author,
+        },
+        data: {
+          session: {
+            disconnect: true,
+          },
+        },
+      })
+    )
+  )
+}
+
+const assign = async (user: RefObject, ids: string[], sessionId: string) => {
+  await prisma.$transaction(async () => {
+    for (const id of ids) {
+      await activityClient.update({
+        where: {
+          id: id,
+          createdBy: user,
+        },
+        data: {
+          session: {
+            connect: {
+              id: sessionId,
+            },
+          },
+        },
+      })
+    }
   })
 }
 
@@ -112,4 +148,5 @@ export default {
   exists,
   deleteById,
   unassign,
+  assign,
 }

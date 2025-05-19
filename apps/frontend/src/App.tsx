@@ -10,7 +10,7 @@ import RouteDetailPage from './pages/RouteDetailPage'
 import DiaryPage from './pages/DiaryPage'
 import ActivitiesPage from './pages/ActivitiesPage'
 import SessionsPage from './pages/SessionsPage'
-import ActivityDetailsPage from './pages/ActivityDetailPage'
+import ActivityDetailPage from './pages/ActivityDetailPage'
 import SessionDetailPage from './pages/SessionDetailPage'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -22,6 +22,8 @@ import { SettingsLayout } from './components/SettingsLayout'
 import UserSettingsPage from './pages/UserSettingsPage'
 import UserRoutesPage from './pages/UserRoutesPage'
 import { SidebarProvider } from './components/ui/sidebar'
+import ActivityCreatePage from './pages/ActivityCreatePage'
+import SessionCreatePage from './pages/SessionCreate'
 import CommunityPage from './pages/CommunityPageLayout'
 import CommunitySessionDetailPage from './pages/CommunitySessionDetailPage'
 
@@ -29,11 +31,21 @@ type ViewportContextType = {
   isMobile: boolean
 }
 
+type ActivityCreateContextType = {
+  routeId: string | null
+  setRouteId: (id: string | null) => void
+}
+
 const queryClient = new QueryClient()
 export const ViewportContext = createContext<ViewportContextType>({ isMobile: true })
+export const ActivityCreateContext = createContext<ActivityCreateContextType>({
+  routeId: null,
+  setRouteId: () => {},
+})
 
 export default function App() {
   const [isMobile, setIsMobile] = useState(false)
+  const [routeId, setRouteId] = useState<string | null>(null)
 
   useEffect(() => {
     const handleResize = () => {
@@ -51,47 +63,60 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ViewportContext.Provider value={{ isMobile }}>
-        <SidebarProvider defaultOpen={false}>
-          <BrowserRouter>
-            <Routes>
-              {/* Public routes */}
-              <Route path={ROUTE.LOGIN} element={publicRoute(<LoginPage />)} />
-              <Route path={ROUTE.REGISTER} element={publicRoute(<RegisterPage />)} />
+        <ActivityCreateContext.Provider value={{ routeId, setRouteId }}>
+          <SidebarProvider defaultOpen={false}>
+            <BrowserRouter>
+              <Routes>
+                {/* Public routes */}
+                <Route path={ROUTE.LOGIN} element={publicRoute(<LoginPage />)} />
+                <Route path={ROUTE.REGISTER} element={publicRoute(<RegisterPage />)} />
 
-              {/* Private routes */}
-              <Route element={<PageFrame />}>
-                <Route path={ROUTE.HOME} element={privateRoute(<HomePage />)} />
-                <Route path={ROUTE.DIARY} element={privateRoute(<DiaryPage />)} />
-                <Route path={ROUTE.ACTIVITIES} element={privateRoute(<ActivitiesPage />)} />
-                <Route
-                  path={ROUTE.ACTIVITIES + '/:id'}
-                  element={privateRoute(<ActivityDetailsPage />)}
-                />
-                <Route path={ROUTE.SESSIONS} element={privateRoute(<SessionsPage />)} />
-                <Route
-                  path={ROUTE.SESSIONS + '/:id'}
-                  element={privateRoute(<SessionDetailPage />)}
-                />
-                <Route path={ROUTE.DETAIL} element={privateRoute(<RouteDetailPage />)} />
-                <Route path={ROUTE.COMMUNITY} element={privateRoute(<CommunityPage />)}>
-                <Route
-                  path={ROUTE.COMMUNITY + '/:id'}
-                  element={privateRoute(<CommunitySessionDetailPage />)}
-                />
-              </Route>
-              <Route path={ROUTE.SUBMIT} element={privateRoute(<SubmitPage />)} />
+                {/* Private routes */}
+                <Route element={<PageFrame />}>
+                  <Route path={ROUTE.HOME} element={privateRoute(<HomePage />)} />
+                  <Route path={ROUTE.DIARY} element={privateRoute(<DiaryPage />)} />
+                  <Route path={ROUTE.ACTIVITIES} element={privateRoute(<ActivitiesPage />)} />
+                  <Route
+                    path={ROUTE.ACTIVITIES + '/:id'}
+                    element={privateRoute(<ActivityDetailPage />)}
+                  />
+                  <Route
+                    path={ROUTE.ACTIVITIES_NEW}
+                    element={privateRoute(<ActivityCreatePage />)}
+                  />
+                  <Route path={ROUTE.SESSIONS} element={privateRoute(<SessionsPage />)} />
+                  <Route
+                    path={ROUTE.SESSIONS + '/:id'}
+                    element={privateRoute(<SessionDetailPage />)}
+                  />
+                  <Route path={ROUTE.SESSIONS_NEW} element={privateRoute(<SessionCreatePage />)} />
+                  <Route path={ROUTE.DETAIL} element={privateRoute(<RouteDetailPage />)} />
+                  <Route path={ROUTE.COMMUNITY} element={privateRoute(<CommunityPage />)}>
+                    <Route
+                      path={ROUTE.COMMUNITY + '/:id'}
+                      element={privateRoute(<CommunitySessionDetailPage />)}
+                    />
+                  </Route>
+                  <Route path={ROUTE.SUBMIT} element={privateRoute(<SubmitPage />)} />
 
-                <Route path={ROUTE.SETTINGS} element={privateRoute(<SettingsLayout />)}>
-                  <Route path={ROUTE.SETTINGS_USER} element={privateRoute(<UserSettingsPage />)} />
-                  <Route path={ROUTE.SETTINGS_ROUTES} element={privateRoute(<UserRoutesPage />)} />
+                  <Route path={ROUTE.SETTINGS} element={privateRoute(<SettingsLayout />)}>
+                    <Route
+                      path={ROUTE.SETTINGS_USER}
+                      element={privateRoute(<UserSettingsPage />)}
+                    />
+                    <Route
+                      path={ROUTE.SETTINGS_ROUTES}
+                      element={privateRoute(<UserRoutesPage />)}
+                    />
+                  </Route>
                 </Route>
-              </Route>
-            </Routes>
+              </Routes>
 
-            {/* Toast notifications */}
-            <Toaster position="top-center" />
-          </BrowserRouter>
-        </SidebarProvider>
+              {/* Toast notifications */}
+              <Toaster position="top-center" />
+            </BrowserRouter>
+          </SidebarProvider>
+        </ActivityCreateContext.Provider>
       </ViewportContext.Provider>
     </QueryClientProvider>
   )

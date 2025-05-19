@@ -7,6 +7,7 @@ import { ROUTE } from '@/constants/routes'
 
 import BackButton from '@/components/BackButton'
 import plusIcon from '@/assets/Plus.svg'
+import { Link } from 'react-router-dom'
 
 export default function ActivitiesPage() {
   const sessionsQuery = useQuery({
@@ -31,14 +32,20 @@ export default function ActivitiesPage() {
           <BackButton backRoute={ROUTE.DIARY} />
           <h1 className="text-2xl">My Sessions</h1>
         </div>
-        <img src={plusIcon} alt="Add Activity" className="w-6 h-6 cursor-pointer" />
+        <Link to={ROUTE.SESSIONS_NEW}>
+          <img src={plusIcon} alt="Add Activity" className="w-6 h-6 cursor-pointer" />
+        </Link>
       </div>
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden p-4 lg:w-[50%] lg:mx-auto md:w-[70%] md:mx-auto">
         {sessionsQuery.isLoading && <div>Loading...</div>}
         {sessionsQuery.isError && <div>Error: {sessionsQuery.error.message}</div>}
         {sessionsQuery.isSuccess && (
-          <div className="flex-1 overflow-auto">
-            <ScrollTable entries={sessionsQuery.data.items} Component={SessionTableEntry} />
+          <div className="flex-1 overflow-auto lg:justify-center">
+            <ScrollTable
+              entries={sessionsQuery.data.items}
+              Component={SessionTableEntry}
+              backRoute={ROUTE.SESSIONS}
+            />
           </div>
         )}
       </div>
