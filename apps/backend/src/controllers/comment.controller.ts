@@ -5,8 +5,12 @@ import { defaultCommentListParams, IncommingCommentListParams } from '../model/c
 import { provideUserRefFromToken } from '../auth/authUtils'
 import { CommentCreate, commentUpdateValidate, commentCreateValidate } from '../model/comment'
 import requestValidator from '../model/common/validator'
-import { Role } from '@prisma/client'
+import { NotificationType, Role } from '@prisma/client'
 import { RefObject } from '../model/common/refObject'
+import NotificationRepository from '../repositories/notification.repository'
+import userRepository from '../repositories/user.repository'
+import notificationSettingsRepository from '../repositories/notificationSettings.repository'
+import { sendCommentEmail } from '../services/emailService'
 
 const validateUser = async (
   userRef: RefObject,
@@ -74,6 +78,21 @@ const create = async (req: Request, res: Response) => {
   }
 
   const createdComment = await CommentRepository.create(data, userRef)
+  if (createdComment) {
+    const user = await userRepository.getUserById(userRef.id)
+    const message = `User ${user?.firstName} ${user?.lastName} commented your session`
+    await NotificationRepository.create({
+      userId: userRef.id,
+      title: 'New comment',
+      message: message,
+      type: NotificationType.COMMENT,
+    })
+
+    const notificationSettings = await notificationSettingsRepository.getByUserId(userRef.id)
+    if (notificationSettings && notificationSettings.enableEmail) {
+      sendCommentEmail(`${user?.firstName} ${user?.lastName}`, user?.email)
+    }
+  }
   res.status(HTTP_STATUS.CREATED_201).json(createdComment)
 }
 

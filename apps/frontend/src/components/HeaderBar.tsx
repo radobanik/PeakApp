@@ -6,6 +6,9 @@ import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
 import diddyPfp from '@/assets/diddy.webp'
 import { useSidebar } from './ui/sidebar'
 import { useNotificationContext } from '@/App'
+import { api } from '@/services'
+import { API } from '@/constants/api'
+import { toast } from 'sonner'
 
 function HeaderBar() {
   const navigate = useNavigate()
@@ -15,6 +18,15 @@ function HeaderBar() {
   const handleProfileClick = () => {
     navigate(ROUTE.SETTINGS_USER)
     setOpen(true)
+  }
+
+  const handleTestEmail = async () => {
+    try {
+      await api.post(API.EMAIL.TEST)
+      toast.success('Test email sent!')
+    } catch {
+      toast.error('Failed to send email')
+    }
   }
 
   return (
@@ -29,6 +41,12 @@ function HeaderBar() {
         <Link to={ROUTE.COMMUNITY} onClick={() => setOpen(false)} className="text-lg font-semibold">
           Community
         </Link>
+        <button
+          onClick={handleTestEmail}
+          className="text-lg font-semibold px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Email
+        </button>
         <LogoutButton />
 
         <div

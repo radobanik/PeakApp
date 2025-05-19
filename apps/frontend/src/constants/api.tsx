@@ -89,4 +89,7 @@ export const API = {
   SEARCH: {
     BY_TOKEN: () => `${API_BASE_URL}/search/`,
   },
+  EMAIL: {
+    TEST: `${API_BASE_URL}/email/test/`,
+  },
 }

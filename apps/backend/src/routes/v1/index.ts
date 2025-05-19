@@ -16,6 +16,7 @@ import reportRouter from './report.route'
 import notificationRouter from './notification.route'
 import notificationSettingsRouter from './notificationSettings.route'
 import searchRouter from './search.route'
+import emailRouter from '../emailRoutes'
 
 const v1Router = Router()
 
@@ -89,6 +90,10 @@ const routes = [
     route: searchRouter,
   },
   { path: '/search', route: searchRouter },
+  {
+    path: '/email',
+    route: emailRouter,
+  },
 ]
 
 routes.forEach((route) => {
