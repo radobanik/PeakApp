@@ -23,7 +23,7 @@ const getSearches = async (req: Request, res: Response): Promise<void> => {
     }
 
     res.status(HTTP_STATUS.OK_200).json(result)
-  } catch (error) {
+  } catch {
     res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR_500).json({ error: 'Search failed.' })
   }
 }

@@ -32,7 +32,6 @@ import {
   ChevronsRightIcon,
   ColumnsIcon,
 } from 'lucide-react'
-import { cn } from '@/lib/utils'
 import { Label } from '@/components/ui/label'
 import {
   Select,
@@ -41,7 +40,6 @@ import {
   SelectContent,
   SelectItem,
 } from '@/components/ui/select'
-import chroma from 'chroma-js'
 import { useContext } from 'react'
 import { ViewportContext } from '@/App'
 import { GradeBadge } from './GradyBadge'
