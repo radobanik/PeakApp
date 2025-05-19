@@ -76,6 +76,18 @@ async function initUsers() {
       create: user,
     })
   }
+  for (const user of sampleUsers) {
+    await prisma.userNotificationSettings.upsert({
+      where: { userId: user.id },
+      update: {},
+      create: {
+        userId: user.id,
+        enableApp: true,
+        enableEmail: false,
+        allowedTypes: ['LIKE', 'COMMENT', 'FOLLOW', 'ACHIEVEMENT'],
+      },
+    })
+  }
 }
 
 export default initUsers
