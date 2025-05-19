@@ -1,9 +1,6 @@
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { getSession } from '@/services/communityService'
 import { useQuery } from '@tanstack/react-query'
-import { Avatar, AvatarImage } from '@/components/ui/avatar'
-import { getSession } from '@/services/communityService'
-import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import UserAvatar from '@/assets/diddy.webp'
 import Like from '@/components/Like'
@@ -11,6 +8,7 @@ import { Separator } from '@/components/ui/separator'
 import ActivityTableEntry from '@/components/ActivityTableEntry'
 import { ClimbingStructureType } from '@/types/routeTypes'
 import CommentListing from '@/components/CommentListing'
+import { ROUTE } from '@/constants/routes'
 
 export default function CommunitySessionDetailPage() {
   const params = useParams()
@@ -82,6 +80,7 @@ export default function CommunitySessionDetailPage() {
                       numOfAttempts: activity.numOfAttempts,
                       topped: activity.topped,
                     }}
+                    backRoute={ROUTE.COMMUNITY_DETAIL(params.id!)}
                   />
                 ))}
               </div>

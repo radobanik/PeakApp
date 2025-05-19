@@ -151,7 +151,7 @@ model Route {
    * SAVED RELATIONSHIP
    */
   savedBy User[] @relation("RouteSaves")
-  Activity Activity[] @relation()
+  Activity Activity[] @relation(name: "RouteActivity")
 
   Review Review[] @relation()
   reports Report[] @relation(name: "RouteReports")

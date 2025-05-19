@@ -83,6 +83,8 @@ const routes = [
   {
     path: '/notification-settings',
     route: notificationSettingsRouter,
+  },
+  {
     path: '/search',
     route: searchRouter,
   },
