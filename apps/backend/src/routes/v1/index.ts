@@ -12,6 +12,7 @@ import commentRouter from './comment.route'
 import likeRouter from './like.route'
 import reviewRouter from './review.route'
 import reportRouter from './report.route'
+import searchRouter from './search.route'
 
 const v1Router = Router()
 
@@ -67,6 +68,10 @@ const routes = [
   {
     path: '/report',
     route: reportRouter,
+  },
+  {
+    path: '/search',
+    route: searchRouter,
   },
 ]
 
