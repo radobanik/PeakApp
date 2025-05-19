@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { SearchSuggestions } from '@/types/searchTypes'
 import { GradeBadge } from '../GradyBadge'
 import { RouteStructureTypeBadge } from '../RouteStructureTypeBadge'
+import { XIcon } from 'lucide-react'
 
 interface SearchBarProps {
   placeholder?: string
@@ -82,7 +83,18 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent
         "
       />
-
+      {value && (
+        <button
+          type="button"
+          onClick={() => {
+            onChange('')
+            setIsActive(false)
+          }}
+          className="absolute right-3 top-7.5 transform -translate-y-1/2 text-black"
+        >
+          <XIcon size={16} />
+        </button>
+      )}
       {isActive && hasSuggestions && (
         <div
           ref={suggestionBoxRef}
