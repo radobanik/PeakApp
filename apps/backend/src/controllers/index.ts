@@ -11,6 +11,8 @@ import LikeController from './like.controller'
 import ReviewController from './review.controller'
 import ReportController from './report.controller'
 import SearchController from './search.controller'
+import NotificationController from './notification.controller'
+import NotificationSettingsController from './notificationSettings.controller'
 
 export {
   UserController,
@@ -26,4 +28,6 @@ export {
   ReviewController,
   ReportController,
   SearchController,
+  NotificationController,
+  NotificationSettingsController,
 }

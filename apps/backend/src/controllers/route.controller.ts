@@ -14,6 +14,7 @@ import {
 import requestValidator from '../model/common/validator'
 import { RouteOrder, RouteWhere } from '../repositories/route.repository'
 import { provideUserRefFromToken, returnUnauthorized } from '../auth/authUtils'
+import { ApprovalState } from '@prisma/client'
 
 const getById = async (req: Request, res: Response) => {
   const routeId = req.params.id

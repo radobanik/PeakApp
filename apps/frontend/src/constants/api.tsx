@@ -61,6 +61,10 @@ export const API = {
     RESOLVE: (id: string) => `${API_BASE_URL}/report/${id}/resolve`,
     USER_PENDING: () => `${API_BASE_URL}/report/user-pending`,
   },
+  NOTIFICATIONS: {
+    LIST_AS_READ: () => `${API_BASE_URL}/notifications/read`,
+    UNREAD_COUNT: () => `${API_BASE_URL}/notifications/unread/count`,
+    SETTINGS: () => `${API_BASE_URL}/notification-settings`,
   SEARCH: {
     BY_TOKEN: () => `${API_BASE_URL}/search/`,
   },

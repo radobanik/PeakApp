@@ -32,6 +32,7 @@ export const ROUTE = {
   ALL_USERS: '/settings/all-users',
   ALL_USERS_DETAIL: '/settings/all-users/:id',
   ANALYTICS: '/settings/analytics',
+  SETTINGS_NOTIFICATIONS: '/settings/notifications',
 }
 
 export const SIDEBAR_ROUTES = [
@@ -48,6 +49,7 @@ export const SIDEBAR_ROUTES = [
       { title: 'All routes', url: ROUTE.ALL_ROUTES },
       { title: 'All users', url: ROUTE.ALL_USERS },
       { title: 'Analytics', url: ROUTE.ANALYTICS },
+      { title: 'Notifications', url: ROUTE.SETTINGS_NOTIFICATIONS },
     ],
   },
 ]

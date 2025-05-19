@@ -1,5 +1,5 @@
 import prisma from '../core/prisma/client'
-import { Prisma, Role } from '@prisma/client'
+import { NotificationType, Prisma, Role } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import {
   UserCreate,
@@ -100,6 +100,18 @@ const createUser = async (userData: UserCreate): Promise<UserDetail> => {
         birthday: birthdayDate,
         city: cityId ? { connect: { id: cityId } } : undefined,
         roles: { set: [Role.USER] },
+        notificationSettings: {
+          create: {
+            enableApp: true,
+            enableEmail: false,
+            allowedTypes: [
+              NotificationType.LIKE,
+              NotificationType.COMMENT,
+              NotificationType.FOLLOW,
+              NotificationType.ACHIEVEMENT,
+            ],
+          },
+        },
       },
       select: userDetailSelectorWithCity,
     })

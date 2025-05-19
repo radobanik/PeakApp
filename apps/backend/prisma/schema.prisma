@@ -31,10 +31,13 @@ model User {
   updatedAt         DateTime?
   deleted           Boolean  @default(false)
 
+  notificationSettings UserNotificationSettings?
+
   /**
    * SAVED RELATIONSHIP
    */
   savedRoutes       Route[]  @relation("RouteSaves")
+  notifications     Notification[]  
 
   /**
    * FOREIGN RELATIONSHIPS
@@ -52,6 +55,19 @@ model User {
   Review Review[] @relation()
 
   reports Report[] @relation(name: "UserReports")
+  following Follows[] @relation(name:"Follower")
+  followers Follows[] @relation(name: "Followee")
+}
+
+model Follows {
+  followerId  String  
+  follower  User  @relation(name: "Follower", fields: [followerId], references: [id])
+  followeeId  String
+  followee  User  @relation(name: "Followee", fields: [followeeId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@id([followerId, followeeId])
+
 }
 
 model PeakFile {
@@ -336,4 +352,40 @@ model Report {
   reason            String
 
   resolution        String?
+}
+
+model Notification {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+
+  type        NotificationType
+
+  title       String
+  message     String
+  isRead      Boolean  @default(false)
+  
+  createdAt   DateTime @default(now())
+  updatedAt DateTime?
+}
+
+enum NotificationType {
+  LIKE
+  COMMENT
+  FOLLOW
+  ACHIEVEMENT
+}
+
+model UserNotificationSettings {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id])
+
+  allowedTypes      NotificationType[]
+
+  enableApp         Boolean  @default(false) // disable all notifications
+  enableEmail       Boolean @default(true)
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime?
 }

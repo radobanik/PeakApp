@@ -4,6 +4,7 @@ import checkRoles from '../../middlewares/checkRoles'
 import checkAdminOrOwner from '../../middlewares/checkAdminOrOwner'
 import passport from 'passport'
 import { Role } from '@prisma/client'
+import followingController from '../../controllers/follows.controller'
 
 const userRouter = Router()
 
@@ -131,6 +132,30 @@ userRouter.delete(
   passport.authenticate('jwt', { session: false }),
   checkRoles([Role.ADMIN]),
   UserController.getUserById
+)
+
+userRouter.get(
+  '/:id/followers',
+  passport.authenticate('jwt', { session: false }),
+  followingController.listFollowers
+)
+
+userRouter.get(
+  '/:id/following',
+  passport.authenticate('jwt', { session: false }),
+  followingController.listFollowing
+)
+
+userRouter.post(
+  '/:id/follow',
+  passport.authenticate('jwt', { session: false }),
+  followingController.createFollow
+)
+
+userRouter.delete(
+  '/:id/follow',
+  passport.authenticate('jwt', { session: false }),
+  followingController.deleteFollow
 )
 
 export default userRouter

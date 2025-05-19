@@ -5,10 +5,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
 import diddyPfp from '@/assets/diddy.webp'
 import { useSidebar } from './ui/sidebar'
+import { useNotificationContext } from '@/App'
 
 function HeaderBar() {
   const navigate = useNavigate()
   const { setOpen } = useSidebar()
+  const { unreadCount } = useNotificationContext()
 
   const handleProfileClick = () => {
     navigate(ROUTE.SETTINGS_USER)
@@ -29,11 +31,20 @@ function HeaderBar() {
         </Link>
         <LogoutButton />
 
-        <div onClick={handleProfileClick} className="flex justify-center h-full">
-          <Avatar className="h-full flex justify-center items-center ">
+        <div
+          onClick={handleProfileClick}
+          className="relative h-full flex items-center justify-center"
+        >
+          <Avatar className="h-full flex justify-center items-center">
             {/* TODO:: Add user photo and AvatarFallback with user initials */}
-            <AvatarImage src={diddyPfp} className="h-full rounded-full"></AvatarImage>
+            <AvatarImage src={diddyPfp} className="h-full rounded-full" />
           </Avatar>
+
+          {unreadCount > 0 && (
+            <div className="absolute bottom-0 right-0 translate-x-1/4 translate-y-[-25%] bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center shadow-md z-50">
+              {unreadCount > 9 ? '9+' : unreadCount}
+            </div>
+          )}
         </div>
       </nav>
     </div>
