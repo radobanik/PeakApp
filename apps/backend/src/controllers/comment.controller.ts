@@ -77,18 +77,21 @@ const create = async (req: Request, res: Response) => {
     return
   }
 
+  const session = await SessionRepository.getByIdWithoutAuth(data.session.id)
+  const iduser = session?.createdBy.id ?? ''
+
   const createdComment = await CommentRepository.create(data, userRef)
   if (createdComment) {
     const user = await userRepository.getUserById(userRef.id)
     const message = `User ${user?.firstName} ${user?.lastName} commented your session`
     await NotificationRepository.create({
-      userId: userRef.id,
+      userId: iduser,
       title: 'New comment',
       message: message,
       type: NotificationType.COMMENT,
     })
 
-    const notificationSettings = await notificationSettingsRepository.getByUserId(userRef.id)
+    const notificationSettings = await notificationSettingsRepository.getByUserId(iduser)
     if (notificationSettings && notificationSettings.enableEmail) {
       sendCommentEmail(`${user?.firstName} ${user?.lastName}`, user?.email)
     }

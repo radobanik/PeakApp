@@ -39,6 +39,17 @@ const getById = async (author: RefObject, id: string): Promise<SessionDetail | n
   return flattenAdditionalImages(nestedDetail as unknown as SessionDetailDeepImage)
 }
 
+const getByIdWithoutAuth = async (id: string): Promise<SessionDetail | null> => {
+  const nestedDetail = await sessionClient.findUnique({
+    where: {
+      id: id,
+    },
+    select: sessionDetailSelector,
+  })
+
+  return flattenAdditionalImages(nestedDetail as unknown as SessionDetailDeepImage)
+}
+
 const list = async (
   author: RefObject,
   pageNum: number,
@@ -136,6 +147,7 @@ const deleteById = async (id: string) => {
 
 export default {
   getById,
+  getByIdWithoutAuth,
   list,
   create,
   update,
