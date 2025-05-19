@@ -2,8 +2,7 @@ import { like, unlike } from '@/services/communityService'
 import { useMutation } from '@tanstack/react-query'
 import { FC, useState } from 'react'
 import { toast } from 'sonner'
-import LikeIcon from '@/assets/Like.svg'
-import LikeActiveIcon from '@/assets/LikeActive.svg'
+import LikeIcon from '@/components/svg/LikeIcon'
 import { cn } from '@/lib/utils'
 
 export type LikeProps = {
@@ -31,18 +30,17 @@ const Like: FC<LikeProps> = (props: LikeProps) => {
       toast.error('Error liking session')
     },
   })
-
   return (
     <div className={cn('flex flex-row items-center space-x-2 flex-wrap', props.className)}>
-      <img
-        src={likeStatus ? LikeActiveIcon : LikeIcon}
-        className="w-6"
+      <div
         onClick={(e) => {
           e.preventDefault()
           e.stopPropagation()
           likeMutation.mutate()
         }}
-      ></img>
+      >
+        <LikeIcon liked={likeStatus} size="calc(var(--spacing) * 8)" />
+      </div>
       <p>{likes}</p>
     </div>
   )
