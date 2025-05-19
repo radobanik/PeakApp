@@ -4,7 +4,7 @@ import { ClimbingObjectDetail, ClimbingObjectNoRoutes } from '@/types/climbingOb
 import { RouteDetail, RouteSummary } from '@/types/routeTypes'
 import { PaginatedResponse } from '@/types'
 
-export async function getNewObjects(): Promise<ClimbingObjectNoRoutes[]> {
+export async function getNewObjects(): Promise<PaginatedResponse<ClimbingObjectNoRoutes>> {
   const response = await api.get(API.CLIMBING_OBJECT.LIST, {
     params: {
       approvalStates: 'PENDING',

@@ -1,4 +1,4 @@
-import { InfiniteData, useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
+import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
 import { list } from '@/services/communityService'
 import { FC } from 'react'
 import { CommunitySessionList } from 'backend/src/model/community'
@@ -12,7 +12,6 @@ type CommunityPostsProps = {
 }
 const CommunityPosts: FC<CommunityPostsProps> = (props: CommunityPostsProps) => {
   const pageSize = 2
-  const queryClient = useQueryClient()
   const postsQuery = useInfiniteQuery<
     ListCursorResponse<CommunitySessionList>, // Data type of each page
     Error, // Error type
@@ -26,11 +25,6 @@ const CommunityPosts: FC<CommunityPostsProps> = (props: CommunityPostsProps) => 
       lastPage.hasNextPage ? lastPage.cursorId : null,
     initialPageParam: null,
   })
-
-  const reloadPosts = () => {
-    queryClient.removeQueries({ queryKey: ['communityPosts', props.variant] })
-    postsQuery.refetch()
-  }
 
   const pages = postsQuery.data?.pages ?? []
   return (

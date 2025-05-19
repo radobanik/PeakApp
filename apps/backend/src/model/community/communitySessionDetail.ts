@@ -1,4 +1,3 @@
-import e from 'express'
 import { SessionDetail, sessionDetailSelector } from '../session'
 
 type CommunitySessionDetail = {

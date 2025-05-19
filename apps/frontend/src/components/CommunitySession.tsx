@@ -1,6 +1,6 @@
 import NoBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
 import { SessionList } from 'backend/src/model/session'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { Avatar } from '@radix-ui/react-avatar'
 import { AvatarImage } from './ui/avatar'
 import diddyPfp from '@/assets/diddy.webp'
