@@ -61,4 +61,7 @@ export const API = {
     RESOLVE: (id: string) => `${API_BASE_URL}/report/${id}/resolve`,
     USER_PENDING: () => `${API_BASE_URL}/report/user-pending`,
   },
+  SEARCH: {
+    BY_TOKEN: () => `${API_BASE_URL}/search/`,
+  },
 }

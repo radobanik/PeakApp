@@ -1,12 +1,15 @@
 import { MAX_ZOOM_LEVEL, MIN_ZOOM_LEVEL } from '@/constants/map'
 import clsx from 'clsx'
-import { memo, useContext } from 'react'
+import { memo, useContext, useEffect } from 'react'
 import { useMap } from 'react-leaflet'
 import ZoomInIcon from './svg/ZoomInIcon'
 import ZoomOutIcon from './svg/ZoomOutIcon'
 import AddPoiIcon from './svg/AddPoiIcon'
 import FilterIcon from './svg/FilterIcon'
 import { ViewportContext } from '@/App'
+import { SearchBar } from './searchbar/SearchBar'
+import { useSearchSuggestions } from './searchbar/useSearchSuggestions'
+import { useState } from 'react'
 
 type MapControlsProps = {
   zoomLevel: number
@@ -25,16 +28,45 @@ const MapControls = ({ zoomLevel }: MapControlsProps) => {
       'cursor-pointer': !isDisabled,
     })
 
-  const renderSearchBar = () => (
-    <div className="relative z-1000 max-w-120 h-8 flex justify-center items-center pl-4 pr-4">
-      <div className="bg-red-400 w-full h-full text-xl"> TUTO DADE DAJ SEARCH RADO</div>
-      {/* TODO: PA-63 Just replace the red box above with the Searchbar component
-       and use w-full h-full inside that component */}
-    </div>
-  )
+  useEffect(() => {
+    const input = document.querySelector('input[type="text"]')
+    if (!input || !map) return
+
+    const onFocus = () => map.scrollWheelZoom.disable()
+    const onBlur = () => map.scrollWheelZoom.enable()
+
+    input.addEventListener('focus', onFocus)
+    input.addEventListener('blur', onBlur)
+
+    return () => {
+      input.removeEventListener('focus', onFocus) 
+      input.removeEventListener('blur', onBlur)
+    }
+  }, [map])
+
+  const renderSearchBar = () => {
+    const [query, setQuery] = useState('')
+    const { data: suggestions } = useSearchSuggestions(query)
+
+    return (
+      <div className="relative z-[1000000] max-w-[30rem] px-4 pt-2">
+        <SearchBar
+          value={query}
+          onChange={setQuery}
+          suggestions={suggestions}
+          onSelectClimbingObject={(id) => {
+            console.log('Selected climbing object:', id)
+          }}
+          onSelectRoute={(id) => {
+            console.log('Selected route:', id)
+          }}
+        />
+      </div>
+    )
+  }
 
   const renderUpperButtonColumn = () => (
-    <div className="flex  flex-col space-y-5">
+    <div className="flex  flex-col space-y-5 pt-2">
       <button className={getButtonClassName()}>
         <FilterIcon />
       </button>
