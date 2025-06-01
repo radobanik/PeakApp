@@ -9,14 +9,32 @@ import ActivityTableEntry from '@/components/ActivityTableEntry'
 import { ClimbingStructureType } from '@/types/routeTypes'
 import CommentListing from '@/components/CommentListing'
 import { ROUTE } from '@/constants/routes'
+import MediaScroll from '@/components/MediaScroll'
+import { useEffect, useState } from 'react'
+import { PeakFile } from '@/types/fileTypes'
+import { getFile } from '@/services/fileService'
 
 export default function CommunitySessionDetailPage() {
+  const [media, setMedia] = useState<PeakFile[]>([])
+
   const params = useParams()
   const sessionQuery = useQuery({
     queryKey: ['community_session_detail', params.id],
     queryFn: () => getSession(params.id!),
     enabled: !!params.id,
   })
+
+  useEffect(() => {
+    const processFiles = async () => {
+      if (sessionQuery.isSuccess) {
+        const fileRefs = sessionQuery.data?.session?.photos ?? []
+
+        const peakFilePromises = fileRefs.map((ref) => getFile(ref.id))
+        setMedia(await Promise.all(peakFilePromises))
+      }
+    }
+    processFiles()
+  }, [sessionQuery.isSuccess])
 
   return (
     <div className="w-full h-full flex flex-col overflow-auto">
@@ -31,8 +49,8 @@ export default function CommunitySessionDetailPage() {
       {sessionQuery.isSuccess && (
         <>
           <div className="sticky top-0 bg-white p-2 ">
-            <p className="text-lg font-bold text-ellipsis text-wrap">
-              {sessionQuery.data.session.id}
+            <p className="text-xl font-bold text-ellipsis text-wrap text-center">
+              {sessionQuery.data.session.name}
             </p>
             <div className="flex flex-row w-full flex-wrap gap-2">
               <div className="flex-1 flex flex-col">
@@ -61,9 +79,12 @@ export default function CommunitySessionDetailPage() {
               <p className="text-md font-bold">Note</p>
               <p className="text-sm">{sessionQuery.data.session.note}</p>
             </div>
-            <div className="w-full">
+            {/* for some reason  Activities component is rendering on Media component, solved by mb-6, maybe fix later*/}
+            <div className="w-full mb-6 h-[20vh]">
               <p className="text-md font-bold">Pictures & videos</p>
-              {'--component to show pictures and videos--'}
+              {sessionQuery.isSuccess && (
+                <MediaScroll {...{ media, setMedia: (_) => {}, editable: false }} />
+              )}
             </div>
             <div className="w-full">
               <p className="text-md font-bold">Activities</p>
