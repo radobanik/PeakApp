@@ -2,10 +2,16 @@ import { Request, Response } from 'express'
 import { provideUserRefFromToken } from '../auth/authUtils'
 import { HTTP_STATUS } from './utils/httpStatusCodes'
 import { CommunityRepository, SessionRepository } from '../repositories'
-import { defaultCommunityListParams, IncommingCommunityListParams } from '../model/session'
+import {
+  defaultCommunityListParams,
+  IncommingCommunityListParams,
+  SessionCommunityList,
+} from '../model/session'
+import { ListCursorResponse } from '../model/common/listCursorResponse'
+import followsRepository from '../repositories/follows.repository'
 
 export enum CommunityVariant {
-  RECENT = 'recent',
+  RECOMMENDED = 'recommended',
   FRIENDS = 'friends',
 }
 
@@ -25,11 +31,25 @@ const list = async (req: Request, res: Response) => {
     return
   }
 
-  const sessions = await CommunityRepository.listCommunity(
-    userRef,
-    params.cursorId,
-    params.pageSize
-  )
+  let sessions: ListCursorResponse<SessionCommunityList>
+
+  switch (params.variant) {
+    case CommunityVariant.FRIENDS:
+      const friends = await followsRepository.listFriends(userRef.id)
+      sessions = await CommunityRepository.listFriends(
+        userRef,
+        friends,
+        params.cursorId,
+        params.pageSize
+      )
+      break
+    case CommunityVariant.RECOMMENDED:
+      sessions = await CommunityRepository.listCommunity(userRef, params.cursorId, params.pageSize)
+      break
+    default:
+      throw new Error('invalid variant type')
+  }
+
   res.status(HTTP_STATUS.OK_200).json(sessions)
 }
 

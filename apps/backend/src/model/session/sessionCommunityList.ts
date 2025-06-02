@@ -17,15 +17,15 @@ type SessionCommunityList = SessionList & {
 const selector = sessionListSelector
 
 type IncommingCommunityListParams = { variant: string | null } & IncommingListCursorParams
-type NonNullCommunityListParams = { varaint: CommunityVariant } & NonNullListCursorParams
+type NonNullCommunityListParams = { variant: CommunityVariant } & NonNullListCursorParams
 
 const defaultCommunityListParams = (
   params: IncommingCommunityListParams
 ): NonNullCommunityListParams => {
   return {
-    varaint: Object.values(CommunityVariant).includes(params.variant as CommunityVariant)
+    variant: Object.values(CommunityVariant).includes(params.variant as CommunityVariant)
       ? (params.variant as CommunityVariant)
-      : CommunityVariant.RECENT,
+      : CommunityVariant.RECOMMENDED,
     ...defaultListCursorParams(params),
   }
 }

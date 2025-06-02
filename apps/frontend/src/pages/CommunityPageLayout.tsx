@@ -11,7 +11,7 @@ export default function CommunityPageLayout() {
   const navigate = useNavigate()
   console.log('isDetail', isDetail ? 'true' : 'false')
   const [wasOpened, setWasOpened] = useState<Record<CommunityVariant, boolean>>({
-    [CommunityVariant.RECENT]: true, // default tab
+    [CommunityVariant.RECOMMENDED]: true, // default tab
     [CommunityVariant.FRIENDS]: false,
   })
 
@@ -25,18 +25,18 @@ export default function CommunityPageLayout() {
   return (
     <div className="w-full h-full flex flex-col items-center">
       <Tabs
-        defaultValue={CommunityVariant.RECENT}
+        defaultValue={CommunityVariant.RECOMMENDED}
         onValueChange={(s) => handleTabChange(s as CommunityVariant)}
         className="w-full h-full flex flex-col items-center"
       >
         <TabsList className="mt-2 max-w-100 w-full">
-          <TabsTrigger value={CommunityVariant.RECENT}>Most recent</TabsTrigger>
-          <TabsTrigger value={CommunityVariant.FRIENDS}>From friends</TabsTrigger>
+          <TabsTrigger value={CommunityVariant.RECOMMENDED}>Recommended</TabsTrigger>
+          <TabsTrigger value={CommunityVariant.FRIENDS}>Friends</TabsTrigger>
         </TabsList>
         <div className="flex-1 overflow-auto w-full flex flex-col items-center">
-          <TabsContent value={CommunityVariant.RECENT}>
-            {wasOpened[CommunityVariant.RECENT] && (
-              <CommunityPosts variant={CommunityVariant.RECENT} />
+          <TabsContent value={CommunityVariant.RECOMMENDED}>
+            {wasOpened[CommunityVariant.RECOMMENDED] && (
+              <CommunityPosts variant={CommunityVariant.RECOMMENDED} />
             )}
           </TabsContent>
 
