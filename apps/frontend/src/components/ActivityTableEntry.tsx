@@ -32,7 +32,11 @@ const ActivityTableEntry: FC<ActivityTableEntryProps> = ({
             <div className="">{entry.topped && <img src={toppedIcon} />}</div>
           </div>
         </div>
-        <img src={noBoulderPhoto} className="rounded-md max-w-[25%] max-h-[25%]" alt="Route" />
+        <img
+          src={noBoulderPhoto}
+          className="rounded-md max-w-[25%] max-h-[25%] object-cover"
+          alt="Route"
+        />
       </div>
     </Link>
   )

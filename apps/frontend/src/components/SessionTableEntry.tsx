@@ -42,7 +42,11 @@ const SessionTableEntry: FC<SessionTableEntryProps> = ({
             <p>{entry.numberOfActivities + activityString}</p>
           </div>
         </div>
-        <img src={sessionPhoto} className="rounded-md max-w-[25%] max-h-[25%]" alt="Session" />
+        <img
+          src={sessionPhoto}
+          className="rounded-md max-w-[25%] max-h-[25%] object-cover"
+          alt="Session"
+        />
       </div>
     </Link>
   )
