@@ -9,8 +9,12 @@ import { SessionCommunityList } from '@/types/sessionTypes'
 
 type CommunityPostsProps = {
   variant: CommunityVariant
+  selectedCategories: string[]
 }
-const CommunityPosts: FC<CommunityPostsProps> = (props: CommunityPostsProps) => {
+const CommunityPosts: FC<CommunityPostsProps> = ({
+  variant,
+  selectedCategories,
+}: CommunityPostsProps) => {
   const pageSize = 2
   const postsQuery = useInfiniteQuery<
     ListCursorResponse<SessionCommunityList>, // Data type of each page
@@ -19,8 +23,8 @@ const CommunityPosts: FC<CommunityPostsProps> = (props: CommunityPostsProps) => 
     [string, CommunityVariant], // Query key type
     string | null
   >({
-    queryKey: ['communityPosts', props.variant],
-    queryFn: ({ pageParam = null }) => list(pageParam, pageSize, props.variant),
+    queryKey: ['communityPosts', variant],
+    queryFn: ({ pageParam = null }) => list(pageParam, pageSize, variant, selectedCategories),
     getNextPageParam: (lastPage: ListCursorResponse<SessionCommunityList>) =>
       lastPage.hasNextPage ? lastPage.cursorId : null,
     initialPageParam: null,

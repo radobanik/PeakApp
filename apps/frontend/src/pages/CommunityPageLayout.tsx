@@ -5,21 +5,40 @@ import { CommunityVariant } from '@/types/utilsTypes'
 import { Outlet, useMatch, useNavigate } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
+
+interface MultiSelectOption {
+  value: string
+  label: string
+}
+
+const clothingOptions: MultiSelectOption[] = [
+  { value: 'trending', label: 'Trending' },
+  { value: 'following', label: 'Following' },
+  { value: 'my-profile', label: 'My Profile' },
+  { value: 'my-state', label: 'My state' },
+]
 
 export default function CommunityPageLayout() {
   const isDetail = useMatch(ROUTE.COMMUNITY_DETAIL(':id'))
   const navigate = useNavigate()
-  console.log('isDetail', isDetail ? 'true' : 'false')
   const [wasOpened, setWasOpened] = useState<Record<CommunityVariant, boolean>>({
     [CommunityVariant.RECOMMENDED]: true, // default tab
     [CommunityVariant.FRIENDS]: false,
   })
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 
   const handleTabChange = (value: CommunityVariant) => {
-    setWasOpened((prev) => ({
-      ...prev,
-      [value]: true,
-    }))
+    const newWasOpenedState = Object.fromEntries(
+      (Object.keys(setWasOpened) as CommunityVariant[]).map((key) => [key, false])
+    ) as Record<CommunityVariant, boolean>
+    newWasOpenedState[value] = true
+    setWasOpened(newWasOpenedState)
+    setSelectedCategories([])
+  }
+
+  const handleSelectionChange = (newSelectedValues: string[]) => {
+    setSelectedCategories(newSelectedValues)
   }
 
   return (
@@ -33,16 +52,43 @@ export default function CommunityPageLayout() {
           <TabsTrigger value={CommunityVariant.RECOMMENDED}>Recommended</TabsTrigger>
           <TabsTrigger value={CommunityVariant.FRIENDS}>Friends</TabsTrigger>
         </TabsList>
+        {wasOpened[CommunityVariant.RECOMMENDED] && (
+          <ToggleGroup
+            variant="outline"
+            type="multiple"
+            value={selectedCategories}
+            onValueChange={handleSelectionChange}
+            className="flex flex-wrap gap-2"
+          >
+            {clothingOptions.map((option) => (
+              <ToggleGroupItem
+                key={option.value}
+                value={option.value}
+                aria-label={option.label}
+                className="px-4"
+                variant={'outline'}
+              >
+                {option.label}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+        )}
         <div className="flex-1 overflow-auto w-full flex flex-col items-center">
           <TabsContent value={CommunityVariant.RECOMMENDED}>
             {wasOpened[CommunityVariant.RECOMMENDED] && (
-              <CommunityPosts variant={CommunityVariant.RECOMMENDED} />
+              <CommunityPosts
+                variant={CommunityVariant.RECOMMENDED}
+                selectedCategories={selectedCategories}
+              />
             )}
           </TabsContent>
 
           <TabsContent value={CommunityVariant.FRIENDS}>
             {wasOpened[CommunityVariant.FRIENDS] && (
-              <CommunityPosts variant={CommunityVariant.FRIENDS} />
+              <CommunityPosts
+                variant={CommunityVariant.FRIENDS}
+                selectedCategories={selectedCategories}
+              />
             )}
           </TabsContent>
         </div>
