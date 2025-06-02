@@ -1,19 +1,24 @@
-import { PrismaClient } from '@prisma/client'
-import { CommunitySessionDetail, CommunitySessionList } from '../model/community'
 import { createListCursorResponse, ListCursorResponse } from '../model/common/listCursorResponse'
-import { sessionDetailSelector, sessionListSelector } from '../model/session'
+import {
+  SessionCommunityDetail,
+  SessionCommunityList,
+  sessionCommunityListSelector,
+  sessionDetailSelector,
+} from '../model/session'
 import { RefObject } from '../model/common/refObject'
 import { activityDetailSelector } from '../model/activity'
 import { routeListSelector } from '../model/route'
+import prisma from '../core/prisma/client'
+import { PeakFile } from '../model/peakFile'
 
-const sessionClient = new PrismaClient().session
-const likeClient = new PrismaClient().like
+const sessionClient = prisma.session
+const likeClient = prisma.like
 
 const listCommunity = async (
   userRef: RefObject,
   cursor: string | null,
   pageSize: number
-): Promise<ListCursorResponse<CommunitySessionList>> => {
+): Promise<ListCursorResponse<SessionCommunityList>> => {
   const sessions = await sessionClient.findMany({
     ...(cursor && {
       skip: 1,
@@ -21,7 +26,7 @@ const listCommunity = async (
     }),
     take: pageSize,
     select: {
-      ...sessionListSelector,
+      ...sessionCommunityListSelector,
       _count: {
         select: {
           likes: true,
@@ -43,9 +48,10 @@ const listCommunity = async (
 
   const likedSessionIds = new Set(likedSessions.map((like) => like.sessionId))
 
-  const sessionsWithLikeInfo = sessions.map(({ _count, ...session }) => ({
-    id: session.id,
-    session,
+  const sessionsWithLikeInfo: SessionCommunityList[] = sessions.map(({ _count, ...session }) => ({
+    ...session,
+    photos: undefined,
+    photo: getOnlyProfilePhoto(session.photos as unknown as PeakFile[]),
     likes: _count.likes,
     comments: _count.comments,
     hasLiked: likedSessionIds.has(session.id),
@@ -57,7 +63,7 @@ const listCommunity = async (
 const getSession = async (
   userRef: RefObject,
   sessionId: string
-): Promise<CommunitySessionDetail> => {
+): Promise<SessionCommunityDetail> => {
   const session = await sessionClient.findFirst({
     where: {
       id: sessionId,
@@ -91,13 +97,10 @@ const getSession = async (
 
   const { _count, ...sessionDetail } = session!
   const sessionsWithLikeInfo = {
-    id: sessionDetail.id,
-    session: {
-      ...sessionDetail,
-      photos: sessionDetail.photos.map((photo: { peakFile: { id: string } }) => ({
-        id: photo.peakFile.id,
-      })),
-    },
+    ...sessionDetail,
+    photos: sessionDetail.photos.map((photo: { peakFile: { id: string } }) => ({
+      id: photo.peakFile.id,
+    })),
     likes: _count.likes,
     comments: _count.comments,
     hasLiked: likesCount > 0,
@@ -106,4 +109,8 @@ const getSession = async (
   return sessionsWithLikeInfo
 }
 
+const getOnlyProfilePhoto = (media: PeakFile[]) => {
+  const photo = media.find((m) => m.contentType.includes('images'))
+  return photo != undefined ? { id: photo.id } : null
+}
 export default { listCommunity, getSession }

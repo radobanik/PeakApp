@@ -4,13 +4,38 @@ import { SessionDetail, selector as sessionDetailSelector } from './sessionDetai
 import { SessionList, selector as sessionListSelector } from './sessionList'
 import { SessionUpdate, validate as sessionUpdateValidate } from './sessionUpdate'
 import { SessionMinimal, selector as sessionMinimalSelector } from './sessionMinimal'
+import {
+  SessionCommunityList,
+  IncommingCommunityListParams,
+  NonNullCommunityListParams,
+  selector as sessionCommunityListSelector,
+  defaultCommunityListParams,
+} from './sessionCommunityList'
+import {
+  SessionCommunityDetail,
+  selector as sessionCommunityDetailSelector,
+} from './sessionCommunityDetail'
 
-export type { Session, SessionList, SessionDetail, SessionCreate, SessionUpdate, SessionMinimal }
+export type {
+  Session,
+  SessionList,
+  SessionDetail,
+  SessionCreate,
+  SessionUpdate,
+  SessionMinimal,
+  SessionCommunityList,
+  IncommingCommunityListParams,
+  NonNullCommunityListParams,
+  SessionCommunityDetail,
+}
 export {
   sessionSelector,
   sessionListSelector,
   sessionDetailSelector,
   sessionMinimalSelector,
+  sessionCommunityListSelector,
+  sessionCommunityDetailSelector,
   sessionCreateValidate,
   sessionUpdateValidate,
+  defaultCommunityListParams,
 }

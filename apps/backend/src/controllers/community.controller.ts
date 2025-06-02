@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
 import { provideUserRefFromToken } from '../auth/authUtils'
 import { HTTP_STATUS } from './utils/httpStatusCodes'
-import { defaultCommunityListParams, IncommingCommunityListParams } from '../model/community'
 import { CommunityRepository, SessionRepository } from '../repositories'
+import { defaultCommunityListParams, IncommingCommunityListParams } from '../model/session'
 
 export enum CommunityVariant {
   RECENT = 'recent',

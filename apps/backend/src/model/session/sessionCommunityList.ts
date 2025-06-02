@@ -1,22 +1,30 @@
+import { RefObject } from '../common/refObject'
+import { peakFileSelector } from '../peakFile'
 import { CommunityVariant } from '../../controllers/community.controller'
 import {
   defaultListCursorParams,
   IncommingListCursorParams,
   NonNullListCursorParams,
 } from '../common/listCursorResponse'
-import { SessionList, sessionListSelector } from '../session'
+import { SessionList } from './sessionList'
+import { sessionListSelector } from '.'
 
-type CommunitySessionList = {
-  id: string
-  session: SessionList
+type SessionCommunityList = SessionList & {
+  photo: RefObject | null
+
   likes: number
   hasLiked: boolean
   comments: number
 }
 
 const selector = {
-  session: {
-    select: sessionListSelector,
+  ...sessionListSelector,
+  photos: {
+    select: {
+      peakFile: {
+        select: peakFileSelector,
+      },
+    },
   },
 }
 
@@ -34,5 +42,5 @@ const defaultCommunityListParams = (
   }
 }
 
-export type { CommunitySessionList, IncommingCommunityListParams, NonNullCommunityListParams }
-export { defaultCommunityListParams, selector }
+export type { SessionCommunityList, IncommingCommunityListParams, NonNullCommunityListParams }
+export { selector, defaultCommunityListParams }
