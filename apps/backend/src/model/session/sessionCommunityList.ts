@@ -1,5 +1,3 @@
-import { RefObject } from '../common/refObject'
-import { peakFileSelector } from '../peakFile'
 import { CommunityVariant } from '../../controllers/community.controller'
 import {
   defaultListCursorParams,
@@ -8,25 +6,15 @@ import {
 } from '../common/listCursorResponse'
 import { SessionList } from './sessionList'
 import { sessionListSelector } from '.'
+import { PeakFile } from '../peakFile'
 
 type SessionCommunityList = SessionList & {
-  photo: RefObject | null
-
   likes: number
   hasLiked: boolean
   comments: number
 }
 
-const selector = {
-  ...sessionListSelector,
-  photos: {
-    select: {
-      peakFile: {
-        select: peakFileSelector,
-      },
-    },
-  },
-}
+const selector = sessionListSelector
 
 type IncommingCommunityListParams = { variant: string | null } & IncommingListCursorParams
 type NonNullCommunityListParams = { varaint: CommunityVariant } & NonNullListCursorParams
@@ -42,5 +30,10 @@ const defaultCommunityListParams = (
   }
 }
 
+const getOnlyProfilePhoto = (media: PeakFile[]) => {
+  const photo = media.find((m) => m.contentType.includes('image'))
+  return photo != undefined ? { id: photo.id } : null
+}
+
 export type { SessionCommunityList, IncommingCommunityListParams, NonNullCommunityListParams }
-export { selector, defaultCommunityListParams }
+export { selector, defaultCommunityListParams, getOnlyProfilePhoto }

@@ -27,7 +27,7 @@ export default function CommunitySessionDetailPage() {
   useEffect(() => {
     const processFiles = async () => {
       if (sessionQuery.isSuccess) {
-        const fileRefs = sessionQuery.data?.session?.photos ?? []
+        const fileRefs = sessionQuery.data?.photos ?? []
 
         const peakFilePromises = fileRefs.map((ref) => getFile(ref.id))
         setMedia(await Promise.all(peakFilePromises))
@@ -50,7 +50,7 @@ export default function CommunitySessionDetailPage() {
         <>
           <div className="sticky top-0 bg-white p-2 ">
             <p className="text-xl font-bold text-ellipsis text-wrap text-center">
-              {sessionQuery.data.session.name}
+              {sessionQuery.data.name}
             </p>
             <div className="flex flex-row w-full flex-wrap gap-2">
               <div className="flex-1 flex flex-col">
@@ -59,16 +59,14 @@ export default function CommunitySessionDetailPage() {
                     <Avatar className="w-12 h-12 flex justify-center items-center ">
                       <AvatarImage src={UserAvatar} className="h-full rounded-full" />
                     </Avatar>
-                    <p className="text-sm font-bold ml-2">
-                      {sessionQuery.data.session.createdBy.userName}
-                    </p>
+                    <p className="text-sm font-bold ml-2">{sessionQuery.data.createdBy.userName}</p>
                   </div>
                 </div>
               </div>
               <Like
                 likes={sessionQuery.data.likes}
                 hasLiked={sessionQuery.data.hasLiked}
-                sessionId={sessionQuery.data.session.id}
+                sessionId={sessionQuery.data.id}
                 className="mr-2"
               />
             </div>
@@ -77,7 +75,7 @@ export default function CommunitySessionDetailPage() {
           <div className="flex flex-col space-y-2 w-full flex-1 overflow-auto">
             <div className="w-full">
               <p className="text-md font-bold">Note</p>
-              <p className="text-sm">{sessionQuery.data.session.note}</p>
+              <p className="text-sm">{sessionQuery.data.note}</p>
             </div>
             {/* for some reason  Activities component is rendering on Media component, solved by mb-6, maybe fix later*/}
             <div className="w-full mb-6 h-[20vh]">
@@ -89,7 +87,7 @@ export default function CommunitySessionDetailPage() {
             <div className="w-full">
               <p className="text-md font-bold">Activities</p>
               <div className="flex flex-col w-full">
-                {sessionQuery.data.session.assignedActivities.map((activity) => (
+                {sessionQuery.data.assignedActivities.map((activity) => (
                   <ActivityTableEntry
                     key={activity.id}
                     entry={{
@@ -108,10 +106,7 @@ export default function CommunitySessionDetailPage() {
             </div>
             <div className="w-full">
               <p className="text-md font-bold">Comments</p>
-              <CommentListing
-                sessionId={sessionQuery.data.session.id}
-                className="flex-1 overflow-auto"
-              />
+              <CommentListing sessionId={sessionQuery.data.id} className="flex-1 overflow-auto" />
             </div>
           </div>
         </>

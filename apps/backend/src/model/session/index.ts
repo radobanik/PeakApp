@@ -10,6 +10,7 @@ import {
   NonNullCommunityListParams,
   selector as sessionCommunityListSelector,
   defaultCommunityListParams,
+  getOnlyProfilePhoto,
 } from './sessionCommunityList'
 import {
   SessionCommunityDetail,
@@ -38,4 +39,5 @@ export {
   sessionCreateValidate,
   sessionUpdateValidate,
   defaultCommunityListParams,
+  getOnlyProfilePhoto,
 }

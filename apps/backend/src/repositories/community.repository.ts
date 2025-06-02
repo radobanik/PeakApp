@@ -1,5 +1,6 @@
 import { createListCursorResponse, ListCursorResponse } from '../model/common/listCursorResponse'
 import {
+  getOnlyProfilePhoto,
   SessionCommunityDetail,
   SessionCommunityList,
   sessionCommunityListSelector,
@@ -9,7 +10,6 @@ import { RefObject } from '../model/common/refObject'
 import { activityDetailSelector } from '../model/activity'
 import { routeListSelector } from '../model/route'
 import prisma from '../core/prisma/client'
-import { PeakFile } from '../model/peakFile'
 
 const sessionClient = prisma.session
 const likeClient = prisma.like
@@ -51,7 +51,7 @@ const listCommunity = async (
   const sessionsWithLikeInfo: SessionCommunityList[] = sessions.map(({ _count, ...session }) => ({
     ...session,
     photos: undefined,
-    photo: getOnlyProfilePhoto(session.photos as unknown as PeakFile[]),
+    photo: getOnlyProfilePhoto(session.photos.map((p) => p.peakFile)),
     likes: _count.likes,
     comments: _count.comments,
     hasLiked: likedSessionIds.has(session.id),
@@ -109,8 +109,4 @@ const getSession = async (
   return sessionsWithLikeInfo
 }
 
-const getOnlyProfilePhoto = (media: PeakFile[]) => {
-  const photo = media.find((m) => m.contentType.includes('images'))
-  return photo != undefined ? { id: photo.id } : null
-}
 export default { listCommunity, getSession }

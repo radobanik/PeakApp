@@ -1,6 +1,7 @@
 import { UseQueryResult } from '@tanstack/react-query'
 import { ClimbingStructureType } from './routeTypes'
 import { perceivedDifficulty } from './utilsTypes'
+import { RouteList } from 'backend/src/model/route'
 
 export interface Grade {
   id: string
@@ -49,6 +50,18 @@ export type ActivityUpdate = {
   perceivedDifficulty: perceivedDifficulty
   notes: string
   topped: boolean
+}
+
+export type ActivityList = {
+  id: string
+
+  climbedAt: Date
+  numOfAttempts: number
+  perceivedDifficulty: perceivedDifficulty
+  notes: string
+  topped: boolean
+
+  route: RouteList
 }
 
 export type ActivityQueryType = UseQueryResult<

@@ -3,6 +3,7 @@ import { createListResponse, ListResponse } from '../model/common/listResponse'
 import { toConnector, xToManyCreator, xToManyUpdater } from './utils/connector'
 import { RefObject } from '../model/common/refObject'
 import {
+  getOnlyProfilePhoto,
   SessionCreate,
   SessionDetail,
   sessionDetailSelector,
@@ -55,7 +56,7 @@ const list = async (
   pageNum: number,
   pageSize: number
 ): Promise<ListResponse<SessionList>> => {
-  const sessions: SessionList[] = await sessionClient.findMany({
+  const sessions = await sessionClient.findMany({
     where: {
       createdBy: author,
     },
@@ -78,7 +79,13 @@ const list = async (
     },
   })
 
-  return createListResponse(sessions, totalSessions, pageNum, pageSize)
+  const sessionsWithPhoto = sessions.map((session) => ({
+    ...session,
+    photos: undefined,
+    photo: getOnlyProfilePhoto(session.photos.map((p) => p.peakFile)),
+  }))
+
+  return createListResponse(sessionsWithPhoto, totalSessions, pageNum, pageSize)
 }
 
 const create = async (sessionData: SessionCreate, userRef: RefObject): Promise<SessionDetail> => {

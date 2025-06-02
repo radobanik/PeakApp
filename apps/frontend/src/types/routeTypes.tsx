@@ -83,6 +83,18 @@ export type RouteUpdate = {
   overlay: OverlayPoint[]
 }
 
+export type RouteList = {
+  id: string
+  name: string
+  description: string
+  grade: GradeDetail
+  climbingStructureType: ClimbingStructureType
+  starRating: number
+  longitude: number
+  latitude: number
+  approvalState: ApprovalState
+}
+
 export interface RouteDetailListResponse extends Pagination {
   items: RouteDetail[]
 }

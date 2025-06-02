@@ -1,10 +1,10 @@
 import { api } from '.'
 import { API } from '@/constants/api'
 import { ListCursorResponse } from '@/types'
+import { SessionCommunityDetail, SessionCommunityList } from '@/types/sessionTypes'
 import { CommunityVariant } from '@/types/utilsTypes'
-import { CommunitySessionDetail, CommunitySessionList } from 'backend/src/model/community'
 
-export const getSession = async (sessionId: string): Promise<CommunitySessionDetail> => {
+export const getSession = async (sessionId: string): Promise<SessionCommunityDetail> => {
   const response = await api.get(API.COMMUNITY.BY_ID(sessionId))
   return response.data
 }
@@ -13,7 +13,7 @@ export const list = async (
   cursorId: string | null,
   pageSize: number,
   variant: CommunityVariant
-): Promise<ListCursorResponse<CommunitySessionList>> => {
+): Promise<ListCursorResponse<SessionCommunityList>> => {
   const response = await api.get(API.COMMUNITY.LIST(), {
     params: {
       cursorId: cursorId,
