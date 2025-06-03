@@ -24,7 +24,7 @@ export const categoriesOptions: MultiSelectOption[] = [
   { value: RecommenderCategory.TRENDING, label: 'Trending' },
   { value: RecommenderCategory.FOLLOWING, label: 'Following' },
   { value: RecommenderCategory.MY_PROFILE, label: 'My Profile' },
-  { value: RecommenderCategory.MY_STATE, label: 'My state' },
+  { value: RecommenderCategory.MY_STATE, label: 'My State' },
 ]
 
 export default function CommunityPageLayout() {
