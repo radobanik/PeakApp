@@ -1,6 +1,7 @@
 import prisma from '../core/prisma/client'
 import { Role } from '@prisma/client'
 import bcrypt from 'bcrypt'
+import geoRepository from '../repositories/geo.repository'
 
 const saltRounds = 10
 
@@ -11,7 +12,7 @@ export const USER_EMILY_JOHNSON_ID = 'b8e8ccf7-b9a9-49b6-9144-0b0a82a6f7a5'
 export const USER_CHRIS_BROWN_ID = 'a7a120d2-facf-4975-8d16-40509ffb86cd'
 export const TOP_LOGGER_USER_ID = '2d25e08e-aa6f-4f37-a8e1-1e3b8a364760'
 
-const sampleUsers = [
+const getSampleUsers = async () => [
   {
     id: USER_JOHN_DOE_ID,
     userName: 'johndoe',
@@ -20,6 +21,7 @@ const sampleUsers = [
     lastName: 'Doe',
     email: 'john.doe@password123.com',
     roles: [Role.USER],
+    cityId: await geoRepository.getCityIdByName('Praha'),
   },
   {
     id: USER_JANE_DOE_ID,
@@ -29,6 +31,7 @@ const sampleUsers = [
     lastName: 'Doe',
     email: 'jane.doe@password123.com',
     roles: [Role.USER],
+    cityId: await geoRepository.getCityIdByName('Praha'),
   },
   {
     id: USER_MICHAEL_SMITH_ID,
@@ -38,6 +41,7 @@ const sampleUsers = [
     lastName: 'Smith',
     email: 'michael.smith@password123.com',
     roles: [Role.MAINTANER],
+    cityId: await geoRepository.getCityIdByName('Vienna'),
   },
   {
     id: USER_EMILY_JOHNSON_ID,
@@ -47,6 +51,7 @@ const sampleUsers = [
     lastName: 'Johnson',
     email: 'emily.johnson@password123.com',
     roles: [Role.ADMIN],
+    cityId: await geoRepository.getCityIdByName('Vienna'),
   },
   {
     id: USER_CHRIS_BROWN_ID,
@@ -56,6 +61,7 @@ const sampleUsers = [
     lastName: 'Brown',
     email: 'chris.brown@password123.com',
     roles: [Role.USER],
+    cityId: await geoRepository.getCityIdByName('Praha'),
   },
   {
     id: TOP_LOGGER_USER_ID,
@@ -65,10 +71,12 @@ const sampleUsers = [
     lastName: 'Logger',
     email: 'top.logger@password123.com',
     roles: [Role.USER, Role.MAINTANER],
+    cityId: await geoRepository.getCityIdByName('Vienna'),
   },
 ]
 
 async function initUsers() {
+  const sampleUsers = await getSampleUsers()
   for (const user of sampleUsers) {
     await prisma.user.upsert({
       where: { id: user.id },
