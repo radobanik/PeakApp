@@ -17,7 +17,7 @@ export default function ReviewObjectsPage() {
 
   const query = useQuery({
     queryKey: ['new_objects', page],
-    queryFn: async () => getNewObjects(),
+    queryFn: async () => getNewObjects(page),
   })
 
   return (
@@ -48,7 +48,7 @@ export default function ReviewObjectsPage() {
         <Separator className="mt-2" />
         <Pagination
           page={page}
-          totalPages={Math.ceil((query.data?.total ?? 0) / 15)}
+          totalPages={Math.max(query.data?.totalPages ?? 0, 1)}
           setPage={setPage}
         />
       </div>

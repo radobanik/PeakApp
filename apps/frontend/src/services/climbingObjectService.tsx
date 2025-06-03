@@ -22,7 +22,7 @@ export async function getFilteredClimbingObject(
 
   const queryString = searchParams.toString()
   const response = await api.get(`${API.CLIMBING_OBJECT.LIST}?${queryString}`)
-
+  console.log(response.data)
   if (response.status !== 200) {
     throw new Error('Error fetching climbing objects')
   }

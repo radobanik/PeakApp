@@ -31,19 +31,6 @@ const Approve: FC<ApproveProps> = ({
           </div>
         </>
       )}
-      {approveState !== null && (
-        <>
-          <div
-            className={cn(
-              'flex justify-center items-center flex-1 h-full hover:cursor-pointer rounded-md',
-              approveState ? 'bg-green-400 hover:bg-green-300' : 'bg-red-400 hover:bg-red-300'
-            )}
-            onClick={onCancel}
-          >
-            {approveState ? <span>Cancel approval</span> : <span>Cancel rejection</span>}
-          </div>
-        </>
-      )}
     </div>
   )
 }

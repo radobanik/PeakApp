@@ -6,5 +6,6 @@ export async function getSearchSuggestionsByToken(token: string): Promise<Search
   const response = await api.get(API.SEARCH.BY_TOKEN(), {
     params: { token },
   })
+  console.log(response.data)
   return response.data
 }

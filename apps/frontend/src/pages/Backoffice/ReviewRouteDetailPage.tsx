@@ -1,10 +1,11 @@
 import { ROUTE } from '@/constants/routes'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { getNewRouteById } from '@/services/backofficeService'
+import { changeRouteApprovalState, getNewRouteById } from '@/services/backofficeService'
 import { useParams } from 'react-router-dom'
 import ApproveContainer from '@/components/backoffice/ApproveContainter'
 import { useEffect, useState } from 'react'
 import { useApprovalContext } from '@/components/backoffice/ApprovalProvider'
+import { ApprovalState } from '@/types/approvalTypes'
 
 export default function ReviewObjectDetailPage() {
   const params = useParams()
@@ -27,6 +28,10 @@ export default function ReviewObjectDetailPage() {
 
   const mutation = useMutation({
     mutationFn: async (approve: boolean | null) => {
+      changeRouteApprovalState(
+        params.id!,
+        approve === true ? ApprovalState.APPROVED : ApprovalState.REJECTED
+      )
       setApproveState(approve)
       setApprovedMap((prev) => {
         prev.delete(params.id!)
