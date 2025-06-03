@@ -1,4 +1,3 @@
-import { createListCursorResponse, ListCursorResponse } from '../model/common/listCursorResponse'
 import {
   getOnlyProfilePhoto,
   SessionCommunityDetail,
@@ -10,29 +9,53 @@ import { RefObject } from '../model/common/refObject'
 import { activityDetailSelector } from '../model/activity'
 import { routeListSelector } from '../model/route'
 import prisma from '../core/prisma/client'
-import { UserList } from '../model/user'
+import { userLabeledSelector, UserList, UserLabeled } from '../model/user'
 
 const sessionClient = prisma.session
 const likeClient = prisma.like
 
-const listCommunity = async (
-  userRef: RefObject,
-  cursor: string | null,
-  pageSize: number
-): Promise<ListCursorResponse<SessionCommunityList>> => {
+type SessionCommunityExtUserList = SessionCommunityList & {
+  createdBy: UserLabeled & {
+    city: {
+      country: {
+        name: string
+      }
+    } | null
+  }
+}
+
+const listForRecommended = async (userRef: RefObject): Promise<SessionCommunityExtUserList[]> => {
   const sessions = await sessionClient.findMany({
-    ...(cursor && {
-      skip: 1,
-      cursor: { id: cursor },
-    }),
-    take: pageSize,
     select: {
       ...sessionCommunityListSelector,
+      // location of author
+      createdBy: {
+        select: {
+          ...userLabeledSelector,
+          city: {
+            select: {
+              country: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      },
       _count: {
         select: {
           likes: true,
           comments: true,
         },
+      },
+    },
+    where: {
+      createdAt: {
+        gte: new Date(new Date().setDate(new Date().getDate() - 30)),
+      },
+      createdBy: {
+        NOT: userRef,
       },
     },
   })
@@ -49,16 +72,18 @@ const listCommunity = async (
 
   const likedSessionIds = new Set(likedSessions.map((like) => like.sessionId))
 
-  const sessionsWithLikeInfo: SessionCommunityList[] = sessions.map(({ _count, ...session }) => ({
-    ...session,
-    photos: undefined,
-    photo: getOnlyProfilePhoto(session.photos.map((p) => p.peakFile)),
-    likes: _count.likes,
-    comments: _count.comments,
-    hasLiked: likedSessionIds.has(session.id),
-  }))
+  const sessionsWithLikeInfo: SessionCommunityExtUserList[] = sessions.map(
+    ({ _count, ...session }) => ({
+      ...session,
+      photos: undefined,
+      photo: getOnlyProfilePhoto(session.photos.map((p) => p.peakFile)),
+      likes: _count.likes,
+      comments: _count.comments,
+      hasLiked: likedSessionIds.has(session.id),
+    })
+  )
 
-  return createListCursorResponse(sessionsWithLikeInfo, cursor, pageSize)
+  return sessionsWithLikeInfo
 }
 
 const listFriends = async (
@@ -66,7 +91,7 @@ const listFriends = async (
   friends: UserList[],
   cursor: string | null,
   pageSize: number
-): Promise<ListCursorResponse<SessionCommunityList>> => {
+): Promise<SessionCommunityList[]> => {
   const sessions = await sessionClient.findMany({
     ...(cursor && {
       skip: 1,
@@ -113,7 +138,7 @@ const listFriends = async (
     hasLiked: likedSessionIds.has(session.id),
   }))
 
-  return createListCursorResponse(sessionsWithLikeInfo, cursor, pageSize)
+  return sessionsWithLikeInfo
 }
 
 const getSession = async (
@@ -165,4 +190,5 @@ const getSession = async (
   return sessionsWithLikeInfo
 }
 
-export default { listCommunity, listFriends, getSession }
+export default { listForRecommended, listFriends, getSession }
+export type { SessionCommunityExtUserList }

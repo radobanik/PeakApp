@@ -6,11 +6,13 @@ import { CommunityVariant } from '@/types/utilsTypes'
 import { ListCursorResponse } from '@/types'
 import { Button } from './ui/button'
 import { SessionCommunityList } from '@/types/sessionTypes'
+import { RecommenderCategory } from '@/pages/CommunityPageLayout'
 
 type CommunityPostsProps = {
   variant: CommunityVariant
-  selectedCategories: string[]
+  selectedCategories: RecommenderCategory[]
 }
+
 const CommunityPosts: FC<CommunityPostsProps> = ({
   variant,
   selectedCategories,
@@ -20,10 +22,10 @@ const CommunityPosts: FC<CommunityPostsProps> = ({
     ListCursorResponse<SessionCommunityList>, // Data type of each page
     Error, // Error type
     InfiniteData<ListCursorResponse<SessionCommunityList>>, // Returned data (optional but safer)
-    [string, CommunityVariant], // Query key type
+    [string, CommunityVariant, RecommenderCategory[]], // Query key type
     string | null
   >({
-    queryKey: ['communityPosts', variant],
+    queryKey: ['communityPosts', variant, selectedCategories],
     queryFn: ({ pageParam = null }) => list(pageParam, pageSize, variant, selectedCategories),
     getNextPageParam: (lastPage: ListCursorResponse<SessionCommunityList>) =>
       lastPage.hasNextPage ? lastPage.cursorId : null,
@@ -33,11 +35,12 @@ const CommunityPosts: FC<CommunityPostsProps> = ({
   const pages = postsQuery.data?.pages ?? []
   return (
     <div className="flex flex-col items-center w-full space-y-4 mb-5">
-      {pages.map((page: ListCursorResponse<SessionCommunityList>) =>
-        page.items.map((session: SessionCommunityList) => (
-          <CommunitySession key={session.id} session={session} />
-        ))
-      )}
+      {postsQuery.isSuccess &&
+        pages.map((page: ListCursorResponse<SessionCommunityList>) =>
+          page.items.map((session: SessionCommunityList) => (
+            <CommunitySession key={session.id} session={session} />
+          ))
+        )}
       {postsQuery.isFetching && <p>Loading sessions...</p>}
       {postsQuery.hasNextPage && !postsQuery.isFetching && (
         <Button

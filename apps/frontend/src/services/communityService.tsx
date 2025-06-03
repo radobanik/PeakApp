@@ -20,7 +20,7 @@ export const list = async (
       cursorId: cursorId,
       pageSize: pageSize,
       variant: variant,
-      selectedCategories: selectedCategories,
+      selectedCategories: selectedCategories.join(','),
     },
   })
   return response.data

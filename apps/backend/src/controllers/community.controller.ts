@@ -5,14 +5,24 @@ import { CommunityRepository, SessionRepository } from '../repositories'
 import {
   defaultCommunityListParams,
   IncommingCommunityListParams,
+  NonNullCommunityListParams,
   SessionCommunityList,
 } from '../model/session'
-import { ListCursorResponse } from '../model/common/listCursorResponse'
+import { createListCursorResponse } from '../model/common/listCursorResponse'
 import followsRepository from '../repositories/follows.repository'
+import { RefObject } from '../model/common/refObject'
+import { SessionCommunityExtUserList } from '../repositories/community.repository'
 
 export enum CommunityVariant {
   RECOMMENDED = 'recommended',
   FRIENDS = 'friends',
+}
+
+export enum RecommenderCategory {
+  TRENDING = 'trending',
+  FOLLOWING = 'following',
+  MY_PROFILE = 'my-profile',
+  MY_STATE = 'my-state',
 }
 
 const list = async (req: Request, res: Response) => {
@@ -22,7 +32,9 @@ const list = async (req: Request, res: Response) => {
     return
   }
 
-  const params = defaultCommunityListParams(req.query as unknown as IncommingCommunityListParams)
+  const params: NonNullCommunityListParams = defaultCommunityListParams(
+    req.query as unknown as IncommingCommunityListParams
+  )
 
   const validatedCursos =
     params.cursorId == null ? true : await SessionRepository.existsId(params.cursorId)
@@ -31,7 +43,7 @@ const list = async (req: Request, res: Response) => {
     return
   }
 
-  let sessions: ListCursorResponse<SessionCommunityList>
+  let sessions: SessionCommunityList[]
 
   switch (params.variant) {
     case CommunityVariant.FRIENDS:
@@ -44,13 +56,48 @@ const list = async (req: Request, res: Response) => {
       )
       break
     case CommunityVariant.RECOMMENDED:
-      sessions = await CommunityRepository.listCommunity(userRef, params.cursorId, params.pageSize)
+      sessions = await recommendedSessions(userRef, params)
       break
     default:
       throw new Error('invalid variant type')
   }
 
-  res.status(HTTP_STATUS.OK_200).json(sessions)
+  const cursoredSessions = createListCursorResponse(sessions, params.cursorId, params.pageSize)
+  res.status(HTTP_STATUS.OK_200).json(cursoredSessions)
+}
+
+const recommendedSessions = async (
+  userRef: RefObject,
+  params: NonNullCommunityListParams
+): Promise<SessionCommunityList[]> => {
+  const allSessions: SessionCommunityExtUserList[] =
+    await CommunityRepository.listForRecommended(userRef)
+
+  const evaluatedSessions = allSessions.map((session) => ({
+    sesssion: session,
+    value: evaluateSession(session),
+  }))
+
+  evaluatedSessions.sort((e1, e2) => {
+    const diff = e2.value - e1.value // DESC
+    if (diff != 0) return diff
+
+    // sort secondary by created date DESC
+    return e2.sesssion.createdAt.getTime() - e1.sesssion.createdAt.getTime()
+  })
+
+  const finalSessions = evaluatedSessions.map((e) => e.sesssion).slice()
+  const startIdx =
+    params.cursorId != null
+      ? finalSessions.findIndex((session) => session.id === params.cursorId) + 1
+      : 0
+  const endIdx = startIdx + params.pageSize
+
+  return finalSessions.slice(startIdx, endIdx)
+}
+
+const evaluateSession = (session: SessionCommunityExtUserList): number => {
+  return 0
 }
 
 const getById = async (req: Request, res: Response) => {

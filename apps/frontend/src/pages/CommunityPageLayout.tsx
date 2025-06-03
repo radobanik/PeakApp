@@ -7,16 +7,24 @@ import { ROUTE } from '@/constants/routes'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 
-interface MultiSelectOption {
-  value: string
+export enum RecommenderCategory {
+  TRENDING = 'trending',
+  FOLLOWING = 'following',
+  MY_PROFILE = 'my-profile',
+  MY_STATE = 'my-state',
+}
+
+export interface MultiSelectOption {
+  value: RecommenderCategory
   label: string
 }
 
-const clothingOptions: MultiSelectOption[] = [
-  { value: 'trending', label: 'Trending' },
-  { value: 'following', label: 'Following' },
-  { value: 'my-profile', label: 'My Profile' },
-  { value: 'my-state', label: 'My state' },
+// Update your array to use the enum members
+export const categoriesOptions: MultiSelectOption[] = [
+  { value: RecommenderCategory.TRENDING, label: 'Trending' },
+  { value: RecommenderCategory.FOLLOWING, label: 'Following' },
+  { value: RecommenderCategory.MY_PROFILE, label: 'My Profile' },
+  { value: RecommenderCategory.MY_STATE, label: 'My state' },
 ]
 
 export default function CommunityPageLayout() {
@@ -26,7 +34,7 @@ export default function CommunityPageLayout() {
     [CommunityVariant.RECOMMENDED]: true, // default tab
     [CommunityVariant.FRIENDS]: false,
   })
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const [selectedCategories, setSelectedCategories] = useState<RecommenderCategory[]>([])
 
   const handleTabChange = (value: CommunityVariant) => {
     const newWasOpenedState = Object.fromEntries(
@@ -37,7 +45,7 @@ export default function CommunityPageLayout() {
     setSelectedCategories([])
   }
 
-  const handleSelectionChange = (newSelectedValues: string[]) => {
+  const handleSelectionChange = (newSelectedValues: RecommenderCategory[]) => {
     setSelectedCategories(newSelectedValues)
   }
 
@@ -60,7 +68,7 @@ export default function CommunityPageLayout() {
             onValueChange={handleSelectionChange}
             className="flex flex-wrap gap-2"
           >
-            {clothingOptions.map((option) => (
+            {categoriesOptions.map((option) => (
               <ToggleGroupItem
                 key={option.value}
                 value={option.value}
