@@ -2,12 +2,15 @@ import { API } from '@/constants/api'
 import { api } from './index'
 import { ClimbingObjectDetail, ClimbingObjectNoRoutes } from '@/types/climbingObjectTypes'
 import { RouteDetail, RouteSummary } from '@/types/routeTypes'
-import { PaginatedResponse } from '@/types'
+import { ListResponse } from 'backend/src/model/common/listResponse'
+import { ApprovalState } from '@/types/approvalTypes'
 
-export async function getNewObjects(): Promise<PaginatedResponse<ClimbingObjectNoRoutes>> {
+export async function getNewObjects(page: number): Promise<ListResponse<ClimbingObjectNoRoutes>> {
   const response = await api.get(API.CLIMBING_OBJECT.LIST, {
     params: {
-      approvalStates: 'PENDING',
+      approvalStates: ApprovalState.PENDING,
+      page: page,
+      pageSize: 15,
     },
   })
   if (response.status != 200) {
@@ -25,12 +28,28 @@ export async function getNewObjectById(id: string): Promise<ClimbingObjectDetail
   return response.data
 }
 
-export async function getNewRoutes(page: number): Promise<PaginatedResponse<RouteSummary>> {
+export async function changeClimbingObjectApprovalState(
+  id: string,
+  approvalState: ApprovalState
+): Promise<ClimbingObjectDetail> {
+  const response = await api.patch(API.CLIMBING_OBJECT.APPROVAL(id), null, {
+    params: {
+      approvalState,
+    },
+  })
+  if (response.status != 200) {
+    const error = new Error(response.data.error || 'Error')
+    throw error
+  }
+  return response.data
+}
+
+export async function getNewRoutes(page: number): Promise<ListResponse<RouteSummary>> {
   const response = await api.get(API.ROUTE.LIST, {
     params: {
       page,
       pageSize: 15,
-      approvalStates: 'PENDING',
+      approvalStates: ApprovalState.PENDING,
     },
   })
   if (response.status != 200) {
@@ -41,6 +60,22 @@ export async function getNewRoutes(page: number): Promise<PaginatedResponse<Rout
 
 export async function getNewRouteById(id: string): Promise<RouteDetail> {
   const response = await api.get(`${API.ROUTE.BY_ID}${id}`)
+  if (response.status != 200) {
+    const error = new Error(response.data.error || 'Error')
+    throw error
+  }
+  return response.data
+}
+
+export async function changeRouteApprovalState(
+  id: string,
+  approvalState: ApprovalState
+): Promise<ClimbingObjectDetail> {
+  const response = await api.patch(API.ROUTE.APPROVAL(id), null, {
+    params: {
+      approvalState,
+    },
+  })
   if (response.status != 200) {
     const error = new Error(response.data.error || 'Error')
     throw error

@@ -48,7 +48,7 @@ export default function ReviewRoutesPage() {
         <Separator className="mt-2" />
         <Pagination
           page={page}
-          totalPages={Math.ceil((newRoutesQuery.data?.total ?? 0) / 15)}
+          totalPages={Math.max(newRoutesQuery.data?.totalPages ?? 0, 1)}
           setPage={setPage}
         />
       </div>
