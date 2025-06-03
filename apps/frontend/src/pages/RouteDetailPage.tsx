@@ -69,7 +69,7 @@ export default function RouteDetailPage() {
   useEffect(() => {
     const fetchGrades = async () => {
       try {
-        const response = await api.get(API.GRADE.LIST())
+        const response = await api.get(API.GRADE.LIST)
         setGrades(response.data)
       } catch {
         toast.error('Failed to load grades')
