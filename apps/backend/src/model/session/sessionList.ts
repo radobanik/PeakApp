@@ -2,7 +2,6 @@ import { Difficulty } from '@prisma/client'
 import { RouteList, routeListSelector } from '../route'
 import { UserLabeled, userLabeledSelector } from '../user'
 import { RefObject } from '../common/refObject'
-import { activityListSelector } from '../activity'
 import { peakFileSelector } from '../peakFile'
 
 type ActivityList = {
