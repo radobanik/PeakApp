@@ -1,5 +1,5 @@
 import { Difficulty } from '@prisma/client'
-import { RouteList } from '../route'
+import { RouteList, routeListSelector } from '../route'
 import { UserLabeled, userLabeledSelector } from '../user'
 import { RefObject } from '../common/refObject'
 import { activityListSelector } from '../activity'
@@ -42,7 +42,18 @@ const selector = {
   note: true,
 
   assignedActivities: {
-    select: activityListSelector,
+    select: {
+      id: true,
+
+      climbedAt: true,
+      numOfAttempts: true,
+      perceivedDifficulty: true,
+      notes: true,
+      topped: true,
+      route: {
+        select: routeListSelector,
+      },
+    },
   },
 
   photos: {
