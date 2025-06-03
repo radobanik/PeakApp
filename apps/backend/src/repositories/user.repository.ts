@@ -10,6 +10,7 @@ import {
   userListSelector,
 } from '../model/user/index'
 import { createListResponse, ListResponse } from '../model/common/listResponse'
+import { RefObject } from '../model/common/refObject'
 
 type UserWhere = Prisma.UserWhereInput
 type UserOrder = Prisma.UserOrderByWithRelationInput
@@ -209,6 +210,15 @@ const findByEmail = async (email: string): Promise<UserDetail | null> => {
   })
 }
 
+const getUserState = async (id: string): Promise<string | null> => {
+  const stateName = await userClient.findUnique({
+    where: { id },
+    select: { city: { select: { country: { select: { name: true } } } } },
+  })
+
+  return stateName?.city?.country.name ?? null
+}
+
 export default {
   getUserById,
   listUsers,
@@ -219,6 +229,7 @@ export default {
   validateUser,
   findByUsername,
   findByEmail,
+  getUserState,
 }
 
 export { UserWhere, UserOrder }

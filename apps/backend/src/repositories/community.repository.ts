@@ -6,7 +6,7 @@ import {
   sessionDetailSelector,
 } from '../model/session'
 import { RefObject } from '../model/common/refObject'
-import { activityDetailSelector } from '../model/activity'
+import { activityDetailSelector, activityListSelector } from '../model/activity'
 import { routeListSelector } from '../model/route'
 import prisma from '../core/prisma/client'
 import { userLabeledSelector, UserList, UserLabeled } from '../model/user'
@@ -42,6 +42,10 @@ const listForRecommended = async (userRef: RefObject): Promise<SessionCommunityE
             },
           },
         },
+      },
+      // for deeply nested selectors prisma somehow does not work, it just trolls at this point...
+      assignedActivities: {
+        select: activityListSelector,
       },
       _count: {
         select: {
