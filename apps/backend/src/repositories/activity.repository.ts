@@ -10,7 +10,6 @@ import { createListResponse, ListResponse } from '../model/common/listResponse'
 import { toConnector } from './utils/connector'
 import { RefObject } from '../model/common/refObject'
 import prisma from '../core/prisma/client'
-import { ClimbingStructureType } from '@prisma/client'
 
 const activityClient = prisma.activity
 

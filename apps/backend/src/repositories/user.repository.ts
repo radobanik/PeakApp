@@ -10,7 +10,6 @@ import {
   userListSelector,
 } from '../model/user/index'
 import { createListResponse, ListResponse } from '../model/common/listResponse'
-import { RefObject } from '../model/common/refObject'
 
 type UserWhere = Prisma.UserWhereInput
 type UserOrder = Prisma.UserOrderByWithRelationInput
