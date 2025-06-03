@@ -4,21 +4,17 @@ import {
   IncommingListCursorParams,
   NonNullListCursorParams,
 } from '../common/listCursorResponse'
-import { SessionList, sessionListSelector } from '../session'
+import { SessionList } from './sessionList'
+import { sessionListSelector } from '.'
+import { PeakFile } from '../peakFile'
 
-type CommunitySessionList = {
-  id: string
-  session: SessionList
+type SessionCommunityList = SessionList & {
   likes: number
   hasLiked: boolean
   comments: number
 }
 
-const selector = {
-  session: {
-    select: sessionListSelector,
-  },
-}
+const selector = sessionListSelector
 
 type IncommingCommunityListParams = { variant: string | null } & IncommingListCursorParams
 type NonNullCommunityListParams = { varaint: CommunityVariant } & NonNullListCursorParams
@@ -34,5 +30,10 @@ const defaultCommunityListParams = (
   }
 }
 
-export type { CommunitySessionList, IncommingCommunityListParams, NonNullCommunityListParams }
-export { defaultCommunityListParams, selector }
+const getOnlyProfilePhoto = (media: PeakFile[]) => {
+  const photo = media.find((m) => m.contentType.includes('image'))
+  return photo != undefined ? { id: photo.id } : null
+}
+
+export type { SessionCommunityList, IncommingCommunityListParams, NonNullCommunityListParams }
+export { selector, defaultCommunityListParams, getOnlyProfilePhoto }

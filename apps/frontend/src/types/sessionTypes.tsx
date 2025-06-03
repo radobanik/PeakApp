@@ -1,8 +1,9 @@
 import { UseQueryResult } from '@tanstack/react-query'
-import { Activity } from './activityTypes'
+import { Activity, ActivityList } from './activityTypes'
 import { ClimbingStructureType } from './routeTypes'
 import { perceivedDifficulty } from './utilsTypes'
-import { RefObject } from 'backend/src/model/common/refObject'
+import { UserLabeled } from './userTypes'
+import { RefObject } from './refObject'
 
 export interface User {
   id: string
@@ -32,9 +33,32 @@ export interface SessionCreate {
   name: string
   note: string
   photos: RefObject[]
-  assignedActivities: {
-    id: string
-  }[]
+  assignedActivities: RefObject[]
+}
+
+export type SessionList = {
+  id: string
+  createdAt: Date
+  updatedAt: Date | null
+  createdBy: UserLabeled
+
+  name: string
+  note: string
+
+  assignedActivities: ActivityList[]
+  photo: RefObject | null
+}
+
+export type SessionCommunityList = SessionList & {
+  likes: number
+  hasLiked: boolean
+  comments: number
+}
+
+export type SessionCommunityDetail = Session & {
+  likes: number
+  hasLiked: boolean
+  comments: number
 }
 
 export type SessionQueryType = UseQueryResult<

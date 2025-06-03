@@ -1,8 +1,9 @@
-import noBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
-import { FC } from 'react'
+import NoBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
+import { FC, useEffect, useState } from 'react'
 import { SessionEntry } from '@/pages/DiaryPage'
 import { Link } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
+import { getFile } from '@/services/fileService'
 
 export type SessionTableEntryProps = {
   entry: SessionEntry
@@ -15,6 +16,19 @@ const SessionTableEntry: FC<SessionTableEntryProps> = ({
 }: SessionTableEntryProps) => {
   const date = new Date(entry.createdAt).toLocaleDateString()
   const activityString = entry.numberOfActivities === 1 ? ' activity' : ' activities'
+  const [sessionPhoto, setSessionPhoto] = useState(NoBoulderPhoto)
+
+  // get photo url
+  useEffect(() => {
+    const getPhoto = async () => {
+      const photo = entry.photo
+      if (photo != undefined) {
+        const photoFile = await getFile(photo.id)
+        setSessionPhoto(photoFile.url)
+      }
+    }
+    getPhoto()
+  }, [])
 
   return (
     <Link to={`${ROUTE.SESSIONS}/${entry.id}`} state={{ from: backRoute }} className="w-full">
@@ -28,7 +42,11 @@ const SessionTableEntry: FC<SessionTableEntryProps> = ({
             <p>{entry.numberOfActivities + activityString}</p>
           </div>
         </div>
-        <img src={noBoulderPhoto} className="rounded-md max-w-[25%] max-h-[25%]" alt="Route" />
+        <img
+          src={sessionPhoto}
+          className="rounded-md max-w-[25%] max-h-[25%] object-cover"
+          alt="Session"
+        />
       </div>
     </Link>
   )

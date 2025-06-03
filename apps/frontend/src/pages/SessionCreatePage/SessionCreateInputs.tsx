@@ -110,7 +110,7 @@ export default function SessionCreateInputs() {
               )}
             />
 
-            <div className="p-4 h-[20vh] w-full">
+            <div className="h-[20vh] w-full">
               {/* TODO it overflows when adding more pictures, FIX*/}
               <MediaScroll {...{ media: media, setMedia: setMedia, editable: true }} />
             </div>

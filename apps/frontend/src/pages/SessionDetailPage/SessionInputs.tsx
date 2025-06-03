@@ -170,7 +170,7 @@ export function SessionInputs() {
 
             {sessionQuery.isSuccess && (
               /* TODO it overflows when adding more pictures, FIX*/
-              <div className="p-4 h-[20vh]">
+              <div className="h-[20vh] w-full">
                 <MediaScroll {...{ media: media, setMedia: setMedia, editable: isEdit }} />
               </div>
             )}

@@ -1,9 +1,9 @@
 import { API } from '@/constants/api'
 import { api } from './index'
-import { Session, SessionUpdate } from '@/types/sessionTypes'
+import { Session, SessionList, SessionUpdate } from '@/types/sessionTypes'
 import { PaginatedResponse } from '@/types'
 
-export async function getSessions(): Promise<PaginatedResponse<Session>> {
+export async function getSessions(): Promise<PaginatedResponse<SessionList>> {
   const response = await api.get(API.SESSION.LIST)
   return response.data
 }

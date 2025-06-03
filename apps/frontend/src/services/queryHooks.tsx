@@ -117,6 +117,7 @@ export const useSessionsQuery = () => {
         name: session.name,
         note: session.note,
         numberOfActivities: session.assignedActivities.length,
+        photo: session.photo,
       })),
       totalCount: data.total,
     }),

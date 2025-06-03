@@ -1,6 +1,8 @@
 import { Difficulty } from '@prisma/client'
 import { RouteList, routeListSelector } from '../route'
 import { UserLabeled, userLabeledSelector } from '../user'
+import { RefObject } from '../common/refObject'
+import { peakFileSelector } from '../peakFile'
 
 type ActivityList = {
   id: string
@@ -24,6 +26,7 @@ type SessionList = {
   note: string
 
   assignedActivities: ActivityList[]
+  photo: RefObject | null
 }
 
 const selector = {
@@ -46,9 +49,16 @@ const selector = {
       perceivedDifficulty: true,
       notes: true,
       topped: true,
-
       route: {
         select: routeListSelector,
+      },
+    },
+  },
+
+  photos: {
+    select: {
+      peakFile: {
+        select: peakFileSelector,
       },
     },
   },

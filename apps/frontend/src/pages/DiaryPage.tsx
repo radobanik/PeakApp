@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import { useNavigate } from 'react-router-dom'
 import { ClimbingStructureType } from '@/types/routeTypes'
 import { ROUTE } from '@/constants/routes'
+import { RefObject } from '@/types/refObject'
 
 export type ActivityEntry = {
   id: string
@@ -19,6 +20,7 @@ export type SessionEntry = {
   name: string
   note: string
   numberOfActivities: number
+  photo: RefObject | null
 }
 
 export default function DiaryPage() {
