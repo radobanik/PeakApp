@@ -93,6 +93,7 @@ const list = async (req: Request, res: Response) => {
     ],
   }
 
+  console.log(normalizedParams.approvalStates)
   const where: ClimbingObjectWhere = {
     AND: [
       {
