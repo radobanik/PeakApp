@@ -6,7 +6,7 @@ export enum perceivedDifficulty {
 }
 
 export enum CommunityVariant {
-  RECENT = 'recent',
+  RECOMMENDED = 'recommended',
   FRIENDS = 'friends',
 }
 

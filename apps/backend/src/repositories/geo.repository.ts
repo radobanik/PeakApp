@@ -23,8 +23,18 @@ const getCityById = async (cityId: string): Promise<GeoCityWithCountry | null> =
   })
 }
 
+const getCityIdByName = async (name: string): Promise<string | null> => {
+  const city = await prisma.city.findFirst({
+    select: { id: true },
+    where: { name },
+  })
+
+  return city?.id ?? null
+}
+
 export default {
   getAllCountries,
   getCitiesByCountry,
   getCityById,
+  getCityIdByName,
 }

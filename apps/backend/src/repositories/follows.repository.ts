@@ -1,12 +1,12 @@
-import { PrismaClient } from '@prisma/client'
 import { FollowsDetail, followsDetailSelector } from '../model/follows'
 import { toConnector } from './utils/connector'
 import { RefObject } from '../model/common/refObject'
 import { followerListSelector } from '../model/follows/followerList'
 import { followeeListSelector } from '../model/follows/followeeList'
 import { UserList } from '../model/user'
+import prisma from '../core/prisma/client'
 
-const followingClient = new PrismaClient().follows
+const followingClient = prisma.follows
 
 const listFollowers = async (userId: string): Promise<UserList[]> => {
   const followers = await followingClient.findMany({
@@ -28,6 +28,13 @@ const listFollowing = async (userId: string): Promise<UserList[]> => {
   })
 
   return followees.map((followee) => followee.followee)
+}
+
+const listFriends = async (userId: string) => {
+  const [followers, following] = await Promise.all([listFollowers(userId), listFollowing(userId)])
+
+  const followerIds = new Set<string>(followers.map((user) => user.id))
+  return following.filter((user) => followerIds.has(user.id))
 }
 
 const createFollow = async (follower: RefObject, followee: RefObject): Promise<FollowsDetail> => {
@@ -60,4 +67,4 @@ const exists = async (followerId: string, followeeId: string): Promise<boolean> 
   return !!follow
 }
 
-export default { listFollowers, listFollowing, createFollow, deleteFollow, exists }
+export default { listFollowers, listFollowing, createFollow, deleteFollow, exists, listFriends }

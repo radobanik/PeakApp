@@ -16,11 +16,11 @@ import initAchievements from './achievement.init'
  * must be in the right order!
  */
 const initFunctions = [
+  initGeoData,
   initUsers,
   initGrades,
   initClimbingObjects,
   initRoutes,
-  initGeoData,
   initActivities,
   initSessions,
   initComments,

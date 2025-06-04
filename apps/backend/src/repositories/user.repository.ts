@@ -209,6 +209,15 @@ const findByEmail = async (email: string): Promise<UserDetail | null> => {
   })
 }
 
+const getUserState = async (id: string): Promise<string | null> => {
+  const stateName = await userClient.findUnique({
+    where: { id },
+    select: { city: { select: { country: { select: { name: true } } } } },
+  })
+
+  return stateName?.city?.country.name ?? null
+}
+
 export default {
   getUserById,
   listUsers,
@@ -219,6 +228,7 @@ export default {
   validateUser,
   findByUsername,
   findByEmail,
+  getUserState,
 }
 
 export { UserWhere, UserOrder }

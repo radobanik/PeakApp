@@ -1,4 +1,4 @@
-import { CommunityVariant } from '../../controllers/community.controller'
+import { CommunityVariant, RecommenderCategory } from '../../controllers/community.controller'
 import {
   defaultListCursorParams,
   IncommingListCursorParams,
@@ -16,16 +16,31 @@ type SessionCommunityList = SessionList & {
 
 const selector = sessionListSelector
 
-type IncommingCommunityListParams = { variant: string | null } & IncommingListCursorParams
-type NonNullCommunityListParams = { varaint: CommunityVariant } & NonNullListCursorParams
+type IncommingCommunityListParams = {
+  variant: string | null
+  selectedCategories: string
+} & IncommingListCursorParams
+
+type NonNullCommunityListParams = {
+  variant: CommunityVariant
+  selectedCategories: RecommenderCategory[]
+} & NonNullListCursorParams
 
 const defaultCommunityListParams = (
   params: IncommingCommunityListParams
 ): NonNullCommunityListParams => {
   return {
-    varaint: Object.values(CommunityVariant).includes(params.variant as CommunityVariant)
+    variant: Object.values(CommunityVariant).includes(params.variant as CommunityVariant)
       ? (params.variant as CommunityVariant)
-      : CommunityVariant.RECENT,
+      : CommunityVariant.RECOMMENDED,
+
+    selectedCategories: params.selectedCategories
+      .split(',')
+      .filter((category) =>
+        Object.values(RecommenderCategory).includes(category as RecommenderCategory)
+      )
+      .map((category) => category as RecommenderCategory),
+
     ...defaultListCursorParams(params),
   }
 }

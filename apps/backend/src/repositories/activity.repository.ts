@@ -139,6 +139,24 @@ const assign = async (user: RefObject, ids: string[], sessionId: string) => {
   })
 }
 
+const getUserLastClimbsTypes = async (user: RefObject, count: number) => {
+  const lastClimbingStructureTypes = await activityClient.findMany({
+    select: {
+      route: {
+        select: {
+          climbingStructureType: true,
+        },
+      },
+    },
+    take: count,
+    orderBy: {
+      createdAt: 'desc',
+    },
+  })
+
+  return lastClimbingStructureTypes.map((type) => type.route.climbingStructureType)
+}
+
 export default {
   getById,
   list,
@@ -148,4 +166,5 @@ export default {
   deleteById,
   unassign,
   assign,
+  getUserLastClimbsTypes,
 }

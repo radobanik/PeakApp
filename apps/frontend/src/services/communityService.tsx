@@ -12,13 +12,15 @@ export const getSession = async (sessionId: string): Promise<SessionCommunityDet
 export const list = async (
   cursorId: string | null,
   pageSize: number,
-  variant: CommunityVariant
+  variant: CommunityVariant,
+  selectedCategories: string[]
 ): Promise<ListCursorResponse<SessionCommunityList>> => {
   const response = await api.get(API.COMMUNITY.LIST(), {
     params: {
       cursorId: cursorId,
       pageSize: pageSize,
       variant: variant,
+      selectedCategories: selectedCategories.join(','),
     },
   })
   return response.data
