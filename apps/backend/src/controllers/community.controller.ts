@@ -132,6 +132,7 @@ const recommendedSessions = async (
     return e2.session.createdAt.getTime() - e1.session.createdAt.getTime()
   })
 
+  // // Demo logs for evaluations (to showcase it is actually calculating something)
   // console.log(evaluatedSessions)
   // console.log('==========')
   const finalSessions = evaluatedSessions.map((e) => e.session)
