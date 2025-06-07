@@ -123,6 +123,10 @@ export default function RouteDetailPage() {
     }
   }
 
+  const handleNavigateToEditor = () => {
+    navigate(ROUTE.ROUTE_EDITOR)
+  }
+
   const onSubmit = async (data: EditRouteForm) => {
     setIsSubmitting(true)
     try {
@@ -275,6 +279,13 @@ export default function RouteDetailPage() {
                     file:bg-blue-50 file:text-blue-700
                     hover:file:bg-blue-100"
                 />
+                <button
+                  onClick={handleNavigateToEditor}
+                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                  type="button"
+                >
+                  Draw Route
+                </button>
                 {isImageUploading && <span>Uploading...</span>}
               </div>
 

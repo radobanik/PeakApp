@@ -39,6 +39,7 @@ import NotificationsPage from './pages/NotificationsPage/NotificationsPage'
 import { getUnreadNotificationCount } from './services/notificationService'
 import ClimbingObjectDetailPage from './pages/ClimbingObjectDetailPage'
 import AchievementsPage from './pages/Backoffice/AchievementsPage'
+import RouteEditorPage from './pages/RouteEditorPage'
 
 type ViewportContextType = {
   isMobile: boolean
@@ -169,6 +170,7 @@ export default function App() {
                       />
                     </Route>
                     <Route path={ROUTE.SUBMIT} element={privateRoute(<SubmitPage />)} />
+                    <Route path={ROUTE.ROUTE_EDITOR} element={privateRoute(<RouteEditorPage />)} />
 
                     <Route path={ROUTE.SETTINGS} element={privateRoute(<SettingsLayout />)}>
                       <Route
