@@ -13,6 +13,7 @@ import { createFile, getFile } from '@/services/fileService'
 import { PeakFile } from '@/types/fileTypes'
 import { GradeDetail } from '@/types/gradeTypes'
 import { ROUTE } from '@/constants/routes'
+import { EditorOverlay } from '@/components/RouteEditor/EditorOverlay'
 
 const editRouteSchema = z.object({
   name: z.string().min(1, 'Name must not be empty'),
@@ -47,6 +48,7 @@ export default function RouteDetailPage() {
   const [newImage, setNewImage] = useState<PeakFile | null>(null)
   const [currentImage, setCurrentImage] = useState<PeakFile | null>(null)
   const [grades, setGrades] = useState<GradeDetail[]>([])
+  const [isEditorOpen, setIsEditorOpen] = useState(false)
 
   const {
     register,
@@ -124,7 +126,16 @@ export default function RouteDetailPage() {
   }
 
   const handleNavigateToEditor = () => {
-    navigate(ROUTE.ROUTE_EDITOR)
+    setIsEditorOpen(true)
+  }
+
+  const handleEditorClose = () => {
+    setIsEditorOpen(false)
+  }
+
+  const handleEditorSave = (fileId: string) => {
+    setNewImage({ id: fileId })
+    setIsEditorOpen(false)
   }
 
   const onSubmit = async (data: EditRouteForm) => {
@@ -350,6 +361,14 @@ export default function RouteDetailPage() {
         </form>
       ) : (
         routeDetail?.data && <RouteDetailWithComments routeData={routeDetail.data} />
+      )}
+
+      {isEditorOpen && (
+        <EditorOverlay
+          onClose={handleEditorClose}
+          onSave={handleEditorSave}
+          initialImage={currentImage?.url || newImage?.url}
+        />
       )}
     </div>
   )

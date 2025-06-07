@@ -23,7 +23,6 @@ export const ROUTE = {
 
   NEW_ROUTES: '/settings/new-routes',
   NEW_ROUTES_DETAIL: '/settings/new-routes/:id',
-  ROUTE_EDITOR: '/route-editor',
   NEW_CLIMBING_OBJECTS: '/settings/new-climbing-objects',
   NEW_CLIMBING_OBJECTS_DETAIL: '/settings/new-climbing-objects/:id',
 
