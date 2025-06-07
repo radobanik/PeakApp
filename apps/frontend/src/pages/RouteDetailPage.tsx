@@ -13,6 +13,7 @@ import { createFile, getFile } from '@/services/fileService'
 import { PeakFile } from '@/types/fileTypes'
 import { GradeDetail } from '@/types/gradeTypes'
 import { ROUTE } from '@/constants/routes'
+import { EditorOverlay } from '@/components/RouteEditor/EditorOverlay'
 
 const editRouteSchema = z.object({
   name: z.string().min(1, 'Name must not be empty'),
@@ -47,6 +48,7 @@ export default function RouteDetailPage() {
   const [newImage, setNewImage] = useState<PeakFile | null>(null)
   const [currentImage, setCurrentImage] = useState<PeakFile | null>(null)
   const [grades, setGrades] = useState<GradeDetail[]>([])
+  const [isEditorOpen, setIsEditorOpen] = useState(false)
 
   const {
     register,
@@ -123,6 +125,25 @@ export default function RouteDetailPage() {
     }
   }
 
+  const handleNavigateToEditor = () => {
+    setIsEditorOpen(true)
+  }
+
+  const handleEditorClose = () => {
+    setIsEditorOpen(false)
+  }
+
+  const handleEditorSave = async (fileId: string) => {
+    try {
+      const uploadedFile = await getFile(fileId)
+      setNewImage(uploadedFile)
+      setIsEditorOpen(false)
+      toast.success('Route drawing saved successfully')
+    } catch {
+      toast.error('Failed to load saved drawing')
+    }
+  }
+
   const onSubmit = async (data: EditRouteForm) => {
     setIsSubmitting(true)
     try {
@@ -149,6 +170,10 @@ export default function RouteDetailPage() {
       if (!response.status.toString().startsWith('2')) throw new Error('Failed to save route')
 
       toast.success(`Route ${isCreateMode ? 'created' : 'updated'} successfully`)
+
+      // Clear image preview after successful save
+      setNewImage(null)
+
       if (isCreateMode) {
         navigate(`${ROUTE.ROUTE}/${response.data.id}`)
       } else {
@@ -275,6 +300,13 @@ export default function RouteDetailPage() {
                     file:bg-blue-50 file:text-blue-700
                     hover:file:bg-blue-100"
                 />
+                <button
+                  onClick={handleNavigateToEditor}
+                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                  type="button"
+                >
+                  Draw Route
+                </button>
                 {isImageUploading && <span>Uploading...</span>}
               </div>
 
@@ -339,6 +371,14 @@ export default function RouteDetailPage() {
         </form>
       ) : (
         routeDetail?.data && <RouteDetailWithComments routeData={routeDetail.data} />
+      )}
+
+      {isEditorOpen && (
+        <EditorOverlay
+          onClose={handleEditorClose}
+          onSave={handleEditorSave}
+          initialImage={currentImage?.url || newImage?.url}
+        />
       )}
     </div>
   )

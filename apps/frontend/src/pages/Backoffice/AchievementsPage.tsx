@@ -18,7 +18,7 @@ import { TrashIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import PencilEditIcon from '@/components/svg/PencilEditIcon'
 import { AlertDialogDelete } from '@/components/ui/custom/alert-dialog-delete'
-import { AchievementEditDialog } from '@/components/achievementEditDialog'
+import { AchievementEditDialog } from '@/components/AchievementEditDialog'
 
 const columns = (
   onEditClick: (achievement: AchievementDetailWithIconMetadata) => void,

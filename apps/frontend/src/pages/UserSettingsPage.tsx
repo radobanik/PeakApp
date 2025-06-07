@@ -15,7 +15,7 @@ import * as userService from '@/services/userService'
 import * as fileService from '@/services/fileService'
 import { PeakFile } from '@/types/fileTypes'
 import { toast } from 'sonner'
-import { AchievementListing } from '@/components/achievementListing'
+import { AchievementListing } from '@/components/AchievementListing'
 import { UserDetailResponse } from '@/types/userTypes'
 
 type FormValues = {
