@@ -4,6 +4,10 @@ import { createFile } from '@/services/fileService'
 import { toast } from 'sonner'
 
 type Point = { x: number; y: number; type?: 'start' | 'end' | 'path' }
+type HistoryState = {
+  dataUrl: string
+  points: Point[]
+}
 
 enum COLOR {
   RED = '#FF0000',
@@ -17,7 +21,7 @@ enum DRAWING_MODE {
   POINTS = 'points',
 }
 const DEFAULT_ROUTE_COLORS = [COLOR.RED, COLOR.GREEN, COLOR.BLUE, COLOR.YELLOW, COLOR.MAGENTA]
-const DEFAULT_STROKE_WIDTH = 4
+const DEFAULT_STROKE_WIDTH = 6
 
 export default function RouteEditorPage() {
   const [selectedColor, setSelectedColor] = useState('#FF0000')
@@ -26,6 +30,8 @@ export default function RouteEditorPage() {
   const [points, setPoints] = useState<Point[]>([])
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 })
+  const [history, setHistory] = useState<HistoryState[]>([])
+  const [currentHistoryIndex, setCurrentHistoryIndex] = useState(-1)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const contextRef = useRef<CanvasRenderingContext2D | null>(null)
   const navigate = useNavigate()
@@ -35,22 +41,20 @@ export default function RouteEditorPage() {
       const canvas = canvasRef.current
       const container = canvas.parentElement!
 
-      // Set canvas size to match container size
       const updateCanvasSize = () => {
         const { width, height } = container.getBoundingClientRect()
         setCanvasSize({ width, height })
         canvas.width = width
         canvas.height = height
 
-        // Restore context properties after resize
+        // Initialize context once
         const context = canvas.getContext('2d')
         if (context) {
-          context.strokeStyle = selectedColor
           context.lineWidth = DEFAULT_STROKE_WIDTH
           context.lineCap = 'round'
           contextRef.current = context
 
-          // Redraw image if it exists
+          // Redraw image if exists
           if (selectedImage) {
             const img = new Image()
             img.onload = () => {
@@ -65,7 +69,15 @@ export default function RouteEditorPage() {
       window.addEventListener('resize', updateCanvasSize)
       return () => window.removeEventListener('resize', updateCanvasSize)
     }
-  }, [selectedColor, selectedImage])
+  }, [selectedImage])
+
+  // Update context color separately
+  useEffect(() => {
+    if (contextRef.current) {
+      contextRef.current.strokeStyle = selectedColor
+      contextRef.current.fillStyle = selectedColor
+    }
+  }, [selectedImage, selectedColor])
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -86,12 +98,88 @@ export default function RouteEditorPage() {
     }
   }
 
+  const saveToHistory = () => {
+    if (!canvasRef.current) return
+
+    const newState: HistoryState = {
+      dataUrl: canvasRef.current.toDataURL(),
+      points: [...points],
+    }
+
+    const newHistory = history.slice(0, currentHistoryIndex + 1)
+    newHistory.push(newState)
+
+    setHistory(newHistory)
+    setCurrentHistoryIndex(newHistory.length - 1)
+  }
+
+  const handleClear = (isHistoryUpdated = true) => {
+    if (!canvasRef.current || !contextRef.current) return
+
+    const ctx = contextRef.current
+    ctx.clearRect(0, 0, canvasSize.width, canvasSize.height)
+
+    // Redraw background image if exists
+    if (selectedImage) {
+      const img = new Image()
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0, canvasSize.width, canvasSize.height)
+      }
+      img.src = selectedImage
+    }
+
+    setPoints([])
+    if (isHistoryUpdated) saveToHistory()
+  }
+
+  const handleUndo = () => {
+    if (currentHistoryIndex < 0) return
+
+    const newIndex = currentHistoryIndex - 1
+    if (newIndex < 0) {
+      // Clear to initial state
+      handleClear(false)
+      setCurrentHistoryIndex(newIndex)
+      return
+    }
+
+    const previousState = history[newIndex]
+
+    if (previousState && contextRef.current) {
+      const img = new Image()
+      img.onload = () => {
+        contextRef.current!.clearRect(0, 0, canvasSize.width, canvasSize.height)
+        contextRef.current!.drawImage(img, 0, 0, canvasSize.width, canvasSize.height)
+      }
+      img.src = previousState.dataUrl
+      setPoints(previousState.points)
+      setCurrentHistoryIndex(newIndex)
+    }
+  }
+
+  const handleRedo = () => {
+    if (currentHistoryIndex >= history.length - 1) return
+
+    const newIndex = currentHistoryIndex + 1
+    const nextState = history[newIndex]
+
+    if (nextState && contextRef.current) {
+      const img = new Image()
+      img.onload = () => {
+        contextRef.current!.clearRect(0, 0, canvasSize.width, canvasSize.height)
+        contextRef.current!.drawImage(img, 0, 0, canvasSize.width, canvasSize.height)
+      }
+      img.src = nextState.dataUrl
+      setPoints(nextState.points)
+      setCurrentHistoryIndex(newIndex)
+    }
+  }
+
   const startDrawing = ({ nativeEvent }: React.MouseEvent) => {
     const { offsetX, offsetY } = nativeEvent
     if (drawingMode === DRAWING_MODE.FREEHAND) {
       setIsDrawing(true)
       if (contextRef.current) {
-        contextRef.current.strokeStyle = selectedColor
         contextRef.current.beginPath()
         contextRef.current.moveTo(offsetX, offsetY)
       }
@@ -99,7 +187,6 @@ export default function RouteEditorPage() {
       setPoints([...points, { x: offsetX, y: offsetY, type: 'path' }])
       // Draw point
       if (contextRef.current) {
-        contextRef.current.fillStyle = selectedColor
         contextRef.current.beginPath()
         contextRef.current.arc(offsetX, offsetY, 3, 0, 2 * Math.PI)
         contextRef.current.fill()
@@ -107,12 +194,12 @@ export default function RouteEditorPage() {
         // Draw lines between points
         if (points.length > 0) {
           const lastPoint = points[points.length - 1]
-          contextRef.current.strokeStyle = selectedColor
           contextRef.current.beginPath()
           contextRef.current.moveTo(lastPoint.x, lastPoint.y)
           contextRef.current.lineTo(offsetX, offsetY)
           contextRef.current.stroke()
         }
+        saveToHistory()
       }
     }
   }
@@ -125,7 +212,10 @@ export default function RouteEditorPage() {
   }
 
   const stopDrawing = () => {
-    setIsDrawing(false)
+    if (isDrawing) {
+      setIsDrawing(false)
+      saveToHistory()
+    }
   }
 
   const handleSave = async () => {
@@ -183,6 +273,31 @@ export default function RouteEditorPage() {
             <option value={DRAWING_MODE.FREEHAND}>Freehand</option>
             <option value={DRAWING_MODE.POINTS}>Points</option>
           </select>
+
+          <div className="flex gap-2 ml-4">
+            <button
+              onClick={handleUndo}
+              disabled={currentHistoryIndex < 0}
+              className="px-3 py-1 bg-gray-200 text-gray-700 rounded disabled:opacity-50"
+              title="Undo"
+            >
+              ↩
+            </button>
+            <button
+              onClick={handleRedo}
+              disabled={currentHistoryIndex >= history.length - 1}
+              className="px-3 py-1 bg-gray-200 text-gray-700 rounded disabled:opacity-50"
+              title="Redo"
+            >
+              ↪
+            </button>
+            <button
+              onClick={() => handleClear()}
+              className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+            >
+              Clear
+            </button>
+          </div>
         </div>
       </div>
 
