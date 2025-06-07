@@ -133,9 +133,15 @@ export default function RouteDetailPage() {
     setIsEditorOpen(false)
   }
 
-  const handleEditorSave = (fileId: string) => {
-    setNewImage({ id: fileId })
-    setIsEditorOpen(false)
+  const handleEditorSave = async (fileId: string) => {
+    try {
+      const uploadedFile = await getFile(fileId)
+      setNewImage(uploadedFile)
+      setIsEditorOpen(false)
+      toast.success('Route drawing saved successfully')
+    } catch {
+      toast.error('Failed to load saved drawing')
+    }
   }
 
   const onSubmit = async (data: EditRouteForm) => {
@@ -164,6 +170,10 @@ export default function RouteDetailPage() {
       if (!response.status.toString().startsWith('2')) throw new Error('Failed to save route')
 
       toast.success(`Route ${isCreateMode ? 'created' : 'updated'} successfully`)
+
+      // Clear image preview after successful save
+      setNewImage(null)
+
       if (isCreateMode) {
         navigate(`${ROUTE.ROUTE}/${response.data.id}`)
       } else {
