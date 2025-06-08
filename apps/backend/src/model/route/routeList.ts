@@ -40,7 +40,7 @@ const selector = {
   longitude: true,
   latitude: true,
   image: {
-    select: refObjectSelector
+    select: refObjectSelector,
   },
   approvalState: true,
 }
