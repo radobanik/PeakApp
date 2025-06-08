@@ -44,7 +44,7 @@ export function SessionInputs() {
       updateSession(sessionId, data)
     },
     onSuccess: () => {
-      queryClient.removeQueries({ queryKey: [sessionId] })
+      queryClient.refetchQueries({ queryKey: ['session', sessionId] })
       toast.success('Activity updated successfully')
     },
     onError: () => {},
@@ -57,7 +57,7 @@ export function SessionInputs() {
     onSuccess: () => {
       navigation(ROUTE.SESSIONS)
       queryClient.invalidateQueries({ queryKey: ['activities'] })
-      queryClient.removeQueries({ queryKey: [sessionId] })
+      queryClient.removeQueries({ queryKey: ['session', sessionId] })
       toast.success('Activity deleted successfully')
       {
         /* TODO: Investigate attempted retrieve of recently deleted Activity (even after these invalidations) */
@@ -131,7 +131,6 @@ export function SessionInputs() {
                     <Input
                       readOnly={!isEdit}
                       placeholder="Write Session name here..."
-                      defaultValue={sessionQuery.data?.name}
                       className="text-2xl"
                       {...field}
                     />
@@ -152,7 +151,6 @@ export function SessionInputs() {
                         disabled={!isEdit}
                         placeholder="Write your Notes here..."
                         className="resize-none h-[15vh] w-full"
-                        defaultValue={sessionQuery.data.note}
                         {...field}
                       />
                     </FormControl>
