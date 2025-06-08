@@ -2,8 +2,10 @@ import toppedIcon from '@/assets/toppedIcon.png'
 import noBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
 import { ActivityEntry } from '@/pages/DiaryPage'
 import { Checkbox } from './ui/checkbox'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { SessionActivitiesContext } from '@/pages/SessionDetailPage/SessionDetail'
+import { PeakFile } from '@/types/fileTypes'
+import { getFile } from '@/services/fileService'
 
 export type SessionActivityTableEntryProps = {
   entry: ActivityEntry
@@ -17,6 +19,7 @@ export default function SessionActivityTableEntry({ entry }: SessionActivityTabl
   const isSingleAttempt = entry.numOfAttempts === 1
   const attemptsString = `${entry.numOfAttempts} attempt${isSingleAttempt ? '' : 's'}`
   const [checked, setChecked] = useState(checkedEntriesIds.includes(entry.id))
+  const [image, setImage] = useState<PeakFile | null>(null)
 
   const handleEntryClick = () => {
     if (checked) {
@@ -27,6 +30,15 @@ export default function SessionActivityTableEntry({ entry }: SessionActivityTabl
       setChecked(true)
     }
   }
+
+  useEffect(() => {
+    if (image === null && entry.imageId) {
+      getFile(entry.imageId)
+        .then((fetchedImage) => setImage(fetchedImage))
+        .catch(() => console.error('Failed to load image'))
+    }
+  }),
+    [entry.imageId]
 
   return (
     <div
@@ -47,7 +59,11 @@ export default function SessionActivityTableEntry({ entry }: SessionActivityTabl
           <div className="">{entry.topped && <img src={toppedIcon} />}</div>
         </div>
       </div>
-      <img src={noBoulderPhoto} className="rounded-md max-w-[25%] max-h-[25%]" alt="Route" />
+      <img
+        src={image === null ? noBoulderPhoto : image.url}
+        className="rounded-md max-w-[25%] max-h-[25%]"
+        alt="Route"
+      />
     </div>
   )
 }

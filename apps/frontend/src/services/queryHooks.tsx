@@ -57,6 +57,7 @@ export const useAssignedActivitiesQuery = (sessionId: string) => {
         routeType: activity.route.climbingStructureType,
         numOfAttempts: activity.numOfAttempts,
         topped: activity.topped,
+        imageId: activity.route.image?.id || null,
       })),
     }),
   })
@@ -102,6 +103,7 @@ export const useSessionQuery = (id: string) => {
         numOfAttempts: activity.numOfAttempts,
         topped: activity.topped,
         notes: activity.notes,
+        imageId: activity.route.image?.id || null,
       })),
       createdBy: data.createdBy,
     }),
