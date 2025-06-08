@@ -40,9 +40,9 @@ import {
 } from './user.init'
 import { frenchGrades } from './grade.init'
 
-function getRandomGradeRating() {
+function getRandomGrade() {
   const idx = Math.floor(Math.random() * frenchGrades.length)
-  return frenchGrades[idx].rating
+  return frenchGrades[idx]
 }
 
 export const REVIEWS = [
@@ -53,7 +53,7 @@ export const REVIEWS = [
     routeId: ROUTE_1_ID,
     createdAt: '2025-04-16T07:24:31.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 4,
@@ -62,7 +62,7 @@ export const REVIEWS = [
     routeId: ROUTE_1_ID,
     createdAt: '2025-04-12T01:37:29.460035Z',
     updatedAt: '2025-04-13T21:37:29.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 4,
@@ -71,7 +71,7 @@ export const REVIEWS = [
     routeId: ROUTE_2_ID,
     createdAt: '2025-04-12T18:11:02.460035Z',
     updatedAt: '2025-04-13T10:11:02.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 1,
@@ -80,7 +80,7 @@ export const REVIEWS = [
     routeId: ROUTE_2_ID,
     createdAt: '2025-04-19T05:19:12.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 4,
@@ -89,7 +89,7 @@ export const REVIEWS = [
     routeId: ROUTE_3_ID,
     createdAt: '2025-04-16T17:38:31.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 5,
@@ -98,7 +98,7 @@ export const REVIEWS = [
     routeId: ROUTE_3_ID,
     createdAt: '2025-04-24T08:46:49.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 4,
@@ -107,7 +107,7 @@ export const REVIEWS = [
     routeId: ROUTE_4_ID,
     createdAt: '2025-04-05T04:36:16.460035Z',
     updatedAt: '2025-04-07T22:36:16.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 1,
@@ -116,7 +116,7 @@ export const REVIEWS = [
     routeId: ROUTE_4_ID,
     createdAt: '2025-04-22T22:11:10.460035Z',
     updatedAt: '2025-04-23T17:11:10.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 4,
@@ -125,7 +125,7 @@ export const REVIEWS = [
     routeId: ROUTE_5_ID,
     createdAt: '2025-04-01T18:29:18.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 0,
@@ -134,7 +134,7 @@ export const REVIEWS = [
     routeId: ROUTE_5_ID,
     createdAt: '2025-04-01T01:34:29.460035Z',
     updatedAt: '2025-04-03T06:34:29.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 0,
@@ -143,7 +143,7 @@ export const REVIEWS = [
     routeId: ROUTE_6_ID,
     createdAt: '2025-04-22T05:27:44.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 3,
@@ -152,7 +152,7 @@ export const REVIEWS = [
     routeId: ROUTE_6_ID,
     createdAt: '2025-04-21T14:23:36.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 4,
@@ -161,7 +161,7 @@ export const REVIEWS = [
     routeId: ROUTE_7_ID,
     createdAt: '2025-04-04T07:57:09.460035Z',
     updatedAt: '2025-04-06T13:57:09.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 2,
@@ -170,7 +170,7 @@ export const REVIEWS = [
     routeId: ROUTE_7_ID,
     createdAt: '2025-04-29T00:21:09.460035Z',
     updatedAt: '2025-04-30T21:41:00.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 5,
@@ -179,7 +179,7 @@ export const REVIEWS = [
     routeId: ROUTE_8_ID,
     createdAt: '2025-04-02T19:26:50.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 1,
@@ -188,7 +188,7 @@ export const REVIEWS = [
     routeId: ROUTE_8_ID,
     createdAt: '2025-04-14T18:39:43.460035Z',
     updatedAt: '2025-04-15T23:39:43.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 5,
@@ -197,7 +197,7 @@ export const REVIEWS = [
     routeId: ROUTE_9_ID,
     createdAt: '2025-04-25T01:18:51.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 0,
@@ -206,7 +206,7 @@ export const REVIEWS = [
     routeId: ROUTE_9_ID,
     createdAt: '2025-04-13T16:17:23.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 4,
@@ -215,7 +215,7 @@ export const REVIEWS = [
     routeId: ROUTE_10_ID,
     createdAt: '2025-04-21T02:46:43.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 2,
@@ -224,7 +224,7 @@ export const REVIEWS = [
     routeId: ROUTE_10_ID,
     createdAt: '2025-04-27T16:19:03.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 3,
@@ -233,7 +233,7 @@ export const REVIEWS = [
     routeId: ROUTE_11_ID,
     createdAt: '2025-04-01T23:04:03.460035Z',
     updatedAt: '2025-04-04T05:04:03.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 4,
@@ -242,7 +242,7 @@ export const REVIEWS = [
     routeId: ROUTE_11_ID,
     createdAt: '2025-04-16T08:39:02.460035Z',
     updatedAt: '2025-04-16T21:39:02.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 1,
@@ -251,7 +251,7 @@ export const REVIEWS = [
     routeId: ROUTE_12_ID,
     createdAt: '2025-04-01T06:07:49.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 5,
@@ -260,7 +260,7 @@ export const REVIEWS = [
     routeId: ROUTE_12_ID,
     createdAt: '2025-04-23T11:00:21.460035Z',
     updatedAt: '2025-04-25T11:00:21.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 1,
@@ -269,7 +269,7 @@ export const REVIEWS = [
     routeId: ROUTE_13_ID,
     createdAt: '2025-04-21T21:29:04.460035Z',
     updatedAt: '2025-04-24T09:29:04.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 4,
@@ -278,7 +278,7 @@ export const REVIEWS = [
     routeId: ROUTE_13_ID,
     createdAt: '2025-04-30T06:25:19.460035Z',
     updatedAt: '2025-04-30T10:25:19.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 5,
@@ -287,7 +287,7 @@ export const REVIEWS = [
     routeId: ROUTE_14_ID,
     createdAt: '2025-04-05T20:19:40.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 2,
@@ -296,7 +296,7 @@ export const REVIEWS = [
     routeId: ROUTE_14_ID,
     createdAt: '2025-04-14T05:17:33.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 2,
@@ -305,7 +305,7 @@ export const REVIEWS = [
     routeId: ROUTE_15_ID,
     createdAt: '2025-04-22T17:20:15.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 2,
@@ -314,7 +314,7 @@ export const REVIEWS = [
     routeId: ROUTE_15_ID,
     createdAt: '2025-04-28T12:28:31.460035Z',
     updatedAt: '2025-04-29T09:28:31.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 0,
@@ -323,7 +323,7 @@ export const REVIEWS = [
     routeId: ROUTE_16_ID,
     createdAt: '2025-04-05T14:25:32.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 5,
@@ -332,7 +332,7 @@ export const REVIEWS = [
     routeId: ROUTE_16_ID,
     createdAt: '2025-04-04T09:41:56.460035Z',
     updatedAt: '2025-04-05T17:41:56.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 0,
@@ -341,7 +341,7 @@ export const REVIEWS = [
     routeId: ROUTE_17_ID,
     createdAt: '2025-04-15T13:00:36.460035Z',
     updatedAt: '2025-04-16T04:00:36.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 5,
@@ -350,7 +350,7 @@ export const REVIEWS = [
     routeId: ROUTE_17_ID,
     createdAt: '2025-04-15T18:55:13.460035Z',
     updatedAt: '2025-04-16T23:55:13.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 4,
@@ -359,7 +359,7 @@ export const REVIEWS = [
     routeId: ROUTE_18_ID,
     createdAt: '2025-04-13T07:07:35.460035Z',
     updatedAt: '2025-04-15T09:07:35.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 4,
@@ -368,7 +368,7 @@ export const REVIEWS = [
     routeId: ROUTE_18_ID,
     createdAt: '2025-04-12T08:56:11.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 1,
@@ -377,7 +377,7 @@ export const REVIEWS = [
     routeId: ROUTE_19_ID,
     createdAt: '2025-04-09T12:55:39.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 4,
@@ -386,7 +386,7 @@ export const REVIEWS = [
     routeId: ROUTE_19_ID,
     createdAt: '2025-04-12T01:35:14.460035Z',
     updatedAt: '2025-04-13T01:35:14.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 0,
@@ -395,7 +395,7 @@ export const REVIEWS = [
     routeId: ROUTE_20_ID,
     createdAt: '2025-04-07T04:27:44.460035Z',
     updatedAt: '2025-04-08T06:27:44.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 1,
@@ -404,7 +404,7 @@ export const REVIEWS = [
     routeId: ROUTE_20_ID,
     createdAt: '2025-04-06T20:48:55.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 5,
@@ -413,7 +413,7 @@ export const REVIEWS = [
     routeId: ROUTE_21_ID,
     createdAt: '2025-04-22T05:17:45.460035Z',
     updatedAt: '2025-04-25T00:17:45.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 5,
@@ -422,7 +422,7 @@ export const REVIEWS = [
     routeId: ROUTE_21_ID,
     createdAt: '2025-04-28T12:46:51.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 0,
@@ -431,7 +431,7 @@ export const REVIEWS = [
     routeId: ROUTE_22_ID,
     createdAt: '2025-04-20T19:20:19.460035Z',
     updatedAt: '2025-04-22T15:20:19.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 5,
@@ -440,7 +440,7 @@ export const REVIEWS = [
     routeId: ROUTE_22_ID,
     createdAt: '2025-04-05T21:27:14.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 5,
@@ -449,7 +449,7 @@ export const REVIEWS = [
     routeId: ROUTE_23_ID,
     createdAt: '2025-04-17T05:57:48.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 2,
@@ -458,7 +458,7 @@ export const REVIEWS = [
     routeId: ROUTE_23_ID,
     createdAt: '2025-04-26T20:09:27.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 0,
@@ -467,7 +467,7 @@ export const REVIEWS = [
     routeId: ROUTE_24_ID,
     createdAt: '2025-04-29T22:03:06.460035Z',
     updatedAt: '2025-04-30T09:03:06.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 2,
@@ -476,7 +476,7 @@ export const REVIEWS = [
     routeId: ROUTE_24_ID,
     createdAt: '2025-04-16T05:29:30.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 0,
@@ -485,7 +485,7 @@ export const REVIEWS = [
     routeId: ROUTE_25_ID,
     createdAt: '2025-04-15T18:41:26.460035Z',
     updatedAt: '2025-04-16T03:41:26.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 5,
@@ -494,7 +494,7 @@ export const REVIEWS = [
     routeId: ROUTE_25_ID,
     createdAt: '2025-04-08T08:40:56.460035Z',
     updatedAt: '2025-04-10T22:40:56.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 5,
@@ -503,7 +503,7 @@ export const REVIEWS = [
     routeId: ROUTE_26_ID,
     createdAt: '2025-04-17T20:44:31.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 0,
@@ -512,7 +512,7 @@ export const REVIEWS = [
     routeId: ROUTE_26_ID,
     createdAt: '2025-04-18T06:19:37.460035Z',
     updatedAt: '2025-04-21T02:19:37.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 5,
@@ -521,7 +521,7 @@ export const REVIEWS = [
     routeId: ROUTE_27_ID,
     createdAt: '2025-04-12T12:05:31.460035Z',
     updatedAt: '2025-04-15T06:05:31.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 3,
@@ -530,7 +530,7 @@ export const REVIEWS = [
     routeId: ROUTE_27_ID,
     createdAt: '2025-04-19T06:17:30.460035Z',
     updatedAt: '2025-04-20T23:17:30.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 0,
@@ -539,7 +539,7 @@ export const REVIEWS = [
     routeId: ROUTE_28_ID,
     createdAt: '2025-04-15T18:10:15.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 1,
@@ -548,7 +548,7 @@ export const REVIEWS = [
     routeId: ROUTE_28_ID,
     createdAt: '2025-04-16T17:34:25.460035Z',
     updatedAt: '2025-04-18T06:34:25.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 2,
@@ -557,7 +557,7 @@ export const REVIEWS = [
     routeId: ROUTE_29_ID,
     createdAt: '2025-04-04T20:54:50.460035Z',
     updatedAt: '2025-04-05T21:54:50.460035Z',
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 1,
@@ -566,7 +566,7 @@ export const REVIEWS = [
     routeId: ROUTE_29_ID,
     createdAt: '2025-04-26T23:49:10.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 2,
@@ -575,7 +575,7 @@ export const REVIEWS = [
     routeId: ROUTE_30_ID,
     createdAt: '2025-04-24T22:10:10.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
   {
     stars: 3,
@@ -584,7 +584,7 @@ export const REVIEWS = [
     routeId: ROUTE_30_ID,
     createdAt: '2025-04-10T01:03:37.460035Z',
     updatedAt: null,
-    gradeRating: getRandomGradeRating(),
+    gradeRating: getRandomGrade(),
   },
 ]
 
@@ -603,7 +603,7 @@ async function initReviews() {
           text: review.text,
           createdById: review.userId,
           routeId: review.routeId,
-          gradeRating: review.gradeRating,
+          gradeRatingId: review.gradeRating.id,
         },
         update: {},
       })

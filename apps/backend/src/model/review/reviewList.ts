@@ -1,3 +1,4 @@
+import { GradeList, gradeListSelector } from '../grade'
 import { UserList, userListSelector } from '../user'
 
 type ReviewList = {
@@ -6,7 +7,7 @@ type ReviewList = {
 
   stars: number
   text: string
-  gradeRating: number
+  gradeRating: GradeList
 
   /* Route omitted, already present as url param*/
   createdBy: UserList
@@ -18,7 +19,9 @@ const selector = {
 
   stars: true,
   text: true,
-  gradeRating: true,
+  gradeRating: {
+    select: gradeListSelector,
+  },
 
   createdBy: {
     select: userListSelector,

@@ -1,3 +1,4 @@
+import { GradeDetail, gradeDetailSelector } from '../grade'
 import { RouteDetail, routeDetailSelector } from '../route'
 import { UserDetail, userDetailSelector } from '../user'
 
@@ -7,7 +8,7 @@ type ReviewDetail = {
 
   stars: number
   text: string
-  gradeRating: number
+  gradeRating: GradeDetail
 
   route: RouteDetail
   createdBy: UserDetail
@@ -19,7 +20,9 @@ const selector = {
 
   stars: true,
   text: true,
-  gradeRating: true,
+  gradeRating: {
+    select: gradeDetailSelector,
+  },
 
   route: {
     select: routeDetailSelector,

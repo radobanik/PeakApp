@@ -9,7 +9,7 @@ import {
   toNumber,
   validateListParams,
 } from '../common/listParams'
-import { GradeDetail, gradeDetailSelector } from '../grade'
+import { GradeDetail, gradeDetailSelector, GradeList, gradeListSelector } from '../grade'
 import { RouteOrder } from '../../repositories/route.repository'
 import { RefObject, refObjectSelector } from '../common/refObject'
 
@@ -20,7 +20,7 @@ type RouteList = {
   grade: GradeDetail
   climbingStructureType: ClimbingStructureType
   averageStar: number
-  averageDifficulty: number
+  userGradeRating: GradeList
   longitude: number
   latitude: number
   image: RefObject | null
@@ -36,7 +36,9 @@ const selector = {
   },
   climbingStructureType: true,
   averageStar: true,
-  averageDifficulty: true,
+  userGradeRating: {
+    select: gradeListSelector,
+  },
   longitude: true,
   latitude: true,
   image: {

@@ -156,7 +156,7 @@ const recalculateAverages = async (routeId: string) => {
   const newTotals = reviews.reduce(
     (totals, review) => {
       totals.stars += review.stars
-      totals.gradeRating += review.gradeRating
+      totals.gradeRating += review.gradeRating.rating ?? 0
       totals.count += 1
       return totals
     },

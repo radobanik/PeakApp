@@ -1,3 +1,4 @@
+import { Grade } from '../grade'
 import { Route } from '../route'
 import { User } from '../user'
 
@@ -7,6 +8,7 @@ type Review = {
 
   stars: number
   text: string
+  gradeRating: Grade
 
   route: Route
   createdBy: User

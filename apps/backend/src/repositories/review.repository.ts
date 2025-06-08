@@ -40,6 +40,7 @@ const create = async (reviewData: ReviewCreate, route: RefObject, userRef: RefOb
   return await reviewClient.create({
     data: {
       ...reviewData,
+      gradeRating: toConnector(reviewData.gradeRating),
       createdBy: toConnector(userRef),
       route: toConnector(route),
     },
@@ -57,6 +58,8 @@ const update = async (reviewData: ReviewCreate, routeId: string, author: RefObje
     },
     data: {
       ...reviewData,
+      gradeRating: toConnector(reviewData.gradeRating),
+
       updatedAt: new Date(),
     },
     select: reviewDetailSelector,

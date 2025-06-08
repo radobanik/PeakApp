@@ -18,6 +18,7 @@ import {
 import { RefObject } from '../model/common/refObject'
 import { createListResponse, ListResponse } from '../model/common/listResponse'
 import { reviewDetailSelector } from '../model/review'
+import { GradeRepository } from '.'
 
 type RouteWhere = Prisma.RouteWhereInput
 type RouteOrder = Prisma.RouteOrderByWithRelationInput
@@ -75,6 +76,7 @@ const create = async (route: RouteCreate, userRef: RefObject): Promise<RouteDeta
     data: {
       ...route,
       grade: toConnector(route.grade),
+      userGradeRating: toConnector(route.grade),
       image: toConnectorNullable(route.image),
       additionalImages: xToManyCreator(route.additionalImages, peakFileConnector),
 
@@ -172,11 +174,14 @@ const getReviewsByRouteId = async (routeId: string) => {
 }
 
 const updateAverages = async (routeId: string, averageStars: number, averageDifficulty: number) => {
-  const a = await routeClient.update({
+  const grade = (await GradeRepository.getAll())
+    .filter((grade) => grade.rating <= averageDifficulty)
+    .sort((a, b) => b.rating - a.rating)[0]
+  await routeClient.update({
     where: { id: routeId },
     data: {
       averageStar: averageStars,
-      averageDifficulty: averageDifficulty,
+      userGradeRating: toConnector(grade),
     },
   })
 }

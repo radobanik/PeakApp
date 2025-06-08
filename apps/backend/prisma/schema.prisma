@@ -109,6 +109,8 @@ model Grade {
    * FOREIGN RELATIONSHIPS
    */
   routes Route[]
+  reviews Review[]
+  routesUserGradeRating Route[] @relation("UserGradeRating")
 }
 
 enum Role {
@@ -133,8 +135,10 @@ model Route {
   name                  String
   description           String                @default("")
   climbingStructureType ClimbingStructureType
+
   averageStar           Float                   @default(0)
-  averageDifficulty     Float                   @default(0)
+  userGradeRatingId String
+  userGradeRating Grade @relation(name: "UserGradeRating", fields: [userGradeRatingId], references: [id])
 
   gradeId String
   grade   Grade  @relation(fields: [gradeId], references: [id])
@@ -322,11 +326,12 @@ model Review {
   updatedAt DateTime?
 
   stars Int
-  gradeRating Float
   text  String
 
   routeId String
   route Route @relation(fields: [routeId], references: [id])
+  gradeRatingId String
+  gradeRating Grade @relation(fields: [gradeRatingId], references: [id])
   createdById  String
   createdBy User @relation(fields: [createdById], references: [id])
 

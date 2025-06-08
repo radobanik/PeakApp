@@ -385,6 +385,7 @@ async function initRoutes() {
         },
         create: {
           ...route,
+          userGradeRatingId: route.gradeId,
           deleted: false,
           approvalState: ApprovalState.APPROVED,
         },
