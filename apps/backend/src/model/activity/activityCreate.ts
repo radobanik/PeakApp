@@ -29,7 +29,11 @@ const validate = (entity: ActivityCreate) =>
       }),
       notes: z.string().max(500, 'Notes must be at most 500 characters long.'),
       topped: z.boolean(),
-      route: refObjectSchema,
+      route: z
+        .object({
+          id: z.string(),
+        })
+        .strict(),
     })
     .strict()
     .safeParse(entity)
