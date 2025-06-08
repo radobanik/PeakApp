@@ -17,8 +17,7 @@ export default function ActivityMeta() {
         .then((image) => setImage(image))
         .catch(() => toast.error('Failed to load current image'))
     }
-  }),
-    [activityQuery.data?.imageId]
+  }, [activityQuery.data?.imageId])
 
   return (
     <div className="flex flex-col gap-4 p-1">

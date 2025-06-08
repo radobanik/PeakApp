@@ -36,11 +36,11 @@ async function recalculateSingle(routeId: string) {
 
   const averageStars = reviews.length === 0 ? 0 : newTotals.stars / reviews.length
   const averageDifficulty = reviews.length === 0 ? 0 : newTotals.gradeRating / reviews.length
-  
+
   const grade = (await gradeClient.findMany())
-  .filter((grade) => grade.rating <= averageDifficulty)
-  .sort((a, b) => b.rating - a.rating)[0]
-  
+    .filter((grade) => grade.rating <= averageDifficulty)
+    .sort((a, b) => b.rating - a.rating)[0]
+
   await routeClient.update({
     where: { id: routeId },
     data: {

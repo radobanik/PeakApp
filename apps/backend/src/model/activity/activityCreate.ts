@@ -1,6 +1,6 @@
 import { Difficulty } from '@prisma/client'
 import z from 'zod'
-import { RefObject, refObjectSchema } from '../common/refObject'
+import { RefObject } from '../common/refObject'
 
 type ActivityCreate = {
   climbedAt: Date

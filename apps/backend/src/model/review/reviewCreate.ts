@@ -1,6 +1,4 @@
 import { z } from 'zod'
-import { GradeController } from '../../controllers'
-import { GradeRepository } from '../../repositories'
 import { RefObject, refObjectSchema } from '../common/refObject'
 
 type ReviewCreate = {
