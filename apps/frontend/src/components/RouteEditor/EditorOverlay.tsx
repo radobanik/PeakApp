@@ -48,16 +48,18 @@ export function EditorOverlay({ onClose, onSave, initialImage }: EditorOverlayPr
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const contextRef = useRef<CanvasRenderingContext2D | null>(null)
 
-  const loadImage = (src: string) => {
-    if (!contextRef.current) return
-
+  const loadImage = (imageSrc: string, width: number, height: number) => {
     const img = new Image()
     img.crossOrigin = 'anonymous'
+
     img.onload = () => {
-      contextRef.current!.clearRect(0, 0, canvasSize.width, canvasSize.height)
-      contextRef.current!.drawImage(img, 0, 0, canvasSize.width, canvasSize.height)
+      if (!canvasRef.current || !contextRef.current) return
+
+      contextRef.current.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
+      contextRef.current.drawImage(img, 0, 0, width, height)
     }
-    img.src = src
+
+    img.src = imageSrc
   }
 
   useEffect(() => {
@@ -79,7 +81,7 @@ export function EditorOverlay({ onClose, onSave, initialImage }: EditorOverlayPr
 
           // Redraw image if exists
           if (selectedImage) {
-            loadImage(selectedImage)
+            loadImage(selectedImage, width, height)
           }
         }
       }
@@ -106,7 +108,7 @@ export function EditorOverlay({ onClose, onSave, initialImage }: EditorOverlayPr
         const dataUrl = e.target?.result as string
         setSelectedImage(dataUrl)
         if (contextRef.current && canvasRef.current) {
-          loadImage(dataUrl)
+          loadImage(dataUrl, canvasSize.width, canvasSize.height)
         }
       }
       reader.readAsDataURL(file)
@@ -136,7 +138,7 @@ export function EditorOverlay({ onClose, onSave, initialImage }: EditorOverlayPr
     ctx.clearRect(0, 0, canvasSize.width, canvasSize.height)
 
     if (selectedImage) {
-      loadImage(selectedImage)
+      loadImage(selectedImage, canvasSize.width, canvasSize.height)
     }
 
     setStartPoint(null)
