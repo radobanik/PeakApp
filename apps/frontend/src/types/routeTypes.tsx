@@ -50,6 +50,7 @@ export type RouteSummary = {
   starRating: number
   longitude: number
   latitude: number
+  image: RefObject | null
   approvalState: ApprovalState
 }
 

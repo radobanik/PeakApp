@@ -38,6 +38,7 @@ export const useActivityQuery = (id: string) => {
       numOfAttempts: data.numOfAttempts,
       topped: data.topped,
       notes: data.notes,
+      imageId: data.route.image?.id || null,
     }),
   })
 }
@@ -74,6 +75,7 @@ export const useUnassignedActivitiesQuery = () => {
         routeType: activity.route.climbingStructureType,
         numOfAttempts: activity.numOfAttempts,
         topped: activity.topped,
+        imageId: activity.route.image?.id || null,
       })),
       totalCount: data.total,
     }),

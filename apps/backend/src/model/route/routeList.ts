@@ -11,6 +11,7 @@ import {
 } from '../common/listParams'
 import { GradeDetail, gradeDetailSelector } from '../grade'
 import { RouteOrder } from '../../repositories/route.repository'
+import { RefObject, refObjectSelector } from '../common/refObject'
 
 type RouteList = {
   id: string
@@ -21,6 +22,7 @@ type RouteList = {
   starRating: number
   longitude: number
   latitude: number
+  image: RefObject | null
   approvalState: ApprovalState
 }
 
@@ -35,6 +37,9 @@ const selector = {
   starRating: true,
   longitude: true,
   latitude: true,
+  image: {
+    select: refObjectSelector
+  },
   approvalState: true,
 }
 
