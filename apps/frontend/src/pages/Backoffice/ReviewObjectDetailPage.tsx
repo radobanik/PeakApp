@@ -45,6 +45,8 @@ export default function ReviewObjectDetailPage() {
       query={query}
       mutation={mutation}
       backRoute={ROUTE.NEW_CLIMBING_OBJECTS}
+      isBlocked={false}
+      climbingObjectId=""
       approveState={query.data?.approvalState ?? ApprovalState.PENDING}
     />
   )
