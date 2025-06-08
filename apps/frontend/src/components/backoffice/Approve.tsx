@@ -17,6 +17,7 @@ const Approve: FC<ApproveProps> = ({
   climbingObjectId,
   approveState,
 }: ApproveProps) => {
+  console.log('Approve component rendered with state:', approveState)
   return (
     <div className="flex flex-row text-white h-10 text-xl">
       {approveState === ApprovalState.PENDING && !isBlocked && (
