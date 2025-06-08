@@ -2,8 +2,6 @@ import { RouteDetail } from '@/types/routeTypes'
 import { getTextColorForBackground } from '@/lib/utils'
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
-import { useReviewsQuery, useUserReviewQuery } from '@/services/queryHooks'
-import { useEffect, useState } from 'react'
 
 type RouteBaseProps = {
   route: RouteDetail
@@ -11,41 +9,38 @@ type RouteBaseProps = {
 
 const RouteBase = ({ route }: RouteBaseProps) => {
   const gradeColor = route.grade.color
-
-  // TODO: rmeove later
-  const [avg, setAvg] = useState(0)
-  const reviews = useReviewsQuery(route.id).data?.items || []
-  const userReview = useUserReviewQuery(route.id).data
-
-  useEffect(() => {
-    console.log('userReview', userReview)
-    if (reviews?.length === 0 && !userReview) {
-      setAvg(0)
-      return
-    }
-
-    const reviewSum =
-      reviews?.reduce((acc, review) => acc + review.stars, 0) + (userReview?.stars || 0)
-    const userAverage = reviewSum / (reviews.length + (userReview ? 1 : 0))
-    console.log('userAverage', userAverage)
-    setAvg(userAverage)
-  }, [userReview, reviews])
+  const userGradeColor = route.userGradeRating.color
 
   return (
     <div className="w-full overflow-hidden">
-      <div className="flex items-center justify-between">
+      <div className="flex justify-between text-lg font-semibold">
         <h1 className="text-2xl font-bold">{route.name}</h1>
-        <span
-          className="text-xl font-semibold px-2 py-1 rounded"
-          style={{ backgroundColor: gradeColor, color: getTextColorForBackground(gradeColor) }}
-        >
-          {route.grade.name}
-        </span>
+        <div className="flex items-center gap-2">
+          <h1>Official: </h1>
+          <span
+            className="text-xl font-semibold px-2 py-1 rounded "
+            style={{ backgroundColor: gradeColor, color: getTextColorForBackground(gradeColor) }}
+          >
+            {route.grade.name}
+          </span>
+        </div>
       </div>
-      <div className="flex justify-between">
-        <span>
-          <Rating style={{ maxWidth: 140 }} value={avg} readOnly />
-        </span>
+      <div className="flex justify-between text-lg font-semibold">
+        <Rating style={{ maxWidth: 140 }} value={route.averageStar} readOnly />
+        <div className="flex items-center gap-2">
+          <h1>Users:</h1>
+          <span
+            className="text-xl font-semibold px-2 py-1 rounded"
+            style={{
+              backgroundColor: userGradeColor,
+              color: getTextColorForBackground(userGradeColor),
+            }}
+          >
+            {route.userGradeRating.name}
+          </span>
+        </div>
+      </div>
+      <div className="flex items-end justify-end mt-2">
         <span className="text-xl font-semibold">{route.climbingStructureType}</span>
       </div>
 

@@ -156,6 +156,7 @@ export const useUserReviewQuery = (routeId: string) => {
       text: data.text,
       route: data.route,
       createdBy: data.createdBy,
+      gradeRating: data.gradeRating,
     }),
   })
 }

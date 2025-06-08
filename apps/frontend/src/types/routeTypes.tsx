@@ -29,7 +29,7 @@ export interface RouteDetail {
   grade: GradeDetail
   climbingStructureType: ClimbingStructureType
   averageStar: number
-  averageDifficulty: number
+  userGradeRating: GradeDetail
 
   longitude: number
   latitude: number

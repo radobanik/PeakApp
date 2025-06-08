@@ -15,7 +15,6 @@ export interface ReviewProps {
 
 const Review = ({ createdAt, createdBy, stars, text }: ReviewProps) => {
   const userFullName = `${createdBy.firstName} ${createdBy.lastName}`
-  console.log('Review', createdBy)
   const postedAgo = formatTimeAgoShort(createdAt)
 
   const [pfpUrl, setPfpUrl] = useState<string | null>(null)
