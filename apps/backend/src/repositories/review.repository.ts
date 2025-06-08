@@ -84,6 +84,15 @@ const exists = async (routeId: string, authorId: string): Promise<boolean> => {
   return count > 0
 }
 
+const getByRouteId = async (routeId: string) => {
+  return await reviewClient.findMany({
+    where: {
+      routeId: routeId,
+    },
+    select: reviewListSelector,
+  })
+}
+
 export default {
   getUsersByRouteId,
   listByRouteId,
@@ -91,4 +100,5 @@ export default {
   update,
   deleteByRouteId,
   exists,
+  getByRouteId,
 }

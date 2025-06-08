@@ -6,6 +6,7 @@ type ReviewList = {
 
   stars: number
   text: string
+  gradeRating: number
 
   /* Route omitted, already present as url param*/
   createdBy: UserList
@@ -17,6 +18,7 @@ const selector = {
 
   stars: true,
   text: true,
+  gradeRating: true,
 
   createdBy: {
     select: userListSelector,

@@ -17,8 +17,6 @@ const RouteBase = ({ route }: RouteBaseProps) => {
   const reviews = useReviewsQuery(route.id).data?.items || []
   const userReview = useUserReviewQuery(route.id).data
 
-  console.log(route.starRating, 'route.starRating')
-
   useEffect(() => {
     console.log('userReview', userReview)
     if (reviews?.length === 0 && !userReview) {

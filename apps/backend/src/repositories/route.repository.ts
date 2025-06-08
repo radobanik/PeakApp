@@ -17,6 +17,7 @@ import {
 } from './utils/connector'
 import { RefObject } from '../model/common/refObject'
 import { createListResponse, ListResponse } from '../model/common/listResponse'
+import { reviewDetailSelector } from '../model/review'
 
 type RouteWhere = Prisma.RouteWhereInput
 type RouteOrder = Prisma.RouteOrderByWithRelationInput
@@ -159,6 +160,27 @@ const listAllContainsTokenInName = async (token: string): Promise<RouteList[]> =
   })
 }
 
+const getReviewsByRouteId = async (routeId: string) => {
+  const reviewsNested = await routeClient.findMany({
+    where: {
+      id: routeId,
+      deleted: false,
+    },
+    select: { reviews: { select: reviewDetailSelector } },
+  })
+  return reviewsNested.flatMap((route) => route.reviews)
+}
+
+const updateAverages = async (routeId: string, averageStars: number, averageDifficulty: number) => {
+  const a = await routeClient.update({
+    where: { id: routeId },
+    data: {
+      averageStar: averageStars,
+      averageDifficulty: averageDifficulty,
+    },
+  })
+}
+
 export type { RouteWhere, RouteOrder }
 
 export default {
@@ -170,4 +192,6 @@ export default {
   exists,
   listAllContainsTokenInName,
   changeApprovalState,
+  getReviewsByRouteId,
+  updateAverages,
 }

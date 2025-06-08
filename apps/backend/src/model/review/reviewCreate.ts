@@ -8,14 +8,8 @@ type ReviewCreate = {
   gradeRating: number
 }
 
-const validate = async (entity: ReviewCreate) => {
-  const grades = await GradeRepository.getAll().then((grades) =>
-    grades.map((grade) => grade.rating)
-  )
-  const minGrade = Math.min(...grades)
-  const maxGrade = Math.max(...grades)
-
-  return z
+const validate = (entity: ReviewCreate) =>
+  z
     .object({
       stars: z
         .number()
@@ -24,12 +18,11 @@ const validate = async (entity: ReviewCreate) => {
       text: z.string().max(500, 'Review text must be at most 500 characters long.'),
       gradeRating: z
         .number()
-        .min(minGrade, 'Grade rating must be in range of existing grades.')
-        .max(maxGrade, 'Grade rating must be in range of existing grades.'),
+        .min(0, 'Grade rating must be greater than 0.')
+        .max(1000, 'Grade rating must be smaller than 1000.'),
     })
     .strict()
     .safeParse(entity)
-}
 
 export type { ReviewCreate }
 export { validate }

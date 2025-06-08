@@ -7,6 +7,7 @@ type ReviewDetail = {
 
   stars: number
   text: string
+  gradeRating: number
 
   route: RouteDetail
   createdBy: UserDetail
@@ -18,6 +19,7 @@ const selector = {
 
   stars: true,
   text: true,
+  gradeRating: true,
 
   route: {
     select: routeDetailSelector,
