@@ -45,7 +45,6 @@ export default function SessionCreateInputs() {
       const sessionId = res.id
       toast.success('Session created successfully')
       queryClient.invalidateQueries({ queryKey: ['unassignedActivities'] })
-      console.log(res)
       navigate(`${ROUTE.SESSIONS}/${sessionId}`)
     },
     onError: () => {},

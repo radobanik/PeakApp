@@ -27,7 +27,6 @@ export async function createSession(session: SessionUpdate): Promise<Session> {
     const error = new Error('Error')
     throw error
   }
-  console.log('response: ', response.data)
   return response.data
 }
 
