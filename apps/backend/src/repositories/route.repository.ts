@@ -66,7 +66,7 @@ const getById = async (id: string): Promise<RouteDetail | null> => {
     },
     select: routeDetailSelector,
   })
-  return flattenAdditionalImages(nestedDetail as RouteDetailDeepImage)
+  return flattenAdditionalImages(nestedDetail as unknown as RouteDetailDeepImage)
 }
 
 const create = async (route: RouteCreate, userRef: RefObject): Promise<RouteDetail | null> => {
@@ -83,7 +83,7 @@ const create = async (route: RouteCreate, userRef: RefObject): Promise<RouteDeta
     },
     select: routeDetailSelector,
   })
-  return flattenAdditionalImages(nestedDetail as RouteDetailDeepImage)
+  return flattenAdditionalImages(nestedDetail as unknown as RouteDetailDeepImage)
 }
 
 const update = async (
@@ -104,7 +104,7 @@ const update = async (
     },
     select: routeDetailSelector,
   })
-  return flattenAdditionalImages(nestedDetail as RouteDetailDeepImage)
+  return flattenAdditionalImages(nestedDetail as unknown as RouteDetailDeepImage)
 }
 
 const deleteById = async (id: string, userRef: RefObject): Promise<void> => {
@@ -143,7 +143,7 @@ const changeApprovalState = async (
     select: routeDetailSelector,
   })
 
-  return flattenAdditionalImages(nestedDetail as RouteDetailDeepImage)
+  return flattenAdditionalImages(nestedDetail as unknown as RouteDetailDeepImage)
 }
 
 const listAllContainsTokenInName = async (token: string): Promise<RouteList[]> => {

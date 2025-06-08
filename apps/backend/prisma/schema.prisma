@@ -133,7 +133,8 @@ model Route {
   name                  String
   description           String                @default("")
   climbingStructureType ClimbingStructureType
-  starRating            Float                   @default(0)
+  averageStar           Float                   @default(0)
+  averageDifficulty     Float                   @default(0)
 
   gradeId String
   grade   Grade  @relation(fields: [gradeId], references: [id])
@@ -155,7 +156,7 @@ model Route {
   savedBy User[] @relation("RouteSaves")
   Activity Activity[] @relation(name: "RouteActivity")
 
-  Review Review[] @relation()
+  reviews Review[] @relation()
   reports Report[] @relation(name: "RouteReports")
 }
 
@@ -321,6 +322,7 @@ model Review {
   updatedAt DateTime?
 
   stars Int
+  gradeRating Float
   text  String
 
   routeId String
