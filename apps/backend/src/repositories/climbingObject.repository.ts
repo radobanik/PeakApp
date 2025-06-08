@@ -117,14 +117,30 @@ const changeApprovalState = async (
   approvalState: ApprovalState,
   user: RefObject
 ): Promise<ClimbingObjectDetail> => {
-  return await climbingObjectClient.update({
-    where: { id },
-    data: {
-      approvalState: approvalState,
-      updatedAt: new Date(),
-      updatedBy: toConnector(user),
-    },
-    select: detailSelector,
+  return await prisma.$transaction(async (tx) => {
+    const climbingObject = await climbingObjectClient.update({
+      where: { id },
+      data: {
+        approvalState: approvalState,
+        updatedAt: new Date(),
+        updatedBy: toConnector(user),
+      },
+      select: detailSelector,
+    })
+
+    if (approvalState === ApprovalState.REJECTED) {
+      await tx.route.updateMany({
+        where: {
+          climbingObjectId: id,
+        },
+        data: {
+          approvalState: ApprovalState.REJECTED,
+          updatedAt: new Date(),
+        },
+      })
+    }
+
+    return climbingObject
   })
 }
 

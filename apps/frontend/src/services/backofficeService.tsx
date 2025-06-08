@@ -70,7 +70,7 @@ export async function getNewRouteById(id: string): Promise<RouteDetail> {
 export async function changeRouteApprovalState(
   id: string,
   approvalState: ApprovalState
-): Promise<ClimbingObjectDetail> {
+): Promise<RouteDetail> {
   const response = await api.patch(API.ROUTE.APPROVAL(id), null, {
     params: {
       approvalState,

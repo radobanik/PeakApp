@@ -185,6 +185,9 @@ const MapObjectLayer = ({
         ratingFrom: filters?.ratingFrom ?? null,
         ratingTo: filters?.ratingTo ?? null,
         climbingStructureTypes: filters?.climbingStructureTypes ?? [],
+        includeUnofficalClimbingObjects: filters?.includeUnofficalClimbingObjects ?? false,
+        includeUnofficialRoutes: filters?.includeUnofficialRoutes ?? false,
+        excludeWithoutMatchingRoutes: filters?.excludeWithoutMatchingRoutes ?? false,
       })
 
       const data = response?.items || []

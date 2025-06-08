@@ -1,25 +1,16 @@
 import { ROUTE } from '@/constants/routes'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { changeClimbingObjectApprovalState, getNewObjectById } from '@/services/backofficeService'
 import { useParams } from 'react-router-dom'
 import ApproveContainer from '@/components/backoffice/ApproveContainter'
 import { useApprovalContext } from '@/components/backoffice/ApprovalProvider'
-import { useEffect, useState } from 'react'
-import App from '@/App'
 import { ApprovalState } from '@/types/approvalTypes'
+import { RouteDetail } from '@/types/routeTypes'
 
 export default function ReviewObjectDetailPage() {
   const params = useParams()
-  const { approvedMap, setApprovedMap } = useApprovalContext()
-  const [approveState, setApproveState] = useState<boolean | null>(
-    approvedMap.get(params.id!) ?? null
-  )
-
-  useEffect(() => {
-    if (params.id) {
-      setApproveState(approvedMap.get(params.id) ?? null)
-    }
-  }, [params.id, approvedMap])
+  const queryClient = useQueryClient()
+  const { setApprovedMap } = useApprovalContext()
 
   const query = useQuery({
     queryKey: ['new_object', params.id],
@@ -28,15 +19,23 @@ export default function ReviewObjectDetailPage() {
   })
 
   const mutation = useMutation({
-    mutationFn: async (approve: boolean | null) => {
+    mutationFn: async (approve: boolean) => {
       changeClimbingObjectApprovalState(
         params.id!,
         approve === true ? ApprovalState.APPROVED : ApprovalState.REJECTED
       )
-      setApproveState(approve)
       setApprovedMap((prev) => {
         prev.delete(params.id!)
         return approve !== null ? new Map(prev.set(params.id!, approve)) : new Map(prev)
+      })
+    },
+    onSuccess: (_, approve) => {
+      queryClient.setQueryData(['new_object', params.id], (old: RouteDetail) => {
+        if (!old) return old
+        return {
+          ...old,
+          approvalState: approve ? ApprovalState.APPROVED : ApprovalState.REJECTED,
+        }
       })
     },
   })
@@ -46,7 +45,7 @@ export default function ReviewObjectDetailPage() {
       query={query}
       mutation={mutation}
       backRoute={ROUTE.NEW_CLIMBING_OBJECTS}
-      approveState={approveState}
+      approveState={query.data?.approvalState ?? ApprovalState.PENDING}
     />
   )
 }

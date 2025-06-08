@@ -16,6 +16,7 @@ import { GradeDetail } from '@/types/gradeTypes'
 import { ClimbingStructureType } from '@/types/routeTypes'
 import * as gradeService from '@/services/gradeService'
 import { getTextColorForBackground } from '../lib/utils'
+import { Checkbox } from './ui/checkbox'
 
 const INITIAL_FILTERS: FilterClimbingObjectListParams = {
   name: null,
@@ -27,6 +28,9 @@ const INITIAL_FILTERS: FilterClimbingObjectListParams = {
   longitudeFrom: null,
   longitudeTo: null,
   climbingStructureTypes: [],
+  includeUnofficalClimbingObjects: false,
+  includeUnofficialRoutes: false,
+  excludeWithoutMatchingRoutes: false,
 }
 
 const climbingStructureStyles: Record<ClimbingStructureType, string> = {
@@ -237,6 +241,9 @@ export default function FilterDialog({
     longitudeFrom: null,
     longitudeTo: null,
     climbingStructureTypes: [],
+    includeUnofficalClimbingObjects: false,
+    includeUnofficialRoutes: false,
+    excludeWithoutMatchingRoutes: false,
   })
   const eligibleGrades = useMemo(
     () => grades.filter((g) => !filters.ratingFrom || g.rating >= filters.ratingFrom),
@@ -296,6 +303,34 @@ export default function FilterDialog({
               />
             </div>
           ))}
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="include-unoff-co">Include unofficial climbing objects:</Label>
+              <Checkbox
+                id="include-unoff-co"
+                checked={filters.includeUnofficalClimbingObjects}
+                onCheckedChange={(ch) =>
+                  updateFilter('includeUnofficalClimbingObjects', ch === true)
+                }
+              />
+            </div>
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="include-unoff-r">Include unofficial routes:</Label>
+              <Checkbox
+                id="include-unoff-r"
+                checked={filters.includeUnofficialRoutes}
+                onCheckedChange={(ch) => updateFilter('includeUnofficialRoutes', ch === true)}
+              />
+            </div>
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="exclude-empty-co">Exclude empty climbing objects:</Label>
+              <Checkbox
+                id="exclude-empty-co"
+                checked={filters.excludeWithoutMatchingRoutes}
+                onCheckedChange={(ch) => updateFilter('excludeWithoutMatchingRoutes', ch === true)}
+              />
+            </div>
+          </div>
         </div>
         <div className="flex justify-between">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
