@@ -85,8 +85,8 @@ export function SessionInputs() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: sessionQuery.data?.name,
-      note: sessionQuery.data?.note,
+      name: sessionQuery.data?.name ?? '',
+      note: sessionQuery.data?.note ?? '',
       photos: sessionQuery.data?.photos ?? [],
     },
   })
