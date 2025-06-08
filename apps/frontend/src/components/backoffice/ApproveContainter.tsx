@@ -3,18 +3,23 @@ import { UseMutationResult, UseQueryResult } from '@tanstack/react-query'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import Approve from '@/components/backoffice/Approve'
 import { Badge } from '../ui/badge'
+import { ApprovalState } from '@/types/approvalTypes'
 
 type ApproveContainerProps<E> = {
   query: UseQueryResult<E, Error>
-  mutation: UseMutationResult<void, Error, boolean | null, unknown>
+  mutation: UseMutationResult<void, Error, boolean, unknown>
   backRoute: string
-  approveState: boolean | null
+  isBlocked: boolean
+  climbingObjectId: string
+  approveState: ApprovalState
 }
 const ApproveContainer = <E extends { name: string }>({
   query,
   mutation,
   backRoute,
-  approveState = null,
+  isBlocked,
+  climbingObjectId,
+  approveState = ApprovalState.PENDING,
 }: ApproveContainerProps<E>) => {
   return (
     <div className="flex flex-col w-full h-full min-w-[300px]">
@@ -22,10 +27,12 @@ const ApproveContainer = <E extends { name: string }>({
         <BackButton backRoute={backRoute} />
         {query.isSuccess && <span>{query.data.name}</span>}
         <div className="flex-1" />
-        {approveState === true && (
+        {approveState === ApprovalState.APPROVED && (
           <Badge className="text-sm font-bold bg-green-500">Approved</Badge>
         )}
-        {approveState === false && <Badge className="text-sm font-bold bg-red-500">Rejected</Badge>}
+        {approveState == ApprovalState.REJECTED && (
+          <Badge className="text-sm font-bold bg-red-500">Rejected</Badge>
+        )}
       </div>
       {query.isLoading && (
         <div className="flex flex-1 justify-center">
@@ -39,7 +46,8 @@ const ApproveContainer = <E extends { name: string }>({
           <Approve
             onAccept={() => mutation.mutate(true)}
             onReject={() => mutation.mutate(false)}
-            onCancel={() => mutation.mutate(null)}
+            isBlocked={isBlocked}
+            climbingObjectId={climbingObjectId}
             approveState={approveState}
           />
         </div>
