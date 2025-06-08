@@ -171,6 +171,7 @@ const RouteReviews = ({ routeId, showCurrentUserReview }: RouteReviewsProps) => 
                   name="text"
                   render={({ field }) => (
                     <FormItem>
+                      <FormLabel>Review (optional)</FormLabel>
                       <FormControl>
                         <Textarea placeholder="Write your review here..." rows={2} {...field} />
                       </FormControl>
