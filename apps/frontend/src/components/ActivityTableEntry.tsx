@@ -28,10 +28,7 @@ const ActivityTableEntry: FC<ActivityTableEntryProps> = ({
         .then((fetchedImage) => setImage(fetchedImage))
         .catch(() => console.error('Failed to load image'))
     }
-  }),
-    [entry.imageId]
-
-  console.log(image)
+  }, [entry.imageId])
 
   return (
     <Link to={`${ROUTE.ACTIVITIES}/${entry.id}`} state={{ from: backRoute }} className="w-full">

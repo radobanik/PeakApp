@@ -78,7 +78,6 @@ export function SessionInputs() {
         id: file.id,
       })),
     }
-    console.log('Activity data:', sessionData)
     updateMutation.mutate(sessionData)
     setIsEdit(false)
   }
@@ -100,8 +99,6 @@ export function SessionInputs() {
   }, [isDelete])
 
   useEffect(() => {
-    console.log('SessionQuery:', sessionQuery.data)
-    console.log('success', sessionQuery.isSuccess)
     const processFiles = async () => {
       if (sessionQuery.isSuccess && !isEdit) {
         const fileRefs = sessionQuery.data?.photos ?? []
@@ -114,9 +111,6 @@ export function SessionInputs() {
 
         const peakFilePromises = fileRefs.map((ref) => getFile(ref.id))
         setMedia(await Promise.all(peakFilePromises))
-        console.log(fileRefs)
-        console.log(media)
-        console.log(sessionId)
       }
     }
     processFiles()

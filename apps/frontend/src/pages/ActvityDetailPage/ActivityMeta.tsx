@@ -10,7 +10,6 @@ import { toast } from 'sonner'
 export default function ActivityMeta() {
   const { activityQuery } = useContext(ActivityDetailContext)
   const [image, setImage] = useState<PeakFile | null>(null)
-  console.log(activityQuery.data?.imageId)
 
   useEffect(() => {
     if (image === null && activityQuery.data?.imageId) {
@@ -21,7 +20,6 @@ export default function ActivityMeta() {
   }),
     [activityQuery.data?.imageId]
 
-  console.log('image', image)
   return (
     <div className="flex flex-col gap-4 p-1">
       <div className="relative mx-auto w-fit">
