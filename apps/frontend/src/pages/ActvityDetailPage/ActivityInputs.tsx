@@ -128,7 +128,6 @@ export function ActivityInputs() {
 
   return (
     <div>
-      <Button onClick={() => setIsEdit(true)}>Test</Button>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 px-10 py-4">
           <div className="flex flex-row justify-between ">
