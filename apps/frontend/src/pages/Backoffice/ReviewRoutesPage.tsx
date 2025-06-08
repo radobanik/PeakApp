@@ -54,12 +54,11 @@ export default function ReviewRoutesPage() {
       </div>
 
       {isDetail && (
-        <>
-          <Separator orientation="vertical" />
-          <div className="flex-1 max-w-[640px] h-full overflow-auto p-2">
+        <div className="flex-1 max-w-[640px] h-full p-2">
+          <div className="flex-1 max-w-[640px] h-full border border-gray-200 rounded-md p-2">
             <Outlet />
           </div>
-        </>
+        </div>
       )}
     </div>
   )
