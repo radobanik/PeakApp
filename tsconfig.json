@@ -12,5 +12,6 @@
     { "path": "apps/frontend" },
     { "path": "apps/backend" },
     { "path": "packages/common" }
-  ]
+  ],
+  "include": ["cypress"],
 }
