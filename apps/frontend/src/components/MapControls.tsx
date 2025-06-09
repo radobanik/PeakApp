@@ -20,7 +20,7 @@ type MapControlsProps = {
   setIsPoiCreationOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const MAX_ZOOM_LEVEL = 18
+const MAX_ZOOM_LEVEL = 22
 const MIN_ZOOM_LEVEL = 3
 
 const MapControls = memo(function MapControls({
