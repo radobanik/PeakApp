@@ -17,7 +17,7 @@ export default function SessionsPage() {
           <BackButton backRoute={ROUTE.DIARY} />
           <h1 className="text-2xl">My Sessions</h1>
         </div>
-        <Link to={ROUTE.SESSIONS_NEW}>
+        <Link to={ROUTE.SESSIONS_NEW} test-id="add-session">
           <img src={plusIcon} alt="Add Activity" className="w-6 h-6 cursor-pointer" />
         </Link>
       </div>

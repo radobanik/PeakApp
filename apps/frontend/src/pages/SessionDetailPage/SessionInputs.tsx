@@ -129,6 +129,7 @@ export function SessionInputs() {
                   {isEdit && <FormLabel>Name</FormLabel>}
                   <FormControl>
                     <Input
+                      test-id="session-name"
                       readOnly={!isEdit}
                       placeholder="Write Session name here..."
                       className="text-2xl"
@@ -148,6 +149,7 @@ export function SessionInputs() {
                     <FormLabel>Note</FormLabel>
                     <FormControl>
                       <Textarea
+                        test-id="session-note"
                         disabled={!isEdit}
                         placeholder="Write your Notes here..."
                         className="resize-none h-[15vh] w-full"

@@ -81,6 +81,7 @@ export default function SessionCreateInputs() {
                   <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
+                      test-id="session-create-name"
                       placeholder="Write Session name here..."
                       className="text-2xl"
                       {...field}
@@ -99,6 +100,7 @@ export default function SessionCreateInputs() {
                   <FormLabel>Note</FormLabel>
                   <FormControl>
                     <Textarea
+                      test-id="session-create-note"
                       placeholder="Write your Notes here..."
                       className="resize-none h-[15vh] w-full"
                       {...field}
@@ -123,7 +125,9 @@ export default function SessionCreateInputs() {
               >
                 Cancel
               </Button>
-              <Button type="submit">Save</Button>
+              <Button type="submit" test-id="session-create-submit">
+                Save
+              </Button>
             </div>
 
             <div style={{ pointerEvents: 'none' }}>

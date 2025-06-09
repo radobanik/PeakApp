@@ -39,7 +39,9 @@ export default function DiaryPage() {
         <Button className="" onClick={navigateToActivities}>
           My Activities
         </Button>
-        <Button onClick={navigateToSessions}>My Sessions</Button>
+        <Button onClick={navigateToSessions} test-id="diary-sessions">
+          My Sessions
+        </Button>
       </div>
     </div>
   )
