@@ -28,24 +28,28 @@ const like = async (req: Request, res: Response) => {
     return
   }
 
-  const session = await SessionRepository.getByIdWithoutAuth(sessionId)
-  const iduser = session?.createdBy.id ?? ''
+  const createdLike = await LikeRepository.like(sessionId, userRef.id)
+  if (createdLike) {
+    const session = await SessionRepository.getByIdWithoutAuth(sessionId)
+    const notifiedUser = await userRepository.getUserById(session?.createdBy.id ?? '')
+    const intercatorUser = await userRepository.getUserById(userRef.id)
 
-  // TODO: check if like succeeds
-  await LikeRepository.like(sessionId, userRef.id)
-  // const session = await SessionRepository.getById(sessionId)
-  const user = await userRepository.getUserById(userRef.id)
-  const message = `User ${user?.firstName} ${user?.lastName} liked your session`
-  await notificationRepository.create({
-    userId: iduser,
-    title: 'New like',
-    message: message,
-    type: NotificationType.LIKE,
-  })
-  const notificationSettings = await notificationSettingsRepository.getByUserId(iduser)
-  if (notificationSettings && notificationSettings.enableEmail) {
-    sendLikeEmail(`${user?.firstName} ${user?.lastName}`, user?.email)
+    const message = `User ${intercatorUser?.firstName} ${intercatorUser?.lastName} liked your session`
+    await notificationRepository.create({
+      userId: notifiedUser?.id ?? '',
+      title: 'New like',
+      message: message,
+      type: NotificationType.LIKE,
+    })
+
+    const notificationSettings = await notificationSettingsRepository.getByUserId(
+      notifiedUser?.id ?? ''
+    )
+    if (notificationSettings && notificationSettings.enableEmail) {
+      sendLikeEmail(`${intercatorUser?.firstName} ${intercatorUser?.lastName}`, notifiedUser?.email)
+    }
   }
+
   res.status(HTTP_STATUS.OK_200).json({ message: 'Liked' })
 }
 

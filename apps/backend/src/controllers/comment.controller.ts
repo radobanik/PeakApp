@@ -77,23 +77,29 @@ const create = async (req: Request, res: Response) => {
     return
   }
 
-  const session = await SessionRepository.getByIdWithoutAuth(data.session.id)
-  const iduser = session?.createdBy.id ?? ''
-
   const createdComment = await CommentRepository.create(data, userRef)
   if (createdComment) {
-    const user = await userRepository.getUserById(userRef.id)
-    const message = `User ${user?.firstName} ${user?.lastName} commented your session`
+    const session = await SessionRepository.getByIdWithoutAuth(data.session.id)
+    const notifiedUser = await userRepository.getUserById(session?.createdBy.id ?? '')
+    const intercatorUser = await userRepository.getUserById(userRef.id)
+
+    const message = `User ${intercatorUser?.firstName} ${intercatorUser?.lastName} commented your session`
     await NotificationRepository.create({
-      userId: iduser,
+      userId: notifiedUser?.id ?? '',
       title: 'New comment',
       message: message,
       type: NotificationType.COMMENT,
     })
 
-    const notificationSettings = await notificationSettingsRepository.getByUserId(iduser)
+    const notificationSettings = await notificationSettingsRepository.getByUserId(
+      notifiedUser?.id ?? ''
+    )
     if (notificationSettings && notificationSettings.enableEmail) {
-      sendCommentEmail(`${user?.firstName} ${user?.lastName}`, user?.email)
+      sendCommentEmail(
+        `${intercatorUser?.firstName} ${intercatorUser?.lastName}`,
+        notifiedUser?.email
+      )
+      console.log('Email sent', notifiedUser?.email, message)
     }
   }
   res.status(HTTP_STATUS.CREATED_201).json(createdComment)
