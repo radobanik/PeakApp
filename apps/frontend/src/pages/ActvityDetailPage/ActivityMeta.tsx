@@ -27,7 +27,7 @@ export default function ActivityMeta() {
           className="block rounded-md max-h-[30vh] max-w-[90vw] object-contain"
           alt="Route"
         />
-        <div className="absolute bottom-1 left-1 text-2xl bg-white/60 rounded-2xl px-4">
+        <div className="absolute bottom-1 left-1 text-2xl bg-white/60 rounded-2xl px-4 max-w-[50%]">
           {activityQuery.isLoading && <div>Loading...</div>}
           {activityQuery.isError && <div>Error: {activityQuery.error.message}</div>}
           <p>{activityQuery.data?.routeName}</p>
