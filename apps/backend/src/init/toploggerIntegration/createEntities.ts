@@ -154,6 +154,7 @@ const createAllClimbingEntities = async () => {
         name: name,
         ...coordinates,
         grade: toConnectorId(getClosestGradeIdByRating(climb.grade)),
+        userGradeRating: toConnectorId(getClosestGradeIdByRating(climb.grade)),
         climbingStructureType: getRandomClimbingStructureType(),
         climbingObject: toConnectorId(coId),
         overlay: [],
