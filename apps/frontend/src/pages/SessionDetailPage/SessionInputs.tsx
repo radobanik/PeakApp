@@ -44,7 +44,7 @@ export function SessionInputs() {
       updateSession(sessionId, data)
     },
     onSuccess: () => {
-      queryClient.removeQueries({ queryKey: [sessionId] })
+      queryClient.refetchQueries({ queryKey: ['session', sessionId] })
       toast.success('Activity updated successfully')
     },
     onError: () => {},
@@ -57,7 +57,7 @@ export function SessionInputs() {
     onSuccess: () => {
       navigation(ROUTE.SESSIONS)
       queryClient.invalidateQueries({ queryKey: ['activities'] })
-      queryClient.removeQueries({ queryKey: [sessionId] })
+      queryClient.removeQueries({ queryKey: ['session', sessionId] })
       toast.success('Activity deleted successfully')
       {
         /* TODO: Investigate attempted retrieve of recently deleted Activity (even after these invalidations) */
@@ -78,7 +78,6 @@ export function SessionInputs() {
         id: file.id,
       })),
     }
-    console.log('Activity data:', sessionData)
     updateMutation.mutate(sessionData)
     setIsEdit(false)
   }
@@ -86,8 +85,8 @@ export function SessionInputs() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: sessionQuery.data?.name,
-      note: sessionQuery.data?.note,
+      name: sessionQuery.data?.name ?? '',
+      note: sessionQuery.data?.note ?? '',
       photos: sessionQuery.data?.photos ?? [],
     },
   })
@@ -100,8 +99,6 @@ export function SessionInputs() {
   }, [isDelete])
 
   useEffect(() => {
-    console.log('SessionQuery:', sessionQuery.data)
-    console.log('success', sessionQuery.isSuccess)
     const processFiles = async () => {
       if (sessionQuery.isSuccess && !isEdit) {
         const fileRefs = sessionQuery.data?.photos ?? []
@@ -114,9 +111,6 @@ export function SessionInputs() {
 
         const peakFilePromises = fileRefs.map((ref) => getFile(ref.id))
         setMedia(await Promise.all(peakFilePromises))
-        console.log(fileRefs)
-        console.log(media)
-        console.log(sessionId)
       }
     }
     processFiles()
@@ -137,7 +131,6 @@ export function SessionInputs() {
                     <Input
                       readOnly={!isEdit}
                       placeholder="Write Session name here..."
-                      defaultValue={sessionQuery.data?.name}
                       className="text-2xl"
                       {...field}
                     />
@@ -158,7 +151,6 @@ export function SessionInputs() {
                         disabled={!isEdit}
                         placeholder="Write your Notes here..."
                         className="resize-none h-[15vh] w-full"
-                        defaultValue={sessionQuery.data.note}
                         {...field}
                       />
                     </FormControl>

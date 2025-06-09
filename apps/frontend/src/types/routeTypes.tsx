@@ -28,7 +28,8 @@ export interface RouteDetail {
   description: string
   grade: GradeDetail
   climbingStructureType: ClimbingStructureType
-  starRating: number
+  averageStar: number
+  userGradeRating: GradeDetail
 
   longitude: number
   latitude: number
@@ -47,9 +48,11 @@ export type RouteSummary = {
   description: string
   grade: GradeDetail
   climbingStructureType: ClimbingStructureType
-  starRating: number
+  averageStar: number
+  averageDifficulty: number
   longitude: number
   latitude: number
+  image: RefObject | null
   approvalState: ApprovalState
 }
 

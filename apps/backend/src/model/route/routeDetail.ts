@@ -16,7 +16,8 @@ type RouteDetail = {
   description: string
   grade: GradeDetail
   climbingStructureType: ClimbingStructureType
-  starRating: number
+  averageStar: number
+  userGradeRating: GradeDetail
 
   longitude: number
   latitude: number
@@ -45,7 +46,10 @@ const selector = {
     select: gradeDetailSelector,
   },
   climbingStructureType: true,
-  starRating: true,
+  averageStar: true,
+  userGradeRating: {
+    select: gradeDetailSelector,
+  },
   longitude: true,
   latitude: true,
   image: true,

@@ -38,6 +38,7 @@ export const useActivityQuery = (id: string) => {
       numOfAttempts: data.numOfAttempts,
       topped: data.topped,
       notes: data.notes,
+      imageId: data.route.image?.id || null,
     }),
   })
 }
@@ -56,6 +57,7 @@ export const useAssignedActivitiesQuery = (sessionId: string) => {
         routeType: activity.route.climbingStructureType,
         numOfAttempts: activity.numOfAttempts,
         topped: activity.topped,
+        imageId: activity.route.image?.id || null,
       })),
     }),
   })
@@ -74,6 +76,7 @@ export const useUnassignedActivitiesQuery = () => {
         routeType: activity.route.climbingStructureType,
         numOfAttempts: activity.numOfAttempts,
         topped: activity.topped,
+        imageId: activity.route.image?.id || null,
       })),
       totalCount: data.total,
     }),
@@ -100,6 +103,7 @@ export const useSessionQuery = (id: string) => {
         numOfAttempts: activity.numOfAttempts,
         topped: activity.topped,
         notes: activity.notes,
+        imageId: activity.route.image?.id || null,
       })),
       createdBy: data.createdBy,
     }),
@@ -129,7 +133,7 @@ export const useReviewsQuery = (routeId: string) => {
     queryKey: ['reviews', routeId],
     queryFn: async () => getReviews(routeId),
     select: (data) => ({
-      items: data.map((review) => ({
+      items: data.items.map((review) => ({
         createdAt: review.createdAt,
         updatedAt: review.updatedAt,
         stars: review.stars,
@@ -152,6 +156,7 @@ export const useUserReviewQuery = (routeId: string) => {
       text: data.text,
       route: data.route,
       createdBy: data.createdBy,
+      gradeRating: data.gradeRating,
     }),
   })
 }

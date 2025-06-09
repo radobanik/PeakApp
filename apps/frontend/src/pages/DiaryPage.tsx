@@ -12,6 +12,7 @@ export type ActivityEntry = {
   routeType: ClimbingStructureType
   numOfAttempts: number
   topped: boolean
+  imageId?: string | null
 }
 
 export type SessionEntry = {

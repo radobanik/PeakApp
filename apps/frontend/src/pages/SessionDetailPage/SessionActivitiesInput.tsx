@@ -74,8 +74,7 @@ export default function SessionActivitiesInput() {
       await unassignMutation.mutateAsync([ID])
     }
     toast.success('Changes saved successfully')
-    queryClient.invalidateQueries({ queryKey: [sessionId] })
-    queryClient.refetchQueries({ queryKey: [sessionId], type: 'all' })
+    queryClient.invalidateQueries({ queryKey: ['session', sessionId] })
 
     queryClient.invalidateQueries({ queryKey: ['assignedActivities', sessionId] })
     queryClient.invalidateQueries({ queryKey: ['unassignedActivities'] })

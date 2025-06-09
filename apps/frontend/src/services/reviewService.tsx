@@ -1,8 +1,9 @@
 import { API } from '@/constants/api'
 import { api } from '.'
 import { ReviewCreate, ReviewDetail, ReviewUpdate } from '@/types/reviewTypes'
+import { PaginatedResponse } from '@/types'
 
-export const getReviews = async (routeId: string): Promise<ReviewDetail[]> => {
+export const getReviews = async (routeId: string): Promise<PaginatedResponse<ReviewDetail>> => {
   const response = await api.get(API.REVIEW.LIST(routeId))
   if (response.status != 200) {
     const error = new Error('Error')

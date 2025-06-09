@@ -1,6 +1,7 @@
 import prisma from '../core/prisma/client'
+import { createListResponse, ListResponse } from '../model/common/listResponse'
 import { RefObject } from '../model/common/refObject'
-import { ReviewCreate, reviewDetailSelector, reviewListSelector } from '../model/review'
+import { ReviewCreate, reviewDetailSelector, ReviewList, reviewListSelector } from '../model/review'
 import { toConnector } from './utils/connector'
 
 const reviewClient = prisma.review
@@ -20,7 +21,7 @@ const listByRouteId = async (
   user: RefObject,
   pageNum: number,
   pageSize: number
-) => {
+): Promise<ListResponse<ReviewList>> => {
   const reviews = await reviewClient.findMany({
     where: {
       routeId: routeId,
@@ -33,13 +34,14 @@ const listByRouteId = async (
       createdAt: 'desc',
     },
   })
-  return reviews
+  return createListResponse(reviews, reviews.length, pageNum, pageSize)
 }
 
 const create = async (reviewData: ReviewCreate, route: RefObject, userRef: RefObject) => {
   return await reviewClient.create({
     data: {
       ...reviewData,
+      gradeRating: toConnector(reviewData.gradeRating),
       createdBy: toConnector(userRef),
       route: toConnector(route),
     },
@@ -57,6 +59,8 @@ const update = async (reviewData: ReviewCreate, routeId: string, author: RefObje
     },
     data: {
       ...reviewData,
+      gradeRating: toConnector(reviewData.gradeRating),
+
       updatedAt: new Date(),
     },
     select: reviewDetailSelector,
@@ -84,6 +88,15 @@ const exists = async (routeId: string, authorId: string): Promise<boolean> => {
   return count > 0
 }
 
+const getByRouteId = async (routeId: string) => {
+  return await reviewClient.findMany({
+    where: {
+      routeId: routeId,
+    },
+    select: reviewListSelector,
+  })
+}
+
 export default {
   getUsersByRouteId,
   listByRouteId,
@@ -91,4 +104,5 @@ export default {
   update,
   deleteByRouteId,
   exists,
+  getByRouteId,
 }

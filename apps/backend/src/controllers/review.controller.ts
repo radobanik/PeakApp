@@ -12,6 +12,7 @@ import {
 import config from '../core/config'
 import { RefObject } from '../model/common/refObject'
 import { Role } from '@prisma/client'
+import { RouteController } from '.'
 
 const validateUser = async (
   userRef: RefObject,
@@ -86,6 +87,7 @@ const create = async (req: Request, res: Response) => {
   if (!validatedData) return
 
   const createdReview = await ReviewRepository.create(validatedData, route, requestUser)
+  RouteController.recalculateAverages(routeId)
   res.status(HTTP_STATUS.CREATED_201).json(createdReview)
 }
 
@@ -106,6 +108,7 @@ const update = async (req: Request, res: Response) => {
   if (!validatedData) return
 
   const updatedReview = await ReviewRepository.update(validatedData, routeId, requestUser)
+  RouteController.recalculateAverages(routeId)
   res.status(HTTP_STATUS.OK_200).json(updatedReview)
 }
 
@@ -127,6 +130,7 @@ const deleteByRouteUserId = async (req: Request, res: Response) => {
     return
   }
   await ReviewRepository.deleteByRouteId(routeId, userId)
+  RouteController.recalculateAverages(routeId)
   res.status(HTTP_STATUS.NO_CONTENT_204).send()
 }
 

@@ -2,6 +2,7 @@ import { UseQueryResult } from '@tanstack/react-query'
 import { ClimbingStructureType } from './routeTypes'
 import { perceivedDifficulty } from './utilsTypes'
 import { RouteList } from 'backend/src/model/route'
+import { RefObject } from './refObject'
 
 export interface Grade {
   id: string
@@ -18,6 +19,7 @@ export interface Route {
   climbingStructureType: ClimbingStructureType
   longitude: number
   latitude: number
+  image: RefObject | null
 }
 
 export interface Activity {
@@ -75,6 +77,7 @@ export type ActivityQueryType = UseQueryResult<
     numOfAttempts: number
     topped: boolean
     notes: string
+    imageId: string | null
   },
   Error
 >

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { HTTP_STATUS } from './utils/httpStatusCodes'
-import { RouteRepository } from '../repositories'
+import { ReviewRepository, RouteRepository } from '../repositories'
 import {
   defaultRouteListParams,
   getOrderBy,
@@ -147,6 +147,28 @@ const changeApprovalState = async (
   return
 }
 
+const recalculateAverages = async (routeId: string) => {
+  const reviews = await ReviewRepository.getByRouteId(routeId)
+  if (!reviews || reviews.length === 0) {
+    return
+  }
+
+  const newTotals = reviews.reduce(
+    (totals, review) => {
+      totals.stars += review.stars
+      totals.gradeRating += review.gradeRating.rating ?? 0
+      totals.count += 1
+      return totals
+    },
+    { stars: 0, gradeRating: 0, count: 0 }
+  )
+
+  const averageRating = newTotals.count > 0 ? newTotals.stars / newTotals.count : 0
+  const averageGradeRating = newTotals.count > 0 ? newTotals.gradeRating / newTotals.count : 0
+
+  await RouteRepository.updateAverages(routeId, averageRating, averageGradeRating)
+}
+
 export default {
   getById,
   create,
@@ -154,4 +176,5 @@ export default {
   deleteById,
   list,
   changeApprovalState,
+  recalculateAverages,
 }

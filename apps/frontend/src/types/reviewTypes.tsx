@@ -1,3 +1,4 @@
+import { GradeDetail } from 'backend/src/model/grade'
 import { RouteDetail } from './routeTypes'
 import { UserLabeled } from './userTypes'
 
@@ -12,6 +13,7 @@ export interface ReviewDetail {
 
   stars: number
   text: string
+  gradeRating: GradeDetail
 
   route: RouteDetail
   createdBy: UserLabeled

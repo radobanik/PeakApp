@@ -1,9 +1,11 @@
 import toppedIcon from '@/assets/toppedIcon.png'
 import noBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { ActivityEntry } from '@/pages/DiaryPage'
 import { Link } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
+import { PeakFile } from '@/types/fileTypes'
+import { getFile } from '@/services/fileService'
 
 export type ActivityTableEntryProps = {
   entry: ActivityEntry
@@ -18,10 +20,20 @@ const ActivityTableEntry: FC<ActivityTableEntryProps> = ({
   const isSingleAttempt = entry.numOfAttempts === 1
   const attemptsString = `${entry.numOfAttempts} attempt${isSingleAttempt ? '' : 's'}`
 
+  const [image, setImage] = useState<PeakFile | null>(null)
+
+  useEffect(() => {
+    if (image === null && entry.imageId) {
+      getFile(entry.imageId)
+        .then((fetchedImage) => setImage(fetchedImage))
+        .catch(() => console.error('Failed to load image'))
+    }
+  }, [entry.imageId])
+
   return (
     <Link to={`${ROUTE.ACTIVITIES}/${entry.id}`} state={{ from: backRoute }} className="w-full">
-      <div className="bg-stone-300 rounded-md p-2 flex flex-row gap-2 justify-between m-1">
-        <div className="w-[70%] p-2">
+      <div className="bg-stone-300 rounded-md p-2 flex flex-row gap-2 justify-between m-1 w-[90vw] items-center">
+        <div className="w-full">
           <h3 className="text-2xl">{entry.routeName}</h3>
           <div className="flex flex-row justify-between">
             <p>{date}</p>
@@ -33,8 +45,8 @@ const ActivityTableEntry: FC<ActivityTableEntryProps> = ({
           </div>
         </div>
         <img
-          src={noBoulderPhoto}
-          className="rounded-md max-w-[25%] max-h-[25%] object-cover"
+          src={image === null ? noBoulderPhoto : image.url}
+          className="rounded-md max-w-[25%] h-[5em] object-contain lg:max-w-[10%] lg:h-[5em]"
           alt="Route"
         />
       </div>
