@@ -13,5 +13,5 @@
     { "path": "apps/backend" },
     { "path": "packages/common" }
   ],
-  "include": ["cypress","cypress.config.ts"],
+  "include": ["cypress", "cypress.config.ts"]
 }

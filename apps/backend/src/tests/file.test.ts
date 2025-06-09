@@ -8,7 +8,6 @@ import {
   DeleteObjectCommand,
 } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
-import * as crypto from 'crypto'
 import { Readable } from 'stream'
 import { s3BucketService } from '../services'
 import { randomUUID } from 'crypto'

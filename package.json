@@ -14,10 +14,10 @@
     "prettier": "npx prettier . --check",
     "prettier:fix": "npx prettier . --write",
     "format": "npm run prettier:fix && npm run lint:fix",
-    "test": "npm run test:unit && npm run test:e2e",
     "reinstall": "npm install --legacy-peer-deps && npm --workspace=apps/backend run migrate && npm --workspace=apps/backend run init-data && npm --workspace=apps/backend run import-toplogger",
+    "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "npx cypress run",
-    "test:unit:": "npm --workspace=apps/backend run test"
+    "test:unit": "npm --workspace=apps/backend run test"
   },
   "devDependencies": {
     "@tailwindcss/line-clamp": "^0.4.4",
