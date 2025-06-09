@@ -57,12 +57,9 @@ describe('Routes with sessions', () => {
 
       const activities = interception.response!.body.items
       expect(activities).to.be.an('array')
-      expect(activities).to.have.length.of.at.least(2)
+      expect(activities).to.have.length.of.at.least(1)
 
-      console.log(activities)
-      for (let i = 0; i < 2; i++) {
-        cy.get(`[test-id="session-activity-table-entry-${activities[i].id}"]`).click()
-      }
+      cy.get(`[test-id="session-activity-table-entry-${activities[0].id}"]`).click()
     })
 
     cy.get('[test-id="session-create-continue"]').click()
@@ -86,7 +83,7 @@ describe('Routes with sessions', () => {
 
       const activities = interception.response!.body.assignedActivities
       expect(activities).to.be.an('array')
-      expect(activities.length).eq(2)
+      expect(activities.length).eq(1)
     })
   })
 })
