@@ -71,7 +71,7 @@ export default function HomePage() {
   }, [climbingObjectId])
 
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full" test-id="homepage">
       <CreateClimbingObjectDialog isOpen={isPoiCreationOpen} setIsOpen={setIsPoiCreationOpen} />
       <LMap
         setClimbingObjectId={setClimbingObjectId}

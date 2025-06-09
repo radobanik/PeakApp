@@ -47,6 +47,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                   <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"
+                    test-id="email"
                     type="email"
                     placeholder="bozo@example.com"
                     required
@@ -58,13 +59,14 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                   <Label htmlFor="password">Password</Label>
                   <Input
                     id="password"
+                    test-id="password"
                     type="password"
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
-                <Button type="submit" className="w-full">
+                <Button test-id="login" test-type="submit" className="w-full">
                   Login
                 </Button>
               </div>
