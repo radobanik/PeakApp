@@ -1,37 +1,28 @@
 /// <reference types="cypress" />
-// ***********************************************
-// This example commands.ts shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+
+const login = (email: string, password: string) => {
+  cy.visit('/')
+  cy.intercept('POST', '**/auth/login', { statusCode: 200 }).as('loginUser')
+  cy.get('[test-id="email"]').type(email)
+  cy.get('[test-id="password"]').type(password)
+  cy.get('[test-id="login"]').click()
+  cy.wait('@loginUser')
+}
+
+const loginAdmin = () => {
+  login('emily.johnson@password123.com', 'password123')
+}
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      login: typeof login
+      loginAdmin: typeof loginAdmin
+    }
+  }
+}
+
+Cypress.Commands.add('login', login)
+Cypress.Commands.add('loginAdmin', loginAdmin)
+
+export {}

@@ -1,12 +1,6 @@
 describe('Login Form', () => {
   it('should allow a user to log in successfully with valid credentials', () => {
-    cy.visit('/')
-    cy.intercept('POST', '**/auth/login', { statusCode: 200 }).as('loginUser')
-    cy.get('[test-id="email"]').type('emily.johnson@password123.com')
-    cy.get('[test-id="password"]').type('password123')
-    cy.get('[test-id="login"]').click()
-
-    cy.wait('@loginUser')
+    cy.loginAdmin()
     cy.get('[test-id="homepage"]').should('be.visible')
   })
 
