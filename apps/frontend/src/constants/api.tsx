@@ -8,7 +8,8 @@ export const API = {
     IS_USERNAME_UNIQUE: `${API_BASE_URL}/auth/is-username-unique`,
   },
   USER: {
-    LIST: () => `${API_BASE_URL}/user/`,
+    LOGGED_IN: `${API_BASE_URL}/user/`,
+    LIST: () => `${API_BASE_URL}/user/all`,
     BY_ID: (id: string) => `${API_BASE_URL}/user/${id}`,
     BASE: `${API_BASE_URL}/user`,
     UPDATE: `${API_BASE_URL}/user/`,

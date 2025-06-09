@@ -3,7 +3,7 @@ import { Button } from '../ui/button'
 import { useState } from 'react'
 
 interface MapPositionPickerProps {
-  onPositionPicked: (lat: number, lng: number) => void
+  onPositionPicked: ((lat: number, lng: number) => void) | null
   onCancel: () => void
   initialPosition?: [number, number]
 }
@@ -40,12 +40,14 @@ export function MapPositionPicker({
         <Button variant="outline" onClick={onCancel}>
           Back
         </Button>
-        <Button
-          onClick={() => position && onPositionPicked(position[0], position[1])}
-          disabled={!position}
-        >
-          Confirm Position
-        </Button>
+        {onPositionPicked != null && (
+          <Button
+            onClick={() => position && onPositionPicked(position[0], position[1])}
+            disabled={!position}
+          >
+            Confirm Position
+          </Button>
+        )}
       </div>
     </div>
   )

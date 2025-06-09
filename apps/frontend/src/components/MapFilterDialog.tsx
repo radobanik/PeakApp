@@ -18,7 +18,7 @@ import * as gradeService from '@/services/gradeService'
 import { getTextColorForBackground } from '../lib/utils'
 import { Checkbox } from './ui/checkbox'
 
-const INITIAL_FILTERS: FilterClimbingObjectListParams = {
+export const INITIAL_FILTERS: FilterClimbingObjectListParams = {
   name: null,
   routeName: null,
   ratingFrom: null,

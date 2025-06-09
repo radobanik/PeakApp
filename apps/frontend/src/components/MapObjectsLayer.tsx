@@ -15,7 +15,7 @@ const MAX_CLUSTER_ZOOM = 18
 const CHUNK_SIZE = 1000 // Process 1000 points at a time
 const MAX_CLUSTER_RADIUS = 80
 
-const BLUE_POI_ICON = new L.Icon({
+export const BLUE_POI_ICON = new L.Icon({
   iconUrl:
     'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
   iconSize: [25, 41],
@@ -23,7 +23,7 @@ const BLUE_POI_ICON = new L.Icon({
   popupAnchor: [1, -34],
 })
 
-const RED_POI_ICON = new L.Icon({
+export const RED_POI_ICON = new L.Icon({
   iconUrl:
     'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
   iconSize: [25, 41],

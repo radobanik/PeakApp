@@ -10,6 +10,16 @@ type RouteBaseProps = {
   route: RouteDetail
 }
 
+export function computeAvgRating(
+  reviews: { stars: number }[],
+  userReview?: { stars: number }
+): number {
+  const reviewSum =
+    reviews?.reduce((acc, review) => acc + review.stars, 0) + (userReview?.stars || 0)
+  const userAverage = reviewSum / (reviews.length + (userReview ? 1 : 0))
+  return userAverage
+}
+
 const RouteBase = ({ route }: RouteBaseProps) => {
   const gradeColor = route.grade.color
   const userGradeColor = route.userGradeRating.color

@@ -5,7 +5,7 @@ import { ReportList } from '@/../backend/src/model/report'
 import { ReportStatus } from '@/types/reportTypes'
 import { cn } from '@/lib/utils'
 import { TableList } from '../../components/backoffice/TableList'
-import { Outlet, useMatch } from 'react-router-dom'
+import { Outlet, useLocation, useMatch } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
 import { Badge } from '@/components/ui/badge'
 import { getReports } from '@/services/reportService'
@@ -17,24 +17,16 @@ export type ReportListContextType = {
 export const ReportPageContext = createContext<ReportListContextType | null>(null)
 
 export default function ReportPage() {
-  const isDetail = useMatch(ROUTE.REPORTS_DETAIL)
+  const isReportDetail = useMatch(ROUTE.REPORTS_DETAIL)
+  const isReportClimbingObject = useMatch(ROUTE.REPORTS_DETAIL_CLIMBING_OBJECT)
+  const isReportRoute = useMatch(ROUTE.REPORTS_DETAIL_ROUTE)
+  const isDetail = isReportDetail || isReportClimbingObject || isReportRoute
+
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 15 })
   const [reportStatuses, setReportStatuses] = useState<ReportStatus[]>([ReportStatus.PENDING])
   const columns: ColumnDef<ReportList>[] = useMemo(
     () => [
       { accessorKey: 'title', header: 'Title' },
-      {
-        accessorKey: 'createdBy',
-        header: 'Reporter',
-        cell: ({ row }) => {
-          const user = row.original.createdBy
-          return (
-            <span>
-              {user.firstName} {user.lastName}
-            </span>
-          )
-        },
-      },
       {
         accessorKey: 'createdAt',
         header: 'Created At',
@@ -51,18 +43,6 @@ export default function ReportPage() {
               })}
             </span>
           )
-        },
-      },
-      {
-        accessorKey: 'enitityType',
-        header: 'Type',
-        cell: ({ row }) => {
-          const entityType = row.original.route
-            ? 'Route'
-            : row.original.climbingObject
-              ? 'Climbing Object'
-              : 'Unknown'
-          return <span>{entityType}</span>
         },
       },
       {
