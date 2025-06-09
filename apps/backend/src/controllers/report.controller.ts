@@ -1,6 +1,11 @@
 import { Request, Response } from 'express'
 import { provideUserRefFromToken, returnUnauthorized } from '../auth/authUtils'
-import { ClimbingObjectRepository, ReportRepository, RouteRepository } from '../repositories'
+import {
+  ClimbingObjectRepository,
+  ReportRepository,
+  RouteRepository,
+  UserRepository,
+} from '../repositories'
 import { HTTP_STATUS } from './utils/httpStatusCodes'
 import {
   defaultReportListParams,
@@ -15,6 +20,7 @@ import {
 import { ReportOrder, ReportWhere } from '../repositories/report.repository'
 import requestValidator from '../model/common/validator'
 import { ReportStatus } from '@prisma/client'
+import { sendReportEmail } from '../services/emailService'
 
 const getById = async (req: Request, res: Response) => {
   const userRef = provideUserRefFromToken(req as unknown as Request)
@@ -153,6 +159,15 @@ const resolve = async (req: Request, res: Response) => {
 
   const resolution = req.body.resolution
   const resolvedReport = await ReportRepository.resolve(reportId, resolution)
+  if (resolvedReport == null) {
+    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR_500).json({ error: 'Could not save the report.' })
+    return
+  }
+
+  const user = await UserRepository.getUserById(resolvedReport.createdBy.id)
+  if (user !== null) {
+    sendReportEmail(resolvedReport.title, resolvedReport.resolution || '', user.email)
+  }
   res.status(HTTP_STATUS.OK_200).json(resolvedReport)
 }
 
