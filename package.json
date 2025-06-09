@@ -15,7 +15,8 @@
     "prettier:fix": "npx prettier . --write",
     "format": "npm run prettier:fix && npm run lint:fix",
     "test": "echo \"No tests implemented so far\" && exit 0",
-    "reinstall": "npm install --legacy-peer-deps && npm --workspace=apps/backend run migrate && npm --workspace=apps/backend run init-data && npm --workspace=apps/backend run import-toplogger"
+    "reinstall": "npm install --legacy-peer-deps && npm --workspace=apps/backend run migrate && npm --workspace=apps/backend run init-data && npm --workspace=apps/backend run import-toplogger",
+    "test:e2e": "npx cypress run"
   },
   "devDependencies": {
     "@tailwindcss/line-clamp": "^0.4.4",
