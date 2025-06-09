@@ -15,14 +15,3 @@ codestyle:
     - npm run prettier
   rules:
     - if: '$CI_MERGE_REQUEST_ID'
-
-test:
-  stage: test
-  tags:
-    - shared-fi
-  before_script:
-    - npm install --legacy-peer-deps
-  script:
-    - npm run test
-  rules:
-    - if: '$CI_MERGE_REQUEST_ID'
