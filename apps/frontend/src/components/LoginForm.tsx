@@ -110,6 +110,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                 <Button
                   variant="link"
                   className="p-0 underline underline-offset-4"
+                  test-id="sign-up"
                   onClick={handleNavigateToRegister}
                 >
                   Sign up
