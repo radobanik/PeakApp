@@ -133,7 +133,7 @@ export const useReviewsQuery = (routeId: string) => {
     queryKey: ['reviews', routeId],
     queryFn: async () => getReviews(routeId),
     select: (data) => ({
-      items: data.map((review) => ({
+      items: data.items.map((review) => ({
         createdAt: review.createdAt,
         updatedAt: review.updatedAt,
         stars: review.stars,
