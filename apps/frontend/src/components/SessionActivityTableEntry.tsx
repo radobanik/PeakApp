@@ -37,8 +37,7 @@ export default function SessionActivityTableEntry({ entry }: SessionActivityTabl
         .then((fetchedImage) => setImage(fetchedImage))
         .catch(() => console.error('Failed to load image'))
     }
-  }),
-    [entry.imageId]
+  }, [entry.imageId])
 
   return (
     <div
