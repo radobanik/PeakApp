@@ -1,6 +1,7 @@
 import prisma from '../core/prisma/client'
+import { createListResponse, ListResponse } from '../model/common/listResponse'
 import { RefObject } from '../model/common/refObject'
-import { ReviewCreate, reviewDetailSelector, reviewListSelector } from '../model/review'
+import { ReviewCreate, reviewDetailSelector, ReviewList, reviewListSelector } from '../model/review'
 import { toConnector } from './utils/connector'
 
 const reviewClient = prisma.review
@@ -20,7 +21,7 @@ const listByRouteId = async (
   user: RefObject,
   pageNum: number,
   pageSize: number
-) => {
+): Promise<ListResponse<ReviewList>> => {
   const reviews = await reviewClient.findMany({
     where: {
       routeId: routeId,
@@ -33,7 +34,7 @@ const listByRouteId = async (
       createdAt: 'desc',
     },
   })
-  return reviews
+  return createListResponse(reviews, reviews.length, pageNum, pageSize)
 }
 
 const create = async (reviewData: ReviewCreate, route: RefObject, userRef: RefObject) => {
