@@ -1,7 +1,7 @@
 import { ReportStatus } from '@prisma/client'
 import { UserLabeled, userLabeledSelector } from '../user'
-import { RouteList, routeListSelector } from '../route'
-import { ClimbingObjectList, climbingObjectNoRoutesSelector } from '../climbingObject'
+import { RouteDetail, routeDetailSelector } from '../route'
+import { ClimbingObjectDetail, climbingObjectDetailSelector } from '../climbingObject'
 
 type ReportDetail = {
   id: string
@@ -10,8 +10,8 @@ type ReportDetail = {
   resolvedAt: Date | null
 
   createdBy: UserLabeled
-  climbingObject: ClimbingObjectList | null
-  route: RouteList | null
+  climbingObject: ClimbingObjectDetail | null
+  route: RouteDetail | null
 
   title: string
   reason: string
@@ -26,8 +26,8 @@ const selector = {
   resolvedAt: true,
 
   createdBy: { select: userLabeledSelector },
-  climbingObject: { select: climbingObjectNoRoutesSelector },
-  route: { select: routeListSelector },
+  climbingObject: { select: climbingObjectDetailSelector },
+  route: { select: routeDetailSelector },
 
   title: true,
   reason: true,

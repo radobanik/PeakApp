@@ -1,12 +1,14 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { ReportPageContext } from './ReportPage'
-import { useParams } from 'react-router-dom'
+import { Link, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { getReportById } from '@/services/reportService'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import { Separator } from '@/components/ui/separator'
 import ReportResolveDialog from '@/components/backoffice/ReportResolveDialog'
 import { Button } from '@/components/ui/button'
+import { ROUTE } from '@/constants/routes'
+import { X } from 'lucide-react'
 
 export default function ReportDetailPage() {
   const context = useContext(ReportPageContext)
@@ -19,6 +21,26 @@ export default function ReportDetailPage() {
     enabled: params.id !== undefined,
   })
 
+  const navigate = useNavigate()
+  const [hasRedirected, setHasRedirected] = useState(false)
+  useEffect(() => {
+    if (!hasRedirected && reportDetailQuery.data) {
+      if (reportDetailQuery.data.climbingObject) {
+        setHasRedirected(true)
+        navigate(`climbingObject/${reportDetailQuery.data.climbingObject.id}`, {
+          relative: 'path',
+        })
+      } else if (reportDetailQuery.data.route) {
+        setHasRedirected(true)
+        navigate(`route/${reportDetailQuery.data.route.id}`, { relative: 'path' })
+      }
+    }
+  }, [reportDetailQuery.data, hasRedirected, navigator])
+
+  useEffect(() => {
+    setHasRedirected(false)
+  }, [params.id])
+
   const update = () => {
     context?.refresh()
     reportDetailQuery.refetch()
@@ -26,6 +48,11 @@ export default function ReportDetailPage() {
 
   return (
     <div className="flex flex-col w-full h-full p-2">
+      <div className="flex justify-end">
+        <Link to={ROUTE.REPORTS}>
+          <X className="w-6 h-6" />
+        </Link>
+      </div>
       {reportDetailQuery.isLoading && (
         <div className="flex flex-1 justify-center">
           <LoadingSpinner />
@@ -38,8 +65,8 @@ export default function ReportDetailPage() {
       )}
       {reportDetailQuery.isSuccess && (
         <>
-          <div className="flex flex-col flex-1 w-full overflow-auto">
-            <div>Data goes here</div>
+          <div className="flex flex-1 w-full overflow-auto">
+            <Outlet />
           </div>
           <Separator />
           <div className="flex-col w-full">

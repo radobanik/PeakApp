@@ -5,13 +5,13 @@ import { getRoutes } from '@/services/routeService'
 import { ClimbingStructureType, RouteSummary } from '@/types/routeTypes'
 import { cn, getTextColorForBackground } from '@/lib/utils'
 import { TableList } from '../../components/backoffice/TableList'
-import { Outlet, useMatch } from 'react-router-dom'
+import { Link, Outlet, useMatch } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
 import { CLIMBING_STRUCTURE_STYLES } from '@/constants/routeConstants'
+import { X } from 'lucide-react'
 
 const columns: ColumnDef<RouteSummary>[] = [
   { accessorKey: 'name', header: 'Name' },
-  { accessorKey: 'description', header: 'Description' },
   {
     accessorKey: 'grade',
     header: 'Grade',
@@ -87,8 +87,17 @@ export default function AllRouteList() {
         />
       </div>
       {isDetail && (
-        <div className="rounded-md border flex-1 max-w-[500px] mt-4">
-          <Outlet />
+        <div className="rounded-md border flex-1 max-w-[500px] min-w-[300px] mt-4 p-2">
+          <div className="flex flex-col w-full h-full p-2">
+            <div className="flex justify-end">
+              <Link to={ROUTE.ALL_ROUTES}>
+                <X className="w-6 h-6" />
+              </Link>
+            </div>
+            <div className="flex flex-1 w-full overflow-auto">
+              <Outlet />
+            </div>
+          </div>
         </div>
       )}
     </div>

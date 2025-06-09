@@ -8,6 +8,7 @@ import { ApprovalState } from '@/types/approvalTypes'
 type ApproveContainerProps<E> = {
   query: UseQueryResult<E, Error>
   mutation: UseMutationResult<void, Error, boolean, unknown>
+  detail?: React.ReactNode
   backRoute: string
   isBlocked: boolean
   climbingObjectId: string
@@ -16,6 +17,7 @@ type ApproveContainerProps<E> = {
 const ApproveContainer = <E extends { name: string }>({
   query,
   mutation,
+  detail,
   backRoute,
   isBlocked,
   climbingObjectId,
@@ -41,8 +43,8 @@ const ApproveContainer = <E extends { name: string }>({
       )}
       {query.isError && <div>Error: {query.error.message}</div>}
       {query.isSuccess && (
-        <div className="flex flex-col flex-1 overflow-auto">
-          <div className="flex flex-col flex-1 mb-5 overflow-auto">Data goes here</div>
+        <>
+          <div className="flex flex-col flex-1 overflow-auto mb-2">{detail}</div>
           <Approve
             onAccept={() => mutation.mutate(true)}
             onReject={() => mutation.mutate(false)}
@@ -50,7 +52,7 @@ const ApproveContainer = <E extends { name: string }>({
             climbingObjectId={climbingObjectId}
             approveState={approveState}
           />
-        </div>
+        </>
       )}
     </div>
   )
