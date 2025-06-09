@@ -3,7 +3,6 @@ import { RouteSummary } from '@/types/routeTypes'
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
 import { Badge } from '../ui/badge'
-import { ApproveDropDown } from './ApproveDropDown'
 
 export type NewRouteEntryProps = RouteSummary & { approveState: boolean | null }
 
@@ -32,7 +31,6 @@ const NewObjectEntry: FC<NewRouteEntryProps> = (props: NewRouteEntryProps) => {
         >
           <p>{props.grade.name}</p>
         </Badge>
-        <ApproveDropDown />
       </div>
     </Link>
   )

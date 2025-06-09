@@ -10,6 +10,7 @@ import { ClusterIcon } from './ClusterIcon'
 import { getFilteredClimbingObject } from '@/services/climbingObjectService'
 import { useNavigate } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
+import { getTextColorForBackground } from '@/lib/utils'
 
 const MAX_CLUSTER_ZOOM = 18
 const CHUNK_SIZE = 1000 // Process 1000 points at a time
@@ -39,6 +40,13 @@ declare module 'leaflet' {
   interface MarkerClusterOptions {
     routesCount?: number
   }
+}
+
+const customRouteIcon = (route: RouteSummary): L.DivIcon => {
+  return L.divIcon({
+    html: `<div class="flex items-center justify-center w-7 h-7 rounded-full" style="background-color: ${route.grade.color}; color: ${getTextColorForBackground(route.grade.color)}">${route.grade.name}</div>`,
+    className: '',
+  })
 }
 
 const customClusterIcon = (cluster: L.MarkerCluster): L.DivIcon => {
@@ -152,12 +160,11 @@ const MapObjectLayer = ({
       const newMarkers: L.Marker[] = []
 
       routes.forEach((route) => {
-        const mapMarker = L.marker([route.latitude, route.longitude], { icon: RED_POI_ICON }).on(
-          'click',
-          () => {
-            handleRouteClick(route.id)
-          }
-        )
+        const mapMarker = L.marker([route.latitude, route.longitude], {
+          icon: customRouteIcon(route),
+        }).on('click', () => {
+          handleRouteClick(route.id)
+        })
 
         newMarkers.push(mapMarker)
       })
@@ -256,6 +263,7 @@ const MapObjectLayer = ({
         ref={routesClusterRef}
         chunkedLoading={true}
         maxClusterRadius={MAX_CLUSTER_RADIUS}
+        disableClusteringAtZoom={MAX_CLUSTER_ZOOM}
         // eslint-disable-next-line react/no-children-prop
         children={null}
       />
