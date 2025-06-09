@@ -1,16 +1,19 @@
 /// <reference types="cypress" />
 
-const login = (email: string, password: string) => {
-  cy.visit('/')
-  cy.intercept('POST', '**/auth/login', { statusCode: 200 }).as('loginUser')
-  cy.get('[test-id="email"]').type(email)
-  cy.get('[test-id="password"]').type(password)
-  cy.get('[test-id="login"]').click()
-  cy.wait('@loginUser')
+const login = (session: string, email: string, password: string) => {
+  cy.session(session, () => {
+    cy.request({
+      method: 'POST',
+      url: 'http://localhost:8080/api/v1/auth/login',
+      body: { email, password },
+    }).then(({ body }) => {
+      window.localStorage.setItem('token', body.token)
+    })
+  })
 }
 
-const loginAdmin = () => {
-  login('emily.johnson@password123.com', 'password123')
+const loginAdmin = (session: string) => {
+  login(session, 'emily.johnson@password123.com', 'password123')
 }
 
 declare global {

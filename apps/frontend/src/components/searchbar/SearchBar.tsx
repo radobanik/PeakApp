@@ -136,6 +136,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                     setIsActive(false)
                   }}
                   className="px-4 py-2 cursor-pointer hover:bg-blue-100"
+                  test-id={route.name}
                 >
                   <div className="mt-1 flex items-center space-x-2">
                     <div className="font-semibold text-sm">{route.name}</div>

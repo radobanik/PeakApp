@@ -165,6 +165,7 @@ export function ActivityInputs() {
                           disabled={!isEdit}
                           checked={field.value}
                           onCheckedChange={field.onChange}
+                          test-id="activity-topped"
                         />
                       </FormControl>
                       <FormMessage />
@@ -188,7 +189,7 @@ export function ActivityInputs() {
                       <FormLabel>Perceived Difficulty</FormLabel>
                       <Select disabled={!isEdit} onValueChange={field.onChange} {...field}>
                         <FormControl>
-                          <SelectTrigger className="w-[40vw]">
+                          <SelectTrigger className="w-[40vw]" test-id="difficulty-select">
                             <SelectValue placeholder="Select a Difficulty" />
                           </SelectTrigger>
                         </FormControl>
@@ -223,7 +224,13 @@ export function ActivityInputs() {
                     <FormItem>
                       <FormLabel>Number of Attempts</FormLabel>
                       <FormControl>
-                        <Input type="number" disabled={!isEdit} className="w-[40vw]" {...field} />
+                        <Input
+                          type="number"
+                          disabled={!isEdit}
+                          className="w-[40vw]"
+                          test-id="activity-attempts"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -244,6 +251,7 @@ export function ActivityInputs() {
                     <FormLabel>Notes</FormLabel>
                     <FormControl>
                       <Textarea
+                        test-id="activity-notes-input"
                         disabled={!isEdit}
                         placeholder="Write your Notes here..."
                         className="resize-none h-[15vh] w-full"

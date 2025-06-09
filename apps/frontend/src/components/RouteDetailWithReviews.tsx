@@ -76,7 +76,7 @@ export const RouteDetailWithComments = ({ routeData }: RouteDetailWithCommentsPr
             </svg>
             Open on map
           </Button>
-          <Button variant="default" onClick={handleAddToDiaryClick}>
+          <Button variant="default" onClick={handleAddToDiaryClick} test-id="add-to-diary">
             Add to diary
           </Button>
         </div>
