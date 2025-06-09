@@ -45,12 +45,13 @@ describe('Routes with sessions', () => {
     cy.visit('/diary')
 
     cy.get('[test-id="diary-sessions"]').click()
-    cy.get('[test-id="add-session"]').click()
 
     cy.intercept('GET', '**/activity/unassigned', (req) => {
       req.headers['if-none-match'] = '*'
       req.headers['cache-control'] = 'no-cache'
     }).as('getUnassignedActivities')
+
+    cy.get('[test-id="add-session"]').click()
 
     cy.wait('@getUnassignedActivities').then((interception) => {
       expect(interception!.response!.statusCode).to.eq(200)
