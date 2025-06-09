@@ -17,8 +17,12 @@ import { createListCursorResponse } from '../model/common/listCursorResponse'
 import followsRepository from '../repositories/follows.repository'
 import { RefObject } from '../model/common/refObject'
 import { SessionCommunityExtUserList } from '../repositories/community.repository'
-import { UserList } from '../model/user'
 import { ClimbingStructureType } from '@prisma/client'
+import {
+  calculateBhattacharyyaCoefficient,
+  createClimbingTypeHistogram,
+} from './utils/community-heuristics'
+import { UserList } from '../model/user'
 
 export enum CommunityVariant {
   RECOMMENDED = 'recommended',
@@ -32,7 +36,7 @@ export enum RecommenderCategory {
   MY_STATE = 'my-state',
 }
 
-type ClimbHistogram = Record<ClimbingStructureType, number>
+export type ClimbHistogram = Record<ClimbingStructureType, number>
 
 const getById = async (req: Request, res: Response) => {
   const userRef = provideUserRefFromToken(req)
@@ -180,54 +184,6 @@ const evaluateSession = (
   }
 
   return evaluation
-}
-
-/**
- * Calculates the Bhattacharyya Coefficient (similarity) between two histograms.
- * It ranges from 0 (no overlap) to 1 (identical distributions).
- */
-function calculateBhattacharyyaCoefficient(hist1: ClimbHistogram, hist2: ClimbHistogram): number {
-  let bCoefficient = 0.0
-  for (const typeValue of Object.values(ClimbingStructureType)) {
-    const typeKey = typeValue as ClimbingStructureType
-    const p_i = hist1[typeKey] || 0
-    const q_i = hist2[typeKey] || 0
-    bCoefficient += Math.sqrt(p_i * q_i)
-  }
-
-  return bCoefficient
-}
-
-/**
- * Creates a histogram of relative frequencies for ClimbingStructureType.
- */
-function createClimbingTypeHistogram(climbedTypes: ClimbingStructureType[]): ClimbHistogram {
-  const counts = {} as ClimbHistogram
-  for (const typeValue of Object.values(ClimbingStructureType)) {
-    counts[typeValue as ClimbingStructureType] = 0
-  }
-
-  const totalCount = climbedTypes.length
-
-  for (const type of climbedTypes) {
-    counts[type]++
-  }
-
-  const relativeFrequencies = {} as ClimbHistogram
-
-  if (totalCount === 0) {
-    for (const key of Object.values(ClimbingStructureType)) {
-      relativeFrequencies[key as ClimbingStructureType] = 0
-    }
-    return relativeFrequencies
-  }
-
-  for (const key of Object.values(ClimbingStructureType)) {
-    const typeEnumKey = key as ClimbingStructureType
-    relativeFrequencies[typeEnumKey] = counts[typeEnumKey] / totalCount
-  }
-
-  return relativeFrequencies
 }
 
 export default { list, getById }
