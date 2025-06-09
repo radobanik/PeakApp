@@ -1,9 +1,10 @@
-import { PrismaClient, ReportStatus } from '@prisma/client'
+import { ReportStatus } from '@prisma/client'
 import * as RouteInit from './route.init'
 import * as ClimbingObjectInit from './climbingObject.init'
 import * as UserInit from './user.init'
+import prisma from '../core/prisma/client'
 
-const reportClient = new PrismaClient().report
+const reportClient = prisma.report
 
 const reports = [
   {

@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import prisma from '../core/prisma/client'
 import {
   TOP_LOGGER_USER_ID,
   USER_CHRIS_BROWN_ID,
@@ -8,7 +8,7 @@ import {
   USER_MICHAEL_SMITH_ID,
 } from './user.init'
 
-const followsClient = new PrismaClient().follows
+const followsClient = prisma.follows
 
 const followings = [
   {
