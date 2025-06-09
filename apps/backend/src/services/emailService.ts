@@ -120,6 +120,20 @@ const reportEmailHtml = (reportName: string, answer: string) => `
   </div>
 `
 
+const reportEmailHtml = (reportName: string, answer: string) => `
+  <div style="${baseStyles}">
+    <h2 style="color:#28a745;">💬 Your report <strong>${reportName}</strong> has been resolved!</h2>
+    <p>Our administration team has received the report, identified the issue, and resolved it.</p>
+    <br>
+    <p style="font-size:14px; color:#777;"><strong>Resolver answer:</strong></p>
+    <p>${answer}</p>
+
+    <div style="margin-top:30px;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Strava_Logo.svg/2560px-Strava_Logo.svg.png" alt="ClimbApp Logo" style="width:100px; opacity:0.6;" />
+    </div>
+  </div>
+`
+
 export const sendLikeEmail = async (name: string, email = 'sneakyspider1337@gmail.com') => {
   try {
     const response = await resend.emails.send({
