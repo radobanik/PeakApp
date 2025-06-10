@@ -39,6 +39,12 @@ userRouter.get(
   UserController.userList
 )
 
+userRouter.get(
+  '/role/admin',
+  passport.authenticate('jwt', { session: false }),
+  UserController.isAdmin
+)
+
 /**
  * @swagger
  * /users/{id}:

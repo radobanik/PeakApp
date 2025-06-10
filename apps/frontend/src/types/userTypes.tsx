@@ -72,3 +72,5 @@ export type UserList = {
 
   profilePictureId: string | null
 }
+
+export type IsAdminReponse = { isAdmin: boolean }

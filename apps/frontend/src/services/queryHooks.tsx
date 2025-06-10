@@ -10,7 +10,7 @@ import { getReviews, getUserReview } from './reviewService'
 import { getFile } from './fileService'
 import { getClimbingObjectById } from './climbingObjectService'
 import { getFeatureFlags } from './featureFlagsService'
-import { getLoggedInUser } from './userService'
+import { getIsAdmin, getLoggedInUser } from './userService'
 
 export const useRouteQuery = (id: string) => {
   return useQuery({
@@ -187,13 +187,23 @@ export const useFeatureFlagsQuery = () => {
 
 export const useProfilePictureQuery = () => {
   return useQuery({
-    queryKey: ['profile-picture'],
+    queryKey: ['profilePicture'],
     queryFn: async () => {
       const user = await getLoggedInUser()
       if (!user.profilePictureId) return
 
       const file = await getFile(user.profilePictureId)
       return file?.url
+    },
+  })
+}
+
+export const useIsAdminQuery = () => {
+  return useQuery({
+    queryKey: ['isAdmin'],
+    queryFn: async () => {
+      const payload = await getIsAdmin()
+      return payload.isAdmin
     },
   })
 }

@@ -5,7 +5,7 @@ import { UserUpdate, userUpdateValidate, userCreateValidate } from '../model/use
 import { defaultUserListParams, IncommingUserListParams } from '../model/user/userList'
 import { parseSortAndOrderBy } from '../model/common/listParams'
 import requestValidator from '../model/common/validator'
-import { provideUserRefFromToken } from '../auth/authUtils'
+import { checkUserRoles, provideUserRefFromToken, returnUnauthorized } from '../auth/authUtils'
 
 const getUserById = async (req: Request, res: Response) => {
   const userId = req.params.id
@@ -160,6 +160,15 @@ const getProfilePicture = async (req: Request, res: Response) => {
   res.status(HTTP_STATUS.OK_200).json({ pictureId: user.profilePictureId })
 }
 
+const isAdmin = async (req: Request, res: Response) => {
+  const requestUser = provideUserRefFromToken(req)
+  if (requestUser === null) {
+    returnUnauthorized(res)
+    return
+  }
+  res.status(HTTP_STATUS.OK_200).json({ isAdmin: checkUserRoles(req, ['ADMIN']) })
+}
+
 export default {
   userList,
   getUserById,
@@ -169,4 +178,5 @@ export default {
   updateLoggedInUser,
   deleteUser,
   getProfilePicture,
+  isAdmin,
 }

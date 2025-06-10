@@ -17,6 +17,7 @@ import { ViewportContext, useNotificationContext } from '@/App'
 import { ROUTE } from '@/constants/routes'
 import { Link } from 'react-router-dom'
 import LogoutButton from './LogoutButton'
+import { useIsAdminQuery } from '@/services/queryHooks'
 
 type SidebarItem = {
   title: string
@@ -38,6 +39,11 @@ export type SidebarLayoutProps = {
 export function SidebarLayout({ sections, ...props }: SidebarLayoutProps) {
   const { isMobile } = useContext(ViewportContext)
   const { unreadCount } = useNotificationContext()
+
+  const isAdmin = useIsAdminQuery().data
+
+  const filteredSections = sections.filter((section) => section.title !== 'Backoffice' || isAdmin)
+
   return (
     <Sidebar collapsible={isMobile ? 'offcanvas' : 'none'} variant="sidebar" {...props}>
       <SidebarHeader className="md:hidden w-full">
@@ -47,7 +53,7 @@ export function SidebarLayout({ sections, ...props }: SidebarLayoutProps) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu className="gap-2">
-            {sections.map((section) => (
+            {filteredSections.map((section) => (
               <SidebarMenuItem key={section.title}>
                 <SidebarMenuButton asChild>
                   <p className="font-medium">{section.title}</p>
