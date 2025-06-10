@@ -2,13 +2,13 @@ import { ROUTE } from '@/constants/routes'
 import { ElementType, memo } from 'react'
 import { Button } from './ui/button'
 import { Link } from 'react-router-dom'
-import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
 import MapIcon from './svg/MapIcon'
 import CommunityIcon from './svg/CommunityIcon'
 import DiaryIcon from './svg/DiaryIcon'
 import { useSidebar } from './ui/sidebar'
 import { useNotificationContext } from '@/App'
 import { useProfilePictureQuery } from '@/services/queryHooks'
+import { Avatar, AvatarImage } from './ui/avatar'
 
 const MENU_ICON_BUTTONS = [
   {
@@ -48,8 +48,11 @@ const MobileMenuHeader = () => {
         key={title}
         className={`flex justify-center items-center h-full px-2 py-1 gap-1 flex-${route === ROUTE.COMMUNITY ? '7' : '5'}`}
       >
-        <SVGIcon size="100%" />
-        <Button variant="ghost" className="flex h-full p-0 cursor-pointer">
+        <SVGIcon size="90%" />
+        <Button
+          variant="ghost"
+          className="flex h-full p-0 cursor-pointer hover:bg-transparent" // Add hover:bg-transparent
+        >
           {title}
         </Button>
       </Link>
@@ -60,10 +63,7 @@ const MobileMenuHeader = () => {
     <div onClick={toggleSidebar} className="flex flex-4 justify-center h-full px-2 py-1">
       <div className="relative h-full aspect-square flex items-center justify-center">
         <Avatar className="h-full aspect-square">
-          <AvatarImage
-            src={profilePictureUrl}
-            className="h-full w-full rounded-full object-cover"
-          />
+          <AvatarImage src={profilePictureUrl} />
         </Avatar>
 
         {unreadCount > 0 && (
@@ -76,7 +76,7 @@ const MobileMenuHeader = () => {
   )
 
   return (
-    <nav className="flex h-14  w-full  bg-background-menu">
+    <nav className="flex h-14  w-full gap-x-6 bg-background-menu">
       {MENU_ICON_BUTTONS.map(renderMenuButton)}
       {renderProfileButton()}
     </nav>

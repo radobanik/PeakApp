@@ -11,7 +11,7 @@ function Avatar({ className, ...props }: React.ComponentProps<typeof AvatarPrimi
   return (
     <AvatarPrimitive.Root
       data-slot="avatar"
-      className={cn('relative flex size-8 shrink-0 overflow-hidden rounded-full', className)}
+      className={cn('relative flex shrink-0 overflow-hidden rounded-full aspect-square', className)}
       {...props}
     />
   )
@@ -21,7 +21,7 @@ function AvatarImage({ className, ...props }: React.ComponentProps<typeof Avatar
   return (
     <AvatarPrimitive.Image
       data-slot="avatar-image"
-      className={cn('aspect-square size-full', className)}
+      className={cn('aspect-square w-full h-full object-cover rounded-full', className)}
       {...props}
       src={props.src || NoUserPhoto} // Fallback
     />

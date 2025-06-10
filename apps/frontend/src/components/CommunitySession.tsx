@@ -1,6 +1,6 @@
 import NoBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
 import { FC, useEffect, useState } from 'react'
-import { Avatar } from '@radix-ui/react-avatar'
+import { Avatar } from '@/components/ui/avatar'
 import { AvatarImage } from './ui/avatar'
 import { Separator } from './ui/separator'
 import { Link } from 'react-router-dom'
