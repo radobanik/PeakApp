@@ -72,6 +72,7 @@ const create = async (req: Request<RouteCreate>, res: Response) => {
   const routeData: RouteCreate = req.body
 
   const validatedData = requestValidator(() => routeCreateValidate(routeData), res)
+  console.log('validatedData', validatedData)
   if (!validatedData) return
 
   const route = await RouteRepository.create(routeData, userRef)
@@ -129,16 +130,20 @@ const changeApprovalState = async (
     return
   }
   const routeId = req.params.id
-  const climbingObject = await RouteRepository.getById(routeId)
+  const route = await RouteRepository.getById(routeId)
 
-  if (climbingObject == null) {
+  if (route == null) {
     res.status(HTTP_STATUS.NOT_FOUND_404).json({ error: 'Route not found' })
     return
   }
 
   const approvalState = req.query.approvalState as ApprovalState
-  if (approvalState === 'PENDING' || climbingObject.approvalState != 'PENDING') {
-    res.status(HTTP_STATUS.BAD_REQUEST_400).json({ error: 'Invalid state' })
+  if (
+    approvalState === 'PENDING' ||
+    route.approvalState != 'PENDING' ||
+    route.climbingObject.approvalState != ApprovalState.APPROVED
+  ) {
+    res.status(HTTP_STATUS.BAD_REQUEST_400).json({ error: 'Invalid state or blocked' })
     return
   }
 

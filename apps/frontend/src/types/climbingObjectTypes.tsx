@@ -49,4 +49,7 @@ export type FilterClimbingObjectListParams = {
   longitudeFrom: number | null
   longitudeTo: number | null
   climbingStructureTypes: ClimbingStructureType[]
+  includeUnofficalClimbingObjects: boolean
+  includeUnofficialRoutes: boolean
+  excludeWithoutMatchingRoutes: boolean
 }

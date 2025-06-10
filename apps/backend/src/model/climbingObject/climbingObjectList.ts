@@ -56,6 +56,8 @@ type IncommingClimbingObjectListParams = {
   longitudeTo: number | null
   climbingStructureTypes: string | null
   approvalStates: string | null
+  routeApprovalStates: string | null
+  excludeWithoutMatchingRoutes?: string // includes objects without routes or without matching routes
 } & IncommingListParams
 
 type NonNullClimbingObjectListParams = {
@@ -69,6 +71,8 @@ type NonNullClimbingObjectListParams = {
   longitudeTo: number
   climbingStructureTypes: ClimbingStructureType[]
   approvalStates: ApprovalState[]
+  routeApprovalStates: ApprovalState[]
+  excludeWithoutMatchingRoutes: boolean
 } & NonNullListParams
 
 const validSortFields = ['name']
@@ -104,6 +108,8 @@ const defaultClimbingObjectListParams = (
     longitudeTo: toNumber(longitudeTo, 180),
     climbingStructureTypes: parseClimbingStructureTypes(climbingStructureTypes),
     approvalStates: parseApprovalStates(params.approvalStates),
+    routeApprovalStates: parseApprovalStates(params.routeApprovalStates),
+    excludeWithoutMatchingRoutes: params.excludeWithoutMatchingRoutes === 'true',
     ...toNotNullListParams(listParams, 10000000000),
   }
 }

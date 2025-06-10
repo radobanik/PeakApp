@@ -90,7 +90,6 @@ const routes = [
     path: '/search',
     route: searchRouter,
   },
-  { path: '/search', route: searchRouter },
   {
     path: '/email',
     route: emailRouter,

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { HTTP_STATUS } from './utils/httpStatusCodes'
-import { ClimbingObjectRepository } from '../repositories'
+import { ClimbingObjectRepository, UserRepository } from '../repositories'
 import {
   defaultClimbingObjectListParams,
   IncommingClimbingObjectListParams,
@@ -16,7 +16,7 @@ import { ClimbingObjectOrder, ClimbingObjectWhere } from '../repositories/climbi
 import { RouteWhere } from '../repositories/route.repository'
 import { provideUserRefFromToken, returnUnauthorized } from '../auth/authUtils'
 import { getOrderBy } from '../model/route'
-import { ApprovalState } from '@prisma/client'
+import { ApprovalState, Role } from '@prisma/client'
 
 const getById = async (req: Request, res: Response) => {
   const params = req.query as unknown as IncommingClimbingObjectListParams
@@ -30,11 +30,16 @@ const getById = async (req: Request, res: Response) => {
     return
   }
 
+  normalizedParams.approvalStates = normalizedParams.routeApprovalStates.filter(
+    (state) => state !== ApprovalState.REJECTED
+  )
+  console.log('normalizedParams', normalizedParams)
   const filteredRoutes = climbingObject.routes.filter(
     (route) =>
       route.grade.rating >= normalizedParams.ratingFrom &&
       route.grade.rating <= normalizedParams.ratingTo &&
-      normalizedParams.climbingStructureTypes.includes(route.climbingStructureType)
+      normalizedParams.climbingStructureTypes.includes(route.climbingStructureType) &&
+      normalizedParams.routeApprovalStates.includes(route.approvalState)
   )
 
   res.status(HTTP_STATUS.OK_200).json({
@@ -46,6 +51,28 @@ const getById = async (req: Request, res: Response) => {
 const list = async (req: Request, res: Response) => {
   const params = req.query as unknown as IncommingClimbingObjectListParams
   const normalizedParams: NonNullClimbingObjectListParams = defaultClimbingObjectListParams(params)
+  const userRef = provideUserRefFromToken(req as unknown as Request)
+  if (userRef === null) {
+    returnUnauthorized(res)
+    return
+  }
+  const user = await UserRepository.getUserById(userRef.id)
+  if (user === null) {
+    returnUnauthorized(res)
+    return
+  }
+
+  // Regular users should not see rejected climbing objects and routes on map
+  if (!user.roles.includes(Role.ADMIN)) {
+    normalizedParams.approvalStates = normalizedParams.approvalStates.filter(
+      (state) => state !== ApprovalState.REJECTED
+    )
+    normalizedParams.routeApprovalStates = normalizedParams.routeApprovalStates.filter(
+      (state) => state !== ApprovalState.REJECTED
+    )
+  }
+
+  // console.log('normalizedParams', normalizedParams)
 
   try {
     validateClimbingObjectListParams(normalizedParams)
@@ -63,7 +90,7 @@ const list = async (req: Request, res: Response) => {
       { climbingStructureType: { in: normalizedParams.climbingStructureTypes } },
       { grade: { rating: { gte: normalizedParams.ratingFrom, lte: normalizedParams.ratingTo } } },
       { name: { contains: normalizedParams.routeName as string, mode: 'insensitive' } },
-      { approvalState: ApprovalState.APPROVED },
+      { approvalState: { in: normalizedParams.routeApprovalStates } },
     ],
   }
 
@@ -74,7 +101,11 @@ const list = async (req: Request, res: Response) => {
           { name: { contains: normalizedParams.name as string, mode: 'insensitive' } },
           { longitude: { gte: normalizedParams.longitudeFrom, lte: normalizedParams.longitudeTo } },
           { latitude: { gte: normalizedParams.latitudeFrom, lte: normalizedParams.latitudeTo } },
-          { routes: { some: routeWhere } },
+          {
+            ...(normalizedParams.excludeWithoutMatchingRoutes && {
+              routes: { some: routeWhere },
+            }),
+          },
           { approvalState: { in: normalizedParams.approvalStates } },
         ],
       },

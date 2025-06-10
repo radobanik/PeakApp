@@ -38,14 +38,13 @@ export const API = {
     LIST: `${API_BASE_URL}/climbing-object/`,
     BY_ID: `${API_BASE_URL}/climbing-object/`,
     CREATE: `${API_BASE_URL}/climbing-object/`,
+    APPROVAL: (id: string) => `${API_BASE_URL}/climbing-object/${id}/approval`,
   },
   ROUTE: {
     LIST: `${API_BASE_URL}/route/`,
     BY_ID: `${API_BASE_URL}/route/`,
     CREATE: `${API_BASE_URL}/route/`,
-  },
-  GRADE: {
-    LIST: () => `${API_BASE_URL}/grade`,
+    APPROVAL: (id: string) => `${API_BASE_URL}/route/${id}/approval`,
   },
   REVIEW: {
     LIST: (routeId: string) => `${API_BASE_URL}/review/${routeId}`,
@@ -53,6 +52,9 @@ export const API = {
     CREATE: (routeId: string) => `${API_BASE_URL}/review/${routeId}/me`,
     UPDATE: (routeId: string) => `${API_BASE_URL}/review/${routeId}/me`,
     DELETE_MINE: (routeId: string) => `${API_BASE_URL}/review/${routeId}/me`,
+  },
+  GRADE: {
+    LIST: () => `${API_BASE_URL}/grade`,
   },
   PEAK_FILE: {
     BY_ID: (id: string) => `${API_BASE_URL}/peak-file/${id}`,

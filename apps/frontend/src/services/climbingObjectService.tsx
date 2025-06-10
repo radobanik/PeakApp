@@ -6,23 +6,29 @@ import {
 } from '@/types/climbingObjectTypes'
 import { api } from '.'
 import { ListResponse } from '@/types/utilsTypes'
+import { ApprovalState } from '@/types/approvalTypes'
 
 export async function getFilteredClimbingObject(
   params: FilterClimbingObjectListParams | null
 ): Promise<ListResponse<ClimbingObjectList>> {
-  const searchParams = new URLSearchParams()
-
+  const searchParams: Record<string, string> = {}
   if (params !== null) {
     Object.entries(params).forEach(([key, value]) => {
       if (value !== null && value !== undefined && value !== '') {
-        searchParams.append(key, String(value))
+        searchParams[key] = String(value)
       }
     })
   }
 
-  const queryString = searchParams.toString()
-  const response = await api.get(`${API.CLIMBING_OBJECT.LIST}?${queryString}`)
-
+  const response = await api.get(`${API.CLIMBING_OBJECT.LIST}`, {
+    params: {
+      ...searchParams,
+      approvalStates: `${ApprovalState.APPROVED},${params?.includeUnofficalClimbingObjects ? ApprovalState.PENDING : ''}`,
+      routeApprovalStates: `${ApprovalState.APPROVED},${params?.includeUnofficialRoutes ? ApprovalState.PENDING : ''}`,
+      excludeWithoutMatchingRoutes: params?.excludeWithoutMatchingRoutes ?? false,
+    },
+  })
+  console.log(response.data)
   if (response.status !== 200) {
     throw new Error('Error fetching climbing objects')
   }
@@ -44,27 +50,25 @@ export async function getClimbingObjectDetail(
   pointId: string,
   filters: FilterClimbingObjectListParams | null = null
 ): Promise<ClimbingObjectDetail> {
-  const searchParams = new URLSearchParams()
-
+  const searchParams: Record<string, string> = {}
   if (filters !== null) {
     Object.entries(filters).forEach(([key, value]) => {
       if (value !== null && value !== undefined && value !== '') {
-        searchParams.append(key, String(value))
+        searchParams[key] = String(value)
       }
     })
   }
 
-  const queryString = searchParams.toString()
-  const url = queryString
-    ? `${API.CLIMBING_OBJECT.LIST}${pointId}?${queryString}`
-    : `${API.CLIMBING_OBJECT.LIST}${pointId}`
+  const response = await api.get(`${API.CLIMBING_OBJECT.LIST}${pointId}`, {
+    params: {
+      ...searchParams,
+      routeApprovalStates: `${ApprovalState.APPROVED},${filters?.includeUnofficialRoutes ? ApprovalState.PENDING : ''}`,
+    },
+  })
 
-  const response = await fetch(url)
-  const data = await response.json()
-
-  if (!response.ok) {
-    throw new Error(data?.message || 'Failed to load climbing object')
+  if (response.status != 200) {
+    throw new Error(response.data.message || 'Failed to load climbing object')
   }
 
-  return data
+  return response.data
 }
