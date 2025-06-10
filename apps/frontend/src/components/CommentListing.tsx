@@ -7,7 +7,6 @@ import { FC, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import CommentCreateTemplate from '@/components/CommentCreateTemplate'
-import { useFeatureFlagsQuery } from '@/services/queryHooks'
 
 type CommentListProps = {
   sessionId: string
@@ -16,7 +15,6 @@ type CommentListProps = {
 
 const CommentListing: FC<CommentListProps> = ({ sessionId, className }: CommentListProps) => {
   const [isCreateActive, setIsCreateActive] = useState(false)
-  const featureFlagsQuery = useFeatureFlagsQuery()
 
   const commentsQuery = useInfiniteQuery<
     ListCursorResponse<CommentList>,
@@ -92,10 +90,6 @@ const CommentListing: FC<CommentListProps> = ({ sessionId, className }: CommentL
   })
 
   const data = commentsQuery.data ?? { pages: [] }
-
-  if (!featureFlagsQuery.data?.commentsEnabled) {
-    return null
-  }
 
   return (
     <div className={cn('p-2 flex flex-col h-full', className)}>

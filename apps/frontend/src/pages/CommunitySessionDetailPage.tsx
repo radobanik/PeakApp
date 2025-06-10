@@ -13,9 +13,12 @@ import MediaScroll from '@/components/MediaScroll'
 import { useEffect, useState } from 'react'
 import { PeakFile } from '@/types/fileTypes'
 import { getFile } from '@/services/fileService'
+import { useFeatureFlagsQuery } from '@/services/queryHooks'
 
 export default function CommunitySessionDetailPage() {
   const [media, setMedia] = useState<PeakFile[]>([])
+
+  const featureFlagsQuery = useFeatureFlagsQuery()
 
   const params = useParams()
   const sessionQuery = useQuery({
@@ -35,6 +38,17 @@ export default function CommunitySessionDetailPage() {
     }
     processFiles()
   }, [sessionQuery.isSuccess])
+
+  const renderComments = () => {
+    if (!featureFlagsQuery.data?.commentsEnabled || !sessionQuery.isSuccess) return null
+
+    return (
+      <div className="w-full">
+        <p className="text-md font-bold">Comments</p>
+        <CommentListing sessionId={sessionQuery.data.id} className="flex-1 overflow-auto" />
+      </div>
+    )
+  }
 
   return (
     <div className="w-full h-full flex flex-col overflow-auto">
@@ -104,10 +118,7 @@ export default function CommunitySessionDetailPage() {
                 ))}
               </div>
             </div>
-            <div className="w-full">
-              <p className="text-md font-bold">Comments</p>
-              <CommentListing sessionId={sessionQuery.data.id} className="flex-1 overflow-auto" />
-            </div>
+            {renderComments()}
           </div>
         </>
       )}

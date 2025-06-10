@@ -9,6 +9,7 @@ import { ROUTE } from '@/constants/routes'
 import Like from './Like'
 import { getFile } from '@/services/fileService'
 import { SessionCommunityList } from '@/types/sessionTypes'
+import { useFeatureFlagsQuery } from '@/services/queryHooks'
 
 export type CommunitySessionProps = {
   session: SessionCommunityList
@@ -16,6 +17,8 @@ export type CommunitySessionProps = {
 
 const CommunitySession: FC<CommunitySessionProps> = ({ session }: CommunitySessionProps) => {
   const [sessionPhoto, setSessionPhoto] = useState(NoBoulderPhoto)
+
+  const featureFlagsQuery = useFeatureFlagsQuery()
 
   // get photo url
   useEffect(() => {
@@ -28,6 +31,16 @@ const CommunitySession: FC<CommunitySessionProps> = ({ session }: CommunitySessi
     }
     getPhoto()
   }, [])
+
+  const renderCommentsCount = () => {
+    if (!featureFlagsQuery.data?.commentsEnabled) return null
+
+    return (
+      <p>
+        {session.comments} comment{session.comments !== 1 ? 's' : ''}
+      </p>
+    )
+  }
 
   return (
     <Link to={ROUTE.COMMUNITY_DETAIL(session.id)}>
@@ -58,9 +71,7 @@ const CommunitySession: FC<CommunitySessionProps> = ({ session }: CommunitySessi
               sessionId={session.id}
               className="flex-1"
             />
-            <p>
-              {session.comments} comment{session.comments !== 1 ? 's' : ''}
-            </p>
+            {renderCommentsCount()}
           </div>
         </div>
       </div>
