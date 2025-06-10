@@ -49,7 +49,6 @@ const ReportButton: FC<ReportButtonProps> = ({
   } = useForm<FormData>()
 
   const onSubmit = (data: FormData) => {
-    console.log('Form submitted:', data)
     createReport(climbingObjectId, routeId, data.title, data.reason)
       .then(() => setWasReported(true))
       .catch((error) => {

@@ -99,10 +99,8 @@ export default function AchievementsPage() {
 
   // delete action
   const onDeleteClick = (achievement: AchievementDetailWithIconMetadata) => {
-    console.log('Selected achievement:', selectedAchievement?.name)
     setIsDeleteDialogOpen(true)
     setSelectedAchievement(achievement)
-    console.log('Delete clicked for achievement:', achievement)
   }
 
   // creators
@@ -117,7 +115,6 @@ export default function AchievementsPage() {
 
   const handleAchievementCreation = (achievement: AchievementDetailWithIconMetadata) => {
     const id = achievement.icon?.id
-    console.log('Creating achievement:', achievement)
     createAchievementMutation.mutate({
       name: achievement.name,
       description: achievement.description,
@@ -128,7 +125,6 @@ export default function AchievementsPage() {
   }
 
   const handleAchievementUpdate = (achievement: AchievementDetailWithIconMetadata) => {
-    console.log('Updating achievement:', achievement)
     const id = achievement.icon?.id
     updateAchievementMutation.mutate({
       id: achievement.id,
@@ -164,9 +160,8 @@ export default function AchievementsPage() {
     // mutationFn receives the variable passed to mutate()
     mutationFn: ({ id, data }: { id: string; data: AchievementUpdate }) =>
       updateAchievement(id, data),
-    onSuccess: (updatedAchievement) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['all_achievements'] })
-      console.log('Achievement updated successfully:', updatedAchievement)
     },
     onError: (error) => {
       console.error('Error updating achievement:', error)
@@ -176,9 +171,8 @@ export default function AchievementsPage() {
 
   const createAchievementMutation = useMutation({
     mutationFn: (data: AchievementCreate) => createAchievement(data),
-    onSuccess: (newAchievement) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['all_achievements'] })
-      console.log('Achievement created successfully:', newAchievement)
     },
     onError: (error) => {
       console.error('Error creating achievement:', error)

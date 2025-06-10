@@ -63,7 +63,6 @@ const parseSortAndOrderBy = (sort: string[], order: string[]) => {
 }
 
 const parseApprovalStates = (approvalStates: string | null) => {
-  console.log(approvalStates)
   const types = parseArray(approvalStates).map((value) => {
     if (Object.values(ApprovalState).includes(value as ApprovalState)) {
       return value as ApprovalState
