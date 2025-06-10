@@ -1,6 +1,7 @@
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarHeader,
   SidebarMenu,
@@ -15,6 +16,7 @@ import { useContext } from 'react'
 import { ViewportContext, useNotificationContext } from '@/App'
 import { ROUTE } from '@/constants/routes'
 import { Link } from 'react-router-dom'
+import LogoutButton from './LogoutButton'
 
 type SidebarItem = {
   title: string
@@ -73,6 +75,9 @@ export function SidebarLayout({ sections, ...props }: SidebarLayoutProps) {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <LogoutButton />
+      </SidebarFooter>
     </Sidebar>
   )
 }

@@ -47,7 +47,11 @@ export const SIDEBAR_ROUTES = [
     items: [
       { title: 'User', url: ROUTE.SETTINGS_USER },
       { title: 'Routes', url: ROUTE.SETTINGS_ROUTES },
-
+    ],
+  },
+  {
+    title: 'Backoffice',
+    items: [
       { title: 'Review new objects', url: ROUTE.NEW_CLIMBING_OBJECTS },
       { title: 'Review new routes', url: ROUTE.NEW_ROUTES },
       { title: 'Review reports', url: ROUTE.REPORTS },

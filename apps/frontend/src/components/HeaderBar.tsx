@@ -1,13 +1,9 @@
 import { ROUTE } from '@/constants/routes'
 import PeakAppLogo from '../assets/PeakAppLogo.png'
-import LogoutButton from './LogoutButton'
 import { Link, useNavigate } from 'react-router-dom'
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
 import { useSidebar } from './ui/sidebar'
 import { useNotificationContext } from '@/App'
-import { api } from '@/services'
-import { API } from '@/constants/api'
-import { toast } from 'sonner'
 import { useProfilePictureQuery } from '@/services/queryHooks'
 
 function HeaderBar() {
@@ -22,15 +18,6 @@ function HeaderBar() {
     setOpen(true)
   }
 
-  const handleTestEmail = async () => {
-    try {
-      await api.post(API.EMAIL.TEST)
-      toast.success('Test email sent!')
-    } catch {
-      toast.error('Failed to send email')
-    }
-  }
-
   return (
     <div className="flex justify-start w-full h-14 px-3 py-1 border-b-2 border-gray-300 bg-background-menu">
       <Link to={ROUTE.HOME} onClick={() => setOpen(false)} className="flex items-center h-full">
@@ -43,13 +30,6 @@ function HeaderBar() {
         <Link to={ROUTE.COMMUNITY} onClick={() => setOpen(false)} className="text-lg font-semibold">
           Community
         </Link>
-        <button
-          onClick={handleTestEmail}
-          className="text-lg font-semibold px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Email
-        </button>
-        <LogoutButton />
 
         <div
           onClick={handleProfileClick}
