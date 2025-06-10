@@ -1,4 +1,16 @@
 import { FC, useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import {
   Dialog,
   DialogContent,
@@ -6,15 +18,25 @@ import {
   DialogOverlay,
   DialogTitle,
 } from '@/components/ui/dialog'
-import noBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
-import { AchievementDetailWithIconMetadata, AchievementType } from '@/types/achievementTypes'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
-import { Label } from './ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Textarea } from './ui/textarea'
+
+import DefaultAchievementIcon from '@/assets/achievement.png'
+import { AchievementType, AchievementDetailWithIconMetadata } from '@/types/achievementTypes'
 import { createFile } from '@/services/fileService'
 import { PeakFileDetail } from 'backend/src/model/peakFile'
+import { Label } from '@radix-ui/react-label'
+
+const achievementSchema = z.object({
+  name: z.string().min(3, { message: 'Name must be at least 3 characters long.' }),
+  description: z.string().min(5, { message: 'Description must be at least 5 characters long.' }),
+  minimumValue: z.coerce.number().min(0, { message: 'Minimum value must be 0 or greater.' }),
+  type: z.nativeEnum(AchievementType),
+})
+
+type AchievementFormData = z.infer<typeof achievementSchema>
 
 type AchievementEditDialogProps = {
   isOpen: boolean
@@ -31,39 +53,32 @@ export const AchievementEditDialog: FC<AchievementEditDialogProps> = ({
 }) => {
   const isCreate = achievement === null
   const achievementTypes = Object.values(AchievementType)
-
-  // --- Form State ---
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [minimumValue, setMinimumValue] = useState<number>(0)
-  const [type, setType] = useState<AchievementType>(achievementTypes[0])
   const [currentFile, setCurrentFile] = useState<PeakFileDetail | null>(null)
+
+  const form = useForm<AchievementFormData>({
+    resolver: zodResolver(achievementSchema),
+    defaultValues: {
+      name: '',
+      description: '',
+      minimumValue: 0,
+      type: achievementTypes[0],
+    },
+  })
 
   useEffect(() => {
     if (achievement) {
-      setName(achievement.name)
-      setDescription(achievement.description)
-      setMinimumValue(achievement.minimumValue)
-      setType(achievement.type)
+      form.reset(achievement)
       setCurrentFile(achievement.icon)
     } else {
-      setName('')
-      setDescription('')
-      setMinimumValue(0)
-      setType(achievementTypes[0])
+      form.reset({
+        name: '',
+        description: '',
+        minimumValue: 0,
+        type: achievementTypes[0],
+      })
       setCurrentFile(null)
     }
-  }, [achievement])
-
-  // --- Handlers ---
-  const handleMinimumValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(e.target.value)
-    if (!isNaN(value)) {
-      setMinimumValue(value)
-    } else if (e.target.value === '') {
-      setMinimumValue(0)
-    }
-  }
+  }, [achievement, form])
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null
@@ -73,20 +88,11 @@ export const AchievementEditDialog: FC<AchievementEditDialogProps> = ({
     }
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault() // Prevent default form submission
-
+  const onSubmit = (data: AchievementFormData) => {
     const saveData: AchievementDetailWithIconMetadata = {
-      id: '',
-      name,
-      description,
-      minimumValue,
-      type,
+      id: isCreate ? '' : achievement!.id,
+      ...data,
       icon: currentFile,
-    }
-
-    if (!isCreate && achievement) {
-      saveData.id = achievement.id
     }
 
     try {
@@ -102,105 +108,97 @@ export const AchievementEditDialog: FC<AchievementEditDialogProps> = ({
       <DialogContent className="overflow-hidden flex flex-col max-h-[90vh]">
         <DialogTitle>{isCreate ? 'Create new achievement' : 'Edit achievement'}</DialogTitle>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 py-4 overflow-y-auto pr-4">
-          {/* Name Input */}
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="col-span-3"
-              required // Basic validation
-            />
-          </div>
-
-          {/* Description Textarea */}
-          <div className="grid grid-cols-4 items-start gap-4">
-            <Label htmlFor="description" className="text-right">
-              Description
-            </Label>
-            <Textarea
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="col-span-3"
-              required // Basic validation
-            />
-          </div>
-
-          {/* Minimum Value Input */}
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="minimumValue" className="text-right">
-              Minimum Value
-            </Label>
-            <Input
-              id="minimumValue"
-              type="number" // Use number type for numeric input
-              value={minimumValue}
-              onChange={handleMinimumValueChange}
-              className="col-span-3"
-              required // Basic validation
-              min="0" // Minimum value constraint
-            />
-          </div>
-
-          {/* Type Select */}
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="type" className="text-right">
-              Type
-            </Label>
-            <Select value={type} onValueChange={(value: AchievementType) => setType(value)}>
-              <SelectTrigger id="type" className="col-span-3">
-                <SelectValue placeholder="Select achievement type" />
-              </SelectTrigger>
-              <SelectContent>
-                {achievementTypes.map((typeKey) => (
-                  <SelectItem key={typeKey} value={AchievementType[typeKey]}>
-                    {typeKey}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Icon Upload */}
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="icon" className="text-right">
-              Icon
-            </Label>
-            <div className="col-span-3 flex flex-col gap-2">
-              {/* Display current icon if exists and no new file selected */}
-              <img
-                src={currentFile ? currentFile.url : noBoulderPhoto}
-                alt="Current Achievement Icon"
-                className="w-16 h-16 object-cover rounded-md"
-                onError={(e) => {
-                  // Fallback to placeholder if image fails to load
-                  e.currentTarget.src = noBoulderPhoto
-                }}
-              />
-              <Input
-                id="icon"
-                type="file"
-                accept="image/*" // Accept only image files
-                onChange={handleFileChange}
-              />
-            </div>
-          </div>
-        </form>
-
-        <DialogFooter>
-          <Button
-            type="submit"
-            onClick={handleSubmit}
-            // disabled={isLoading}
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col gap-4 py-4 overflow-y-auto pr-4"
           >
-            {isCreate ? 'Create' : 'Save Changes'}
-          </Button>
-        </DialogFooter>
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="grid grid-cols-4 items-center gap-4">
+                  <FormLabel className="text-left">Name</FormLabel>
+                  <FormControl className="col-span-3">
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage className="col-start-2 col-span-3" />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem className="grid grid-cols-4 items-start gap-4">
+                  <FormLabel className="text-left">Description</FormLabel>
+                  <FormControl className="col-span-3">
+                    <Textarea {...field} />
+                  </FormControl>
+                  <FormMessage className="col-start-2 col-span-3" />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="minimumValue"
+              render={({ field }) => (
+                <FormItem className="grid grid-cols-4 items-center gap-4">
+                  <FormLabel className="text-left">Minimum Value</FormLabel>
+                  <FormControl className="col-span-3">
+                    <Input type="number" {...field} />
+                  </FormControl>
+                  <FormMessage className="col-start-2 col-span-3" />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="type"
+              render={({ field }) => (
+                <FormItem className="grid grid-cols-4 items-center gap-4">
+                  <FormLabel className="text-left">Type</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl className="col-span-3">
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select achievement type" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {achievementTypes.map((typeKey) => (
+                        <SelectItem key={typeKey} value={typeKey}>
+                          {typeKey}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage className="col-start-2 col-span-3" />
+                </FormItem>
+              )}
+            />
+
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label className="text-left">Icon</Label>
+              <div className="col-span-3 flex flex-col gap-2">
+                <img
+                  src={currentFile ? currentFile.url : DefaultAchievementIcon}
+                  alt="Current Achievement Icon"
+                  className="w-16 h-16 object-cover rounded-full"
+                  onError={(e) => {
+                    e.currentTarget.src = DefaultAchievementIcon
+                  }}
+                />
+                <Input id="icon-upload" type="file" accept="image/*" onChange={handleFileChange} />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type="submit">{isCreate ? 'Create' : 'Save Changes'}</Button>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   )
