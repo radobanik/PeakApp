@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useRef, useLayoutEffect } from 'react'
+import { useState, useMemo } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -8,7 +8,6 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
 import { FilterClimbingObjectListParams } from '@/types/climbingObjectTypes'
 import { GradeDetail } from '@/types/gradeTypes'
 import { ClimbingStructureType } from '@/types/routeTypes'
@@ -18,6 +17,7 @@ import { useFeatureFlagsQuery } from '@/services/queryHooks'
 import MultiSelectDropdown from './MultiSelectDropdown'
 import { useGrades } from './filterHooks'
 import { SingleSelectDropdown } from './SingleSelectDropdown'
+import { GpsInput } from './GpsInput'
 
 const INITIAL_FILTERS: FilterClimbingObjectListParams = {
   name: null,
@@ -62,9 +62,9 @@ export default function MapFilterDialog({
     longitudeFrom: null,
     longitudeTo: null,
     climbingStructureTypes: [],
-    includeUnofficalClimbingObjects: false,
-    includeUnofficialRoutes: false,
-    excludeWithoutMatchingRoutes: false,
+    includeUnofficalClimbingObjects: true,
+    includeUnofficialRoutes: true,
+    excludeWithoutMatchingRoutes: true,
   })
 
   const grades = useGrades()
@@ -117,8 +117,8 @@ export default function MapFilterDialog({
           {coordinateFields.map((field) => (
             <div className="flex flex-col gap-2" key={field.key}>
               <Label>{field.label}</Label>
-              <Input
-                type="number"
+              <GpsInput
+                // type="number"
                 value={(filters[field.key as CoordKey] as number) ?? ''}
                 onChange={(e) =>
                   updateFilter(
