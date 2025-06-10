@@ -144,6 +144,22 @@ const deleteUser = async (req: Request, res: Response) => {
   res.status(HTTP_STATUS.NO_CONTENT_204).send()
 }
 
+const getProfilePicture = async (req: Request, res: Response) => {
+  const userId = provideUserRefFromToken(req as unknown as Request)?.id
+  if (!userId) {
+    res.status(HTTP_STATUS.UNAUTHORIZED_401).json({ error: 'Unauthorized' })
+    return
+  }
+
+  const user = await UserRepository.getUserById(userId)
+  if (!user?.profilePictureId) {
+    res.status(HTTP_STATUS.NOT_FOUND_404).json({ error: 'Profile picture not found' })
+    return
+  }
+
+  res.status(HTTP_STATUS.OK_200).json({ pictureId: user.profilePictureId })
+}
+
 export default {
   userList,
   getUserById,
@@ -152,4 +168,5 @@ export default {
   updateUser,
   updateLoggedInUser,
   deleteUser,
+  getProfilePicture,
 }

@@ -3,17 +3,19 @@ import PeakAppLogo from '../assets/PeakAppLogo.png'
 import LogoutButton from './LogoutButton'
 import { Link, useNavigate } from 'react-router-dom'
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
-import diddyPfp from '@/assets/diddy.webp'
 import { useSidebar } from './ui/sidebar'
 import { useNotificationContext } from '@/App'
 import { api } from '@/services'
 import { API } from '@/constants/api'
 import { toast } from 'sonner'
+import { useProfilePictureQuery } from '@/services/queryHooks'
 
 function HeaderBar() {
   const navigate = useNavigate()
   const { setOpen } = useSidebar()
   const { unreadCount } = useNotificationContext()
+
+  const { data: profilePictureUrl } = useProfilePictureQuery()
 
   const handleProfileClick = () => {
     navigate(ROUTE.SETTINGS_USER)
@@ -53,9 +55,11 @@ function HeaderBar() {
           onClick={handleProfileClick}
           className="relative h-full flex items-center justify-center"
         >
-          <Avatar className="h-full flex justify-center items-center">
-            {/* TODO:: Add user photo and AvatarFallback with user initials */}
-            <AvatarImage src={diddyPfp} className="h-full rounded-full" />
+          <Avatar className="h-full aspect-square flex justify-center items-center">
+            <AvatarImage
+              src={profilePictureUrl}
+              className="h-full w-full rounded-full object-cover"
+            />
           </Avatar>
 
           {unreadCount > 0 && (

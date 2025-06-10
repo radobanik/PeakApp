@@ -9,7 +9,7 @@ import { RefObject } from '../model/common/refObject'
 import { activityDetailSelector, activityListSelector } from '../model/activity'
 import { routeListSelector } from '../model/route'
 import prisma from '../core/prisma/client'
-import { userLabeledSelector, UserList, UserLabeled } from '../model/user'
+import { UserList, UserLabeled, userListSelector } from '../model/user'
 
 const sessionClient = prisma.session
 const likeClient = prisma.like
@@ -31,7 +31,7 @@ const listForRecommended = async (userRef: RefObject): Promise<SessionCommunityE
       // location of author
       createdBy: {
         select: {
-          ...userLabeledSelector,
+          ...userListSelector,
           city: {
             select: {
               country: {

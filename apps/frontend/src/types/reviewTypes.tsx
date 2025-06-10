@@ -1,6 +1,6 @@
 import { GradeDetail } from 'backend/src/model/grade'
 import { RouteDetail } from './routeTypes'
-import { UserLabeled } from './userTypes'
+import { UserDetail, UserLabeled } from './userTypes'
 
 export interface ReviewCreate {
   stars: number
@@ -16,7 +16,7 @@ export interface ReviewDetail {
   gradeRating: GradeDetail
 
   route: RouteDetail
-  createdBy: UserLabeled
+  createdBy: UserDetail
 }
 
 export interface ReviewList {

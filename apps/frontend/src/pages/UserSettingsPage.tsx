@@ -57,7 +57,7 @@ const UserSettingsPage = () => {
   const [citiesData, setCitiesData] = useState<CitiesResponse>([])
   const [citiesComboItems, setCitiesComboItems] = useState<ComboboxItem[]>([])
   const [uploadedAvatar, setUploadedAvatar] = useState<PeakFile | null>(null)
-  const [profilePicturePreview, setProfilePicturePreview] = useState<string | null>(NoUserPhoto)
+  const [profilePicturePreview, setProfilePicturePreview] = useState<string | undefined>()
   const [profilePictureChecked, setProfilePictureChecked] = useState(false)
   const [loggedInUser, setLoggedInUser] = useState<UserDetailResponse | null>(null)
 
@@ -187,9 +187,7 @@ const UserSettingsPage = () => {
           <div className="grid grid-cols-1 sm:[grid-template-columns:auto_1fr] gap-6 items-start">
             <div className="flex flex-col items-center gap-4">
               <Avatar className="h-45 w-45">
-                {profilePictureChecked && (
-                  <AvatarImage src={profilePicturePreview || NoUserPhoto} />
-                )}
+                {profilePictureChecked && <AvatarImage src={profilePicturePreview} />}
               </Avatar>
               <Input
                 ref={fileInputRef}
@@ -258,7 +256,7 @@ const UserSettingsPage = () => {
             <Label htmlFor="first-name">First Name</Label>
             <Input
               id="first-name"
-              placeholder="White"
+              placeholder="Walter"
               {...register('firstName', { required: true })}
             />
             {errors.firstName && (
@@ -269,7 +267,7 @@ const UserSettingsPage = () => {
             <Label htmlFor="last-name">Last Name</Label>
             <Input
               id="last-name"
-              placeholder="Diddy"
+              placeholder="White"
               {...register('lastName', { required: true })}
             />
             {errors.lastName && (

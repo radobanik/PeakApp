@@ -141,6 +141,12 @@ userRouter.get(
 )
 
 userRouter.get(
+  '/profile-picture',
+  passport.authenticate('jwt', { session: false }),
+  UserController.getProfilePicture
+)
+
+userRouter.get(
   '/:id/following',
   passport.authenticate('jwt', { session: false }),
   followingController.listFollowing

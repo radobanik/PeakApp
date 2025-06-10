@@ -10,6 +10,7 @@ import { getReviews, getUserReview } from './reviewService'
 import { getFile } from './fileService'
 import { getClimbingObjectById } from './climbingObjectService'
 import { getFeatureFlags } from './featureFlagsService'
+import { getLoggedInUser } from './userService'
 
 export const useRouteQuery = (id: string) => {
   return useQuery({
@@ -182,5 +183,18 @@ export const useFeatureFlagsQuery = () => {
   return useQuery({
     queryKey: ['featureFlags'],
     queryFn: getFeatureFlags,
+  })
+}
+
+export const useProfilePictureQuery = () => {
+  return useQuery({
+    queryKey: ['profile-picture'],
+    queryFn: async () => {
+      const user = await getLoggedInUser()
+      if (!user.profilePictureId) return
+
+      const file = await getFile(user.profilePictureId)
+      return file?.url
+    },
   })
 }

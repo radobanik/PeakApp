@@ -1,5 +1,4 @@
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
-import UserAvatar from '@/assets/diddy.webp'
 import { CommentList } from 'backend/src/model/comment'
 import { formatDistanceToNow } from 'date-fns'
 import { FC, useEffect, useRef, useState } from 'react'
@@ -14,6 +13,7 @@ import { Textarea } from './ui/textarea'
 import { Button } from './ui/button'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from './ui/dialog'
 import { toast } from 'sonner'
+import { useProfilePictureQuery } from '@/services/queryHooks'
 
 export type CommentProps = {
   onEdit: (text: string) => void
@@ -35,6 +35,8 @@ const Comment: FC<CommentProps> = ({
   const [showToggle, setShowToggle] = useState(false)
   const textRef = useRef<HTMLDivElement>(null)
 
+  const { data: profilePictureUrl } = useProfilePictureQuery()
+
   useEffect(() => {
     const el = textRef.current
     if (el && el.scrollHeight > el.clientHeight) {
@@ -47,7 +49,7 @@ const Comment: FC<CommentProps> = ({
       <div className="flex flex-row w-full items-center">
         <div className="flex-1 flex flex-row space-x-2 items-center">
           <Avatar className="h-12 w-12 flex justify-center items-center">
-            <AvatarImage src={UserAvatar}></AvatarImage>
+            <AvatarImage src={profilePictureUrl}></AvatarImage>
           </Avatar>
           <p className="text-md font-bold">{user.userName}</p>
           <p>•</p>

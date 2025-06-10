@@ -3,12 +3,12 @@ import { ElementType, memo } from 'react'
 import { Button } from './ui/button'
 import { Link } from 'react-router-dom'
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
-import diddyPfp from '@/assets/diddy.webp'
 import MapIcon from './svg/MapIcon'
 import CommunityIcon from './svg/CommunityIcon'
 import DiaryIcon from './svg/DiaryIcon'
 import { useSidebar } from './ui/sidebar'
 import { useNotificationContext } from '@/App'
+import { useProfilePictureQuery } from '@/services/queryHooks'
 
 const MENU_ICON_BUTTONS = [
   {
@@ -31,6 +31,7 @@ const MENU_ICON_BUTTONS = [
 const MobileMenuHeader = () => {
   const { toggleSidebar } = useSidebar()
   const { unreadCount } = useNotificationContext()
+  const { data: profilePictureUrl } = useProfilePictureQuery()
 
   const renderMenuButton = ({
     title,
@@ -59,8 +60,10 @@ const MobileMenuHeader = () => {
     <div onClick={toggleSidebar} className="flex flex-1 justify-center h-full px-2 py-1">
       <div className="relative h-full aspect-square flex items-center justify-center">
         <Avatar className="h-full aspect-square">
-          {/* TODO: Add fallback */}
-          <AvatarImage src={diddyPfp} className="h-full w-full rounded-full object-cover" />
+          <AvatarImage
+            src={profilePictureUrl}
+            className="h-full w-full rounded-full object-cover"
+          />
         </Avatar>
 
         {unreadCount > 0 && (

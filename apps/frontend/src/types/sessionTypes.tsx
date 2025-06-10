@@ -2,21 +2,15 @@ import { UseQueryResult } from '@tanstack/react-query'
 import { Activity, ActivityList } from './activityTypes'
 import { ClimbingStructureType } from './routeTypes'
 import { perceivedDifficulty } from './utilsTypes'
-import { UserLabeled } from './userTypes'
+import { UserList } from './userTypes'
 import { RefObject } from './refObject'
 
-export interface User {
-  id: string
-  userName: string
-  firstName: string
-  lastName: string
-}
-
 export interface Session {
+  // Actually SessionDetail
   id: string
   createdAt: Date
   updatedAt: Date | null
-  createdBy: User
+  createdBy: UserList
   name: string
   note: string
   photos: RefObject[]
@@ -40,7 +34,7 @@ export type SessionList = {
   id: string
   createdAt: Date
   updatedAt: Date | null
-  createdBy: UserLabeled
+  createdBy: UserList
 
   name: string
   note: string
@@ -78,7 +72,7 @@ export type SessionQueryType = UseQueryResult<
       topped: boolean
       notes: string
     }[]
-    createdBy: User
+    createdBy: UserList
     photos: RefObject[]
   },
   Error

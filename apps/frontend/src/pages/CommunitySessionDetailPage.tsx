@@ -2,7 +2,6 @@ import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { getSession } from '@/services/communityService'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
-import UserAvatar from '@/assets/diddy.webp'
 import Like from '@/components/Like'
 import { Separator } from '@/components/ui/separator'
 import ActivityTableEntry from '@/components/ActivityTableEntry'
@@ -17,6 +16,7 @@ import { useFeatureFlagsQuery } from '@/services/queryHooks'
 
 export default function CommunitySessionDetailPage() {
   const [media, setMedia] = useState<PeakFile[]>([])
+  const [profilePictureUrl, setProfilePictureUrl] = useState<string | undefined>()
 
   const featureFlagsQuery = useFeatureFlagsQuery()
 
@@ -26,7 +26,6 @@ export default function CommunitySessionDetailPage() {
     queryFn: () => getSession(params.id!),
     enabled: !!params.id,
   })
-
   useEffect(() => {
     const processFiles = async () => {
       if (sessionQuery.isSuccess) {
@@ -34,6 +33,11 @@ export default function CommunitySessionDetailPage() {
 
         const peakFilePromises = fileRefs.map((ref) => getFile(ref.id))
         setMedia(await Promise.all(peakFilePromises))
+
+        if (sessionQuery.data?.createdBy?.profilePictureId) {
+          const profilePicture = await getFile(sessionQuery.data.createdBy.profilePictureId)
+          setProfilePictureUrl(profilePicture.url)
+        }
       }
     }
     processFiles()
@@ -71,7 +75,7 @@ export default function CommunitySessionDetailPage() {
                 <div className="flex flex-row items-center">
                   <div className="flex-1 flex flex-row items-center">
                     <Avatar className="w-12 h-12 flex justify-center items-center ">
-                      <AvatarImage src={UserAvatar} className="h-full rounded-full" />
+                      <AvatarImage src={profilePictureUrl} className="h-full rounded-full" />
                     </Avatar>
                     <p className="text-sm font-bold ml-2">{sessionQuery.data.createdBy.userName}</p>
                   </div>
