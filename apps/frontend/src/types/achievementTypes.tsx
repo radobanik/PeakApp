@@ -45,6 +45,27 @@ enum AchievementType {
   ROUTE_REVIEW_COUNT = 'ROUTE_REVIEW_COUNT',
 }
 
+const achievementTypeValues = (achievementType: AchievementType): string => {
+  switch (achievementType) {
+    case AchievementType.DAYS_REGISTERED:
+      return 'Days Registered'
+    case AchievementType.COMMENTS_COUNT:
+      return 'Comments Count'
+    case AchievementType.SESSIONS_COUNT:
+      return 'Sessions Count'
+    case AchievementType.MAX_ACTIVITY_PER_SESSION:
+      return 'Max Activity Per Session'
+    case AchievementType.MAX_LIKE_ON_SESSION:
+      return 'Max Like On Session'
+    case AchievementType.ROUTE_TOPPED_COUNT:
+      return 'Route Topped Count'
+    case AchievementType.ROUTE_REVIEW_COUNT:
+      return 'Route Review Count'
+    default:
+      return 'Unknown Type'
+  }
+}
+
 export type {
   AchievementCreate,
   AchievementUpdate,
@@ -52,4 +73,4 @@ export type {
   AchievementDetailWithIconMetadata,
 }
 
-export { AchievementType }
+export { AchievementType, achievementTypeValues }

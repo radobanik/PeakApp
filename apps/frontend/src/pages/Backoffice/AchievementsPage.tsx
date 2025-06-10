@@ -9,6 +9,7 @@ import {
   AchievementCreate,
   AchievementDetailWithIconMetadata,
   AchievementUpdate,
+  achievementTypeValues,
 } from '@/types/achievementTypes'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ColumnDef } from '@tanstack/react-table'
@@ -38,7 +39,11 @@ const columns = (
   { accessorKey: 'name', header: 'Name' },
   { accessorKey: 'description', header: 'Description' },
   { accessorKey: 'minimumValue', header: 'Minimum value to achieve' },
-  { accessorKey: 'type', header: 'Type' },
+  {
+    accessorKey: 'type',
+    header: 'Type',
+    cell: ({ row }) => achievementTypeValues(row.original.type),
+  },
   {
     id: 'actions',
     header: '',

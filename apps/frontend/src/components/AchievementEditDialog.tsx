@@ -24,7 +24,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Textarea } from './ui/textarea'
 
 import DefaultAchievementIcon from '@/assets/achievement.png'
-import { AchievementType, AchievementDetailWithIconMetadata } from '@/types/achievementTypes'
+import {
+  AchievementType,
+  AchievementDetailWithIconMetadata,
+  achievementTypeValues,
+} from '@/types/achievementTypes'
 import { createFile } from '@/services/fileService'
 import { PeakFileDetail } from 'backend/src/model/peakFile'
 import { Label } from '@radix-ui/react-label'
@@ -170,7 +174,7 @@ export const AchievementEditDialog: FC<AchievementEditDialogProps> = ({
                     <SelectContent>
                       {achievementTypes.map((typeKey) => (
                         <SelectItem key={typeKey} value={typeKey}>
-                          {typeKey}
+                          {achievementTypeValues(typeKey)}
                         </SelectItem>
                       ))}
                     </SelectContent>
