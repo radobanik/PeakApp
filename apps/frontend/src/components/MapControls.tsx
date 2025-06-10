@@ -10,7 +10,7 @@ import { SearchBar } from './searchbar/SearchBar'
 import { useSearchSuggestions } from './searchbar/useSearchSuggestions'
 import { useNavigate } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
-import FilterDialog from './MapFilterDialog'
+import FilterDialog from './filter/MapFilterDialog'
 import { FilterClimbingObjectListParams } from '@/types/climbingObjectTypes'
 
 type MapControlsProps = {
