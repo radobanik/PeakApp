@@ -216,6 +216,7 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
                     <Input
                       id="email"
                       type="email"
+                      test-id="email-register"
                       placeholder="email@example.com"
                       value={email}
                       className={cn(errors.email && 'border-red-500')}
@@ -322,7 +323,7 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
                           }}
                         />
                       </div>
-                      <div className="flex-1">
+                      <div className="flex-1" test-id="birthday">
                         <Label htmlFor="birthday" className="pb-1.5">
                           Birthday
                         </Label>
@@ -339,7 +340,7 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
                   </div>
                   <div className="grid gap-2">
                     <div className="flex gap-4">
-                      <div className="flex-1">
+                      <div className="flex-1" test-id="countries">
                         <Label htmlFor="country" className="pb-1.5">
                           Country
                         </Label>
@@ -366,7 +367,7 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
                           emptyMessage="No countries found"
                         />
                       </div>
-                      <div className="flex-1">
+                      <div className="flex-1" test-id="cities">
                         <Label htmlFor="city" className="pb-1.5">
                           City
                         </Label>
@@ -380,7 +381,7 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
                       </div>
                     </div>
                   </div>
-                  <Button type="submit" className="w-full">
+                  <Button test-id="sign-up" type="submit" className="w-full">
                     Sign up
                   </Button>
                   <Button

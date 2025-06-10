@@ -29,6 +29,9 @@ export default [
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       'react/react-in-jsx-scope': 'off',
       'react/jsx-uses-react': 'off',
+
+      'react/no-unknown-property': ['error', { ignore: ['test-id'] }],
+      '@typescript-eslint/no-namespace': 'off',
     },
     settings: {
       react: {

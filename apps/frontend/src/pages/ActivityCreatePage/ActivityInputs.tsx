@@ -135,7 +135,11 @@ export function ActivityInputs() {
                   <FormItem>
                     <FormLabel>Topped</FormLabel>
                     <FormControl>
-                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        test-id="activity-topped"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -155,7 +159,7 @@ export function ActivityInputs() {
                     <FormLabel>Perceived Difficulty</FormLabel>
                     <Select onValueChange={field.onChange} {...field}>
                       <FormControl>
-                        <SelectTrigger className="w-[40vw]">
+                        <SelectTrigger className="w-[40vw]" test-id="difficulty-select">
                           <SelectValue placeholder="Select a Difficulty" />
                         </SelectTrigger>
                       </FormControl>
@@ -187,7 +191,12 @@ export function ActivityInputs() {
                   <FormItem>
                     <FormLabel>Number of Attempts</FormLabel>
                     <FormControl>
-                      <Input type="number" className="w-[40vw]" {...field} />
+                      <Input
+                        type="number"
+                        className="w-[40vw]"
+                        test-id="activity-attempts"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -205,6 +214,7 @@ export function ActivityInputs() {
                   <FormLabel>Notes</FormLabel>
                   <FormControl>
                     <Textarea
+                      test-id="activity-notes-input"
                       placeholder="Write your Notes here..."
                       className="resize-none h-[15vh] w-full"
                       {...field}
@@ -220,7 +230,9 @@ export function ActivityInputs() {
             <Button type="button" variant="destructive" onClick={() => setIsOpen(true)}>
               Cancel
             </Button>
-            <Button type="submit">Save</Button>
+            <Button type="submit" test-id="activity-submit-button">
+              Save
+            </Button>
           </div>
         </form>
       </Form>

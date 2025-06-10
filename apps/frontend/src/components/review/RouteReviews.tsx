@@ -173,7 +173,12 @@ const RouteReviews = ({ routeId, showCurrentUserReview }: RouteReviewsProps) => 
                     <FormItem>
                       <FormLabel>Review (optional)</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="Write your review here..." rows={2} {...field} />
+                        <Textarea
+                          placeholder="Write your review here..."
+                          rows={2}
+                          {...field}
+                          test-id="review-text-input"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -184,6 +189,7 @@ const RouteReviews = ({ routeId, showCurrentUserReview }: RouteReviewsProps) => 
             <Button // TODO: add icon
               className=""
               type="submit"
+              test-id="review-submit-button"
             >
               Submit
             </Button>

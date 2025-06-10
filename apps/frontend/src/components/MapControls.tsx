@@ -75,7 +75,7 @@ const MapControls = memo(function MapControls({
     const { data: suggestions } = useSearchSuggestions(query)
 
     return (
-      <div className="relative z-[999] max-w-[30rem] px-2">
+      <div className="relative z-[999] max-w-[30rem] px-2" test-id="map-search-bar">
         <SearchBar
           value={query}
           onChange={setQuery}

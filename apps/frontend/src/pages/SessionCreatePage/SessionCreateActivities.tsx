@@ -28,7 +28,11 @@ export default function SessionCreateActivities() {
 
   return (
     <div className="flex flex-col gap-4 items-end lg:w-[50%] lg:mx-auto md:w-[70%] md:mx-auto">
-      <Button className="w-[30%] m-2 " onClick={() => handleCheckedEntries(checkedEntriesIds)}>
+      <Button
+        className="w-[30%] m-2"
+        test-id="session-create-continue"
+        onClick={() => handleCheckedEntries(checkedEntriesIds)}
+      >
         Continue
       </Button>
       <ScrollTable
