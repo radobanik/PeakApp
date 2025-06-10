@@ -42,12 +42,13 @@ type NoPaginationTableListProps<T> = {
   columnDefiniton: ColumnDef<T>[]
   noResult: JSX.Element
   onCreateClick: () => void
+  columnVisibility: VisibilityState
 }
 
 export const NoPaginationTableList = <T extends { id: string }>(
   props: NoPaginationTableListProps<T>
 ): JSX.Element => {
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [columnVisibility, setColumnVisibility] = useState(props.columnVisibility)
 
   const table = useReactTable({
     data: props.data ?? [],
