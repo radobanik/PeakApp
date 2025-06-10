@@ -28,253 +28,294 @@ export const ROUTE_REVIEW_COUNT_ACH_1_ID = '1f2a3b4c-5d6e-4d1e-f2a3-b4c5d6e7f8a9
 export const ROUTE_REVIEW_COUNT_ACH_2_ID = 'c5d6e7f8-a9b0-4e1f-a2b3-c4d5e6f7a8b9'
 
 // First Time Achievements
-export const DAYS_REGISTERED_ACH_FIRST_ID = 'f0e1d2c3-aaaa-4aaa-aaaa-111111111111'
-export const COMMENTS_COUNT_ACH_FIRST_ID = 'a1b2c3d4-cccc-4ccc-cccc-333333333333'
-export const SESSIONS_COUNT_ACH_FIRST_ID = 'c3d4e5f6-eeee-4eee-eeee-555555555555'
-export const ROUTE_TOPPED_COUNT_ACH_FIRST_ID = 'e5f6a7b8-0000-4000-0000-777777777777'
-export const ROUTE_REVIEW_COUNT_ACH_FIRST_ID = 'a7b8c9d0-2222-4222-2222-999999999999'
+const DAYS_REGISTERED_ACH_FIRST_ID = '0a1d7cf3-7a4e-4b8b-90c4-bdebd88ce45e'
+const COMMENTS_COUNT_ACH_FIRST_ID = 'a52c7641-2b2c-4595-8802-53660e72c354'
+const SESSIONS_COUNT_ACH_FIRST_ID = '9bb4e5fa-94a1-4a1d-9cd3-17348de6badd'
+const ROUTE_TOPPED_COUNT_ACH_FIRST_ID = '60ea3b8e-95ce-4dc3-a944-2cd123cd1337'
+const ROUTE_REVIEW_COUNT_ACH_FIRST_ID = 'a8821053-b83e-414a-bb42-b3a6e9c95c41'
 
 // Icon IDs - PeakFile
-export const DAYS_REGISTERED_ACH_1_ICON_ID = 'a1b2c3d4-1111-4111-1111-111111111111'
-export const DAYS_REGISTERED_ACH_2_ICON_ID = 'c3d4e5f6-3333-4333-3333-333333333333'
-export const DAYS_REGISTERED_ACH_3_ICON_ID = 'e5f6a7b8-5555-4555-5555-555555555555'
+const DAYS_REGISTERED_ACH_1_ICON_ID = '1456bb8a-bf68-4ff1-b0ff-83f67c97e8b5'
+const DAYS_REGISTERED_ACH_2_ICON_ID = '9e0e4e7c-83cc-47f0-bb4b-51895bc02102'
+const DAYS_REGISTERED_ACH_3_ICON_ID = 'e23e6d3d-5be2-48b6-b4f5-3db34a27f2ab'
 
-export const COMMENTS_COUNT_ACH_1_ICON_ID = 'a8b9c0d1-7777-4777-7777-777777777777'
-export const COMMENTS_COUNT_ACH_2_ICON_ID = 'c0d1e2f3-9999-4999-9999-999999999999'
+const COMMENTS_COUNT_ACH_1_ICON_ID = '2fd1a06b-28f7-4c39-bfc1-fc66cb0dc147'
+const COMMENTS_COUNT_ACH_2_ICON_ID = 'ca6a84d0-810e-4c1f-b167-27600b1c7c66'
 
-export const SESSIONS_COUNT_ACH_1_ICON_ID = 'e2f3a4b5-bbbb-4bbb-bbbb-bbbbbbbbbbbb'
-export const SESSIONS_COUNT_ACH_2_ICON_ID = 'a4b5c6d7-dddd-4ddd-dddd-dddddddddddd'
-export const SESSIONS_COUNT_ACH_3_ICON_ID = 'c6d7e8f9-ffff-4fff-ffff-ffffffffffff'
+const SESSIONS_COUNT_ACH_1_ICON_ID = 'b30d4bb8-fdd1-4b1a-9ff4-15cb98096f9e'
+const SESSIONS_COUNT_ACH_2_ICON_ID = 'ea78e93d-c6d7-4be3-9771-f7762eac3087'
+const SESSIONS_COUNT_ACH_3_ICON_ID = '41e2b9ef-2b47-49d1-8a3f-7f74982e82fc'
 
-export const MAX_ACTIVITY_PER_SESSION_ACH_1_ICON_ID = 'e8f9a0b1-1111-4111-1111-111111111111'
-export const MAX_ACTIVITY_PER_SESSION_ACH_2_ICON_ID = 'a0b1c2d3-3333-4333-3333-333333333333'
+const MAX_ACTIVITY_PER_SESSION_ACH_1_ICON_ID = '91be9e0f-2733-4120-9a4d-6e801118a377'
+const MAX_ACTIVITY_PER_SESSION_ACH_2_ICON_ID = '9ae2dc9f-5de8-4c53-b9fd-967134aaf08e'
 
-export const MAX_LIKE_ON_SESSION_ACH_1_ICON_ID = 'c2d3e4f5-5555-4555-5555-555555555555'
-export const MAX_LIKE_ON_SESSION_ACH_2_ICON_ID = 'e4f5a6b7-7777-4777-7777-777777777777'
+const MAX_LIKE_ON_SESSION_ACH_1_ICON_ID = '55f207e3-086e-4c50-8e40-8706b3f1b9c5'
+const MAX_LIKE_ON_SESSION_ACH_2_ICON_ID = 'ad4f0200-9386-4e15-aed1-0e8f4985d728'
 
-export const ROUTE_TOPPED_COUNT_ACH_1_ICON_ID = 'a6b7c8d9-9999-4999-9999-999999999999'
-export const ROUTE_TOPPED_COUNT_ACH_2_ICON_ID = 'c8d9e0f1-bbbb-4bbb-bbbb-bbbbbbbbbbbb'
-export const ROUTE_TOPPED_COUNT_ACH_3_ICON_ID = 'e0f1a2b3-dddd-4ddd-dddd-dddddddddddd'
+const ROUTE_TOPPED_COUNT_ACH_1_ICON_ID = '07329cf2-845f-4c62-9738-b4fda1b6b205'
+const ROUTE_TOPPED_COUNT_ACH_2_ICON_ID = '3aeec4c0-45c7-429c-861b-65ad5eb81f44'
+const ROUTE_TOPPED_COUNT_ACH_3_ICON_ID = '47034f2b-0730-4f84-bb6b-cf7cf73c2fe9'
 
-export const ROUTE_REVIEW_COUNT_ACH_1_ICON_ID = 'a2b3c4d5-ffff-4fff-ffff-ffffffffffff'
-export const ROUTE_REVIEW_COUNT_ACH_2_ICON_ID = 'c4d5e6f7-1111-4111-1111-111111111111'
+const ROUTE_REVIEW_COUNT_ACH_1_ICON_ID = '0a4e3be4-4904-4c67-98ec-3918c3c6c6eb'
+const ROUTE_REVIEW_COUNT_ACH_2_ICON_ID = 'a7dc2172-452c-4328-b8fd-fec981a51a96'
 
-// First Time Achievement Icon IDs
-export const DAYS_REGISTERED_ACH_FIRST_ICON_ID = 'f0e1d2c3-bbbb-4bbb-bbbb-222222222222'
-export const COMMENTS_COUNT_ACH_FIRST_ICON_ID = 'b2c3d4e5-dddd-4ddd-dddd-444444444444'
-export const SESSIONS_COUNT_ACH_FIRST_ICON_ID = 'd4e5f6a7-ffff-4fff-ffff-666666666666'
-export const ROUTE_TOPPED_COUNT_ACH_FIRST_ICON_ID = 'f6a7b8c9-1111-4111-1111-888888888888'
-export const ROUTE_REVIEW_COUNT_ACH_FIRST_ICON_ID = 'b8c9d0e1-3333-4333-3333-000000000000'
+const DAYS_REGISTERED_ACH_FIRST_ICON_ID = '7b168553-bfd9-4f13-a0fd-cf6b78e33b90'
+const COMMENTS_COUNT_ACH_FIRST_ICON_ID = '19d04af5-f312-4324-b4a3-697ab3922e4f'
+const SESSIONS_COUNT_ACH_FIRST_ICON_ID = '21e7c9ce-44c6-4de2-9331-40273b9b27ce'
+const ROUTE_TOPPED_COUNT_ACH_FIRST_ICON_ID = '497d1c67-bde0-4ae1-bb9e-3c457c3f6c38'
+const ROUTE_REVIEW_COUNT_ACH_FIRST_ICON_ID = '96480413-4bce-45b2-ae5f-7719a9fbbcd7'
 
-const INIT_USER_ID = USER_JANE_DOE_ID // Assuming this is the ID of a user who creates these initial files
-const ACHIEVEMENT_ICON_URL = 'https://www.svgrepo.com/show/425599/achievement-reward-winner.svg' // Example SVG URL
+const INIT_USER_ID = USER_JANE_DOE_ID
+
+const BASE_KEY = 'init-files/achievements/'
+
+// Days Registered
+const DAY_1_KEY = BASE_KEY + '1-day.jfif'
+const DAY_7_KEY = BASE_KEY + '7-day.jfif'
+const DAY_30_KEY = BASE_KEY + '30-day.jfif'
+const DAY_365_KEY = BASE_KEY + '365-day.jfif'
+
+// Comments Count
+const COMMENTS_1_KEY = BASE_KEY + '1-comment.jfif'
+const COMMENTS_10_KEY = BASE_KEY + '10-comment.jfif'
+const COMMENTS_50_KEY = BASE_KEY + '50-comment.jfif'
+
+// Sessions Count
+const SESSIONS_1_KEY = BASE_KEY + '1-session.jfif'
+const SESSIONS_5_KEY = BASE_KEY + '5-session.jfif'
+const SESSIONS_20_KEY = BASE_KEY + '20-session.jfif'
+const SESSIONS_100_KEY = BASE_KEY + '100-session.jfif'
+
+// Max Activity Per Session
+const ACTIVITIES_10_KEY = BASE_KEY + '10-activity.jfif'
+const ACTIVITIES_25_KEY = BASE_KEY + '25-activity.jfif'
+
+// Max Like on Session
+const LIKES_5_KEY = BASE_KEY + '5-like.jfif'
+const LIKES_20_KEY = BASE_KEY + '20-like.jfif'
+
+// Route Topped Count
+const TOPS_1_KEY = BASE_KEY + '1-top.jfif'
+const TOPS_10_KEY = BASE_KEY + '10-top.jfif'
+const TOPS_50_KEY = BASE_KEY + '50-top.jfif'
+const TOPS_200_KEY = BASE_KEY + '200-top.jfif'
+
+// Route Review Count
+const REVIEWS_1_KEY = BASE_KEY + '1-review.jfif'
+const REVIEWS_5_KEY = BASE_KEY + '5-review.jfif'
+const REVIEWS_25_KEY = BASE_KEY + '25-review.jfif'
 
 // Define the PeakFile records for the achievement icons
 const achievementIcons = [
+  // Days Registered
+  {
+    id: DAYS_REGISTERED_ACH_FIRST_ICON_ID,
+    createdAt: new Date(),
+    name: 'Days Registered First Icon',
+    contentType: 'image/png',
+    identifier: DAY_1_KEY,
+    source: PeakFileSource.S3_BUCKET,
+    createdById: INIT_USER_ID,
+  },
   {
     id: DAYS_REGISTERED_ACH_1_ICON_ID,
     createdAt: new Date(),
     name: 'Days Registered 7 Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
+    contentType: 'image/png',
+    identifier: DAY_7_KEY,
+    source: PeakFileSource.S3_BUCKET,
     createdById: INIT_USER_ID,
   },
   {
     id: DAYS_REGISTERED_ACH_2_ICON_ID,
     createdAt: new Date(),
     name: 'Days Registered 30 Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
+    contentType: 'image/png',
+    identifier: DAY_30_KEY,
+    source: PeakFileSource.S3_BUCKET,
     createdById: INIT_USER_ID,
   },
   {
     id: DAYS_REGISTERED_ACH_3_ICON_ID,
     createdAt: new Date(),
     name: 'Days Registered 365 Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
+    contentType: 'image/png',
+    identifier: DAY_365_KEY,
+    source: PeakFileSource.S3_BUCKET,
     createdById: INIT_USER_ID,
   },
 
+  // Comments Count
+  {
+    id: COMMENTS_COUNT_ACH_FIRST_ICON_ID,
+    createdAt: new Date(),
+    name: 'Comments Count First Icon',
+    contentType: 'image/png',
+    identifier: COMMENTS_1_KEY,
+    source: PeakFileSource.S3_BUCKET,
+    createdById: INIT_USER_ID,
+  },
   {
     id: COMMENTS_COUNT_ACH_1_ICON_ID,
     createdAt: new Date(),
     name: 'Comments Count 10 Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
+    contentType: 'image/png',
+    identifier: COMMENTS_10_KEY,
+    source: PeakFileSource.S3_BUCKET,
     createdById: INIT_USER_ID,
   },
   {
     id: COMMENTS_COUNT_ACH_2_ICON_ID,
     createdAt: new Date(),
     name: 'Comments Count 50 Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
+    contentType: 'image/png',
+    identifier: COMMENTS_50_KEY,
+    source: PeakFileSource.S3_BUCKET,
     createdById: INIT_USER_ID,
   },
 
+  // Sessions Count
+  {
+    id: SESSIONS_COUNT_ACH_FIRST_ICON_ID,
+    createdAt: new Date(),
+    name: 'Sessions Count First Icon',
+    contentType: 'image/png',
+    identifier: SESSIONS_1_KEY,
+    source: PeakFileSource.S3_BUCKET,
+    createdById: INIT_USER_ID,
+  },
   {
     id: SESSIONS_COUNT_ACH_1_ICON_ID,
     createdAt: new Date(),
     name: 'Sessions Count 5 Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
+    contentType: 'image/png',
+    identifier: SESSIONS_5_KEY,
+    source: PeakFileSource.S3_BUCKET,
     createdById: INIT_USER_ID,
   },
   {
     id: SESSIONS_COUNT_ACH_2_ICON_ID,
     createdAt: new Date(),
     name: 'Sessions Count 20 Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
+    contentType: 'image/png',
+    identifier: SESSIONS_20_KEY,
+    source: PeakFileSource.S3_BUCKET,
     createdById: INIT_USER_ID,
   },
   {
     id: SESSIONS_COUNT_ACH_3_ICON_ID,
     createdAt: new Date(),
     name: 'Sessions Count 100 Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
+    contentType: 'image/png',
+    identifier: SESSIONS_100_KEY,
+    source: PeakFileSource.S3_BUCKET,
     createdById: INIT_USER_ID,
   },
 
+  // Max Activity Per Session
   {
     id: MAX_ACTIVITY_PER_SESSION_ACH_1_ICON_ID,
     createdAt: new Date(),
     name: 'Max Activity Per Session 10 Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
+    contentType: 'image/png',
+    identifier: ACTIVITIES_10_KEY,
+    source: PeakFileSource.S3_BUCKET,
     createdById: INIT_USER_ID,
   },
   {
     id: MAX_ACTIVITY_PER_SESSION_ACH_2_ICON_ID,
     createdAt: new Date(),
     name: 'Max Activity Per Session 25 Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
+    contentType: 'image/png',
+    identifier: ACTIVITIES_25_KEY,
+    source: PeakFileSource.S3_BUCKET,
     createdById: INIT_USER_ID,
   },
 
+  // Max Like on Session
   {
     id: MAX_LIKE_ON_SESSION_ACH_1_ICON_ID,
     createdAt: new Date(),
     name: 'Max Like On Session 5 Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
+    contentType: 'image/png',
+    identifier: LIKES_5_KEY,
+    source: PeakFileSource.S3_BUCKET,
     createdById: INIT_USER_ID,
   },
   {
     id: MAX_LIKE_ON_SESSION_ACH_2_ICON_ID,
     createdAt: new Date(),
     name: 'Max Like On Session 20 Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
+    contentType: 'image/png',
+    identifier: LIKES_20_KEY,
+    source: PeakFileSource.S3_BUCKET,
     createdById: INIT_USER_ID,
   },
 
+  // Route Topped Count
+  {
+    id: ROUTE_TOPPED_COUNT_ACH_FIRST_ICON_ID,
+    createdAt: new Date(),
+    name: 'Route Topped Count First Icon',
+    contentType: 'image/png',
+    identifier: TOPS_1_KEY,
+    source: PeakFileSource.S3_BUCKET,
+    createdById: INIT_USER_ID,
+  },
   {
     id: ROUTE_TOPPED_COUNT_ACH_1_ICON_ID,
     createdAt: new Date(),
     name: 'Route Topped Count 10 Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
+    contentType: 'image/png',
+    identifier: TOPS_10_KEY,
+    source: PeakFileSource.S3_BUCKET,
     createdById: INIT_USER_ID,
   },
   {
     id: ROUTE_TOPPED_COUNT_ACH_2_ICON_ID,
     createdAt: new Date(),
     name: 'Route Topped Count 50 Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
+    contentType: 'image/png',
+    identifier: TOPS_50_KEY,
+    source: PeakFileSource.S3_BUCKET,
     createdById: INIT_USER_ID,
   },
   {
     id: ROUTE_TOPPED_COUNT_ACH_3_ICON_ID,
     createdAt: new Date(),
     name: 'Route Topped Count 200 Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
+    contentType: 'image/png',
+    identifier: TOPS_200_KEY,
+    source: PeakFileSource.S3_BUCKET,
     createdById: INIT_USER_ID,
   },
 
+  // Route Review Count
+  {
+    id: ROUTE_REVIEW_COUNT_ACH_FIRST_ICON_ID,
+    createdAt: new Date(),
+    name: 'Route Review Count First Icon',
+    contentType: 'image/png',
+    identifier: REVIEWS_1_KEY,
+    source: PeakFileSource.S3_BUCKET,
+    createdById: INIT_USER_ID,
+  },
   {
     id: ROUTE_REVIEW_COUNT_ACH_1_ICON_ID,
     createdAt: new Date(),
     name: 'Route Review Count 5 Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
+    contentType: 'image/png',
+    identifier: REVIEWS_5_KEY,
+    source: PeakFileSource.S3_BUCKET,
     createdById: INIT_USER_ID,
   },
   {
     id: ROUTE_REVIEW_COUNT_ACH_2_ICON_ID,
     createdAt: new Date(),
     name: 'Route Review Count 25 Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
-    createdById: INIT_USER_ID,
-  },
-
-  // First Time Achievement Icons
-  {
-    id: DAYS_REGISTERED_ACH_FIRST_ICON_ID,
-    createdAt: new Date(),
-    name: 'Days Registered First Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
-    createdById: INIT_USER_ID,
-  },
-  {
-    id: COMMENTS_COUNT_ACH_FIRST_ICON_ID,
-    createdAt: new Date(),
-    name: 'Comments Count First Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
-    createdById: INIT_USER_ID,
-  },
-  {
-    id: SESSIONS_COUNT_ACH_FIRST_ICON_ID,
-    createdAt: new Date(),
-    name: 'Sessions Count First Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
-    createdById: INIT_USER_ID,
-  },
-  {
-    id: ROUTE_TOPPED_COUNT_ACH_FIRST_ICON_ID,
-    createdAt: new Date(),
-    name: 'Route Topped Count First Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
-    createdById: INIT_USER_ID,
-  },
-  {
-    id: ROUTE_REVIEW_COUNT_ACH_FIRST_ICON_ID,
-    createdAt: new Date(),
-    name: 'Route Review Count First Icon',
-    contentType: 'image/svg+xml',
-    identifier: ACHIEVEMENT_ICON_URL,
-    source: PeakFileSource.GENERIC_URL,
+    contentType: 'image/png',
+    identifier: REVIEWS_25_KEY,
+    source: PeakFileSource.S3_BUCKET,
     createdById: INIT_USER_ID,
   },
 ]
