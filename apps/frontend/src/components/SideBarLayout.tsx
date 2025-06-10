@@ -10,6 +10,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  useSidebar,
 } from '@/components/ui/sidebar'
 import PeakAppLogo from '@/assets/PeakAppLogo.png'
 import { useContext } from 'react'
@@ -40,6 +41,8 @@ export function SidebarLayout({ sections, ...props }: SidebarLayoutProps) {
   const { isMobile } = useContext(ViewportContext)
   const { unreadCount } = useNotificationContext()
 
+  const { toggleSidebar } = useSidebar()
+
   const isAdmin = useIsAdminQuery().data
 
   const filteredSections = sections.filter((section) => section.title !== 'Backoffice' || isAdmin)
@@ -63,7 +66,11 @@ export function SidebarLayout({ sections, ...props }: SidebarLayoutProps) {
                     {section.items.map((subItem) => (
                       <SidebarMenuSubItem key={subItem.title}>
                         <SidebarMenuSubButton asChild isActive={subItem.isActive}>
-                          <Link to={subItem.url} className="flex items-center gap-1 relative">
+                          <Link
+                            to={subItem.url}
+                            onClick={toggleSidebar}
+                            className="flex items-center gap-1 relative"
+                          >
                             <span>{subItem.title}</span>
                             {subItem.url === ROUTE.SETTINGS_NOTIFICATIONS && unreadCount > 0 && (
                               <span className="ml-1 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center shadow-md translate-y-[2px]">

@@ -60,7 +60,13 @@ const MobileMenuHeader = () => {
   }
 
   const renderProfileButton = () => (
-    <div onClick={toggleSidebar} className="flex flex-4 justify-center h-full px-2 py-1">
+    <div
+      onClick={() => {
+        toggleSidebar()
+        console.log('Profile button clicked')
+      }}
+      className="flex flex-4 justify-center h-full px-2 py-1"
+    >
       <div className="relative h-full aspect-square flex items-center justify-center">
         <Avatar className="h-full aspect-square">
           <AvatarImage src={profilePictureUrl} />

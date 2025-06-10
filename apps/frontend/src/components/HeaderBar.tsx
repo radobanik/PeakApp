@@ -18,16 +18,18 @@ function HeaderBar() {
     setOpen(true)
   }
 
+  const handleNavButtonClick = () => setOpen(false)
+
   return (
     <div className="flex justify-start w-full h-14 px-3 py-1 border-b-2 border-gray-300 bg-background-menu">
-      <Link to={ROUTE.HOME} onClick={() => setOpen(false)} className="flex items-center h-full">
+      <Link to={ROUTE.HOME} onClick={handleNavButtonClick} className="flex items-center h-full">
         <img src={PeakAppLogo} alt="Logo" className="h-12 mr-4" />
       </Link>
       <nav className="flex-1 flex justify-end items-center h-full space-x-10">
-        <Link to={ROUTE.DIARY} onClick={() => setOpen(false)} className="text-lg font-semibold">
+        <Link to={ROUTE.DIARY} onClick={handleNavButtonClick} className="text-lg font-semibold">
           My Diary
         </Link>
-        <Link to={ROUTE.COMMUNITY} onClick={() => setOpen(false)} className="text-lg font-semibold">
+        <Link to={ROUTE.COMMUNITY} onClick={handleNavButtonClick} className="text-lg font-semibold">
           Community
         </Link>
 
