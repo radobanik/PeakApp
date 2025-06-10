@@ -12,13 +12,13 @@ import {
 } from '@/types/achievementTypes'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ColumnDef } from '@tanstack/react-table'
-import noBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
 import { useMemo, useState } from 'react'
 import { TrashIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import PencilEditIcon from '@/components/svg/PencilEditIcon'
 import { AlertDialogDelete } from '@/components/ui/custom/alert-dialog-delete'
 import { AchievementEditDialog } from '@/components/AchievementEditDialog'
+import DefaultAchievementIcon from '@/assets/achievement.png'
 
 const columns = (
   onEditClick: (achievement: AchievementDetailWithIconMetadata) => void,
@@ -29,7 +29,7 @@ const columns = (
     header: 'Icon',
     cell: ({ row }) => (
       <img
-        src={row.original.icon?.url ?? noBoulderPhoto} // TODO default icon
+        src={row.original.icon?.url ?? DefaultAchievementIcon}
         alt="Achievement icon"
         className="w-10 h-10 rounded-full object-cover"
       />
@@ -58,6 +58,12 @@ const columns = (
     },
   },
 ]
+
+const columnVisibility = {
+  description: false,
+  minimumValue: false,
+  type: false,
+}
 
 export default function AchievementsPage() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
@@ -207,6 +213,7 @@ export default function AchievementsPage() {
         columnDefiniton={columns(onEditClick, onDeleteClick)}
         noResult={<div className="text-center">No achievements found</div>}
         onCreateClick={onCreateClick}
+        columnVisibility={columnVisibility}
       />
 
       <AlertDialogDelete
