@@ -3,6 +3,7 @@ import { api } from './index'
 
 export interface FeatureFlags {
   commentsEnabled: boolean
+  showApprovedOnly: boolean
 }
 
 export const getFeatureFlags = async (): Promise<FeatureFlags> => {

@@ -16,6 +16,8 @@ import { RouteOrder, RouteWhere } from '../repositories/route.repository'
 import { provideUserRefFromToken, returnUnauthorized } from '../auth/authUtils'
 import { ApprovalState } from '@prisma/client'
 
+const SHOW_APPROVED_ONLY = process.env.SHOW_APPROVED_ONLY === 'true'
+
 const getById = async (req: Request, res: Response) => {
   const routeId = req.params.id
   const route = await RouteRepository.getById(routeId)
@@ -38,14 +40,13 @@ const list = async (req: Request, res: Response) => {
           { longitude: { gte: normalizedParams.longitudeFrom, lte: normalizedParams.longitudeTo } },
           { latitude: { gte: normalizedParams.latitudeFrom, lte: normalizedParams.latitudeTo } },
           { climbingStructureType: { in: normalizedParams.climbingStructureTypes } },
-          { approvalState: { in: normalizedParams.approvalStates } },
           {
-            grade: { rating: { gte: normalizedParams.ratingFrom, lte: normalizedParams.ratingTo } },
+            approvalState: SHOW_APPROVED_ONLY
+              ? ApprovalState.APPROVED
+              : { in: normalizedParams.approvalStates },
           },
+          { deleted: false },
         ],
-      },
-      {
-        deleted: false,
       },
     ],
   }

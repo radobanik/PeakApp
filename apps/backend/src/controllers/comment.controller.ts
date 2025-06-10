@@ -12,6 +12,8 @@ import userRepository from '../repositories/user.repository'
 import notificationSettingsRepository from '../repositories/notificationSettings.repository'
 import { sendCommentEmail } from '../services/emailService'
 
+const COMMENTS_ENABLED = process.env.COMMENTS_ENABLED === 'true'
+
 const validateUser = async (
   userRef: RefObject,
   commentUserId: string,
@@ -28,7 +30,7 @@ const validateUser = async (
 }
 
 const listBySession = async (req: Request, res: Response) => {
-  if (process.env.COMMENTS_ENABLED !== 'true') {
+  if (!COMMENTS_ENABLED) {
     res.status(HTTP_STATUS.FORBIDDEN_403).json({ error: 'Comments are currently disabled' })
     return
   }
@@ -65,7 +67,7 @@ const listBySession = async (req: Request, res: Response) => {
 }
 
 const create = async (req: Request, res: Response) => {
-  if (process.env.COMMENTS_ENABLED !== 'true') {
+  if (!COMMENTS_ENABLED) {
     res.status(HTTP_STATUS.FORBIDDEN_403).json({ error: 'Comments are currently disabled' })
     return
   }
@@ -115,7 +117,7 @@ const create = async (req: Request, res: Response) => {
 }
 
 const update = async (req: Request, res: Response) => {
-  if (process.env.COMMENTS_ENABLED !== 'true') {
+  if (!COMMENTS_ENABLED) {
     res.status(HTTP_STATUS.FORBIDDEN_403).json({ error: 'Comments are currently disabled' })
     return
   }
@@ -146,7 +148,7 @@ const update = async (req: Request, res: Response) => {
 }
 
 const deleteById = async (req: Request, res: Response) => {
-  if (process.env.COMMENTS_ENABLED !== 'true') {
+  if (!COMMENTS_ENABLED) {
     res.status(HTTP_STATUS.FORBIDDEN_403).json({ error: 'Comments are currently disabled' })
     return
   }
