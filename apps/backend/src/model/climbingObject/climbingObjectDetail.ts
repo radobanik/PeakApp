@@ -1,7 +1,7 @@
 import { ApprovalState } from '@prisma/client'
 import { RouteList, routeListSelector } from '../route'
 import { UserLabeled, userLabeledSelector } from '../user'
-import { RefObject, refObjectSelector } from '../common/refObject'
+import { RefObject } from '../common/refObject'
 
 type ClimbingObjectDetail = {
   id: string
