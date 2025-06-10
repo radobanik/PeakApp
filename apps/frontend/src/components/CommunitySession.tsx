@@ -28,7 +28,6 @@ const CommunitySession: FC<CommunitySessionProps> = ({ session }: CommunitySessi
         const photoFile = await getFile(photo.id)
         setSessionPhoto(photoFile.url)
       }
-      console.log('session createdBy', session.createdBy)
       if (session.createdBy?.profilePictureId) {
         const profilePicture = await getFile(session.createdBy.profilePictureId)
         setProfilePictureUrl(profilePicture.url)

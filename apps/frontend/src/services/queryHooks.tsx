@@ -163,7 +163,6 @@ export const useUserReviewQuery = (routeId: string) => {
   })
 }
 
-// TODO: Pfps must  be redone  so that user ALWAYS has a pfpId
 export const useFileQuery = (fileId: string) => {
   return useQuery({
     queryKey: ['file', fileId],
