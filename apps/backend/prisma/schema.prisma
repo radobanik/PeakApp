@@ -91,6 +91,7 @@ model PeakFile {
   sessionid          String?
   session            Session? @relation(fields: [sessionid], references: [id])
   achievementIcon    Achievement? @relation(name: "AchievementIcon")
+  climbingObjectImage ClimbingObject?  @relation(name: "ClimbingObjectImage")
 }
 
 enum PeakFileSource {
@@ -206,6 +207,9 @@ model ClimbingObject {
 
   routes Route[]
   reports Report[] @relation(name: "ClimbingObjectsReports")
+
+  imageId          String?         @unique
+  image            PeakFile?       @relation(name: "ClimbingObjectImage", fields: [imageId], references: [id])
 }
 
 model Country {

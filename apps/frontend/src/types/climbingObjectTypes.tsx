@@ -1,4 +1,5 @@
 import { ApprovalState } from './approvalTypes'
+import { RefObject } from './refObject'
 import { ClimbingStructureType, RouteSummary } from './routeTypes'
 import { UserLabeled } from './userTypes'
 
@@ -26,6 +27,8 @@ export type ClimbingObjectDetail = {
   routes: RouteSummary[]
 
   approvalState: ApprovalState
+
+  image: RefObject | null
 }
 
 export interface ClimbingObjectNoRoutes {
