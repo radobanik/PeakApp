@@ -1,9 +1,11 @@
 import { z } from 'zod'
+import { RefObject, refObjectSchema } from '../common/refObject'
 
 type ClimbingObjectCreate = {
   name: string
   longitude: number
   latitude: number
+  image: RefObject | null
 }
 
 const validate = (entity: ClimbingObjectCreate) =>
@@ -18,6 +20,7 @@ const validate = (entity: ClimbingObjectCreate) =>
         .number()
         .min(-90, 'Latitude must be between -90 and 90')
         .max(90, 'Latitude must be between -90 and 90'),
+      image: refObjectSchema.nullable(),
     })
     .strict()
     .safeParse(entity)

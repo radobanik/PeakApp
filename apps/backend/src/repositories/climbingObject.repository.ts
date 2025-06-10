@@ -9,7 +9,7 @@ import {
   climbingObjectListSelector,
   toClimbingObjectList,
 } from '../model/climbingObject'
-import { toConnector } from './utils/connector'
+import { toConnector, toConnectorNullable } from './utils/connector'
 import { RouteWhere } from './route.repository'
 import { routeListSelector } from '../model/route'
 import { RefObject } from '../model/common/refObject'
@@ -70,6 +70,7 @@ const create = async (
       ...climbingObject,
       createdAt: new Date(),
       createdBy: toConnector(userRef),
+      image: toConnectorNullable(climbingObject.image),
     },
     select: detailSelector,
   })
@@ -86,6 +87,7 @@ const update = async (
       ...climbingObject,
       updatedAt: new Date(),
       updatedBy: toConnector(userRef),
+      image: toConnectorNullable(climbingObject.image),
     },
     select: detailSelector,
   })

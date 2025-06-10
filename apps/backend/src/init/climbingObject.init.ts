@@ -2,12 +2,12 @@ import { PeakFileSource } from '@prisma/client'
 import prisma from '../core/prisma/client'
 import * as UserInit from './user.init'
 
-export const CLIMBING_OBJECT_1_PHOTO_ID = 'p1a2b3c4-e5f6-4a7b-8c9d-0e1f2a3b4c5d'
-export const CLIMBING_OBJECT_2_PHOTO_ID = 'p2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e'
-export const CLIMBING_OBJECT_3_PHOTO_ID = 'p3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f'
-export const CLIMBING_OBJECT_4_PHOTO_ID = 'p4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8g'
-export const CLIMBING_OBJECT_5_PHOTO_ID = 'p5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8g9h'
-export const CLIMBING_OBJECT_6_PHOTO_ID = 'p6a7b8c9-d0e1-4f2a-3b4c-5d6e7f8g9h0i'
+export const CLIMBING_OBJECT_1_PHOTO_ID = '5f89b1e2-1d54-4e1b-b876-16ad098c1fe2'
+export const CLIMBING_OBJECT_2_PHOTO_ID = 'c3b11bc0-3f25-4d2b-938e-c15c23c7f874'
+export const CLIMBING_OBJECT_3_PHOTO_ID = 'ab01fabe-0d34-4ea7-b8a6-7c0a199ba3ae'
+export const CLIMBING_OBJECT_4_PHOTO_ID = 'e9c7f3ad-a94a-4d70-83de-f03266f98b43'
+export const CLIMBING_OBJECT_5_PHOTO_ID = '0a1f8bc4-1d3e-4411-9019-abc1d3f0a5e0'
+export const CLIMBING_OBJECT_6_PHOTO_ID = '1b6d24f4-49b9-456a-92fd-d3be29c8e7f2'
 
 // --- Photo Identifiers ---
 const CLIMBING_OBJECT_1_PHOTO = 'init-files/co/co-1.jpg'
@@ -75,12 +75,12 @@ export const photos = [
 ]
 
 // Climbing Object IDs
-export const CLIMBING_OBJECT_1_ID = 'a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d'
-export const CLIMBING_OBJECT_2_ID = 'b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e'
-export const CLIMBING_OBJECT_3_ID = 'c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f'
-export const CLIMBING_OBJECT_4_ID = 'd4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8g'
-export const CLIMBING_OBJECT_5_ID = 'e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8g9h'
-export const CLIMBING_OBJECT_6_ID = 'f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f8g9h0i'
+export const CLIMBING_OBJECT_1_ID = 'a4b3c2d1-9f8e-4c6b-8123-2b7c9e1a5f34'
+export const CLIMBING_OBJECT_2_ID = 'b5c4d3e2-af9e-4b7a-9345-1c6d0f8a7e52'
+export const CLIMBING_OBJECT_3_ID = 'c6d5e4f3-b1a0-4d89-8f76-9a0e2b1c4d73'
+export const CLIMBING_OBJECT_4_ID = 'd7e6f5a4-c2b1-4890-9378-3e5f6d7a9b61'
+export const CLIMBING_OBJECT_5_ID = 'e8f7a6b5-d3c2-48a1-90ab-4c7e8f9a0d82'
+export const CLIMBING_OBJECT_6_ID = 'f9a8b7c6-e4d3-4b2c-8cab-5d8f0a1b2e93'
 
 const climbingObjects = [
   // Main Wall - coordinates from RouteInit.ROUTE_1_ID
