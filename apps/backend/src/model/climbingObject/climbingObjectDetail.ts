@@ -1,6 +1,7 @@
 import { ApprovalState } from '@prisma/client'
 import { RouteList, routeListSelector } from '../route'
 import { UserLabeled, userLabeledSelector } from '../user'
+import { RefObject } from '../common/refObject'
 
 type ClimbingObjectDetail = {
   id: string
@@ -16,6 +17,8 @@ type ClimbingObjectDetail = {
 
   routes: RouteList[]
   approvalState: ApprovalState
+
+  image: RefObject | null
 }
 
 const selector = {
@@ -36,6 +39,11 @@ const selector = {
     select: routeListSelector,
   },
   approvalState: true,
+  image: {
+    select: {
+      id: true,
+    },
+  },
 }
 
 export type { ClimbingObjectDetail }

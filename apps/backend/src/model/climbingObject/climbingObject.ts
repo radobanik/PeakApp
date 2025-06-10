@@ -1,5 +1,6 @@
 import { ApprovalState, User } from '@prisma/client'
 import { Route } from '../route'
+import { PeakFile } from '../peakFile'
 
 type ClimbingObject = {
   id: string
@@ -15,6 +16,7 @@ type ClimbingObject = {
 
   routes: Route[]
   approvalState: ApprovalState
+  image: PeakFile | null
 }
 
 export type { ClimbingObject }

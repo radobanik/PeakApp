@@ -18,11 +18,14 @@ import { api } from '@/services/index'
 import { API } from '@/constants/api'
 import { useState } from 'react'
 import { MapPositionPicker } from '../map/MapPositionPicker'
+import { PeakFileDetail } from 'backend/src/model/peakFile'
+import { createFile } from '@/services/fileService'
 
 const formSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   longitude: z.number().min(-180).max(180),
   latitude: z.number().min(-90).max(90),
+  image: z.object({ id: z.string().uuid() }).nullable(),
 })
 
 interface CreateClimbingObjectDialogProps {
@@ -32,6 +35,25 @@ interface CreateClimbingObjectDialogProps {
 
 export function CreateClimbingObjectDialog({ isOpen, setIsOpen }: CreateClimbingObjectDialogProps) {
   const [isPickingLocation, setIsPickingLocation] = useState(false)
+  const [currentImage, setCurrentImage] = useState<PeakFileDetail | null>(null)
+  const [isImageUploading, setIsImageUploading] = useState(false)
+
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    setIsImageUploading(true)
+    try {
+      const uploadedFile = await createFile(file)
+      setCurrentImage(uploadedFile)
+      form.setValue('image', uploadedFile.id == null ? null : { id: uploadedFile.id })
+      toast.success('Image uploaded successfully')
+    } catch {
+      toast.error('Failed to upload image')
+    } finally {
+      setIsImageUploading(false)
+    }
+  }
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,6 +61,7 @@ export function CreateClimbingObjectDialog({ isOpen, setIsOpen }: CreateClimbing
       name: '',
       longitude: 0,
       latitude: 0,
+      image: null,
     },
   })
 
@@ -93,6 +116,24 @@ export function CreateClimbingObjectDialog({ isOpen, setIsOpen }: CreateClimbing
                   </FormItem>
                 )}
               />
+
+              <div className="space-y-2">
+                <FormLabel>Image</FormLabel>
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  disabled={isImageUploading}
+                />
+                {isImageUploading && <p className="text-sm text-muted-foreground">Uploading...</p>}
+                {currentImage && (
+                  <img
+                    src={currentImage.url}
+                    alt="Preview"
+                    className="mt-2 max-h-48 rounded border object-contain"
+                  />
+                )}
+              </div>
 
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">

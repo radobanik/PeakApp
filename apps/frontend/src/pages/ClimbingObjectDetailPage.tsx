@@ -1,15 +1,19 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useClimbingObjectQuery } from '@/services/queryHooks'
-import { memo } from 'react'
+import { memo, useEffect, useState } from 'react'
 import RouteListTable from '@/components/RouteListTable'
 import { RouteSummary } from '@/types/routeTypes'
 import { ROUTE } from '@/constants/routes'
 import ReportButton from '@/components/ReportButton'
 import { Button } from '@/components/ui/button'
 import { PlusIcon } from 'lucide-react'
+import NoBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
+import { getFile } from '@/services/fileService'
+import { toast } from 'sonner'
 
 const ClimbingObjectDetailPage = () => {
   const { climbingObjectId } = useParams<{ climbingObjectId: string }>()
+  const [imageUrl, setImageUrl] = useState<string>(NoBoulderPhoto)
 
   const navigate = useNavigate()
 
@@ -26,6 +30,15 @@ const ClimbingObjectDetailPage = () => {
     navigate(`${ROUTE.ROUTE}/${id}`)
   }
 
+  useEffect(() => {
+    const img = data?.image
+    if (img !== null && img !== undefined) {
+      getFile(img?.id)
+        .then((image) => setImageUrl(image.url))
+        .catch(() => toast.error('Failed to load current image'))
+    }
+  }, [data?.image])
+
   if (climbingObjectDetail.isLoading)
     return (
       <div className="flex items-center justify-center h-full">
@@ -40,10 +53,10 @@ const ClimbingObjectDetailPage = () => {
   return (
     <div className="w-full flex flex-col items-center px-4">
       <div className="w-full">
-        <div className="flex items-center justify-between">
-          <h1 className="text-4xl font-bold mb-100 px-5 mt-10">{data.name}</h1>
+        <div className="flex items-start flex-col justify-between gap-5">
+          <h1 className="text-4xl font-bold mt-10">{data.name}</h1>
+          <img src={imageUrl} alt="climbing object photo" className="w-full h-full object-fill" />
         </div>
-        <div className="flex justify-between"></div>
       </div>
       <div className="w-full">
         <div className="flex justify-between items-center">
