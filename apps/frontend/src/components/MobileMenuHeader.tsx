@@ -46,9 +46,9 @@ const MobileMenuHeader = () => {
       <Link
         to={route}
         key={title}
-        className="flex flex-1 justify-center items-center h-full px-2 py-1 gap-1"
+        className={`flex justify-center items-center h-full px-2 py-1 gap-1 flex-${route === ROUTE.COMMUNITY ? '7' : '5'}`}
       >
-        <SVGIcon size="calc(var(--spacing) * 8)" />
+        <SVGIcon size="100%" />
         <Button variant="ghost" className="flex h-full p-0 cursor-pointer">
           {title}
         </Button>
@@ -57,7 +57,7 @@ const MobileMenuHeader = () => {
   }
 
   const renderProfileButton = () => (
-    <div onClick={toggleSidebar} className="flex flex-1 justify-center h-full px-2 py-1">
+    <div onClick={toggleSidebar} className="flex flex-4 justify-center h-full px-2 py-1">
       <div className="relative h-full aspect-square flex items-center justify-center">
         <Avatar className="h-full aspect-square">
           <AvatarImage
