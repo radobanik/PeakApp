@@ -76,7 +76,7 @@ const MobileMenuHeader = () => {
   )
 
   return (
-    <nav className="flex h-14  w-full gap-x-6 bg-background-menu">
+    <nav className="flex h-14 w-full gap-x-6 px-6 bg-background-menu">
       {MENU_ICON_BUTTONS.map(renderMenuButton)}
       {renderProfileButton()}
     </nav>
