@@ -18,6 +18,7 @@ import notificationSettingsRouter from './notificationSettings.route'
 import searchRouter from './search.route'
 import emailRouter from '../emailRoutes'
 import achievementRouter from './achievement.route'
+import featureFlagsRouter from './featureFlags.route'
 
 const v1Router = Router()
 
@@ -97,6 +98,10 @@ const routes = [
   {
     path: '/achievement',
     route: achievementRouter,
+  },
+  {
+    path: '/feature-flags',
+    route: featureFlagsRouter,
   },
 ]
 

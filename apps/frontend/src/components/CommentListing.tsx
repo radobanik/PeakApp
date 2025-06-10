@@ -7,12 +7,13 @@ import { FC, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import CommentCreateTemplate from '@/components/CommentCreateTemplate'
+
 type CommentListProps = {
   sessionId: string
   className?: string
 }
 
-const CommentListing: FC<CommentListProps> = (props: CommentListProps) => {
+const CommentListing: FC<CommentListProps> = ({ sessionId, className }: CommentListProps) => {
   const [isCreateActive, setIsCreateActive] = useState(false)
 
   const commentsQuery = useInfiniteQuery<
@@ -22,8 +23,8 @@ const CommentListing: FC<CommentListProps> = (props: CommentListProps) => {
     [string, string],
     string | null
   >({
-    queryKey: ['comments', props.sessionId],
-    queryFn: async ({ pageParam = null }) => list(props.sessionId, pageParam, 2),
+    queryKey: ['comments', sessionId],
+    queryFn: async ({ pageParam = null }) => list(sessionId, pageParam, 2),
     getNextPageParam: (lastPage) => lastPage.cursorId,
     initialPageParam: null,
   })
@@ -34,7 +35,7 @@ const CommentListing: FC<CommentListProps> = (props: CommentListProps) => {
     mutationFn: ({ id, text }: { id: string; text: string }) => update(id, text),
     onSuccess: (d: CommentList) => {
       queryClient.setQueryData(
-        ['comments', props.sessionId],
+        ['comments', sessionId],
         (oldData: InfiniteData<ListCursorResponse<CommentList>>) => {
           if (!oldData) return oldData
           const newPages = oldData.pages.map((page: ListCursorResponse<CommentList>) => {
@@ -56,7 +57,7 @@ const CommentListing: FC<CommentListProps> = (props: CommentListProps) => {
     mutationFn: (commentId: string) => remove(commentId),
     onSuccess: (_, commentId) => {
       queryClient.setQueryData(
-        ['comments', props.sessionId],
+        ['comments', sessionId],
         (oldData: InfiniteData<ListCursorResponse<CommentList>>) => {
           if (!oldData) return oldData
           const newPages = oldData.pages.map((page: ListCursorResponse<CommentList>) => {
@@ -70,10 +71,10 @@ const CommentListing: FC<CommentListProps> = (props: CommentListProps) => {
   })
 
   const createMutation = useMutation({
-    mutationFn: (text: string) => create(props.sessionId, text),
+    mutationFn: (text: string) => create(sessionId, text),
     onSuccess: (d: CommentList) => {
       queryClient.setQueryData(
-        ['comments', props.sessionId],
+        ['comments', sessionId],
         (oldData: InfiniteData<ListCursorResponse<CommentList>>) => {
           const newData = {
             pages: [
@@ -89,8 +90,9 @@ const CommentListing: FC<CommentListProps> = (props: CommentListProps) => {
   })
 
   const data = commentsQuery.data ?? { pages: [] }
+
   return (
-    <div className={cn('p-2 flex flex-col h-full', props.className)}>
+    <div className={cn('p-2 flex flex-col h-full', className)}>
       <div className="flex flex-row justify-center mb-2">
         <Button variant="outline" onClick={() => setIsCreateActive(true)}>
           Add new comment

@@ -12,6 +12,8 @@ import userRepository from '../repositories/user.repository'
 import notificationSettingsRepository from '../repositories/notificationSettings.repository'
 import { sendCommentEmail } from '../services/emailService'
 
+const COMMENTS_ENABLED = process.env.COMMENTS_ENABLED === 'true'
+
 const validateUser = async (
   userRef: RefObject,
   commentUserId: string,
@@ -28,6 +30,10 @@ const validateUser = async (
 }
 
 const listBySession = async (req: Request, res: Response) => {
+  if (!COMMENTS_ENABLED) {
+    res.status(HTTP_STATUS.FORBIDDEN_403).json({ error: 'Comments are currently disabled' })
+    return
+  }
   const userRef = provideUserRefFromToken(req)
   if (userRef === null) {
     res.status(HTTP_STATUS.UNAUTHORIZED_401).json({ error: 'Unauthorized' })
@@ -61,6 +67,11 @@ const listBySession = async (req: Request, res: Response) => {
 }
 
 const create = async (req: Request, res: Response) => {
+  if (!COMMENTS_ENABLED) {
+    res.status(HTTP_STATUS.FORBIDDEN_403).json({ error: 'Comments are currently disabled' })
+    return
+  }
+
   const userRef = provideUserRefFromToken(req)
   if (userRef === null) {
     res.status(HTTP_STATUS.UNAUTHORIZED_401).json({ error: 'Unauthorized' })
@@ -106,6 +117,11 @@ const create = async (req: Request, res: Response) => {
 }
 
 const update = async (req: Request, res: Response) => {
+  if (!COMMENTS_ENABLED) {
+    res.status(HTTP_STATUS.FORBIDDEN_403).json({ error: 'Comments are currently disabled' })
+    return
+  }
+
   const userRef = provideUserRefFromToken(req)
   if (userRef === null) {
     res.status(HTTP_STATUS.UNAUTHORIZED_401).json({ error: 'Unauthorized' })
@@ -132,6 +148,10 @@ const update = async (req: Request, res: Response) => {
 }
 
 const deleteById = async (req: Request, res: Response) => {
+  if (!COMMENTS_ENABLED) {
+    res.status(HTTP_STATUS.FORBIDDEN_403).json({ error: 'Comments are currently disabled' })
+    return
+  }
   const commentId = req.params.id
   const userRef = provideUserRefFromToken(req)
   if (userRef === null) {

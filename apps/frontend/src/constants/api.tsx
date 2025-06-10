@@ -101,4 +101,7 @@ export const API = {
     UPDATE: (id: string) => `${API_BASE_URL}/achievement/${id}`,
     DELETE: (id: string) => `${API_BASE_URL}/achievement/${id}`,
   },
+  FEATURE_FLAGS: {
+    LIST: () => `${API_BASE_URL}/feature-flags`,
+  },
 }
