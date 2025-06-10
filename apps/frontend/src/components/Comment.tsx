@@ -20,9 +20,16 @@ export type CommentProps = {
   onDelete: () => void
 } & CommentList
 
-const Comment: FC<CommentProps> = (props: CommentProps) => {
+const Comment: FC<CommentProps> = ({
+  text: initialText,
+  user,
+  createdAt,
+  canEdit,
+  onEdit,
+  onDelete,
+}: CommentProps) => {
   const [isEdit, setIsEdit] = useState(false)
-  const [text, setText] = useState(props.text)
+  const [text, setText] = useState(initialText)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [expanded, setExpanded] = useState(false)
   const [showToggle, setShowToggle] = useState(false)
@@ -42,13 +49,11 @@ const Comment: FC<CommentProps> = (props: CommentProps) => {
           <Avatar className="h-12 w-12 flex justify-center items-center">
             <AvatarImage src={UserAvatar}></AvatarImage>
           </Avatar>
-          <p className="text-md font-bold">{props.user.userName}</p>
+          <p className="text-md font-bold">{user.userName}</p>
           <p>•</p>
-          <p className="text-sm">
-            {formatDistanceToNow(new Date(props.createdAt), { addSuffix: true })}
-          </p>
+          <p className="text-sm">{formatDistanceToNow(new Date(createdAt), { addSuffix: true })}</p>
         </div>
-        {props.canEdit && (
+        {canEdit && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <MoreVertical className="cursor-pointer" />
@@ -82,7 +87,7 @@ const Comment: FC<CommentProps> = (props: CommentProps) => {
               className="bg-red-500 text-white p-2 rounded-md mt-2 mr-2"
               onClick={() => {
                 setIsEdit(false)
-                setText(props.text)
+                setText(initialText)
               }}
             >
               Cancel
@@ -95,7 +100,7 @@ const Comment: FC<CommentProps> = (props: CommentProps) => {
                   return
                 }
                 setIsEdit(false)
-                props.onEdit(text)
+                onEdit(text)
               }}
             >
               Save
@@ -144,7 +149,7 @@ const Comment: FC<CommentProps> = (props: CommentProps) => {
               className="bg-red-500 text-white p-2 rounded-md mt-2 mr-2 min-w-20"
               onClick={() => {
                 setIsDeleteDialogOpen(false)
-                props.onDelete()
+                onDelete()
               }}
             >
               Delete

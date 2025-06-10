@@ -9,6 +9,7 @@ import { getSessionById, getSessions } from './sessionService'
 import { getReviews, getUserReview } from './reviewService'
 import { getFile } from './fileService'
 import { getClimbingObjectById } from './climbingObjectService'
+import { getFeatureFlags } from './featureFlagsService'
 
 export const useRouteQuery = (id: string) => {
   return useQuery({
@@ -174,5 +175,12 @@ export const useFileQuery = (fileId: string) => {
       url: data.url,
       createdBy: data.createdBy,
     }),
+  })
+}
+
+export const useFeatureFlagsQuery = () => {
+  return useQuery({
+    queryKey: ['featureFlags'],
+    queryFn: getFeatureFlags,
   })
 }
