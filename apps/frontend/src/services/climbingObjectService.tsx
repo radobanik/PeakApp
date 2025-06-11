@@ -28,7 +28,6 @@ export async function getFilteredClimbingObject(
       excludeWithoutMatchingRoutes: params?.excludeWithoutMatchingRoutes ?? false,
     },
   })
-  console.log(response.data)
   if (response.status !== 200) {
     throw new Error('Error fetching climbing objects')
   }

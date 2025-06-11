@@ -35,7 +35,6 @@ const getById = async (req: Request, res: Response) => {
   normalizedParams.approvalStates = normalizedParams.routeApprovalStates.filter(
     (state) => state !== ApprovalState.REJECTED
   )
-  console.log('normalizedParams', normalizedParams)
   const filteredRoutes = climbingObject.routes.filter(
     (route) =>
       route.grade.rating >= normalizedParams.ratingFrom &&
@@ -73,8 +72,6 @@ const list = async (req: Request, res: Response) => {
       (state) => state !== ApprovalState.REJECTED
     )
   }
-
-  // console.log('normalizedParams', normalizedParams)
 
   try {
     validateClimbingObjectListParams(normalizedParams)
