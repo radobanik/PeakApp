@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/dialog'
 import { useState } from 'react'
 import { FilterClimbingObjectListParams } from '@/types/climbingObjectTypes'
-import { INITIAL_FILTERS } from '@/components/MapFilterDialog'
+import { INITIAL_FILTERS } from '@/components/filter/MapFilterDialog'
 import { getFilteredClimbingObject } from '@/services/climbingObjectService'
 import { MapContainer, Marker, TileLayer } from 'react-leaflet'
 

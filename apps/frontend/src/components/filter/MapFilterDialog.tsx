@@ -19,7 +19,7 @@ import { useGrades } from './filterHooks'
 import { SingleSelectDropdown } from './SingleSelectDropdown'
 import { GpsInput } from './GpsInput'
 
-const INITIAL_FILTERS: FilterClimbingObjectListParams = {
+export const INITIAL_FILTERS: FilterClimbingObjectListParams = {
   name: null,
   routeName: null,
   ratingFrom: null,
