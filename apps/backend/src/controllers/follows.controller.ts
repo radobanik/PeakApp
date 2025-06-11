@@ -65,9 +65,21 @@ const deleteFollow = async (req: Request, res: Response) => {
   res.status(HTTP_STATUS.NO_CONTENT_204).end()
 }
 
+const isFollowing = async (req: Request, res: Response) => {
+  const paramUserId = req.params.id
+  const requestUser = provideUserRefFromToken(req)
+  if (requestUser === null) {
+    res.status(HTTP_STATUS.UNAUTHORIZED_401)
+    return
+  }
+  const isFollowing = await followsRepository.exists(requestUser.id, paramUserId)
+  res.status(HTTP_STATUS.OK_200).json({ isFollowing })
+}
+
 export default {
   listFollowers,
   listFollowing,
   createFollow,
   deleteFollow,
+  isFollowing,
 }

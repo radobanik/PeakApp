@@ -14,6 +14,8 @@ type UserList = {
   firstName: string
   lastName: string
 
+  description: string
+
   profilePictureId: string | null
 }
 
@@ -24,6 +26,8 @@ const selector = {
 
   firstName: true,
   lastName: true,
+
+  description: true,
 
   profilePictureId: true,
 }

@@ -70,6 +70,8 @@ export type UserList = {
   firstName: string
   lastName: string
 
+  description: string
+
   profilePictureId: string | null
 }
 

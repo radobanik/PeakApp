@@ -33,9 +33,10 @@ const xToManyCreator = <C>(ref: RefObject[], entityMapper: (entity: RefObject) =
 }
 
 const xToManyUpdater = <C>(ref: RefObject[], entityMapper: (entity: RefObject) => C) => {
-  return ref.length > 0
-    ? { deleteMany: {}, create: ref.map((entity) => entityMapper(entity)) }
-    : undefined
+  return {
+    deleteMany: {},
+    create: ref.length > 0 ? ref.map((entity) => entityMapper(entity)) : undefined,
+  }
 }
 
 export {

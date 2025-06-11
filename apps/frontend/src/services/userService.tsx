@@ -68,3 +68,30 @@ export async function getUsers(
     throw error
   }
 }
+
+export async function followUser(userId: string) {
+  try {
+    const response = await api.post(API.USER.FOLLOW(userId))
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function unfollowUser(userId: string) {
+  try {
+    const response = await api.delete(API.USER.UNFOLLOW(userId))
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function isFollowingUsser(userId: string) {
+  try {
+    const response = await api.get(API.USER.IS_FOLLOWING(userId))
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
