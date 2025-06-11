@@ -175,4 +175,10 @@ userRouter.delete(
   followingController.deleteFollow
 )
 
+userRouter.get(
+  '/:id/is-following',
+  passport.authenticate('jwt', { session: false }),
+  followingController.isFollowing
+)
+
 export default userRouter

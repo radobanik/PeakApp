@@ -14,6 +14,9 @@ export const API = {
     BASE: `${API_BASE_URL}/user`,
     UPDATE: `${API_BASE_URL}/user/`,
     IS_ADMIN: () => `${API_BASE_URL}/user/role/admin`,
+    IS_FOLLOWING: (id: string) => `${API_BASE_URL}/user/${id}/is-following`,
+    FOLLOW: (id: string) => `${API_BASE_URL}/user/${id}/follow`,
+    UNFOLLOW: (id: string) => `${API_BASE_URL}/user/${id}/follow`,
   },
   GEO: {
     COUNTRIES: `${API_BASE_URL}/geo/countries`,
