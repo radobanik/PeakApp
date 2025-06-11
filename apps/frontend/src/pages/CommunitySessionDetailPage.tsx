@@ -52,7 +52,11 @@ export default function CommunitySessionDetailPage() {
     return (
       <div className="w-full">
         <p className="text-md font-bold">Comments</p>
-        <CommentListing sessionId={sessionQuery.data.id} className="flex-1 overflow-auto" />
+        <CommentListing
+          sessionId={sessionQuery.data.id}
+          onCommentCountChange={() => updateList(params.id!)}
+          className="flex-1 overflow-auto"
+        />
       </div>
     )
   }

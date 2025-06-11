@@ -51,9 +51,9 @@ const Comment: FC<CommentProps> = ({
           <Avatar className="h-12 w-12 flex justify-center items-center">
             <AvatarImage src={profilePictureUrl}></AvatarImage>
           </Avatar>
-          <p className="text-sm font-bold">{props.user.userName}</p>
+          <p className="text-sm font-bold">{user.userName}</p>
           <p>•</p>
-          <p className="text-sm">{formatDistanceToNowShort(new Date(props.createdAt))}</p>
+          <p className="text-sm">{formatDistanceToNowShort(new Date(createdAt))}</p>
         </div>
         {canEdit && (
           <DropdownMenu>

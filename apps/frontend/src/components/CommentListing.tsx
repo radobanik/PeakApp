@@ -14,7 +14,11 @@ type CommentListProps = {
   className?: string
 }
 
-const CommentListing: FC<CommentListProps> = ({ sessionId, className }: CommentListProps) => {
+const CommentListing: FC<CommentListProps> = ({
+  sessionId,
+  onCommentCountChange,
+  className,
+}: CommentListProps) => {
   const [isCreateActive, setIsCreateActive] = useState(false)
 
   const commentsQuery = useInfiniteQuery<
@@ -66,8 +70,8 @@ const CommentListing: FC<CommentListProps> = ({ sessionId, className }: CommentL
 
             return { ...page, items: newItems }
           })
-          if (props.onCommentCountChange) {
-            props.onCommentCountChange()
+          if (onCommentCountChange) {
+            onCommentCountChange()
           }
           return { ...oldData, pages: newPages }
         }
@@ -88,8 +92,8 @@ const CommentListing: FC<CommentListProps> = ({ sessionId, className }: CommentL
             ],
             pageParams: [null, ...oldData.pageParams],
           }
-          if (props.onCommentCountChange) {
-            props.onCommentCountChange()
+          if (onCommentCountChange) {
+            onCommentCountChange()
           }
           return newData
         }
