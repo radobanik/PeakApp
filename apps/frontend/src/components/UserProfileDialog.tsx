@@ -23,7 +23,6 @@ type UserProfileDialogProps = {
 }
 
 export const UserProfileDialog = ({ user, open, onOpenChange }: UserProfileDialogProps) => {
-  const profilePicture = NoUserPhoto
   const fullName = `${user.firstName} ${user.lastName}`
 
   const [isFollowing, setIsFollowing] = useState<boolean>(false)
