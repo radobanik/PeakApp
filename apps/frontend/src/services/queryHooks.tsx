@@ -12,10 +12,14 @@ import { getClimbingObjectById } from './climbingObjectService'
 import { getFeatureFlags } from './featureFlagsService'
 import { getIsAdmin, getLoggedInUser } from './userService'
 
-export const useRouteQuery = (id: string) => {
+export function useRouteQuery(routeId: string | null) {
   return useQuery({
-    queryKey: ['route', id],
-    queryFn: async () => getRouteById(id),
+    queryKey: ['route', routeId],
+    queryFn: async () => {
+      if (!routeId) return null
+      return getRouteById(routeId)
+    },
+    enabled: !!routeId,
   })
 }
 

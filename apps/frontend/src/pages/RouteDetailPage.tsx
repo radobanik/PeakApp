@@ -14,6 +14,7 @@ import { PeakFile } from '@/types/fileTypes'
 import { GradeDetail } from '@/types/gradeTypes'
 import { ROUTE } from '@/constants/routes'
 import { EditorOverlay } from '@/components/RouteEditor/EditorOverlay'
+import { MapPositionPicker } from '@/components/map/MapPositionPicker'
 
 const editRouteSchema = z.object({
   name: z.string().min(1, 'Name must not be empty'),
@@ -42,6 +43,9 @@ export default function RouteDetailPage() {
   const navigate = useNavigate()
   const isCreateMode = routeId === 'new'
   const climbingObjectId = searchParams.get('climbingObjectId')
+
+  const routeDetail = useRouteQuery(routeId === 'new' ? null : routeId!)
+
   const [isEditMode, setIsEditMode] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isImageUploading, setIsImageUploading] = useState(false)
@@ -49,11 +53,14 @@ export default function RouteDetailPage() {
   const [currentImage, setCurrentImage] = useState<PeakFile | null>(null)
   const [grades, setGrades] = useState<GradeDetail[]>([])
   const [isEditorOpen, setIsEditorOpen] = useState(false)
+  const [isPickingLocation, setIsPickingLocation] = useState(false)
 
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
+    getValues,
     formState: { errors },
   } = useForm<EditRouteForm>({
     resolver: zodResolver(editRouteSchema),
@@ -84,8 +91,6 @@ export default function RouteDetailPage() {
       })
     }
   }, [isCreateMode, reset])
-
-  const routeDetail = isCreateMode ? null : useRouteQuery(routeId!)
 
   const handleEditToggle = () => {
     if (!routeDetail?.data) return
@@ -171,13 +176,14 @@ export default function RouteDetailPage() {
 
       toast.success(`Route ${isCreateMode ? 'created' : 'updated'} successfully`)
 
-      // Clear image preview after successful save
+      // Reset states
       setNewImage(null)
+      setIsEditMode(false)
 
       if (isCreateMode) {
-        navigate(`${ROUTE.ROUTE}/${response.data.id}`)
+        reset()
+        navigate(`${ROUTE.ROUTE}/${response.data.id}`, { replace: true })
       } else {
-        setIsEditMode(false)
         routeDetail?.refetch()
       }
     } catch (error) {
@@ -246,7 +252,7 @@ export default function RouteDetailPage() {
             )}
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 mb-4">
             <div className="w-full">
               <input
                 {...register('latitude', { valueAsNumber: true })}
@@ -272,6 +278,27 @@ export default function RouteDetailPage() {
               )}
             </div>
           </div>
+          <button
+            type="button"
+            onClick={() => setIsPickingLocation(true)}
+            className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Pick Location on Map
+          </button>
+
+          {isPickingLocation && (
+            <div className="mb-4">
+              <MapPositionPicker
+                onPositionPicked={(lat, lng) => {
+                  setValue('latitude', lat)
+                  setValue('longitude', lng)
+                  setIsPickingLocation(false)
+                }}
+                onCancel={() => setIsPickingLocation(false)}
+                initialPosition={[getValues('latitude'), getValues('longitude')]}
+              />
+            </div>
+          )}
 
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-2">Main Image</label>
