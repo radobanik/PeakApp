@@ -31,7 +31,7 @@ export default function ReviewObjectsPage() {
           )}
           {query.isError && <div>Error: {query.error.message}</div>}
           {query.isSuccess && (
-            <div className="flex-1 overflow-auto p-1 pr-4">
+            <div className="flex-1 overflow-auto p-2 pt-4 pr-4">
               {query.data.total === 0 && (
                 <div className="flex justify-center p-4">No new objects available</div>
               )}
@@ -53,9 +53,16 @@ export default function ReviewObjectsPage() {
         />
       </div>
       {isDetail && (
-        <div className="flex-1 max-w-[640px] h-full p-2">
-          <div className="flex-1 max-w-[640px] h-full border border-gray-200 rounded-md p-2">
-            <Outlet />
+        <div
+          className={cn(
+            ' flex-1 max-w-[500px] min-w-[300px] mt-4',
+            'sm:rounded-md sm:border sm:p-2'
+          )}
+        >
+          <div className="flex flex-col w-full h-full">
+            <div className="flex flex-1 w-full overflow-auto">
+              <Outlet />
+            </div>
           </div>
         </div>
       )}

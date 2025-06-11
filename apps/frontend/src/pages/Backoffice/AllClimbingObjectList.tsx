@@ -53,9 +53,10 @@ export default function AllClimbingObjectList() {
       pageSize: pagination.pageSize,
     }),
   })
+
   return (
-    <div className="flex justify-center space-x-4 h-full w-full">
-      <div className={cn('flex-1 h-full', isDetail ? 'hidden sm:flex' : '')}>
+    <div className="flex space-x-4 h-full w-full">
+      <div className={cn('flex-1 min-w-0 h-full', isDetail ? 'hidden sm:flex' : '')}>
         <TableList
           data={objectsQuery.data}
           isLoading={objectsQuery.isLoading}
@@ -65,16 +66,17 @@ export default function AllClimbingObjectList() {
           pagination={pagination}
           setPagination={setPagination}
           columnDefiniton={columns}
+          initialColumnVisibility={{ location: false }}
           parentRoute={ROUTE.ALL_CLIMBING_OBJECTS}
           noResult={<div className="text-center">No climbing objects found</div>}
         />
       </div>
       {isDetail && (
-        <div className="rounded-md border flex-1 max-w-[500px] min-w-[300px] mt-4 p-2">
-          <div className="flex flex-col w-full h-full p-2">
+        <div className={cn(' flex-1 max-w-[500px] min-w-[300px] mt-4', 'sm:rounded-md sm:border')}>
+          <div className="flex flex-col w-full h-full">
             <div className="flex justify-end">
               <Link to={ROUTE.ALL_CLIMBING_OBJECTS}>
-                <X className="w-6 h-6" />
+                <X className="w-6 h-6 mt-2 mr-2" />
               </Link>
             </div>
             <div className="flex flex-1 w-full overflow-auto">

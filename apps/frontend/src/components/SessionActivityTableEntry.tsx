@@ -41,7 +41,7 @@ export default function SessionActivityTableEntry({ entry }: SessionActivityTabl
 
   return (
     <div
-      className="bg-stone-300 rounded-md p-2 flex flex-row gap-2 justify-between m-1"
+      className="bg-stone-300 rounded-md w-full p-2 flex flex-row gap-2 justify-between m-1"
       test-id={`session-activity-table-entry-${entry.id}`}
       onClick={handleEntryClick}
     >

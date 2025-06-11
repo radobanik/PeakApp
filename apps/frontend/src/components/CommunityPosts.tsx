@@ -7,6 +7,20 @@ import { ListCursorResponse } from '@/types'
 import { Button } from './ui/button'
 import { SessionCommunityList } from '@/types/sessionTypes'
 import { RecommenderCategory } from '@/pages/CommunityPageLayout'
+import { createContext, useContext } from 'react'
+
+type CommunityPostsContextType = {
+  updateList: (postId: string) => void
+  tick: number
+}
+
+export const CommunityPostsContext = createContext<CommunityPostsContextType | null>(null)
+
+export const useCommunityPostsContext = () => {
+  const ctx = useContext(CommunityPostsContext)
+  if (!ctx) throw new Error('useCommunityPostsContext must be used within provider')
+  return ctx
+}
 
 type CommunityPostsProps = {
   variant: CommunityVariant

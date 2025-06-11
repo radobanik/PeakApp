@@ -12,6 +12,7 @@ import MediaScroll from '@/components/MediaScroll'
 import { useEffect, useState } from 'react'
 import { PeakFile } from '@/types/fileTypes'
 import { getFile } from '@/services/fileService'
+import { useCommunityPostsContext } from '@/components/CommunityPosts'
 import { useFeatureFlagsQuery } from '@/services/queryHooks'
 
 export default function CommunitySessionDetailPage() {
@@ -19,10 +20,12 @@ export default function CommunitySessionDetailPage() {
   const [profilePictureUrl, setProfilePictureUrl] = useState<string | undefined>()
 
   const featureFlagsQuery = useFeatureFlagsQuery()
+  const { updateList } = useCommunityPostsContext()
+  const freshToken = useState(new Date().getTime())
 
   const params = useParams()
   const sessionQuery = useQuery({
-    queryKey: ['community_session_detail', params.id],
+    queryKey: ['community_session_detail', params.id, freshToken],
     queryFn: () => getSession(params.id!),
     enabled: !!params.id,
   })
@@ -70,7 +73,7 @@ export default function CommunitySessionDetailPage() {
             <p className="text-xl font-bold text-ellipsis text-wrap text-center">
               {sessionQuery.data.name}
             </p>
-            <div className="flex flex-row w-full flex-wrap gap-2">
+            <div className="flex flex-row w-full flex-wrap gap-2 spacx-x-2">
               <div className="flex-1 flex flex-col">
                 <div className="flex flex-row items-center">
                   <div className="flex-1 flex flex-row items-center">
@@ -85,6 +88,9 @@ export default function CommunitySessionDetailPage() {
                 likes={sessionQuery.data.likes}
                 hasLiked={sessionQuery.data.hasLiked}
                 sessionId={sessionQuery.data.id}
+                onLikeChange={() => {
+                  updateList(sessionQuery.data.id)
+                }}
                 className="mr-2"
               />
             </div>

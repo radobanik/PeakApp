@@ -5,7 +5,7 @@ import { ReportList } from '@/../backend/src/model/report'
 import { ReportStatus } from '@/types/reportTypes'
 import { cn } from '@/lib/utils'
 import { TableList } from '../../components/backoffice/TableList'
-import { Outlet, useLocation, useMatch } from 'react-router-dom'
+import { Outlet, useMatch } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
 import { Badge } from '@/components/ui/badge'
 import { getReports } from '@/services/reportService'
@@ -27,24 +27,6 @@ export default function ReportPage() {
   const columns: ColumnDef<ReportList>[] = useMemo(
     () => [
       { accessorKey: 'title', header: 'Title' },
-      {
-        accessorKey: 'createdAt',
-        header: 'Created At',
-        cell: ({ row }) => {
-          const date = new Date(row.original.createdAt)
-          return (
-            <span>
-              {date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: '2-digit',
-              })}
-            </span>
-          )
-        },
-      },
       {
         id: 'reportStatus',
         header: () => (
@@ -70,6 +52,22 @@ export default function ReportPage() {
             >
               {status === ReportStatus.RESOLVED ? 'Resolved' : 'Pending'}
             </Badge>
+          )
+        },
+      },
+      {
+        accessorKey: 'createdAt',
+        header: 'Created At',
+        cell: ({ row }) => {
+          const date = new Date(row.original.createdAt)
+          return (
+            <span>
+              {date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </span>
           )
         },
       },
@@ -108,8 +106,8 @@ export default function ReportPage() {
 
   return (
     <ReportPageContext.Provider value={{ refresh }}>
-      <div className="flex justify-center space-x-4 h-full w-full min-h-[400px] overflow-auto">
-        <div className={cn('flex-1 h-full', isDetail ? 'hidden sm:flex' : '')}>
+      <div className="flex space-x-4 h-full w-full">
+        <div className={cn('flex-1 min-w-0 h-full', isDetail ? 'hidden sm:flex' : '')}>
           <TableList
             data={reportsQuery.data}
             isLoading={reportsQuery.isLoading}
@@ -119,6 +117,7 @@ export default function ReportPage() {
             pagination={pagination}
             setPagination={setPagination}
             columnDefiniton={columns}
+            initialColumnVisibility={{ createdAt: false, resolvedAt: false }}
             parentRoute={ROUTE.REPORTS}
             noResult={<div className="text-center">No reports found</div>}
           />

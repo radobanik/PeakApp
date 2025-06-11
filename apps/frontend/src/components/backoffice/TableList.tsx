@@ -49,12 +49,15 @@ type TableListProps<T> = {
   pagination: { pageIndex: number; pageSize: number }
   setPagination: React.Dispatch<React.SetStateAction<{ pageIndex: number; pageSize: number }>>
   columnDefiniton: ColumnDef<T>[]
+  initialColumnVisibility?: VisibilityState
   parentRoute: string
   noResult: JSX.Element
 }
 
 export const TableList = <T extends { id: string }>(props: TableListProps<T>): JSX.Element => {
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+    props.initialColumnVisibility ?? {}
+  )
   const navigate = useNavigate()
 
   const table = useReactTable({
@@ -102,9 +105,9 @@ export const TableList = <T extends { id: string }>(props: TableListProps<T>): J
           </DropdownMenu>
         </div>
 
-        <div className="flex-1 overflow-auto">
-          <Table className="relative">
-            <TableHeader className="sticky top-0 bg-background z-10">
+        <div className="flex-1 w-full overflow-x-auto">
+          <Table>
+            <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
@@ -139,6 +142,7 @@ export const TableList = <T extends { id: string }>(props: TableListProps<T>): J
                       <TableRow
                         key={row.id}
                         onClick={() => navigate(`${props.parentRoute}/${row.original.id}`)}
+                        className="cursor-pointer hover:bg-gray-100"
                       >
                         {row.getVisibleCells().map((cell) => (
                           <TableCell

@@ -13,7 +13,7 @@ const ScrollTable = <T extends { id: string }>({
     return <div className="flex justify-center p-4">No entries available</div>
   }
   return (
-    <div>
+    <div className="w-full flex flex-col items-center">
       {entries.map((entry) => (
         <Component key={entry.id} entry={entry} backRoute={backRoute} />
       ))}

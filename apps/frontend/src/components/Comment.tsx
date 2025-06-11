@@ -1,6 +1,5 @@
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { CommentList } from 'backend/src/model/comment'
-import { formatDistanceToNow } from 'date-fns'
 import { FC, useEffect, useRef, useState } from 'react'
 import {
   DropdownMenu,
@@ -14,6 +13,7 @@ import { Button } from './ui/button'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from './ui/dialog'
 import { toast } from 'sonner'
 import { useProfilePictureQuery } from '@/services/queryHooks'
+import { formatDistanceToNowShort } from '@/lib/utils'
 
 export type CommentProps = {
   onEdit: (text: string) => void
@@ -51,9 +51,9 @@ const Comment: FC<CommentProps> = ({
           <Avatar className="h-12 w-12 flex justify-center items-center">
             <AvatarImage src={profilePictureUrl}></AvatarImage>
           </Avatar>
-          <p className="text-md font-bold">{user.userName}</p>
+          <p className="text-sm font-bold">{props.user.userName}</p>
           <p>•</p>
-          <p className="text-sm">{formatDistanceToNow(new Date(createdAt), { addSuffix: true })}</p>
+          <p className="text-sm">{formatDistanceToNowShort(new Date(props.createdAt))}</p>
         </div>
         {canEdit && (
           <DropdownMenu>

@@ -40,6 +40,24 @@ export function formatTimeAgoShort(date: Date | string): string {
   return '-'
 }
 
+export function formatDistanceToNowShort(date: Date) {
+  const distance = formatDistanceToNowStrict(date, { addSuffix: false })
+
+  return distance
+    .replace('seconds', 's')
+    .replace('second', 's')
+    .replace('minutes', 'm')
+    .replace('minute', 'm')
+    .replace('hours', 'h')
+    .replace('hour', 'h')
+    .replace('days', 'd')
+    .replace('day', 'd')
+    .replace('months', 'mo')
+    .replace('month', 'mo')
+    .replace('years', 'y')
+    .replace('year', 'y')
+}
+
 export function capitalize(value: string | undefined): string {
   if (!value) return ''
 

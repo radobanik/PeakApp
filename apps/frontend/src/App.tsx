@@ -240,7 +240,10 @@ export default function App() {
                         />
                       </Route>
                       <Route path={ROUTE.ALL_USERS} element={privateRoute(<AllUserList />)}>
-                        <Route path={ROUTE.ALL_USERS_DETAIL} element={privateRoute(<div />)} />
+                        <Route
+                          path={ROUTE.ALL_USERS_DETAIL}
+                          element={privateRoute(<UserSettingsPage />)}
+                        ></Route>
                       </Route>
                       <Route path={ROUTE.ANALYTICS} element={privateRoute(<Analytics />)}></Route>
                       <Route

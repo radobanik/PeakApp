@@ -71,11 +71,17 @@ export default function ReviewObjectDetailPage() {
           <img
             src={imageQuery.data.url}
             alt="route photo"
-            className="max-w-[300px] max-h-[200px] object-fill"
+            className="max-w-[300px] max-h-[300px] object-fill"
           ></img>
         </div>
       ) : (
-        <img src={NoBoulderPhoto} alt="route photo" className="w-full h-full object-fill"></img>
+        <div className="flex justify-center">
+          <img
+            src={NoBoulderPhoto}
+            alt="route photo"
+            className="max-w-[300px] max-h-[300px] object-fill"
+          ></img>
+        </div>
       )}
       <p>
         <span className="font-semibold">Created by: </span>
@@ -93,6 +99,7 @@ export default function ReviewObjectDetailPage() {
         <div className="flex space-x-2 items-center ml-1">
           <span>{query.data.climbingStructureType}</span>
           <Badge
+            className="w-10"
             style={{
               backgroundColor: query.data.grade.color,
               color: getTextColorForBackground(query.data.grade.color),

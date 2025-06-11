@@ -13,7 +13,7 @@ const NewObjectEntry: FC<NewObjectEntryProps> = (props: NewObjectEntryProps) => 
     <Link to={`${props.id}`}>
       <div
         className={cn(
-          'flex flex-row items-center h-15 min-w-80 hover:bg-stone-200 outline-1 outline-stone-400 rounded-md p-5 mb-2',
+          'flex flex-row items-center h-15 min-w-70 hover:bg-stone-200 outline-1 outline-stone-400 rounded-md p-5 mb-2',
           props.approveState === true && 'bg-green-200',
           props.approveState === false && 'bg-red-200'
         )}

@@ -1,5 +1,5 @@
 import { useForm, Controller } from 'react-hook-form'
-import { ChangeEvent, memo, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, memo, useCallback, useEffect, useRef, useState } from 'react'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -17,6 +17,8 @@ import { PeakFile } from '@/types/fileTypes'
 import { toast } from 'sonner'
 import { AchievementListing } from '@/components/AchievementListing'
 import { UserDetailResponse } from '@/types/userTypes'
+import { useMatch, useParams } from 'react-router-dom'
+import { ROUTE } from '@/constants/routes'
 
 type FormValues = {
   username: string
@@ -64,6 +66,15 @@ const UserSettingsPage = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const selectedCountry = watch('country')
 
+  const routeMatch = useMatch(ROUTE.ALL_USERS_DETAIL)
+  const { id } = useParams()
+  const getUser = useCallback(async () => {
+    if (routeMatch) {
+      return userService.getUser(id!)
+    }
+    return userService.getLoggedInUser()
+  }, [routeMatch, id])
+
   useEffect(() => {
     async function fetchCountries() {
       try {
@@ -82,7 +93,8 @@ const UserSettingsPage = () => {
   useEffect(() => {
     async function fetchUserData() {
       try {
-        const user = await userService.getLoggedInUser()
+        const user = await getUser()
+
         setLoggedInUser(user)
         setValue('username', user.userName)
         setValue('description', user.description)
@@ -117,7 +129,7 @@ const UserSettingsPage = () => {
     }
 
     fetchUserData()
-  }, [setValue])
+  }, [setValue, id])
 
   useEffect(() => {
     async function fetchCities() {
@@ -170,7 +182,12 @@ const UserSettingsPage = () => {
         cityId: citiesData.find((city) => city.name === data.city)?.id,
         profilePictureId: uploadedAvatar?.id ?? null,
       }
-      await userService.updateLoggedInUser(payload)
+      if (routeMatch) {
+        await userService.updateUser(id!, payload)
+      } else {
+        await userService.updateLoggedInUser(payload)
+      }
+
       toast.success('Profile updated successfully!')
     } catch {
       toast.error('Failed to update profile.')
