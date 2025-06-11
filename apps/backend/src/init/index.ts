@@ -12,6 +12,7 @@ import initReports from './report.init'
 import initFollows from './follows.init'
 import initAchievements from './achievement.init'
 import recalculate from './recalculation.init'
+import initFeatureFlags from './featureFlags.init'
 
 /**
  * must be in the right order!
@@ -31,6 +32,7 @@ const initFunctions = [
   initFollows,
   initAchievements,
   recalculate,
+  initFeatureFlags,
 ]
 
 async function initAll() {

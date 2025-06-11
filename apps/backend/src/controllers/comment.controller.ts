@@ -11,8 +11,7 @@ import NotificationRepository from '../repositories/notification.repository'
 import userRepository from '../repositories/user.repository'
 import notificationSettingsRepository from '../repositories/notificationSettings.repository'
 import { sendCommentEmail } from '../services/emailService'
-
-const COMMENTS_ENABLED = process.env.COMMENTS_ENABLED === 'true'
+import { getFeatureFlags } from '../utils/featureFlags'
 
 const validateUser = async (
   userRef: RefObject,
@@ -30,7 +29,8 @@ const validateUser = async (
 }
 
 const listBySession = async (req: Request, res: Response) => {
-  if (!COMMENTS_ENABLED) {
+  const featureFlags = await getFeatureFlags()
+  if (!featureFlags.commentsEnabled) {
     res.status(HTTP_STATUS.FORBIDDEN_403).json({ error: 'Comments are currently disabled' })
     return
   }
@@ -67,7 +67,8 @@ const listBySession = async (req: Request, res: Response) => {
 }
 
 const create = async (req: Request, res: Response) => {
-  if (!COMMENTS_ENABLED) {
+  const featureFlags = await getFeatureFlags()
+  if (!featureFlags.commentsEnabled) {
     res.status(HTTP_STATUS.FORBIDDEN_403).json({ error: 'Comments are currently disabled' })
     return
   }
@@ -117,7 +118,8 @@ const create = async (req: Request, res: Response) => {
 }
 
 const update = async (req: Request, res: Response) => {
-  if (!COMMENTS_ENABLED) {
+  const featureFlags = await getFeatureFlags()
+  if (!featureFlags.commentsEnabled) {
     res.status(HTTP_STATUS.FORBIDDEN_403).json({ error: 'Comments are currently disabled' })
     return
   }
@@ -148,7 +150,8 @@ const update = async (req: Request, res: Response) => {
 }
 
 const deleteById = async (req: Request, res: Response) => {
-  if (!COMMENTS_ENABLED) {
+  const featureFlags = await getFeatureFlags()
+  if (!featureFlags.commentsEnabled) {
     res.status(HTTP_STATUS.FORBIDDEN_403).json({ error: 'Comments are currently disabled' })
     return
   }

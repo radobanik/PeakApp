@@ -59,7 +59,7 @@ export const SIDEBAR_ROUTES = [
       { title: 'All routes', url: ROUTE.ALL_ROUTES },
       { title: 'All users', url: ROUTE.ALL_USERS },
       { title: 'All achievements', url: ROUTE.ALL_ACHIEVEMENTS },
-      { title: 'Analytics', url: ROUTE.ANALYTICS },
+      { title: 'Analytics & Feature flags', url: ROUTE.ANALYTICS },
       { title: 'Notifications', url: ROUTE.SETTINGS_NOTIFICATIONS },
     ],
   },

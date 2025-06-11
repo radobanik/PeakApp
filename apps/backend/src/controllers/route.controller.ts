@@ -15,8 +15,7 @@ import requestValidator from '../model/common/validator'
 import { RouteOrder, RouteWhere } from '../repositories/route.repository'
 import { provideUserRefFromToken, returnUnauthorized } from '../auth/authUtils'
 import { ApprovalState } from '@prisma/client'
-
-const SHOW_APPROVED_ONLY = process.env.SHOW_APPROVED_ONLY === 'true'
+import { getFeatureFlags } from '../utils/featureFlags'
 
 const getById = async (req: Request, res: Response) => {
   const routeId = req.params.id
@@ -32,6 +31,8 @@ const getById = async (req: Request, res: Response) => {
 const list = async (req: Request, res: Response) => {
   const params = req.query as unknown as IncommingRouteListParams
   const normalizedParams: NonNullRouteListParams = defaultRouteListParams(params)
+  const featureFlags = await getFeatureFlags()
+
   const where: RouteWhere = {
     AND: [
       {
@@ -41,7 +42,7 @@ const list = async (req: Request, res: Response) => {
           { latitude: { gte: normalizedParams.latitudeFrom, lte: normalizedParams.latitudeTo } },
           { climbingStructureType: { in: normalizedParams.climbingStructureTypes } },
           {
-            approvalState: SHOW_APPROVED_ONLY
+            approvalState: featureFlags.showApprovedOnly
               ? ApprovalState.APPROVED
               : { in: normalizedParams.approvalStates },
           },

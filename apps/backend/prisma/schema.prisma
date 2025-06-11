@@ -424,3 +424,10 @@ model Achievement {
   iconId String? @unique
   icon PeakFile? @relation(name: "AchievementIcon", fields: [iconId], references: [id])
 }
+
+model FeatureFlag {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  enabled   Boolean  @default(false)
+  updatedAt DateTime?
+}

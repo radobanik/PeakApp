@@ -17,8 +17,7 @@ import { RouteWhere } from '../repositories/route.repository'
 import { provideUserRefFromToken, returnUnauthorized } from '../auth/authUtils'
 import { getOrderBy } from '../model/route'
 import { ApprovalState, Role } from '@prisma/client'
-
-const SHOW_APPROVED_ONLY = process.env.SHOW_APPROVED_ONLY === 'true'
+import { getFeatureFlags } from '../utils/featureFlags'
 
 const getById = async (req: Request, res: Response) => {
   const params = req.query as unknown as IncommingClimbingObjectListParams
@@ -52,6 +51,7 @@ const getById = async (req: Request, res: Response) => {
 const list = async (req: Request, res: Response) => {
   const params = req.query as unknown as IncommingClimbingObjectListParams
   const normalizedParams: NonNullClimbingObjectListParams = defaultClimbingObjectListParams(params)
+  const featureFlags = await getFeatureFlags()
   const userRef = provideUserRefFromToken(req as unknown as Request)
   if (userRef === null) {
     returnUnauthorized(res)
@@ -106,7 +106,7 @@ const list = async (req: Request, res: Response) => {
             }),
           },
           {
-            approvalState: SHOW_APPROVED_ONLY
+            approvalState: featureFlags.showApprovedOnly
               ? ApprovalState.APPROVED
               : { in: normalizedParams.approvalStates },
           },
