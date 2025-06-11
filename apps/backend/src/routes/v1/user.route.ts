@@ -39,6 +39,12 @@ userRouter.get(
   UserController.userList
 )
 
+userRouter.get(
+  '/role/admin',
+  passport.authenticate('jwt', { session: false }),
+  UserController.isAdmin
+)
+
 /**
  * @swagger
  * /users/{id}:
@@ -138,6 +144,12 @@ userRouter.get(
   '/:id/followers',
   passport.authenticate('jwt', { session: false }),
   followingController.listFollowers
+)
+
+userRouter.get(
+  '/profile-picture',
+  passport.authenticate('jwt', { session: false }),
+  UserController.getProfilePicture
 )
 
 userRouter.get(

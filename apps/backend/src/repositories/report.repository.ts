@@ -1,13 +1,14 @@
-import { Prisma, PrismaClient, ReportStatus } from '@prisma/client'
+import { Prisma, ReportStatus } from '@prisma/client'
 import { createListResponse } from '../model/common/listResponse'
 import { ReportCreate, reportDetailSelector, reportListSelector } from '../model/report'
 import { RefObject } from '../model/common/refObject'
 import { toConnector, toConnectorNullable } from './utils/connector'
+import prisma from '../core/prisma/client'
 
 type ReportWhere = Prisma.ReportWhereInput
 type ReportOrder = Prisma.ReportOrderByWithRelationInput
 
-const reportClient = new PrismaClient().report
+const reportClient = prisma.report
 
 const getById = async (id: string) => {
   return await reportClient.findUnique({

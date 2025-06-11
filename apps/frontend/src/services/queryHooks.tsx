@@ -10,11 +10,16 @@ import { getReviews, getUserReview } from './reviewService'
 import { getFile } from './fileService'
 import { getClimbingObjectById } from './climbingObjectService'
 import { getFeatureFlags } from './featureFlagsService'
+import { getIsAdmin, getLoggedInUser } from './userService'
 
-export const useRouteQuery = (id: string) => {
+export function useRouteQuery(routeId: string | null) {
   return useQuery({
-    queryKey: ['route', id],
-    queryFn: async () => getRouteById(id),
+    queryKey: ['route', routeId],
+    queryFn: async () => {
+      if (!routeId) return null
+      return getRouteById(routeId)
+    },
+    enabled: !!routeId,
   })
 }
 
@@ -162,7 +167,6 @@ export const useUserReviewQuery = (routeId: string) => {
   })
 }
 
-// TODO: Pfps must  be redone  so that user ALWAYS has a pfpId
 export const useFileQuery = (fileId: string) => {
   return useQuery({
     queryKey: ['file', fileId],
@@ -182,5 +186,28 @@ export const useFeatureFlagsQuery = () => {
   return useQuery({
     queryKey: ['featureFlags'],
     queryFn: getFeatureFlags,
+  })
+}
+
+export const useProfilePictureQuery = () => {
+  return useQuery({
+    queryKey: ['profilePicture'],
+    queryFn: async () => {
+      const user = await getLoggedInUser()
+      if (!user.profilePictureId) return
+
+      const file = await getFile(user.profilePictureId)
+      return file?.url
+    },
+  })
+}
+
+export const useIsAdminQuery = () => {
+  return useQuery({
+    queryKey: ['isAdmin'],
+    queryFn: async () => {
+      const payload = await getIsAdmin()
+      return payload.isAdmin
+    },
   })
 }

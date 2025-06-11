@@ -1,5 +1,5 @@
 import { ActivityDetail } from '../activity'
-import { UserLabeled, userLabeledSelector } from '../user'
+import { userLabeledSelector, UserList, userListSelector } from '../user'
 import { RefObject, refObjectSelector } from '../common/refObject'
 import { routeListSelector } from '../route'
 
@@ -7,7 +7,7 @@ type SessionDetail = {
   id: string
   createdAt: Date
   updatedAt: Date | null
-  createdBy: UserLabeled
+  createdBy: UserList
 
   name: string
   note: string
@@ -21,7 +21,7 @@ const selector = {
   createdAt: true,
   updatedAt: true,
   createdBy: {
-    select: userLabeledSelector,
+    select: userListSelector,
   },
 
   name: true,

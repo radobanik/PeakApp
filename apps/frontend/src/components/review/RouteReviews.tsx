@@ -186,11 +186,7 @@ const RouteReviews = ({ routeId, showCurrentUserReview }: RouteReviewsProps) => 
                 />
               </div>
             </div>
-            <Button // TODO: add icon
-              className=""
-              type="submit"
-              test-id="review-submit-button"
-            >
+            <Button className="" type="submit" test-id="review-submit-button">
               Submit
             </Button>
           </form>

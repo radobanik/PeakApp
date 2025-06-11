@@ -1,6 +1,6 @@
 import { Difficulty } from '@prisma/client'
 import { RouteList, routeListSelector } from '../route'
-import { UserLabeled, userLabeledSelector } from '../user'
+import { UserList, userListSelector } from '../user'
 import { RefObject } from '../common/refObject'
 import { peakFileSelector } from '../peakFile'
 
@@ -20,7 +20,7 @@ type SessionList = {
   id: string
   createdAt: Date
   updatedAt: Date | null
-  createdBy: UserLabeled
+  createdBy: UserList
 
   name: string
   note: string
@@ -34,7 +34,7 @@ const selector = {
   createdAt: true,
   updatedAt: true,
   createdBy: {
-    select: userLabeledSelector,
+    select: userListSelector,
   },
 
   name: true,

@@ -4,8 +4,6 @@ export type UserLabeled = {
 
   firstName: string
   lastName: string
-
-  profilePictureId: string | null
 }
 
 export type UserDetail = {
@@ -71,4 +69,8 @@ export type UserList = {
 
   firstName: string
   lastName: string
+
+  profilePictureId: string | null
 }
+
+export type IsAdminReponse = { isAdmin: boolean }

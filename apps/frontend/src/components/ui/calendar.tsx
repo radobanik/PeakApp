@@ -55,7 +55,6 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        // TODO: fix this ESLint error
         // eslint-disable-next-line react/prop-types
         IconLeft: ({ className, ...props }) => (
           <ChevronLeft className={cn('size-4', className)} {...props} />

@@ -1,61 +1,47 @@
 import { ROUTE } from '@/constants/routes'
 import PeakAppLogo from '../assets/PeakAppLogo.png'
-import LogoutButton from './LogoutButton'
 import { Link, useNavigate } from 'react-router-dom'
-import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
-import diddyPfp from '@/assets/diddy.webp'
+import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { useSidebar } from './ui/sidebar'
 import { useNotificationContext } from '@/App'
-import { api } from '@/services'
-import { API } from '@/constants/api'
-import { toast } from 'sonner'
+import { useProfilePictureQuery } from '@/services/queryHooks'
 
 function HeaderBar() {
   const navigate = useNavigate()
   const { setOpen } = useSidebar()
   const { unreadCount } = useNotificationContext()
 
+  const { data: profilePictureUrl } = useProfilePictureQuery()
+
   const handleProfileClick = () => {
     navigate(ROUTE.SETTINGS_USER)
     setOpen(true)
   }
 
-  const handleTestEmail = async () => {
-    try {
-      await api.post(API.EMAIL.TEST)
-      toast.success('Test email sent!')
-    } catch {
-      toast.error('Failed to send email')
-    }
-  }
+  const handleNavButtonClick = () => setOpen(false)
 
   return (
     <div className="flex justify-start w-full h-14 px-3 py-1 border-b-2 border-gray-300 bg-background-menu">
-      <Link to={ROUTE.HOME} onClick={() => setOpen(false)} className="flex items-center h-full">
+      <Link to={ROUTE.HOME} onClick={handleNavButtonClick} className="flex items-center h-full">
         <img src={PeakAppLogo} alt="Logo" className="h-12 mr-4" />
       </Link>
       <nav className="flex-1 flex justify-end items-center h-full space-x-10">
-        <Link to={ROUTE.DIARY} onClick={() => setOpen(false)} className="text-lg font-semibold">
+        <Link to={ROUTE.DIARY} onClick={handleNavButtonClick} className="text-lg font-semibold">
           My Diary
         </Link>
-        <Link to={ROUTE.COMMUNITY} onClick={() => setOpen(false)} className="text-lg font-semibold">
+        <Link to={ROUTE.COMMUNITY} onClick={handleNavButtonClick} className="text-lg font-semibold">
           Community
         </Link>
-        <button
-          onClick={handleTestEmail}
-          className="text-lg font-semibold px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Email
-        </button>
-        <LogoutButton />
 
         <div
           onClick={handleProfileClick}
           className="relative h-full flex items-center justify-center"
         >
-          <Avatar className="h-full flex justify-center items-center">
-            {/* TODO:: Add user photo and AvatarFallback with user initials */}
-            <AvatarImage src={diddyPfp} className="h-full rounded-full" />
+          <Avatar className="h-full aspect-square flex justify-center items-center">
+            <AvatarImage
+              src={profilePictureUrl}
+              className="h-full w-full rounded-full object-cover"
+            />
           </Avatar>
 
           {unreadCount > 0 && (

@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import noBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
 
 interface AchievementListingProps {
-  userId: string | null
+  userId?: string | null
 }
 
 export const AchievementListing: FC<AchievementListingProps> = ({ userId }) => {

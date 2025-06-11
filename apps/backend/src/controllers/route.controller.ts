@@ -73,7 +73,6 @@ const create = async (req: Request<RouteCreate>, res: Response) => {
   const routeData: RouteCreate = req.body
 
   const validatedData = requestValidator(() => routeCreateValidate(routeData), res)
-  console.log('validatedData', validatedData)
   if (!validatedData) return
 
   const route = await RouteRepository.create(routeData, userRef)

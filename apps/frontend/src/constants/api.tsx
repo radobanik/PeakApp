@@ -12,6 +12,7 @@ export const API = {
     BY_ID: (id: string) => `${API_BASE_URL}/user/${id}`,
     BASE: `${API_BASE_URL}/user`,
     UPDATE: `${API_BASE_URL}/user/`,
+    IS_ADMIN: () => `${API_BASE_URL}/user/role/admin`,
   },
   GEO: {
     COUNTRIES: `${API_BASE_URL}/geo/countries`,

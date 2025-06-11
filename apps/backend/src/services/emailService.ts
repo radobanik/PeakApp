@@ -29,6 +29,33 @@ const baseStyles = `
   border: 1px solid #ddd;
 `
 
+const peakAppLogo = `
+  <table cellpadding="0" cellspacing="0" border="0" style="background:transparent;">
+    <tr>
+      <td style="vertical-align:middle;">
+        <span style="
+          font-family: Arial, Helvetica, sans-serif;
+          font-weight: bold;
+          font-size: 38px;
+          color: #fff;
+          letter-spacing: -2px;
+          line-height: 1;
+          background: transparent;
+          display: inline-block;
+          ">
+          PeakApp
+        </span>
+      </td>
+      <td style="vertical-align:middle; padding-left:18px;">
+        <!-- SVG recreation of the provided PNG -->
+        <svg width="90" height="30" viewBox="10 140 480 160" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+          <polygon style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" points="19.454 284.437 90.432 195.058 128.286 211.882 193.481 154.574 222.398 178.759 240.274 169.295 302.314 216.614 351.21 186.646 406.415 220.82 426.919 205.573 480.021 252.366 426.919 222.923 437.435 246.583 355.416 200.841 318.087 218.191 352.261 275.499 240.8 178.759 222.924 190.326 194.007 167.718 123.555 296.004 123.555 222.922 94.112 209.253"/>
+        </svg>
+      </td>
+    </tr>
+  </table>
+  `
+
 const likeEmailHtml = (username: string, sessionName?: string) => `
   <div style="${baseStyles}">
     <h2 style="color:#1e90ff;">👏 Someone liked your session!</h2>
@@ -49,7 +76,7 @@ const likeEmailHtml = (username: string, sessionName?: string) => `
     </div>
 
     <div style="margin-top:30px;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Strava_Logo.svg/2560px-Strava_Logo.svg.png" alt="ClimbApp Logo" style="width:100px; opacity:0.6;" />
+      ${peakAppLogo}
     </div>
   </div>
 `
@@ -74,7 +101,7 @@ const commentEmailHtml = (username: string, sessionName?: string) => `
     </div>
 
     <div style="margin-top:30px;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Strava_Logo.svg/2560px-Strava_Logo.svg.png" alt="ClimbApp Logo" style="width:100px; opacity:0.6;" />
+      ${peakAppLogo}
     </div>
   </div>
 `

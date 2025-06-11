@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma/client'
 import {
   Notification,
   NotificationCreate,
@@ -9,8 +8,9 @@ import {
 } from '../model/notification'
 import { createListResponse, ListResponse } from '../model/common/listResponse'
 import NotificationSettingsRepository from '../repositories/notificationSettings.repository'
+import prisma from '../core/prisma/client'
 
-const notificationClient = new PrismaClient().notification
+const notificationClient = prisma.notification
 
 const listByUser = async (userId: string): Promise<NotificationList[]> => {
   const settings = await NotificationSettingsRepository.getByUserId(userId)

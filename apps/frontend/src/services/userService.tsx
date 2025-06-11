@@ -1,6 +1,6 @@
 import { API } from '@/constants/api'
 import { api } from './index'
-import { UserDetailResponse, UserUpdateRequest } from '@/types/userTypes'
+import { UserDetailResponse, UserUpdateRequest, IsAdminReponse } from '@/types/userTypes'
 import { PaginatedResponse } from '@/types'
 import { UserList } from '@/types/userTypes'
 
@@ -16,6 +16,15 @@ export async function getUser(userId: string): Promise<UserDetailResponse> {
 export async function getLoggedInUser(): Promise<UserDetailResponse> {
   try {
     const response = await api.get(API.USER.BASE)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function getIsAdmin(): Promise<IsAdminReponse> {
+  try {
+    const response = await api.get(API.USER.IS_ADMIN())
     return response.data
   } catch (error) {
     throw error

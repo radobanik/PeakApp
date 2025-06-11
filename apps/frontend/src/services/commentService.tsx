@@ -29,7 +29,6 @@ export const create = async (sessionId: string, text: string): Promise<CommentLi
 }
 
 export const update = async (commentId: string, text: string): Promise<CommentList> => {
-  console.log(commentId, text)
   const response = await api.put(API.COMMENT.UPDATE(commentId), {
     text,
   })

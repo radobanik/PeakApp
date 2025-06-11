@@ -1,11 +1,11 @@
-import { PrismaClient } from '@prisma/client'
+import prisma from '../core/prisma/client'
 import {
   NotificationSettings,
   NotificationSettingsUpdate,
   notificationSettingsSelector,
 } from '../model/notificationSettings'
 
-const client = new PrismaClient().userNotificationSettings
+const client = prisma.userNotificationSettings
 
 const getByUserId = async (userId: string): Promise<NotificationSettings | null> => {
   return await client.findUnique({

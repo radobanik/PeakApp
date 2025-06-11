@@ -2,13 +2,13 @@ import { ROUTE } from '@/constants/routes'
 import { ElementType, memo } from 'react'
 import { Button } from './ui/button'
 import { Link } from 'react-router-dom'
-import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
-import diddyPfp from '@/assets/diddy.webp'
 import MapIcon from './svg/MapIcon'
 import CommunityIcon from './svg/CommunityIcon'
 import DiaryIcon from './svg/DiaryIcon'
 import { useSidebar } from './ui/sidebar'
 import { useNotificationContext } from '@/App'
+import { useProfilePictureQuery } from '@/services/queryHooks'
+import { Avatar, AvatarImage } from './ui/avatar'
 
 const MENU_ICON_BUTTONS = [
   {
@@ -31,6 +31,7 @@ const MENU_ICON_BUTTONS = [
 const MobileMenuHeader = () => {
   const { toggleSidebar } = useSidebar()
   const { unreadCount } = useNotificationContext()
+  const { data: profilePictureUrl } = useProfilePictureQuery()
 
   const renderMenuButton = ({
     title,
@@ -45,10 +46,13 @@ const MobileMenuHeader = () => {
       <Link
         to={route}
         key={title}
-        className="flex flex-1 justify-center items-center h-full px-2 py-1 gap-1"
+        className={`flex justify-center items-center h-full px-2 py-1 gap-1 `}
       >
-        <SVGIcon size="calc(var(--spacing) * 8)" />
-        <Button variant="ghost" className="flex h-full p-0 cursor-pointer">
+        <SVGIcon size="90%" />
+        <Button
+          variant="ghost"
+          className="flex h-full p-0 cursor-pointer hover:bg-transparent" // Add hover:bg-transparent
+        >
           {title}
         </Button>
       </Link>
@@ -56,11 +60,10 @@ const MobileMenuHeader = () => {
   }
 
   const renderProfileButton = () => (
-    <div onClick={toggleSidebar} className="flex flex-1 justify-center h-full px-2 py-1">
+    <div onClick={toggleSidebar} className="flex justify-center h-full px-2 py-1">
       <div className="relative h-full aspect-square flex items-center justify-center">
         <Avatar className="h-full aspect-square">
-          {/* TODO: Add fallback */}
-          <AvatarImage src={diddyPfp} className="h-full w-full rounded-full object-cover" />
+          <AvatarImage src={profilePictureUrl} />
         </Avatar>
 
         {unreadCount > 0 && (
@@ -73,7 +76,7 @@ const MobileMenuHeader = () => {
   )
 
   return (
-    <nav className="flex h-14  w-full  bg-background-menu">
+    <nav className="flex justify-evenly h-14 w-full gap-x-1 px-1 bg-background-menu">
       {MENU_ICON_BUTTONS.map(renderMenuButton)}
       {renderProfileButton()}
     </nav>

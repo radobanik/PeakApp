@@ -1,8 +1,7 @@
 import NoBoulderPhoto from '@/assets/NoBoulderPhoto.jpg'
 import { FC, useEffect, useState } from 'react'
-import { Avatar } from '@radix-ui/react-avatar'
+import { Avatar } from '@/components/ui/avatar'
 import { AvatarImage } from './ui/avatar'
-import diddyPfp from '@/assets/diddy.webp'
 import { Separator } from './ui/separator'
 import { Link } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
@@ -17,6 +16,7 @@ export type CommunitySessionProps = {
 
 const CommunitySession: FC<CommunitySessionProps> = ({ session }: CommunitySessionProps) => {
   const [sessionPhoto, setSessionPhoto] = useState(NoBoulderPhoto)
+  const [profilePictureUrl, setProfilePictureUrl] = useState<string | undefined>()
 
   const featureFlagsQuery = useFeatureFlagsQuery()
 
@@ -28,9 +28,13 @@ const CommunitySession: FC<CommunitySessionProps> = ({ session }: CommunitySessi
         const photoFile = await getFile(photo.id)
         setSessionPhoto(photoFile.url)
       }
+      if (session.createdBy?.profilePictureId) {
+        const profilePicture = await getFile(session.createdBy.profilePictureId)
+        setProfilePictureUrl(profilePicture.url)
+      }
     }
     getPhoto()
-  }, [])
+  }, [session])
 
   const renderCommentsCount = () => {
     if (!featureFlagsQuery.data?.commentsEnabled) return null
@@ -51,7 +55,7 @@ const CommunitySession: FC<CommunitySessionProps> = ({ session }: CommunitySessi
           <div className="flex flex-row items-center">
             <div className="flex-1 flex flex-row items-center">
               <Avatar className="h-12 flex justify-center items-center ">
-                <AvatarImage src={diddyPfp} className="h-full rounded-full" />
+                <AvatarImage src={profilePictureUrl} className="h-full rounded-full" />
               </Avatar>
               <p className="text-sm font-bold ml-2">{session.createdBy.userName}</p>
             </div>
