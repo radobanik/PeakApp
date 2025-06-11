@@ -5,7 +5,6 @@ import { AvatarImage } from './ui/avatar'
 import { Separator } from './ui/separator'
 import { Link } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
-import Like from './Like'
 import { getFile } from '@/services/fileService'
 import { SessionCommunityList } from '@/types/sessionTypes'
 import { useFeatureFlagsQuery } from '@/services/queryHooks'
@@ -69,12 +68,9 @@ const CommunitySession: FC<CommunitySessionProps> = ({ session }: CommunitySessi
           </div>
           <Separator className="my-2" />
           <div className="flex flex-row">
-            <Like
-              likes={session.likes}
-              hasLiked={session.hasLiked}
-              sessionId={session.id}
-              className="flex-1"
-            />
+            <p className="flex-1">
+              {session.likes} like{session.likes !== 1 ? 's' : ''}
+            </p>
             {renderCommentsCount()}
           </div>
         </div>

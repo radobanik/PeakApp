@@ -17,54 +17,16 @@ export type ReportListContextType = {
 export const ReportPageContext = createContext<ReportListContextType | null>(null)
 
 export default function ReportPage() {
-  const isDetail = useMatch(ROUTE.REPORTS_DETAIL)
+  const isReportDetail = useMatch(ROUTE.REPORTS_DETAIL)
+  const isReportClimbingObject = useMatch(ROUTE.REPORTS_DETAIL_CLIMBING_OBJECT)
+  const isReportRoute = useMatch(ROUTE.REPORTS_DETAIL_ROUTE)
+  const isDetail = isReportDetail || isReportClimbingObject || isReportRoute
+
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 15 })
   const [reportStatuses, setReportStatuses] = useState<ReportStatus[]>([ReportStatus.PENDING])
   const columns: ColumnDef<ReportList>[] = useMemo(
     () => [
       { accessorKey: 'title', header: 'Title' },
-      {
-        accessorKey: 'createdBy',
-        header: 'Reporter',
-        cell: ({ row }) => {
-          const user = row.original.createdBy
-          return (
-            <span>
-              {user.firstName} {user.lastName}
-            </span>
-          )
-        },
-      },
-      {
-        accessorKey: 'createdAt',
-        header: 'Created At',
-        cell: ({ row }) => {
-          const date = new Date(row.original.createdAt)
-          return (
-            <span>
-              {date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: '2-digit',
-              })}
-            </span>
-          )
-        },
-      },
-      {
-        accessorKey: 'enitityType',
-        header: 'Type',
-        cell: ({ row }) => {
-          const entityType = row.original.route
-            ? 'Route'
-            : row.original.climbingObject
-              ? 'Climbing Object'
-              : 'Unknown'
-          return <span>{entityType}</span>
-        },
-      },
       {
         id: 'reportStatus',
         header: () => (
@@ -90,6 +52,22 @@ export default function ReportPage() {
             >
               {status === ReportStatus.RESOLVED ? 'Resolved' : 'Pending'}
             </Badge>
+          )
+        },
+      },
+      {
+        accessorKey: 'createdAt',
+        header: 'Created At',
+        cell: ({ row }) => {
+          const date = new Date(row.original.createdAt)
+          return (
+            <span>
+              {date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </span>
           )
         },
       },
@@ -128,8 +106,8 @@ export default function ReportPage() {
 
   return (
     <ReportPageContext.Provider value={{ refresh }}>
-      <div className="flex justify-center space-x-4 h-full w-full min-h-[400px] overflow-auto">
-        <div className={cn('flex-1 h-full', isDetail ? 'hidden sm:flex' : '')}>
+      <div className="flex space-x-4 h-full w-full">
+        <div className={cn('flex-1 min-w-0 h-full', isDetail ? 'hidden sm:flex' : '')}>
           <TableList
             data={reportsQuery.data}
             isLoading={reportsQuery.isLoading}
@@ -139,6 +117,7 @@ export default function ReportPage() {
             pagination={pagination}
             setPagination={setPagination}
             columnDefiniton={columns}
+            initialColumnVisibility={{ createdAt: false, resolvedAt: false }}
             parentRoute={ROUTE.REPORTS}
             noResult={<div className="text-center">No reports found</div>}
           />

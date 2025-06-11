@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
 import FilterDialog from './filter/MapFilterDialog'
 import { FilterClimbingObjectListParams } from '@/types/climbingObjectTypes'
+import { MAX_ZOOM_LEVEL, MIN_ZOOM_LEVEL } from '@/constants/map'
 
 type MapControlsProps = {
   zoomLevel: number
@@ -19,9 +20,6 @@ type MapControlsProps = {
   onApplyFilters: (f: FilterClimbingObjectListParams) => void
   setIsPoiCreationOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
-
-const MAX_ZOOM_LEVEL = 18
-const MIN_ZOOM_LEVEL = 3
 
 const MapControls = memo(function MapControls({
   zoomLevel,

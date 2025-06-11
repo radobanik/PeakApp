@@ -31,8 +31,12 @@ const ActivityTableEntry: FC<ActivityTableEntryProps> = ({
   }, [entry.imageId])
 
   return (
-    <Link to={`${ROUTE.ACTIVITIES}/${entry.id}`} state={{ from: backRoute }} className="w-full">
-      <div className="bg-stone-300 rounded-md p-2 flex flex-row gap-2 justify-between m-1 w-[90vw] items-center">
+    <Link
+      to={`${ROUTE.ACTIVITIES}/${entry.id}`}
+      state={{ from: backRoute }}
+      className="w-full flex justify-center"
+    >
+      <div className="bg-stone-300 rounded-md p-2 flex flex-row gap-2 justify-between m-1 w-[90%] items-center">
         <div className="w-full">
           <h3 className="text-2xl">{entry.routeName}</h3>
           <div className="flex flex-row justify-between">
@@ -46,7 +50,7 @@ const ActivityTableEntry: FC<ActivityTableEntryProps> = ({
         </div>
         <img
           src={image === null ? noBoulderPhoto : image.url}
-          className="rounded-md max-w-[25%] h-[5em] object-contain lg:max-w-[10%] lg:h-[5em]"
+          className="rounded-md max-w-[25%] h-[5em] object-contain lg:h-[5em]"
           alt="Route"
         />
       </div>

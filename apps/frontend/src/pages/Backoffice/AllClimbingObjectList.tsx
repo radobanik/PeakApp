@@ -4,9 +4,10 @@ import { ClimbingObjectList } from '@/types/climbingObjectTypes'
 import { useQuery } from '@tanstack/react-query'
 import { getFilteredClimbingObject } from '@/services/climbingObjectService'
 import { TableList } from '../../components/backoffice/TableList'
-import { Outlet, useMatch } from 'react-router-dom'
+import { Link, Outlet, useMatch } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
 import { cn } from '@/lib/utils'
+import { X } from 'lucide-react'
 
 // Extend the ColumnMeta interface to include className
 // ESLint exceptionn is needed as TS is shit
@@ -52,9 +53,10 @@ export default function AllClimbingObjectList() {
       pageSize: pagination.pageSize,
     }),
   })
+
   return (
-    <div className="flex justify-center space-x-4 h-full w-full">
-      <div className={cn('flex-1 h-full', isDetail ? 'hidden sm:flex' : '')}>
+    <div className="flex space-x-4 h-full w-full">
+      <div className={cn('flex-1 min-w-0 h-full', isDetail ? 'hidden sm:flex' : '')}>
         <TableList
           data={objectsQuery.data}
           isLoading={objectsQuery.isLoading}
@@ -64,13 +66,23 @@ export default function AllClimbingObjectList() {
           pagination={pagination}
           setPagination={setPagination}
           columnDefiniton={columns}
+          initialColumnVisibility={{ location: false }}
           parentRoute={ROUTE.ALL_CLIMBING_OBJECTS}
           noResult={<div className="text-center">No climbing objects found</div>}
         />
       </div>
       {isDetail && (
-        <div className="rounded-md border flex-1 max-w-[500px] mt-4">
-          <Outlet />
+        <div className={cn(' flex-1 max-w-[500px] min-w-[300px] mt-4', 'sm:rounded-md sm:border')}>
+          <div className="flex flex-col w-full h-full">
+            <div className="flex justify-end">
+              <Link to={ROUTE.ALL_CLIMBING_OBJECTS}>
+                <X className="w-6 h-6 mt-2 mr-2" />
+              </Link>
+            </div>
+            <div className="flex flex-1 w-full overflow-auto">
+              <Outlet />
+            </div>
+          </div>
         </div>
       )}
     </div>

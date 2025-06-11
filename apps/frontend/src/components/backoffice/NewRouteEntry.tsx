@@ -3,7 +3,6 @@ import { RouteSummary } from '@/types/routeTypes'
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
 import { Badge } from '../ui/badge'
-import { ApproveDropDown } from './ApproveDropDown'
 
 export type NewRouteEntryProps = RouteSummary & { approveState: boolean | null }
 
@@ -12,7 +11,7 @@ const NewObjectEntry: FC<NewRouteEntryProps> = (props: NewRouteEntryProps) => {
     <Link to={`${props.id}`}>
       <div
         className={cn(
-          'flex flex-row items-center h-15 min-w-80 hover:bg-stone-200 outline-1 outline-stone-400 rounded-md p-5 mb-2',
+          'flex flex-row items-center h-15 min-w-70 hover:bg-stone-200 outline-1 outline-stone-400 rounded-md p-5 mb-2',
           props.approveState === true && 'bg-green-200',
           props.approveState === false && 'bg-red-200'
         )}
@@ -32,7 +31,6 @@ const NewObjectEntry: FC<NewRouteEntryProps> = (props: NewRouteEntryProps) => {
         >
           <p>{props.grade.name}</p>
         </Badge>
-        <ApproveDropDown />
       </div>
     </Link>
   )

@@ -10,10 +10,15 @@ import CommentCreateTemplate from '@/components/CommentCreateTemplate'
 
 type CommentListProps = {
   sessionId: string
+  onCommentCountChange?: () => void
   className?: string
 }
 
-const CommentListing: FC<CommentListProps> = ({ sessionId, className }: CommentListProps) => {
+const CommentListing: FC<CommentListProps> = ({
+  sessionId,
+  onCommentCountChange,
+  className,
+}: CommentListProps) => {
   const [isCreateActive, setIsCreateActive] = useState(false)
 
   const commentsQuery = useInfiniteQuery<
@@ -62,8 +67,12 @@ const CommentListing: FC<CommentListProps> = ({ sessionId, className }: CommentL
           if (!oldData) return oldData
           const newPages = oldData.pages.map((page: ListCursorResponse<CommentList>) => {
             const newItems = page.items.filter((item) => item.id !== commentId)
+
             return { ...page, items: newItems }
           })
+          if (onCommentCountChange) {
+            onCommentCountChange()
+          }
           return { ...oldData, pages: newPages }
         }
       )
@@ -83,6 +92,9 @@ const CommentListing: FC<CommentListProps> = ({ sessionId, className }: CommentL
             ],
             pageParams: [null, ...oldData.pageParams],
           }
+          if (onCommentCountChange) {
+            onCommentCountChange()
+          }
           return newData
         }
       )
@@ -98,7 +110,7 @@ const CommentListing: FC<CommentListProps> = ({ sessionId, className }: CommentL
           Add new comment
         </Button>
       </div>
-      <div className="flex flex-col space-y-2 flex-1 overflow-y-auto px-2">
+      <div className="flex flex-col space-y-2 flex-1 overflow-y-auto px-1">
         {isCreateActive && (
           <CommentCreateTemplate
             onCreate={(text) => {

@@ -9,6 +9,7 @@ export type LikeProps = {
   likes: number
   hasLiked: boolean
   sessionId: string
+  onLikeChange?: () => void
   className?: string
 }
 
@@ -20,8 +21,14 @@ const Like: FC<LikeProps> = (props: LikeProps) => {
     mutationFn: () => (likeStatus ? unlike(props.sessionId) : like(props.sessionId)),
     onSuccess: () => {
       if (likeStatus) {
+        if (props.onLikeChange) {
+          props.onLikeChange()
+        }
         setLikes((prev) => prev - 1)
       } else {
+        if (props.onLikeChange) {
+          props.onLikeChange()
+        }
         setLikes((prev) => prev + 1)
       }
       setLikeStatus((prev) => !prev)

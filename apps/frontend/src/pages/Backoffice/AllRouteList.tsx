@@ -2,16 +2,16 @@ import { useState } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
 import { useQuery } from '@tanstack/react-query'
 import { getRoutes } from '@/services/routeService'
-import { ClimbingStructureType, RouteSummary } from '@/types/routeTypes'
+import { ClimbingStructureType, RouteDetail } from '@/types/routeTypes'
 import { cn, getTextColorForBackground } from '@/lib/utils'
 import { TableList } from '../../components/backoffice/TableList'
-import { Outlet, useMatch } from 'react-router-dom'
+import { Link, Outlet, useMatch } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
 import { CLIMBING_STRUCTURE_STYLES } from '@/constants/routeConstants'
+import { X } from 'lucide-react'
 
-const columns: ColumnDef<RouteSummary>[] = [
+const columns: ColumnDef<RouteDetail>[] = [
   { accessorKey: 'name', header: 'Name' },
-  { accessorKey: 'description', header: 'Description' },
   {
     accessorKey: 'grade',
     header: 'Grade',
@@ -48,19 +48,6 @@ const columns: ColumnDef<RouteSummary>[] = [
       )
     },
   },
-  {
-    id: 'location',
-    header: 'Location',
-    cell: ({ row }) => {
-      const longitude = row.original.longitude.toFixed(2)
-      const latitude = row.original.latitude.toFixed(2)
-      return (
-        <span>
-          {longitude}, {latitude}
-        </span>
-      )
-    },
-  },
 ]
 
 export default function AllRouteList() {
@@ -71,8 +58,8 @@ export default function AllRouteList() {
     queryFn: () => getRoutes(pagination.pageIndex + 1, pagination.pageSize),
   })
   return (
-    <div className="flex justify-center space-x-4 h-full w-full">
-      <div className={cn('flex-1 h-full', isDetail ? 'hidden sm:flex' : '')}>
+    <div className="flex space-x-4 h-full w-full">
+      <div className={cn('flex-1 min-w-0 h-full', isDetail ? 'hidden sm:flex' : '')}>
         <TableList
           data={routesQuery.data}
           isLoading={routesQuery.isLoading}
@@ -87,8 +74,17 @@ export default function AllRouteList() {
         />
       </div>
       {isDetail && (
-        <div className="rounded-md border flex-1 max-w-[500px] mt-4">
-          <Outlet />
+        <div className={cn(' flex-1 max-w-[500px] min-w-[300px] mt-4', 'sm:rounded-md sm:border')}>
+          <div className="flex flex-col w-full h-full">
+            <div className="flex justify-end">
+              <Link to={ROUTE.ALL_ROUTES}>
+                <X className="w-6 h-6 mt-2 mr-2" />
+              </Link>
+            </div>
+            <div className="flex flex-1 w-full overflow-auto">
+              <Outlet />
+            </div>
+          </div>
         </div>
       )}
     </div>

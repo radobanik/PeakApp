@@ -43,7 +43,7 @@ export default memo(function LMap({
         maxZoom={MAX_ZOOM_LEVEL}
       >
         <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url="https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=0SPoIk47tmSwZiQId6ol"
           maxZoom={MAX_ZOOM_LEVEL}
           className="z-0"
         />

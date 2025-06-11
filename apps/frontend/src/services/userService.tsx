@@ -6,7 +6,7 @@ import { UserList } from '@/types/userTypes'
 
 export async function getUser(userId: string): Promise<UserDetailResponse> {
   try {
-    const response = await api.get(`${API.USER}/${userId}`)
+    const response = await api.get(API.USER.BY_ID(userId))
     return response.data
   } catch (error) {
     throw error

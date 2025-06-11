@@ -45,7 +45,7 @@ export default function SessionActivityTableEntry({ entry }: SessionActivityTabl
       test-id={`session-activity-table-entry-${entry.id}`}
       onClick={handleEntryClick}
     >
-      <div className="w-[10%]] p-2 flex justify-center items-center">
+      <div className="w-[10%] p-2 flex justify-center items-center">
         <Checkbox id={entry.id} checked={checked} onClick={(e) => e.stopPropagation()} />
       </div>
       <div className="w-[60%] p-2">

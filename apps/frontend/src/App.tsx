@@ -213,7 +213,16 @@ export default function App() {
                         <Route
                           path={ROUTE.REPORTS_DETAIL}
                           element={privateRoute(<ReportDetailPage />)}
-                        />
+                        >
+                          <Route
+                            path={ROUTE.REPORTS_DETAIL + '/route/:routeId'}
+                            element={privateRoute(<RouteDetailPage />)}
+                          />
+                          <Route
+                            path={ROUTE.REPORTS_DETAIL + '/climbingObject/:climbingObjectId'}
+                            element={privateRoute(<ClimbingObjectDetailPage />)}
+                          />
+                        </Route>
                       </Route>
                       <Route
                         path={ROUTE.ALL_CLIMBING_OBJECTS}
@@ -221,14 +230,20 @@ export default function App() {
                       >
                         <Route
                           path={ROUTE.ALL_CLIMBING_OBJECTS_DETAIL}
-                          element={privateRoute(<div />)}
+                          element={privateRoute(<ClimbingObjectDetailPage />)}
                         />
                       </Route>
                       <Route path={ROUTE.ALL_ROUTES} element={privateRoute(<AllRouteList />)}>
-                        <Route path={ROUTE.ALL_ROUTES_DETAIL} element={privateRoute(<div />)} />
+                        <Route
+                          path={ROUTE.ALL_ROUTES_DETAIL}
+                          element={privateRoute(<RouteDetailPage />)}
+                        />
                       </Route>
                       <Route path={ROUTE.ALL_USERS} element={privateRoute(<AllUserList />)}>
-                        <Route path={ROUTE.ALL_USERS_DETAIL} element={privateRoute(<div />)} />
+                        <Route
+                          path={ROUTE.ALL_USERS_DETAIL}
+                          element={privateRoute(<UserSettingsPage />)}
+                        ></Route>
                       </Route>
                       <Route path={ROUTE.ANALYTICS} element={privateRoute(<Analytics />)}></Route>
                       <Route
