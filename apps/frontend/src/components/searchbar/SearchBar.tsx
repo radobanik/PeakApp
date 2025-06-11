@@ -77,7 +77,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         className="
           w-full h-9 px-4 py-2 mt-3 font-bold 
           bg-background-menu bg-opacity-5 backdrop-blur-sm
-          bg-search-background
+          bg-secondary-background
           border border-gray-200 border-opacity-50
           rounded-md shadow-md
           focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent
@@ -98,13 +98,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       {isActive && hasSuggestions && (
         <div
           ref={suggestionBoxRef}
-          className="absolute mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg z-[1001] max-h-115 overflow-y-auto text-gray-800"
+          className="absolute mt-1 w-full bg-secondary-background border border-gray-200 rounded-md shadow-lg z-[1001] max-h-115 overflow-y-auto "
         >
           {suggestions!.climbingObjects.length > 0 && (
             <div>
-              <div className="px-4 py-2 text-xs font-semibold text-gray-500 border-b">
-                Climbing Objects
-              </div>
+              <div className="px-4 py-2 text-xs font-semibold  border-b">Climbing Objects</div>
               {suggestions!.climbingObjects.map((obj) => (
                 <div
                   key={obj.id}
@@ -115,7 +113,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                   className="px-4 py-2 cursor-pointer hover:bg-blue-100"
                 >
                   <div className="font-semibold text-sm">{obj.name}</div>
-                  <div className="text-sm text-gray-600">
+                  <div className="text-sm text-foreground/60">
                     {obj.routeCount} routes | ({obj.latitude.toFixed(4)}, {obj.longitude.toFixed(4)}
                     )
                   </div>
@@ -125,9 +123,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           )}
           {suggestions!.routes.length > 0 && (
             <div>
-              <div className="px-4 py-2 text-xs font-semibold text-gray-500 border-b mt-2">
-                Routes
-              </div>
+              <div className="px-4 py-2 text-xs font-semibold  border-b mt-2">Routes</div>
               {suggestions!.routes.map((route) => (
                 <div
                   key={route.id}
@@ -140,7 +136,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                 >
                   <div className="mt-1 flex items-center space-x-2">
                     <div className="font-semibold text-sm">{route.name}</div>
-                    <div className="text-sm text-gray-600">{route.description}</div>
+                    <div className="text-sm text-foreground/60">{route.description}</div>
                   </div>
                   <div className="mt-1 flex items-center space-x-2">
                     <GradeBadge grade={route.grade} />

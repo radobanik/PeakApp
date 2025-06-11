@@ -22,6 +22,7 @@ const getSampleUsers = async () => [
     email: 'john.doe@password123.com',
     roles: [Role.USER],
     cityId: await geoRepository.getCityIdByName('Praha'),
+    birthday: new Date('1990-01-01'),
   },
   {
     id: USER_JANE_DOE_ID,
@@ -32,6 +33,7 @@ const getSampleUsers = async () => [
     email: 'jane.doe@password123.com',
     roles: [Role.USER],
     cityId: await geoRepository.getCityIdByName('Praha'),
+    birthday: new Date('1992-02-02'),
   },
   {
     id: USER_MICHAEL_SMITH_ID,
@@ -42,6 +44,7 @@ const getSampleUsers = async () => [
     email: 'michael.smith@password123.com',
     roles: [Role.MAINTANER],
     cityId: await geoRepository.getCityIdByName('Vienna'),
+    birthday: new Date('1988-03-03'),
   },
   {
     id: USER_EMILY_JOHNSON_ID,
@@ -52,6 +55,7 @@ const getSampleUsers = async () => [
     email: 'emily.johnson@password123.com',
     roles: [Role.ADMIN],
     cityId: await geoRepository.getCityIdByName('Vienna'),
+    birthday: new Date('1995-04-04'),
   },
   {
     id: USER_CHRIS_BROWN_ID,
@@ -62,6 +66,7 @@ const getSampleUsers = async () => [
     email: 'chris.brown@password123.com',
     roles: [Role.USER],
     cityId: await geoRepository.getCityIdByName('Praha'),
+    birthday: new Date('1993-05-05'),
   },
   {
     id: TOP_LOGGER_USER_ID,
@@ -72,6 +77,7 @@ const getSampleUsers = async () => [
     email: 'top.logger@password123.com',
     roles: [Role.USER, Role.MAINTANER],
     cityId: await geoRepository.getCityIdByName('Vienna'),
+    birthday: new Date('1985-06-06'),
   },
 ]
 

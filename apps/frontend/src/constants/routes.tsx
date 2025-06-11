@@ -49,6 +49,7 @@ export const SIDEBAR_ROUTES = [
     items: [
       { title: 'User', url: ROUTE.SETTINGS_USER },
       { title: 'Routes', url: ROUTE.SETTINGS_ROUTES },
+      { title: 'Notifications', url: ROUTE.SETTINGS_NOTIFICATIONS },
     ],
   },
   {
@@ -62,7 +63,6 @@ export const SIDEBAR_ROUTES = [
       { title: 'All users', url: ROUTE.ALL_USERS },
       { title: 'All achievements', url: ROUTE.ALL_ACHIEVEMENTS },
       { title: 'Analytics & Feature flags', url: ROUTE.ANALYTICS },
-      { title: 'Notifications', url: ROUTE.SETTINGS_NOTIFICATIONS },
     ],
   },
 ]

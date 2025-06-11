@@ -49,7 +49,7 @@ export default function MultiSelectDropdown({ options, selected, onChange }: Mul
       </Button>
       {open && (
         <div
-          className="absolute z-10 bg-white border rounded-md shadow-md mt-5.5 max-h-60 overflow-auto"
+          className="absolute z-10 bg-secondary-background border rounded-md shadow-md mt-5.5 max-h-60 overflow-auto"
           style={{ width: popupWidth }}
         >
           {options.map((option) => {
@@ -66,7 +66,7 @@ export default function MultiSelectDropdown({ options, selected, onChange }: Mul
                 {isSelected && <Check className="w-4 h-4 text-blue-600" />}
                 <Badge
                   className={`px-2 py-1 ${
-                    isSelected ? CLIMBING_STRUCTURE_STYLES[option] : 'bg-gray-200 text-gray-800'
+                    isSelected ? CLIMBING_STRUCTURE_STYLES[option] : 'bg-gray-200'
                   }`}
                 >
                   {option}

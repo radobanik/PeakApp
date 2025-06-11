@@ -31,7 +31,7 @@ export default function ActivityMeta() {
           className="block rounded-md max-h-[30vh] max-w-[100vw] object-contain"
           alt="Route"
         />
-        <div className="absolute bottom-1 left-1 text-2xl bg-white/60 rounded-2xl px-4">
+        <div className="absolute bottom-1 left-1 text-2xl bg-secondary-background/60 rounded-2xl px-4">
           {RouteData.isLoading && <div>Loading...</div>}
           {RouteData.isError && <div>Error: {RouteData.error.message}</div>}
           <p>{RouteData.data?.name}</p>

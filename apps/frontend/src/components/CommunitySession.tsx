@@ -49,12 +49,12 @@ const CommunitySession: FC<CommunitySessionProps> = ({ session }: CommunitySessi
     <Link to={ROUTE.COMMUNITY_DETAIL(session.id)}>
       <div className="min-w-[200px] max-w-[400px] flex flex-col">
         <img src={sessionPhoto}></img>
-        <div className="flex flex-col bg-gray-100 p-2">
+        <div className="flex flex-col bg-secondary-background p-2">
           <p className="text-md font-bold">{session.name}</p>
           <div className="flex flex-row items-center">
             <div className="flex-1 flex flex-row items-center">
               <Avatar className="h-12 flex justify-center items-center ">
-                <AvatarImage src={profilePictureUrl} className="h-full rounded-full" />
+                <AvatarImage src={profilePictureUrl} />
               </Avatar>
               <p className="text-sm font-bold ml-2">{session.createdBy.userName}</p>
             </div>

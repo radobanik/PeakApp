@@ -31,6 +31,7 @@
   --chart-5: oklch(0.769 0.188 70.08);
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.141 0.005 285.823);
+
   --sidebar-primary: oklch(0.723 0.219 149.579);
   --sidebar-primary-foreground: oklch(0.982 0.018 155.826);
   --sidebar-accent: oklch(0.967 0.001 286.375);
@@ -38,7 +39,7 @@
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: oklch(0.723 0.219 149.579);
   --button-background: oklch(0.95 0.11 105.03);
-  --search-background: var(--background);
+  --secondary-background: oklch(0.95 0.004 286.32);
 }
 
 .dark {
@@ -75,7 +76,7 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.527 0.154 150.069);
   --button-background: red;
-  --search-background: var(--background);
+  --secondary-background: oklch(0.45 0.006 285.885);
 }
 
 @theme inline {
@@ -118,7 +119,7 @@
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
   --color-button-background: var(--button-background);
-  --color-search-background: var(--search-background);
+  --color-secondary-background: var(--secondary-background);
 
   @keyframes accordion-down {
     from {

@@ -73,7 +73,7 @@ export default function CommunitySessionDetailPage() {
       )}
       {sessionQuery.isSuccess && (
         <>
-          <div className="sticky top-0 bg-white p-2 ">
+          <div className="sticky top-0 p-2 ">
             <p className="text-xl font-bold text-ellipsis text-wrap text-center">
               {sessionQuery.data.name}
             </p>
@@ -82,7 +82,7 @@ export default function CommunitySessionDetailPage() {
                 <div className="flex flex-row items-center">
                   <div className="flex-1 flex flex-row items-center">
                     <Avatar className="w-12 h-12 flex justify-center items-center ">
-                      <AvatarImage src={profilePictureUrl} className="h-full rounded-full" />
+                      <AvatarImage src={profilePictureUrl} />
                     </Avatar>
                     <p className="text-sm font-bold ml-2">{sessionQuery.data.createdBy.userName}</p>
                   </div>
@@ -128,6 +128,7 @@ export default function CommunitySessionDetailPage() {
                       topped: activity.topped,
                     }}
                     backRoute={ROUTE.COMMUNITY_DETAIL(params.id!)}
+                    isLink={false}
                   />
                 ))}
               </div>

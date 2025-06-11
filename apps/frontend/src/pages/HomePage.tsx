@@ -82,7 +82,7 @@ export default function HomePage() {
       />
       <div
         className={clsx(
-          'absolute z-2000 w-full h-90 flex flex-col items-center rounded-t-4xl overflow-hidden bottom-0 bg-background',
+          'absolute z-1000 w-full h-90 flex flex-col items-center rounded-t-4xl overflow-hidden bottom-0 bg-background',
           'transition-transform duration-400 ease-in-out',
           climbingObjectId ? 'translate-y-0' : 'translate-y-[100%]'
         )}
@@ -92,7 +92,7 @@ export default function HomePage() {
             className="w-full h-8 flex items-center justify-center cursor-grab active:cursor-grabbing"
             onClick={handleBottomSheetExpansion}
           >
-            <div className="w-10 h-1 bg-gray-300 rounded-full" />
+            <div className="w-10 h-1 bg-secondary-background rounded-full" />
           </div>
           <div className="w-[90%]">
             <h3 className="font-bold text-2xl my-3">{climbingObjectDetail?.name}</h3>

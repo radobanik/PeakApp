@@ -21,7 +21,7 @@ const validate = (entity: UserUpdate) =>
       firstName: z.string().min(1, 'First name must not be empty'),
       lastName: z.string().min(1, 'Last name must not be empty'),
       userName: z.string().min(1, 'Username must not be empty'),
-      description: z.string().min(1, 'Description must not be empty'),
+      description: z.string(),
       birthday: z.coerce.date().nullable(),
       height: z.number().positive().nullable(),
       weight: z.number().positive().nullable(),

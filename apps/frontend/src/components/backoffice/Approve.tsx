@@ -36,7 +36,7 @@ const Approve: FC<ApproveProps> = ({
         </>
       )}
       {approveState === ApprovalState.PENDING && isBlocked && (
-        <div className="flex justify-center items-center flex-1 h-full bg-gray-400 rounded-md">
+        <div className="flex justify-center items-center flex-1 h-full bg-secondary-background rounded-md">
           <Link to={`${ROUTE.NEW_CLIMBING_OBJECTS}/${climbingObjectId}`}>
             <span>Blocked by climbing object</span>
           </Link>

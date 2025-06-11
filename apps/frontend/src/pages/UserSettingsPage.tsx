@@ -19,14 +19,15 @@ import { AchievementListing } from '@/components/AchievementListing'
 import { UserDetailResponse } from '@/types/userTypes'
 import { useMatch, useParams } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
+import { useQueryClient } from '@tanstack/react-query'
 
 type FormValues = {
   username: string
   description: string
   firstName: string
   lastName: string
-  weight: string
-  height: string
+  weight: string | null
+  height: string | null
   birthday: string
   country: string
   city: string
@@ -46,8 +47,8 @@ const UserSettingsPage = () => {
       description: '',
       firstName: '',
       lastName: '',
-      weight: '',
-      height: '',
+      weight: null,
+      height: null,
       birthday: '',
       country: '',
       city: '',
@@ -65,6 +66,8 @@ const UserSettingsPage = () => {
 
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const selectedCountry = watch('country')
+
+  const queryClient = useQueryClient()
 
   const routeMatch = useMatch(ROUTE.ALL_USERS_DETAIL)
   const { id } = useParams()
@@ -177,8 +180,8 @@ const UserSettingsPage = () => {
         userName: data.username,
         description: data.description,
         birthday: new Date(data.birthday),
-        height: Number(data.height),
-        weight: Number(data.weight),
+        height: data.height === '' ? null : Number(data.height),
+        weight: data.weight === '' ? null : Number(data.weight),
         cityId: citiesData.find((city) => city.name === data.city)?.id,
         profilePictureId: uploadedAvatar?.id ?? null,
       }
@@ -189,6 +192,7 @@ const UserSettingsPage = () => {
       }
 
       toast.success('Profile updated successfully!')
+      queryClient.invalidateQueries({ queryKey: ['profilePicture'] })
     } catch {
       toast.error('Failed to update profile.')
     }
@@ -244,7 +248,7 @@ const UserSettingsPage = () => {
                   className="min-h-[80px] sm:min-h-[132px]"
                   placeholder="Tell others about your community involvement or interests..."
                   rows={4}
-                  {...register('description', { required: true })}
+                  {...register('description', { required: false })}
                 />
                 {errors.description && (
                   <span className="text-sm text-red-500">Description is required.</span>
@@ -350,7 +354,7 @@ const UserSettingsPage = () => {
               type="number"
               placeholder="70"
               {...register('weight', {
-                required: true,
+                required: false,
                 min: 1,
                 max: 200,
                 validate: (val) => !isNaN(Number(val)),
@@ -369,7 +373,7 @@ const UserSettingsPage = () => {
               type="number"
               placeholder="170"
               {...register('height', {
-                required: true,
+                required: false,
                 min: 50,
                 max: 250,
                 validate: (val) => !isNaN(Number(val)),

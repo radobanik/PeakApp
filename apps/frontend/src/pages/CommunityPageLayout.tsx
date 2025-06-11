@@ -4,7 +4,13 @@ import CommunityPosts, { CommunityPostsContext } from '@/components/CommunityPos
 import { CommunityVariant } from '@/types/utilsTypes'
 import { Outlet, useMatch, useNavigate } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { InfiniteData, useQueryClient } from '@tanstack/react-query'
 import { ListCursorResponse } from '@/types'
@@ -151,6 +157,7 @@ export default function CommunityPageLayout() {
             <DialogContent className="h-[90vh] w-[90vw] min-w-[300px] min-h-[360px]">
               <DialogHeader>
                 <DialogTitle></DialogTitle>
+                <DialogDescription className="sr-only"></DialogDescription>
               </DialogHeader>
               <Outlet />
             </DialogContent>

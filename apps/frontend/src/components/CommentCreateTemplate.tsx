@@ -12,7 +12,7 @@ const Comment: FC<CommentProps> = (props: CommentProps) => {
   const [text, setText] = useState('')
 
   return (
-    <div className="flex flex-col bg-gray-100 p-2 rounded-md">
+    <div className="flex flex-col bg-secondary-background p-2 rounded-md">
       <div className="flex flex-row w-full items-center"></div>
       <div className="flex flex-col mt-2">
         <Textarea

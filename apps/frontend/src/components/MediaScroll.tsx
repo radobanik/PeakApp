@@ -90,7 +90,7 @@ const MediaScroll: FC<MediaScrollProps> = ({ media, setMedia, editable }: MediaS
           {/* Add new media square */}
           {editable && (
             <div
-              className="bg-gray-200 rounded-lg flex items-center justify-center cursor-pointer active:bg-gray-300 transition-colors duration-300"
+              className="bg-secondary-background rounded-lg flex items-center justify-center cursor-pointer active:bg-gray-300 transition-colors duration-300"
               onClick={triggerFileInput}
               style={{ height: rootHeight, width: rootHeight }}
             >

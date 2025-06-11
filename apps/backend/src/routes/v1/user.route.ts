@@ -10,12 +10,17 @@ const userRouter = Router()
 
 /**
  * @swagger
- * /users:
+ * /user:
  *   get:
- *     summary: Get logged-in user
+ *     tags:
+ *       - User
+ *     summary: Get user information
+ *     description: Retrieves the current user's information
  *     responses:
  *       200:
- *         description: returns the logged-in user
+ *         description: Successfully retrieved user information
+ *       401:
+ *         description: Unauthorized
  */
 userRouter.get(
   '/',

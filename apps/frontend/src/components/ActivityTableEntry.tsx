@@ -10,11 +10,13 @@ import { getFile } from '@/services/fileService'
 export type ActivityTableEntryProps = {
   entry: ActivityEntry
   backRoute: string
+  isLink?: boolean
 }
 
 const ActivityTableEntry: FC<ActivityTableEntryProps> = ({
   entry,
   backRoute,
+  isLink = true,
 }: ActivityTableEntryProps) => {
   const date = new Date(entry.climbedAt).toLocaleDateString()
   const isSingleAttempt = entry.numOfAttempts === 1
@@ -30,13 +32,9 @@ const ActivityTableEntry: FC<ActivityTableEntryProps> = ({
     }
   }, [entry.imageId])
 
-  return (
-    <Link
-      to={`${ROUTE.ACTIVITIES}/${entry.id}`}
-      state={{ from: backRoute }}
-      className="w-full flex justify-center"
-    >
-      <div className="bg-background-menu rounded-md p-2 flex flex-row gap-2 justify-between m-1 w-[90%] items-center">
+  const renderContent = () => {
+    return (
+      <div className="bg-secondary-background rounded-md p-2 flex flex-row gap-2 justify-between m-1 w-[90%] items-center">
         <div className="w-full">
           <h3 className="text-2xl">{entry.routeName}</h3>
           <div className="flex flex-row justify-between">
@@ -54,7 +52,19 @@ const ActivityTableEntry: FC<ActivityTableEntryProps> = ({
           alt="Route"
         />
       </div>
+    )
+  }
+
+  return isLink ? (
+    <Link
+      to={`${ROUTE.ACTIVITIES}/${entry.id}`}
+      state={{ from: backRoute }}
+      className="w-full flex justify-center"
+    >
+      {renderContent()}
     </Link>
+  ) : (
+    renderContent()
   )
 }
 

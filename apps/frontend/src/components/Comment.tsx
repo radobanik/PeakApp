@@ -45,7 +45,7 @@ const Comment: FC<CommentProps> = ({
   })
 
   return (
-    <div className="flex flex-col bg-gray-100 p-2 rounded-md">
+    <div className="flex flex-col bg-secondary-background p-2 rounded-md">
       <div className="flex flex-row w-full items-center">
         <div className="flex-1 flex flex-row space-x-2 items-center">
           <Avatar className="h-12 w-12 flex justify-center items-center">

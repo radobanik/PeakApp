@@ -61,7 +61,7 @@ export function SingleSelectDropdown<T extends DropdownOption>({
           )}
         </Button>
         {open && (
-          <div className="absolute z-10 bg-white border rounded-md shadow-md mt-1 max-h-58 overflow-auto w-full">
+          <div className="absolute z-10 bg-secondary-background border rounded-md shadow-md mt-1 max-h-58 overflow-auto w-full">
             {options.map((option) => (
               <div
                 key={option.id}

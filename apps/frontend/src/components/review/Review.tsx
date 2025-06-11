@@ -32,8 +32,8 @@ const Review = ({ createdAt, createdBy, stars, text }: ReviewProps) => {
     <div className="flex flex-col py-2">
       {/* User photo, name, date, stars */}
       <div className="flex items-center space-x-2">
-        <Avatar>
-          <AvatarImage src={pfpUrl} alt="User Avatar" className="bg-purple-100" />
+        <Avatar className="h-10 w-10">
+          <AvatarImage src={pfpUrl} alt="User Avatar" />
         </Avatar>
         <span className="font-semibold">{userFullName}</span>
         <span className="text-sm text-gray-400">{postedAgo}</span>

@@ -109,7 +109,7 @@ export default function SessionActivitiesInput() {
   return (
     <div className="flex flex-col gap-4 items-end">
       <Button
-        className="w-[30%] m-2 "
+        className="m-2 "
         onClick={() => handleCheckedEntries(checkedEntriesIds, selectedEntriesIds)}
       >
         Save Changes

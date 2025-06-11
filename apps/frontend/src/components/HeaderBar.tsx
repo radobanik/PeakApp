@@ -38,10 +38,7 @@ function HeaderBar() {
           className="relative h-full flex items-center justify-center"
         >
           <Avatar className="h-full aspect-square flex justify-center items-center">
-            <AvatarImage
-              src={profilePictureUrl}
-              className="h-full w-full rounded-full object-cover"
-            />
+            <AvatarImage src={profilePictureUrl} />
           </Avatar>
 
           {unreadCount > 0 && (

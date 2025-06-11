@@ -25,6 +25,7 @@ enum DRAWING_MODE {
 
 const DEFAULT_ROUTE_COLORS = [COLOR.RED, COLOR.GREEN, COLOR.BLUE, COLOR.YELLOW, COLOR.MAGENTA]
 const DEFAULT_STROKE_WIDTH = 6
+const STROKE_WIDTHS = [3, 6, 9, 12]
 
 type EditorOverlayProps = {
   onClose: () => void
@@ -37,7 +38,6 @@ export function EditorOverlay({ onClose, onSave, initialImage }: EditorOverlayPr
   const [drawingMode, setDrawingMode] = useState<DRAWING_MODE>(DRAWING_MODE.FREEHAND)
   const [isDrawing, setIsDrawing] = useState(false)
   const [points, setPoints] = useState<Point[]>([])
-  const [selectedImage, setSelectedImage] = useState<string | null>(initialImage || null)
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 })
   const [history, setHistory] = useState<HistoryState[]>([])
   const [currentHistoryIndex, setCurrentHistoryIndex] = useState(-1)
@@ -45,17 +45,42 @@ export function EditorOverlay({ onClose, onSave, initialImage }: EditorOverlayPr
   const [placingEnd, setPlacingEnd] = useState(false)
   const [startPoint, setStartPoint] = useState<Point | null>(null)
   const [endPoint, setEndPoint] = useState<Point | null>(null)
+  const [originalImageSize, setOriginalImageSize] = useState<{
+    width: number
+    height: number
+  } | null>(null)
+  const [strokeWidth, setStrokeWidth] = useState(DEFAULT_STROKE_WIDTH)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const contextRef = useRef<CanvasRenderingContext2D | null>(null)
 
-  const loadImage = (imageSrc: string, width: number, height: number) => {
+  const loadImage = (imageSrc: string, containerWidth: number, containerHeight: number) => {
     const img = new Image()
     img.crossOrigin = 'anonymous'
 
     img.onload = () => {
       if (!canvasRef.current || !contextRef.current) return
 
-      contextRef.current.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
+      // Store original dimensions
+      if (!originalImageSize) {
+        setOriginalImageSize({ width: img.width, height: img.height })
+      }
+
+      // Calculate dimensions maintaining aspect ratio
+      const ratio = Math.min(containerWidth / img.width, containerHeight / img.height)
+      const width = img.width * ratio
+      const height = img.height * ratio
+
+      // Update canvas size
+      canvasRef.current.width = width
+      canvasRef.current.height = height
+      setCanvasSize({ width, height })
+
+      // Center canvas in container
+      if (canvasRef.current.style) {
+        canvasRef.current.style.marginLeft = `${(containerWidth - width) / 2}px`
+      }
+
+      contextRef.current.clearRect(0, 0, width, height)
       contextRef.current.drawImage(img, 0, 0, width, height)
     }
 
@@ -68,10 +93,7 @@ export function EditorOverlay({ onClose, onSave, initialImage }: EditorOverlayPr
       const container = canvas.parentElement!
 
       const updateCanvasSize = () => {
-        const { width, height } = container.getBoundingClientRect()
-        setCanvasSize({ width, height })
-        canvas.width = width
-        canvas.height = height
+        const { width: containerWidth, height: containerHeight } = container.getBoundingClientRect()
 
         const context = canvas.getContext('2d')
         if (context) {
@@ -79,9 +101,13 @@ export function EditorOverlay({ onClose, onSave, initialImage }: EditorOverlayPr
           context.lineCap = 'round'
           contextRef.current = context
 
-          // Redraw image if exists
-          if (selectedImage) {
-            loadImage(selectedImage, width, height)
+          if (initialImage) {
+            loadImage(initialImage, containerWidth, containerHeight)
+          } else {
+            // Default size if no image
+            canvas.width = containerWidth
+            canvas.height = containerHeight
+            setCanvasSize({ width: containerWidth, height: containerHeight })
           }
         }
       }
@@ -90,30 +116,15 @@ export function EditorOverlay({ onClose, onSave, initialImage }: EditorOverlayPr
       window.addEventListener('resize', updateCanvasSize)
       return () => window.removeEventListener('resize', updateCanvasSize)
     }
-  }, [selectedImage])
+  }, [initialImage])
 
-  // Update context color separately
   useEffect(() => {
     if (contextRef.current) {
       contextRef.current.strokeStyle = selectedColor
       contextRef.current.fillStyle = selectedColor
+      contextRef.current.lineWidth = strokeWidth
     }
-  }, [selectedImage, selectedColor])
-
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        const dataUrl = e.target?.result as string
-        setSelectedImage(dataUrl)
-        if (contextRef.current && canvasRef.current) {
-          loadImage(dataUrl, canvasSize.width, canvasSize.height)
-        }
-      }
-      reader.readAsDataURL(file)
-    }
-  }
+  }, [contextRef.current, selectedColor, strokeWidth])
 
   const saveToHistory = () => {
     if (!canvasRef.current) return
@@ -137,8 +148,8 @@ export function EditorOverlay({ onClose, onSave, initialImage }: EditorOverlayPr
     const ctx = contextRef.current
     ctx.clearRect(0, 0, canvasSize.width, canvasSize.height)
 
-    if (selectedImage) {
-      loadImage(selectedImage, canvasSize.width, canvasSize.height)
+    if (initialImage) {
+      loadImage(initialImage, canvasSize.width, canvasSize.height)
     }
 
     setStartPoint(null)
@@ -309,17 +320,12 @@ export function EditorOverlay({ onClose, onSave, initialImage }: EditorOverlayPr
 
   return (
     <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg w-full max-w-6xl max-h-[90vh] overflow-auto p-4">
-        <div className="mb-4 space-y-4">
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageUpload}
-            className="block w-full text-sm text-gray-500"
-          />
-
-          <div className="flex gap-4 items-center">
-            <div className="flex gap-2">
+      <div className="bg-secondary-background rounded-lg w-full max-w-6xl max-h-[90vh] overflow-auto p-4">
+        <div className="mb-4 flex flex-col gap-4">
+          {/* Toolbar now stacks on mobile, stays horizontal on desktop */}
+          <div className="flex flex-col sm:flex-row gap-4">
+            {/* Color picker section */}
+            <div className="flex flex-wrap gap-2 items-center">
               {DEFAULT_ROUTE_COLORS.map((color) => (
                 <button
                   key={color}
@@ -331,28 +337,55 @@ export function EditorOverlay({ onClose, onSave, initialImage }: EditorOverlayPr
                   }}
                 />
               ))}
+              <input
+                type="color"
+                value={selectedColor}
+                onChange={(e) => setSelectedColor(e.target.value as COLOR)}
+                className="w-8 h-8"
+              />
             </div>
-            <input
-              type="color"
-              value={selectedColor}
-              onChange={(e) => setSelectedColor(e.target.value as COLOR)}
-              className="w-8 h-8"
-            />
-            <select
-              value={drawingMode}
-              onChange={(e) => setDrawingMode(e.target.value as DRAWING_MODE)}
-              className="border rounded px-2 py-1"
-            >
-              <option value={DRAWING_MODE.FREEHAND}>Freehand</option>
-              <option value={DRAWING_MODE.POINTS}>Points</option>
-            </select>
 
-            <div className="flex gap-2 ml-4">
+            {/* Stroke width selector */}
+            <div className="flex items-center gap-2">
+              {STROKE_WIDTHS.map((width) => (
+                <button
+                  key={width}
+                  onClick={() => setStrokeWidth(width)}
+                  className={`h-8 px-3 rounded ${
+                    strokeWidth === width ? 'bg-blue-500 text-white' : 'bg-secondary-background'
+                  }`}
+                  title={`Stroke width ${width}`}
+                >
+                  <div
+                    className="bg-current rounded-full"
+                    style={{
+                      width: width * 2,
+                      height: width * 2,
+                    }}
+                  />
+                </button>
+              ))}
+            </div>
+
+            {/* Drawing mode selector */}
+            <div className="flex items-center">
+              <select
+                value={drawingMode}
+                onChange={(e) => setDrawingMode(e.target.value as DRAWING_MODE)}
+                className="border rounded px-2 py-1"
+              >
+                <option value={DRAWING_MODE.FREEHAND}>Freehand</option>
+                <option value={DRAWING_MODE.POINTS}>Points</option>
+              </select>
+            </div>
+
+            {/* Action buttons */}
+            <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setPlacingStart(true)}
                 disabled={placingEnd || startPoint !== null}
                 className={`px-3 py-1 ${
-                  placingStart ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'
+                  placingStart ? 'bg-blue-500 text-white' : 'bg-secondary-background'
                 } rounded`}
                 title="Place start point"
               >
@@ -362,7 +395,7 @@ export function EditorOverlay({ onClose, onSave, initialImage }: EditorOverlayPr
                 onClick={() => setPlacingEnd(true)}
                 disabled={placingStart || endPoint !== null}
                 className={`px-3 py-1 ${
-                  placingEnd ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'
+                  placingEnd ? 'bg-blue-500 text-white' : 'bg-secondary-background'
                 } rounded`}
                 title="Place end point"
               >
@@ -371,7 +404,7 @@ export function EditorOverlay({ onClose, onSave, initialImage }: EditorOverlayPr
               <button
                 onClick={handleUndo}
                 disabled={currentHistoryIndex < 0}
-                className="px-3 py-1 bg-gray-200 text-gray-700 rounded disabled:opacity-50"
+                className="px-3 py-1 bg-secondary-background rounded disabled:opacity-50"
                 title="Undo"
               >
                 ↩
@@ -379,7 +412,7 @@ export function EditorOverlay({ onClose, onSave, initialImage }: EditorOverlayPr
               <button
                 onClick={handleRedo}
                 disabled={currentHistoryIndex >= history.length - 1}
-                className="px-3 py-1 bg-gray-200 text-gray-700 rounded disabled:opacity-50"
+                className="px-3 py-1 bg-secondary-background rounded disabled:opacity-50"
                 title="Redo"
               >
                 ↪
@@ -394,7 +427,8 @@ export function EditorOverlay({ onClose, onSave, initialImage }: EditorOverlayPr
           </div>
         </div>
 
-        <div className="relative border border-gray-300 rounded" style={{ height: '600px' }}>
+        {/* Canvas container with responsive height */}
+        <div className="relative border border-gray-300 rounded h-[50vh] sm:h-[600px] flex items-center justify-center">
           <canvas
             ref={canvasRef}
             onClick={handleCanvasClick}
@@ -402,7 +436,7 @@ export function EditorOverlay({ onClose, onSave, initialImage }: EditorOverlayPr
             onMouseMove={draw}
             onMouseUp={stopDrawing}
             onMouseLeave={stopDrawing}
-            className="absolute top-0 left-0 w-full h-full"
+            className="absolute"
             style={{
               touchAction: 'none',
               cursor: placingStart || placingEnd ? 'crosshair' : 'default',
@@ -411,7 +445,7 @@ export function EditorOverlay({ onClose, onSave, initialImage }: EditorOverlayPr
         </div>
 
         <div className="mt-4 flex justify-end gap-2">
-          <button onClick={onClose} className="px-4 py-2 bg-gray-500 text-white rounded">
+          <button onClick={onClose} className="px-4 py-2 bg-secondary-background rounded">
             Cancel
           </button>
           <button onClick={handleSave} className="px-4 py-2 bg-blue-500 text-white rounded">
