@@ -146,12 +146,16 @@ const changeApprovalState = async (
   })
 }
 
-const listAllContainsTokenInName = async (token: string): Promise<ClimbingObjectList[]> => {
+const listAllContainsTokenInName = async (
+  token: string,
+  allowedApprovalState: ApprovalState[]
+): Promise<ClimbingObjectList[]> => {
   const climbingObjectsRawOutput: ClimbingObjectListQueryOutput[] =
     await climbingObjectClient.findMany({
       where: {
         deleted: false,
         OR: [{ name: { contains: token, mode: 'insensitive' } }],
+        approvalState: { in: allowedApprovalState },
       },
       select: climbingObjectListSelector({}),
     })

@@ -1,4 +1,5 @@
 import { CreateClimbingObjectDialog } from '@/components/dialog/CreateClimbingObjectDialog'
+import { INITIAL_FILTERS } from '@/components/filter/MapFilterDialog'
 import LMap from '@/components/LMap'
 import RouteListTable from '@/components/RouteListTable'
 import { ROUTE } from '@/constants/routes'
@@ -17,7 +18,7 @@ export default function HomePage() {
   const [climbingObjectDetail, setClimbingObjectDetail] = useState<ClimbingObjectDetail | null>(
     null
   )
-  const [filters, setFilters] = useState<FilterClimbingObjectListParams | null>(null)
+  const [filters, setFilters] = useState<FilterClimbingObjectListParams | null>(INITIAL_FILTERS)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isPoiCreationOpen, setIsPoiCreationOpen] = useState<boolean>(false)
 

@@ -149,13 +149,17 @@ const changeApprovalState = async (
   return flattenAdditionalImages(nestedDetail as unknown as RouteDetailDeepImage)
 }
 
-const listAllContainsTokenInName = async (token: string): Promise<RouteList[]> => {
+const listAllContainsTokenInName = async (
+  token: string,
+  allowedApprovalState: ApprovalState[]
+): Promise<RouteList[]> => {
   return routeClient.findMany({
     where: {
       name: {
         contains: token,
         mode: 'insensitive',
       },
+      approvalState: { in: allowedApprovalState },
       deleted: false,
     },
     select: routeListSelector,

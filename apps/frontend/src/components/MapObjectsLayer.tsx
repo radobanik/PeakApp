@@ -81,7 +81,6 @@ const MapObjectLayer = ({
   filters,
 }: MapObjectLayerProps) => {
   const map = useMap()
-
   const markersRef = useRef<Map<string, L.Marker>>(new Map()) // Store markers by idx
   const climbingObjectClusterRef = useRef<L.MarkerClusterGroup | null>(null)
   const routesClusterRef = useRef<L.MarkerClusterGroup | null>(null)

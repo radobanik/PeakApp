@@ -5,7 +5,8 @@ import { Role } from '@prisma/client'
 
 const routeRouter = Router()
 
-routeRouter.get('/', RouteController.list)
+routeRouter.get('/', RouteController.listForAllUsers)
+routeRouter.get('/backoffice', checkRoles([Role.ADMIN]), RouteController.listForBackOffice)
 routeRouter.get('/:id', RouteController.getById)
 routeRouter.post('/', RouteController.create)
 routeRouter.put('/:id', RouteController.update)

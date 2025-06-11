@@ -22,6 +22,7 @@ import { getFeatureFlags } from '../utils/featureFlags'
 const getById = async (req: Request, res: Response) => {
   const params = req.query as unknown as IncommingClimbingObjectListParams
   const normalizedParams: NonNullClimbingObjectListParams = defaultClimbingObjectListParams(params)
+  const featureFlags = await getFeatureFlags()
 
   const climbingObjectId = req.params.id
   const climbingObject = await ClimbingObjectRepository.getById(climbingObjectId)
@@ -31,9 +32,12 @@ const getById = async (req: Request, res: Response) => {
     return
   }
 
-  normalizedParams.approvalStates = normalizedParams.routeApprovalStates.filter(
-    (state) => state !== ApprovalState.REJECTED
+  normalizedParams.routeApprovalStates = normalizedParams.routeApprovalStates.filter(
+    (state) =>
+      state !== ApprovalState.REJECTED &&
+      (!featureFlags.showApprovedOnly || state === ApprovalState.APPROVED)
   )
+
   const filteredRoutes = climbingObject.routes.filter(
     (route) =>
       route.grade.rating >= normalizedParams.ratingFrom &&
@@ -48,7 +52,7 @@ const getById = async (req: Request, res: Response) => {
   })
 }
 
-const list = async (req: Request, res: Response) => {
+const list = async (req: Request, res: Response, backOfficeList: boolean) => {
   const params = req.query as unknown as IncommingClimbingObjectListParams
   const normalizedParams: NonNullClimbingObjectListParams = defaultClimbingObjectListParams(params)
   const featureFlags = await getFeatureFlags()
@@ -89,7 +93,13 @@ const list = async (req: Request, res: Response) => {
       { climbingStructureType: { in: normalizedParams.climbingStructureTypes } },
       { grade: { rating: { gte: normalizedParams.ratingFrom, lte: normalizedParams.ratingTo } } },
       { name: { contains: normalizedParams.routeName as string, mode: 'insensitive' } },
-      { approvalState: { in: normalizedParams.routeApprovalStates } },
+      {
+        approvalState:
+          featureFlags.showApprovedOnly && !backOfficeList
+            ? ApprovalState.APPROVED
+            : { in: normalizedParams.routeApprovalStates },
+      },
+      { deleted: false },
     ],
   }
 
@@ -106,9 +116,10 @@ const list = async (req: Request, res: Response) => {
             }),
           },
           {
-            approvalState: featureFlags.showApprovedOnly
-              ? ApprovalState.APPROVED
-              : { in: normalizedParams.approvalStates },
+            approvalState:
+              featureFlags.showApprovedOnly && !backOfficeList
+                ? ApprovalState.APPROVED
+                : { in: normalizedParams.approvalStates },
           },
           { deleted: false },
         ],
@@ -127,6 +138,14 @@ const list = async (req: Request, res: Response) => {
     normalizedParams.pageSize
   )
   res.status(HTTP_STATUS.OK_200).json(climbingObjectListResult)
+}
+
+const listForAllUsers = async (req: Request, res: Response) => {
+  await list(req, res, false)
+}
+
+const listForBackOffice = async (req: Request, res: Response) => {
+  await list(req, res, true)
 }
 
 const create = async (req: Request<ClimbingObjectCreate>, res: Response) => {
@@ -236,6 +255,7 @@ export default {
   create,
   update,
   deleteById,
-  list,
+  listForAllUsers,
+  listForBackOffice,
   changeApprovalState,
 }

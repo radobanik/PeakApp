@@ -28,7 +28,7 @@ const getById = async (req: Request, res: Response) => {
   }
 }
 
-const list = async (req: Request, res: Response) => {
+const list = async (req: Request, res: Response, backOfficeList: boolean) => {
   const params = req.query as unknown as IncommingRouteListParams
   const normalizedParams: NonNullRouteListParams = defaultRouteListParams(params)
   const featureFlags = await getFeatureFlags()
@@ -42,9 +42,10 @@ const list = async (req: Request, res: Response) => {
           { latitude: { gte: normalizedParams.latitudeFrom, lte: normalizedParams.latitudeTo } },
           { climbingStructureType: { in: normalizedParams.climbingStructureTypes } },
           {
-            approvalState: featureFlags.showApprovedOnly
-              ? ApprovalState.APPROVED
-              : { in: normalizedParams.approvalStates },
+            approvalState:
+              featureFlags.showApprovedOnly && !backOfficeList
+                ? ApprovalState.APPROVED
+                : { in: normalizedParams.approvalStates },
           },
           { deleted: false },
         ],
@@ -62,6 +63,13 @@ const list = async (req: Request, res: Response) => {
     normalizedParams.pageSize
   )
   res.status(HTTP_STATUS.OK_200).json(routeListResult)
+}
+
+const listForAllUsers = async (req: Request, res: Response) => {
+  await list(req, res, false)
+}
+const listForBackOffice = async (req: Request, res: Response) => {
+  await list(req, res, true)
 }
 
 const create = async (req: Request<RouteCreate>, res: Response) => {
@@ -180,7 +188,8 @@ export default {
   create,
   update,
   deleteById,
-  list,
+  listForAllUsers,
+  listForBackOffice,
   changeApprovalState,
   recalculateAverages,
 }

@@ -29,9 +29,9 @@ export const INITIAL_FILTERS: FilterClimbingObjectListParams = {
   longitudeFrom: null,
   longitudeTo: null,
   climbingStructureTypes: [],
-  includeUnofficalClimbingObjects: false,
-  includeUnofficialRoutes: false,
-  excludeWithoutMatchingRoutes: false,
+  includeUnofficalClimbingObjects: true,
+  includeUnofficialRoutes: true,
+  excludeWithoutMatchingRoutes: true,
 }
 
 const coordinateFields = [

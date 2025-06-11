@@ -6,7 +6,7 @@ import { ListResponse } from 'backend/src/model/common/listResponse'
 import { ApprovalState } from '@/types/approvalTypes'
 
 export async function getNewObjects(page: number): Promise<ListResponse<ClimbingObjectNoRoutes>> {
-  const response = await api.get(API.CLIMBING_OBJECT.LIST, {
+  const response = await api.get(API.CLIMBING_OBJECT.LIST_BACKOFFICE, {
     params: {
       approvalStates: ApprovalState.PENDING,
       page: page,
@@ -45,7 +45,7 @@ export async function changeClimbingObjectApprovalState(
 }
 
 export async function getNewRoutes(page: number): Promise<ListResponse<RouteSummary>> {
-  const response = await api.get(API.ROUTE.LIST, {
+  const response = await api.get(API.ROUTE.LIST_BACKOFFICE, {
     params: {
       page,
       pageSize: 15,

@@ -35,6 +35,23 @@ export async function getFilteredClimbingObject(
   return response.data
 }
 
+export async function getAllClimbingObjects(
+  page: number,
+  pageSize: number
+): Promise<ListResponse<ClimbingObjectList>> {
+  const response = await api.get(`${API.CLIMBING_OBJECT.LIST_BACKOFFICE}`, {
+    params: {
+      page: page,
+      pageSize: pageSize,
+    },
+  })
+  if (response.status !== 200) {
+    throw new Error('Error fetching climbing objects')
+  }
+
+  return response.data
+}
+
 export async function getClimbingObjectById(id: string): Promise<ClimbingObjectDetail> {
   const response = await api.get(`${API.CLIMBING_OBJECT.BY_ID}${id}`)
   if (response.status != 200) {

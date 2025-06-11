@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
 import { useQuery } from '@tanstack/react-query'
-import { getRoutes } from '@/services/routeService'
+import { getAllRoutes } from '@/services/routeService'
 import { ClimbingStructureType, RouteDetail } from '@/types/routeTypes'
 import { cn, getTextColorForBackground } from '@/lib/utils'
 import { TableList } from '../../components/backoffice/TableList'
@@ -55,7 +55,7 @@ export default function AllRouteList() {
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 15 })
   const routesQuery = useQuery({
     queryKey: ['all_routes', pagination.pageIndex, pagination.pageSize],
-    queryFn: () => getRoutes(pagination.pageIndex + 1, pagination.pageSize),
+    queryFn: () => getAllRoutes(pagination.pageIndex + 1, pagination.pageSize),
   })
   return (
     <div className="flex space-x-4 h-full w-full">

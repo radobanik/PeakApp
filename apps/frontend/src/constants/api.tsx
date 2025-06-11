@@ -41,12 +41,14 @@ export const API = {
   },
   CLIMBING_OBJECT: {
     LIST: `${API_BASE_URL}/climbing-object/`,
+    LIST_BACKOFFICE: `${API_BASE_URL}/climbing-object/backoffice/`,
     BY_ID: `${API_BASE_URL}/climbing-object/`,
     CREATE: `${API_BASE_URL}/climbing-object/`,
     APPROVAL: (id: string) => `${API_BASE_URL}/climbing-object/${id}/approval`,
   },
   ROUTE: {
     LIST: `${API_BASE_URL}/route/`,
+    LIST_BACKOFFICE: `${API_BASE_URL}/route/backoffice/`,
     BY_ID: `${API_BASE_URL}/route/`,
     CREATE: `${API_BASE_URL}/route/`,
     APPROVAL: (id: string) => `${API_BASE_URL}/route/${id}/approval`,

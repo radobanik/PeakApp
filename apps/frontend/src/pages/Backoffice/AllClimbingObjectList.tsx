@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
 import { ClimbingObjectList } from '@/types/climbingObjectTypes'
 import { useQuery } from '@tanstack/react-query'
-import { getFilteredClimbingObject } from '@/services/climbingObjectService'
+import { getAllClimbingObjects } from '@/services/climbingObjectService'
 import { TableList } from '../../components/backoffice/TableList'
 import { Link, Outlet, useMatch } from 'react-router-dom'
 import { ROUTE } from '@/constants/routes'
@@ -42,7 +42,7 @@ export default function AllClimbingObjectList() {
   const objectsQuery = useQuery({
     queryKey: ['all_objects', pagination.pageIndex, pagination.pageSize],
 
-    queryFn: async () => getFilteredClimbingObject(null),
+    queryFn: async () => getAllClimbingObjects(pagination.pageIndex + 1, pagination.pageSize),
     select: (data) => ({
       items: data.items.slice(
         pagination.pageIndex * pagination.pageSize,

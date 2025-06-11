@@ -5,7 +5,12 @@ import checkRoles from '../../middlewares/checkRoles'
 
 const climbingOutObjectRouter = Router()
 
-climbingOutObjectRouter.get('/', ClimbingObjectController.list)
+climbingOutObjectRouter.get('/', ClimbingObjectController.listForAllUsers)
+climbingOutObjectRouter.get(
+  '/backoffice',
+  checkRoles([Role.ADMIN]),
+  ClimbingObjectController.listForBackOffice
+)
 climbingOutObjectRouter.get('/:id', ClimbingObjectController.getById)
 climbingOutObjectRouter.post('/', ClimbingObjectController.create)
 climbingOutObjectRouter.put('/:id', ClimbingObjectController.update)

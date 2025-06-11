@@ -3,6 +3,8 @@ import { HTTP_STATUS } from './utils/httpStatusCodes'
 import { RouteRepository } from '../repositories'
 import { ClimbingObjectRepository } from '../repositories'
 import { Search } from '../model/search/search'
+import { getFeatureFlags } from '../utils/featureFlags'
+import { ApprovalState } from '@prisma/client'
 
 const getSearches = async (req: Request, res: Response): Promise<void> => {
   const { token } = req.query
@@ -10,11 +12,22 @@ const getSearches = async (req: Request, res: Response): Promise<void> => {
     res.status(HTTP_STATUS.BAD_REQUEST_400).json({ error: 'Missing or invalid search token.' })
     return
   }
+  const featureFlags = await getFeatureFlags()
+  const allowedApprovalState: ApprovalState[] = [ApprovalState.APPROVED]
+  if (!featureFlags.showApprovedOnly) {
+    allowedApprovalState.push(ApprovalState.PENDING)
+  }
 
   const trimmedToken = token.trim()
   try {
-    const routes = await RouteRepository.listAllContainsTokenInName(trimmedToken)
-    const climbingObjects = await ClimbingObjectRepository.listAllContainsTokenInName(trimmedToken)
+    const routes = await RouteRepository.listAllContainsTokenInName(
+      trimmedToken,
+      allowedApprovalState
+    )
+    const climbingObjects = await ClimbingObjectRepository.listAllContainsTokenInName(
+      trimmedToken,
+      allowedApprovalState
+    )
 
     const result: Search = {
       routes,
