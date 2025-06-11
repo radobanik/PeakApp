@@ -12,9 +12,9 @@ import ActivitiesPage from './pages/ActivitiesPage'
 import SessionsPage from './pages/SessionsPage'
 import ActivityDetailPage from './pages/ActivityDetailPage'
 import SessionDetailPage from './pages/SessionDetailPage'
-import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import SubmitPage from './pages/SubmitPage'
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import PageFrame from './components/PageFrame'
 import { SettingsLayout } from './components/SettingsLayout'
 import UserSettingsPage from './pages/UserSettingsPage'
@@ -36,9 +36,10 @@ import Analytics from './pages/Backoffice/Analytics'
 import ReportPage from './pages/Backoffice/ReportPage'
 import ReportDetailPage from './pages/Backoffice/ReportDetailPage'
 import NotificationsPage from './pages/NotificationsPage/NotificationsPage'
-import { getUnreadNotificationCount } from './services/notificationService'
 import ClimbingObjectDetailPage from './pages/ClimbingObjectDetailPage'
 import AchievementsPage from './pages/Backoffice/AchievementsPage'
+import { ThemeProvider } from '@/providers/ThemeProvider'
+import { NotificationProvider } from './providers/NotificationProvider'
 
 type ViewportContextType = {
   isMobile: boolean
@@ -49,57 +50,12 @@ type ActivityCreateContextType = {
   setRouteId: (id: string | null) => void
 }
 
-type NotificationContextType = {
-  unreadCount: number
-  refetchUnread: () => void
-}
-
 const queryClient = new QueryClient()
 export const ViewportContext = createContext<ViewportContextType>({ isMobile: true })
 export const ActivityCreateContext = createContext<ActivityCreateContextType>({
   routeId: null,
   setRouteId: () => {},
 })
-const NotificationContext = createContext<NotificationContextType>({
-  unreadCount: 0,
-  refetchUnread: () => {},
-})
-
-export const useNotificationContext = () => useContext(NotificationContext)
-
-export const NotificationProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(() => !!localStorage.getItem('token'))
-
-  useEffect(() => {
-    const checkToken = () => {
-      setIsLoggedIn(!!localStorage.getItem('token'))
-    }
-
-    window.addEventListener('storage', checkToken)
-    return () => window.removeEventListener('storage', checkToken)
-  }, [])
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIsLoggedIn(!!localStorage.getItem('token'))
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [])
-
-  const { data = 0, refetch } = useQuery({
-    queryKey: ['notification-unread-count'],
-    queryFn: getUnreadNotificationCount,
-    enabled: isLoggedIn,
-    refetchInterval: isLoggedIn ? 5000 : false,
-  })
-
-  return (
-    <NotificationContext.Provider value={{ unreadCount: data, refetchUnread: refetch }}>
-      {children}
-    </NotificationContext.Provider>
-  )
-}
 
 export default function App() {
   const [isMobile, setIsMobile] = useState(false)
@@ -123,141 +79,143 @@ export default function App() {
       <NotificationProvider>
         <ViewportContext.Provider value={{ isMobile }}>
           <ActivityCreateContext.Provider value={{ routeId, setRouteId }}>
-            <SidebarProvider defaultOpen={false}>
-              <BrowserRouter>
-                <Routes>
-                  {/* Public routes */}
-                  <Route path={ROUTE.LOGIN} element={publicRoute(<LoginPage />)} />
-                  <Route path={ROUTE.REGISTER} element={publicRoute(<RegisterPage />)} />
+            <ThemeProvider>
+              <SidebarProvider defaultOpen={false}>
+                <BrowserRouter>
+                  <Routes>
+                    {/* Public routes */}
+                    <Route path={ROUTE.LOGIN} element={publicRoute(<LoginPage />)} />
+                    <Route path={ROUTE.REGISTER} element={publicRoute(<RegisterPage />)} />
 
-                  {/* Private routes */}
-                  <Route element={<PageFrame />}>
-                    <Route path={ROUTE.HOME} element={privateRoute(<HomePage />)} />
-                    <Route
-                      path={ROUTE.ROUTE + '/:routeId'}
-                      element={privateRoute(<RouteDetailPage />)}
-                    />
-                    <Route
-                      path={ROUTE.CLIMBING_OBJECT + '/:climbingObjectId'}
-                      element={privateRoute(<ClimbingObjectDetailPage />)}
-                    />
-
-                    <Route path={ROUTE.DIARY} element={privateRoute(<DiaryPage />)} />
-                    <Route path={ROUTE.ACTIVITIES} element={privateRoute(<ActivitiesPage />)} />
-                    <Route
-                      path={ROUTE.ACTIVITIES + '/:id'}
-                      element={privateRoute(<ActivityDetailPage />)}
-                    />
-                    <Route
-                      path={ROUTE.ACTIVITIES_NEW}
-                      element={privateRoute(<ActivityCreatePage />)}
-                    />
-                    <Route path={ROUTE.SESSIONS} element={privateRoute(<SessionsPage />)} />
-                    <Route
-                      path={ROUTE.SESSIONS + '/:id'}
-                      element={privateRoute(<SessionDetailPage />)}
-                    />
-                    <Route
-                      path={ROUTE.SESSIONS_NEW}
-                      element={privateRoute(<SessionCreatePage />)}
-                    />
-                    <Route path={ROUTE.DETAIL} element={privateRoute(<RouteDetailPage />)} />
-                    <Route path={ROUTE.COMMUNITY} element={privateRoute(<CommunityPage />)}>
+                    {/* Private routes */}
+                    <Route element={<PageFrame />}>
+                      <Route path={ROUTE.HOME} element={privateRoute(<HomePage />)} />
                       <Route
-                        path={ROUTE.COMMUNITY + '/:id'}
-                        element={privateRoute(<CommunitySessionDetailPage />)}
-                      />
-                    </Route>
-                    <Route path={ROUTE.SUBMIT} element={privateRoute(<SubmitPage />)} />
-
-                    <Route path={ROUTE.SETTINGS} element={privateRoute(<SettingsLayout />)}>
-                      <Route
-                        path={ROUTE.SETTINGS_USER}
-                        element={privateRoute(<UserSettingsPage />)}
+                        path={ROUTE.ROUTE + '/:routeId'}
+                        element={privateRoute(<RouteDetailPage />)}
                       />
                       <Route
-                        path={ROUTE.SETTINGS_ROUTES}
-                        element={privateRoute(<UserRoutesPage />)}
+                        path={ROUTE.CLIMBING_OBJECT + '/:climbingObjectId'}
+                        element={privateRoute(<ClimbingObjectDetailPage />)}
+                      />
+
+                      <Route path={ROUTE.DIARY} element={privateRoute(<DiaryPage />)} />
+                      <Route path={ROUTE.ACTIVITIES} element={privateRoute(<ActivitiesPage />)} />
+                      <Route
+                        path={ROUTE.ACTIVITIES + '/:id'}
+                        element={privateRoute(<ActivityDetailPage />)}
                       />
                       <Route
-                        path={ROUTE.NEW_CLIMBING_OBJECTS}
-                        element={privateRoute(
-                          <ApprovalProvider>
-                            <ReviewObjectsPage />
-                          </ApprovalProvider>
-                        )}
-                      >
+                        path={ROUTE.ACTIVITIES_NEW}
+                        element={privateRoute(<ActivityCreatePage />)}
+                      />
+                      <Route path={ROUTE.SESSIONS} element={privateRoute(<SessionsPage />)} />
+                      <Route
+                        path={ROUTE.SESSIONS + '/:id'}
+                        element={privateRoute(<SessionDetailPage />)}
+                      />
+                      <Route
+                        path={ROUTE.SESSIONS_NEW}
+                        element={privateRoute(<SessionCreatePage />)}
+                      />
+                      <Route path={ROUTE.DETAIL} element={privateRoute(<RouteDetailPage />)} />
+                      <Route path={ROUTE.COMMUNITY} element={privateRoute(<CommunityPage />)}>
                         <Route
-                          path={ROUTE.NEW_CLIMBING_OBJECTS_DETAIL}
-                          element={privateRoute(<ReviewObjectDetailPage />)}
+                          path={ROUTE.COMMUNITY + '/:id'}
+                          element={privateRoute(<CommunitySessionDetailPage />)}
                         />
                       </Route>
-                      <Route
-                        path={ROUTE.ALL_ACHIEVEMENTS}
-                        element={privateRoute(<AchievementsPage />)}
-                      />
-                      <Route
-                        path={ROUTE.NEW_ROUTES}
-                        element={privateRoute(
-                          <ApprovalProvider>
-                            <ReviewRoutesPage />
-                          </ApprovalProvider>
-                        )}
-                      >
+                      <Route path={ROUTE.SUBMIT} element={privateRoute(<SubmitPage />)} />
+
+                      <Route path={ROUTE.SETTINGS} element={privateRoute(<SettingsLayout />)}>
                         <Route
-                          path={ROUTE.NEW_ROUTES_DETAIL}
-                          element={privateRoute(<ReviewRouteDetailPage />)}
+                          path={ROUTE.SETTINGS_USER}
+                          element={privateRoute(<UserSettingsPage />)}
                         />
-                      </Route>
-                      <Route path={ROUTE.REPORTS} element={privateRoute(<ReportPage />)}>
                         <Route
-                          path={ROUTE.REPORTS_DETAIL}
-                          element={privateRoute(<ReportDetailPage />)}
+                          path={ROUTE.SETTINGS_ROUTES}
+                          element={privateRoute(<UserRoutesPage />)}
+                        />
+                        <Route
+                          path={ROUTE.NEW_CLIMBING_OBJECTS}
+                          element={privateRoute(
+                            <ApprovalProvider>
+                              <ReviewObjectsPage />
+                            </ApprovalProvider>
+                          )}
                         >
                           <Route
-                            path={ROUTE.REPORTS_DETAIL + '/route/:routeId'}
-                            element={privateRoute(<RouteDetailPage />)}
+                            path={ROUTE.NEW_CLIMBING_OBJECTS_DETAIL}
+                            element={privateRoute(<ReviewObjectDetailPage />)}
                           />
+                        </Route>
+                        <Route
+                          path={ROUTE.ALL_ACHIEVEMENTS}
+                          element={privateRoute(<AchievementsPage />)}
+                        />
+                        <Route
+                          path={ROUTE.NEW_ROUTES}
+                          element={privateRoute(
+                            <ApprovalProvider>
+                              <ReviewRoutesPage />
+                            </ApprovalProvider>
+                          )}
+                        >
                           <Route
-                            path={ROUTE.REPORTS_DETAIL + '/climbingObject/:climbingObjectId'}
+                            path={ROUTE.NEW_ROUTES_DETAIL}
+                            element={privateRoute(<ReviewRouteDetailPage />)}
+                          />
+                        </Route>
+                        <Route path={ROUTE.REPORTS} element={privateRoute(<ReportPage />)}>
+                          <Route
+                            path={ROUTE.REPORTS_DETAIL}
+                            element={privateRoute(<ReportDetailPage />)}
+                          >
+                            <Route
+                              path={ROUTE.REPORTS_DETAIL + '/route/:routeId'}
+                              element={privateRoute(<RouteDetailPage />)}
+                            />
+                            <Route
+                              path={ROUTE.REPORTS_DETAIL + '/climbingObject/:climbingObjectId'}
+                              element={privateRoute(<ClimbingObjectDetailPage />)}
+                            />
+                          </Route>
+                        </Route>
+                        <Route
+                          path={ROUTE.ALL_CLIMBING_OBJECTS}
+                          element={privateRoute(<AllClimbingObjectList />)}
+                        >
+                          <Route
+                            path={ROUTE.ALL_CLIMBING_OBJECTS_DETAIL}
                             element={privateRoute(<ClimbingObjectDetailPage />)}
                           />
                         </Route>
-                      </Route>
-                      <Route
-                        path={ROUTE.ALL_CLIMBING_OBJECTS}
-                        element={privateRoute(<AllClimbingObjectList />)}
-                      >
+                        <Route path={ROUTE.ALL_ROUTES} element={privateRoute(<AllRouteList />)}>
+                          <Route
+                            path={ROUTE.ALL_ROUTES_DETAIL}
+                            element={privateRoute(<RouteDetailPage />)}
+                          />
+                        </Route>
+                        <Route path={ROUTE.ALL_USERS} element={privateRoute(<AllUserList />)}>
+                          <Route
+                            path={ROUTE.ALL_USERS_DETAIL}
+                            element={privateRoute(<UserSettingsPage />)}
+                          ></Route>
+                        </Route>
+                        <Route path={ROUTE.ANALYTICS} element={privateRoute(<Analytics />)}></Route>
                         <Route
-                          path={ROUTE.ALL_CLIMBING_OBJECTS_DETAIL}
-                          element={privateRoute(<ClimbingObjectDetailPage />)}
+                          path={ROUTE.SETTINGS_NOTIFICATIONS}
+                          element={privateRoute(<NotificationsPage />)}
                         />
                       </Route>
-                      <Route path={ROUTE.ALL_ROUTES} element={privateRoute(<AllRouteList />)}>
-                        <Route
-                          path={ROUTE.ALL_ROUTES_DETAIL}
-                          element={privateRoute(<RouteDetailPage />)}
-                        />
-                      </Route>
-                      <Route path={ROUTE.ALL_USERS} element={privateRoute(<AllUserList />)}>
-                        <Route
-                          path={ROUTE.ALL_USERS_DETAIL}
-                          element={privateRoute(<UserSettingsPage />)}
-                        ></Route>
-                      </Route>
-                      <Route path={ROUTE.ANALYTICS} element={privateRoute(<Analytics />)}></Route>
-                      <Route
-                        path={ROUTE.SETTINGS_NOTIFICATIONS}
-                        element={privateRoute(<NotificationsPage />)}
-                      />
                     </Route>
-                  </Route>
-                </Routes>
+                  </Routes>
 
-                {/* Toast notifications */}
-                <Toaster position="top-center" />
-              </BrowserRouter>
-            </SidebarProvider>
+                  {/* Toast notifications */}
+                  <Toaster position="top-center" />
+                </BrowserRouter>
+              </SidebarProvider>
+            </ThemeProvider>
           </ActivityCreateContext.Provider>
         </ViewportContext.Provider>
       </NotificationProvider>

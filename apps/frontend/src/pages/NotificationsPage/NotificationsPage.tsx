@@ -15,7 +15,7 @@ import { useNotificationsQuery } from './useNotificationsQuery'
 import { useNotificationSettingsQuery } from './useNotificationsSettingsQuery'
 import { useNotificationsSettingsUpdateQuery } from './useNotificationsSettingsUpdateQuery'
 import type { NotificationSettings } from '@/types/notificationTypes'
-import { useNotificationContext } from '@/App'
+import { useNotificationContext } from '@/providers/NotificationProvider'
 
 const NotificationsPage = () => {
   const [page, setPage] = useState(1)

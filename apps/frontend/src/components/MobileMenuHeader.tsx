@@ -6,7 +6,7 @@ import MapIcon from './svg/MapIcon'
 import CommunityIcon from './svg/CommunityIcon'
 import DiaryIcon from './svg/DiaryIcon'
 import { useSidebar } from './ui/sidebar'
-import { useNotificationContext } from '@/App'
+import { useNotificationContext } from '@/providers/NotificationProvider'
 import { useProfilePictureQuery } from '@/services/queryHooks'
 import { Avatar, AvatarImage } from './ui/avatar'
 

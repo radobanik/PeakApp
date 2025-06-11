@@ -14,11 +14,15 @@ import {
 } from '@/components/ui/sidebar'
 import PeakAppLogo from '@/assets/PeakAppLogo.png'
 import { useContext } from 'react'
-import { ViewportContext, useNotificationContext } from '@/App'
+import { ViewportContext } from '@/App'
 import { ROUTE } from '@/constants/routes'
 import { Link } from 'react-router-dom'
 import LogoutButton from './LogoutButton'
 import { useIsAdminQuery } from '@/services/queryHooks'
+import { Button } from '@/components/ui/button'
+import { Moon, Sun } from 'lucide-react'
+import { useTheme } from '@/providers/ThemeProvider'
+import { useNotificationContext } from '@/providers/NotificationProvider'
 
 type SidebarItem = {
   title: string
@@ -40,12 +44,15 @@ export type SidebarLayoutProps = {
 export function SidebarLayout({ sections, ...props }: SidebarLayoutProps) {
   const { isMobile } = useContext(ViewportContext)
   const { unreadCount } = useNotificationContext()
-
+  const { theme, setTheme } = useTheme()
   const { toggleSidebar } = useSidebar()
-
   const isAdmin = useIsAdminQuery().data
 
   const filteredSections = sections.filter((section) => section.title !== 'Backoffice' || isAdmin)
+
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light')
+  }
 
   return (
     <Sidebar collapsible={isMobile ? 'offcanvas' : 'none'} variant="sidebar" {...props}>
@@ -88,7 +95,11 @@ export function SidebarLayout({ sections, ...props }: SidebarLayoutProps) {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="flex flex-col gap-2">
+        <Button variant="ghost" size="icon" onClick={toggleTheme} className="self-end mr-2">
+          {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+          <span className="sr-only">Toggle theme</span>
+        </Button>
         <LogoutButton />
       </SidebarFooter>
     </Sidebar>

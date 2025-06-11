@@ -3,7 +3,7 @@ import PeakAppLogo from '../assets/PeakAppLogo.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { useSidebar } from './ui/sidebar'
-import { useNotificationContext } from '@/App'
+import { useNotificationContext } from '@/providers/NotificationProvider'
 import { useProfilePictureQuery } from '@/services/queryHooks'
 
 function HeaderBar() {

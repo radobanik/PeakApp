@@ -47,7 +47,7 @@ const MapControls = memo(function MapControls({
   const handleCreatePoiClick = () => setIsPoiCreationOpen(true)
 
   const getButtonClassName = (isDisabled: boolean = false) =>
-    clsx('relative z-1000 bg-gray-200 rounded-xl p-3 shadow-xl', {
+    clsx('relative z-1000 bg-background-menu rounded-xl p-3 shadow-xl', {
       'cursor-not-allowed opacity-50': isDisabled,
       'cursor-pointer': !isDisabled,
     })

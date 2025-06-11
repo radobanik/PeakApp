@@ -32,7 +32,7 @@ const SessionTableEntry: FC<SessionTableEntryProps> = ({
 
   return (
     <Link to={`${ROUTE.SESSIONS}/${entry.id}`} state={{ from: backRoute }} className="w-full">
-      <div className="bg-stone-300 rounded-md p-2 flex flex-row gap-2 justify-between items-center m-1">
+      <div className="bg-background-menu rounded-md p-2 flex flex-row gap-2 justify-between items-center m-1">
         <div className="w-[70%] p-2">
           <h3 className="text-2xl">{entry.name}</h3>
           <div className="flex flex-row justify-between">
