@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { ReportPageContext } from './ReportPage'
-import { Link, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { getReportById } from '@/services/reportService'
 import LoadingSpinner from '@/components/LoadingSpinner'
