@@ -151,7 +151,6 @@ export const sendCommentEmail = async (name: string, email = 'sneakyspider1337@g
 }
 
 export const sendReportEmail = async (reportName: string, answer: string, email: string) => {
-  console.log('Sending report email', { reportName, answer, email })
   try {
     const response = await resend.emails.send({
       from: 'info@slovakiaopen.online',
@@ -161,7 +160,6 @@ export const sendReportEmail = async (reportName: string, answer: string, email:
     })
     return response
   } catch (error) {
-    console.error('Email service error:', error)
     throw error
   }
 }

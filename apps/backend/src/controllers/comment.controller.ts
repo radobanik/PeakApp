@@ -111,7 +111,6 @@ const create = async (req: Request, res: Response) => {
         `${intercatorUser?.firstName} ${intercatorUser?.lastName}`,
         notifiedUser?.email
       )
-      console.log('Email sent', notifiedUser?.email, message)
     }
   }
   res.status(HTTP_STATUS.CREATED_201).json(createdComment)

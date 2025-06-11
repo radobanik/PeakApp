@@ -31,7 +31,6 @@ export default function AllUserList() {
     queryKey: ['all_users', pagination.pageIndex, pagination.pageSize],
     queryFn: () => getUsers(pagination.pageIndex + 1, pagination.pageSize),
   })
-  // console.log(usersQuery.data)
   return (
     <div className="flex space-x-4 h-full w-full">
       <div className={cn('flex-1 min-w-0 h-full', isDetail ? 'hidden sm:flex' : '')}>
