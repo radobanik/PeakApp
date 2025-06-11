@@ -10,10 +10,10 @@ const ScrollTable = <T extends { id: string }>({
   backRoute,
 }: ScrollTableProps<T>) => {
   if (entries.length === 0) {
-    return <div className="flex justify-center p-4">No entries available</div>
+    return <div className="flex justify-center p-4 mx-auto">No entries available</div>
   }
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-full">
       {entries.map((entry) => (
         <Component key={entry.id} entry={entry} backRoute={backRoute} />
       ))}

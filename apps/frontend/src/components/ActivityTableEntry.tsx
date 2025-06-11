@@ -50,7 +50,7 @@ const ActivityTableEntry: FC<ActivityTableEntryProps> = ({
         </div>
         <img
           src={image === null ? noBoulderPhoto : image.url}
-          className="rounded-md max-w-[25%] h-[5em] object-contain lg:max-w-[10%] lg:h-[5em]"
+          className="rounded-md max-w-[25%] h-[5em] object-contain lg:h-[5em]"
           alt="Route"
         />
       </div>
