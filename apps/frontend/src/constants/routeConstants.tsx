@@ -1,12 +1,5 @@
 import { GradeBadge } from '@/components/GradyBadge'
 import { RouteStructureTypeBadge } from '@/components/RouteStructureTypeBadge'
-import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { ClimbingStructureType, RouteSummary } from '@/types/routeTypes'
 import { ColumnDef } from '@tanstack/react-table'
 
@@ -65,28 +58,5 @@ export const ROUTE_TABLE_COLUMNS: ColumnDef<
         </span>
       )
     },
-  },
-  {
-    id: ROUTE_TABLE_ID.ACTIONS,
-    header: '',
-    enableHiding: false,
-    cell: ({ row }) => (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon">
-            <span className="text-lg">⋮</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuCheckboxItem onClick={() => alert(`Edit route: ${row.original.name}`)}>
-            Edit
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem onClick={() => alert(`Delete route: ${row.original.name}`)}>
-            Delete
-          </DropdownMenuCheckboxItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    ),
-    meta: { className: 'w-12 text-right' },
   },
 ]

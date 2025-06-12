@@ -48,6 +48,7 @@ export const API = {
   },
   ROUTE: {
     LIST: `${API_BASE_URL}/route/`,
+    LIST_MINE: () => `${API_BASE_URL}/route/mine`,
     LIST_BACKOFFICE: `${API_BASE_URL}/route/backoffice/`,
     BY_ID: `${API_BASE_URL}/route/`,
     CREATE: `${API_BASE_URL}/route/`,

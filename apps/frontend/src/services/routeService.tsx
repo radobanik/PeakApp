@@ -19,6 +19,23 @@ export async function getRoutes(
   }
 }
 
+export async function getUserRoutes(
+  page: number = 1,
+  pageSize: number = 10
+): Promise<RouteDetailListResponse> {
+  try {
+    const response = await api.get(API.ROUTE.LIST_MINE(), {
+      params: {
+        page,
+        pageSize,
+      },
+    })
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+
 export async function getAllRoutes(
   page: number = 1,
   pageSize: number = 10

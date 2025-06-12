@@ -1,5 +1,5 @@
 import { RouteDetailWithComments } from '@/components/RouteDetailWithReviews'
-import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
+import { useParams, useNavigate, useSearchParams, useLocation } from 'react-router-dom'
 import { useRouteQuery } from '@/services/queryHooks'
 import { useState, useEffect } from 'react'
 import { API } from '@/constants/api'
@@ -37,8 +37,14 @@ const editRouteSchema = z.object({
 
 type EditRouteForm = z.infer<typeof editRouteSchema>
 
-export default function RouteDetailPage() {
+interface Props {
+  allowEdit?: boolean
+}
+
+export default function RouteDetailPage({ allowEdit }: Props) {
   const { routeId } = useParams<{ routeId: string }>()
+  const location = useLocation()
+  const isEditAllowed = location.pathname.startsWith('/settings/all-routes') || allowEdit
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const isCreateMode = routeId === 'new'
@@ -209,7 +215,7 @@ export default function RouteDetailPage() {
   return (
     <div>
       <div className="flex justify-end p-4">
-        {!isCreateMode && (
+        {!isCreateMode && isEditAllowed && (
           <button
             onClick={handleEditToggle}
             className="px-4 py-2 bg-blue-500 text-white rounded"
@@ -301,7 +307,7 @@ export default function RouteDetailPage() {
           )}
 
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Main Image</label>
+            <label className="block text-sm font-medium text-foreground mb-2">Main Image</label>
             <div className="space-y-4">
               {currentImage && (
                 <div className="flex items-center gap-2">
@@ -351,7 +357,7 @@ export default function RouteDetailPage() {
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Grade</label>
+            <label className="block text-sm font-medium text-foreground mb-2">Grade</label>
             <select
               {...register('grade.id')}
               className="block w-full p-2 border rounded"
@@ -373,7 +379,7 @@ export default function RouteDetailPage() {
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-foreground mb-2">
               Climbing Structure Type
             </label>
             <select

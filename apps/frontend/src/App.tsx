@@ -40,6 +40,7 @@ import ClimbingObjectDetailPage from './pages/ClimbingObjectDetailPage'
 import AchievementsPage from './pages/Backoffice/AchievementsPage'
 import { ThemeProvider } from '@/providers/ThemeProvider'
 import { NotificationProvider } from './providers/NotificationProvider'
+import RouteEditPage from './pages/RouteEditPage'
 
 type ViewportContextType = {
   isMobile: boolean
@@ -126,6 +127,7 @@ export default function App() {
                         />
                       </Route>
                       <Route path={ROUTE.SUBMIT} element={privateRoute(<SubmitPage />)} />
+                      <Route path={ROUTE.ROUTE_EDIT} element={privateRoute(<RouteEditPage />)} />
 
                       <Route path={ROUTE.SETTINGS} element={privateRoute(<SettingsLayout />)}>
                         <Route

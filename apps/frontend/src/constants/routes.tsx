@@ -2,6 +2,7 @@ export const ROUTE = {
   HOME: '/',
   CLIMBING_OBJECT: '/climbing-object',
   ROUTE: '/route',
+  ROUTE_EDIT: '/route/:routeId/edit',
 
   LOGIN: '/login',
   REGISTER: '/register',

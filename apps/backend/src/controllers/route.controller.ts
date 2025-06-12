@@ -183,12 +183,48 @@ const recalculateAverages = async (routeId: string) => {
   await RouteRepository.updateAverages(routeId, averageRating, averageGradeRating)
 }
 
+const listMine = async (req: Request, res: Response) => {
+  const params = req.query as unknown as IncommingRouteListParams
+  const normalizedParams: NonNullRouteListParams = defaultRouteListParams(params)
+  const featureFlags = await getFeatureFlags()
+  const userRef = provideUserRefFromToken(req as unknown as Request)
+
+  if (userRef === null) {
+    res.status(HTTP_STATUS.UNAUTHORIZED_401).json({ error: 'Unauthorized' })
+    return
+  }
+
+  const where: RouteWhere = {
+    AND: [
+      {
+        AND: [
+          { createdById: userRef.id },
+          (featureFlags.showApprovedOnly && { approvalState: ApprovalState.APPROVED }) || {},
+          { deleted: false },
+        ],
+      },
+    ],
+  }
+
+  const orderBy: RouteOrder[] = getOrderBy(normalizedParams.sort, normalizedParams.order)
+  orderBy.push({ id: 'asc' })
+
+  const routeListResult = await RouteRepository.list(
+    where,
+    orderBy,
+    normalizedParams.page,
+    normalizedParams.pageSize
+  )
+  res.status(HTTP_STATUS.OK_200).json(routeListResult)
+}
+
 export default {
   getById,
   create,
   update,
   deleteById,
   listForAllUsers,
+  listMine,
   listForBackOffice,
   changeApprovalState,
   recalculateAverages,

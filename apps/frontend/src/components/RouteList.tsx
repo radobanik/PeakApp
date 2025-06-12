@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getRoutes } from '@/services/routeService'
+import { getUserRoutes } from '@/services/routeService'
 import { RouteDetail } from '@/types/routeTypes'
 import { toast } from 'sonner'
 import { flexRender, getCoreRowModel, useReactTable, VisibilityState } from '@tanstack/react-table'
@@ -35,7 +35,18 @@ import {
 } from '@/components/ui/select'
 import { useContext } from 'react'
 import { ViewportContext } from '@/App'
-import { ROUTE_TABLE_COLUMNS } from '@/constants/routeConstants'
+import { ROUTE_TABLE_COLUMNS, ROUTE_TABLE_ID } from '@/constants/routeConstants'
+import { useNavigate } from 'react-router-dom'
+import { api } from '@/services'
+import { API } from '@/constants/api'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog'
 
 // Extend the ColumnMeta interface to include className
 // ESLint exceptionn is needed as TS is shit
@@ -46,8 +57,6 @@ declare module '@tanstack/react-table' {
   }
 }
 
-const columns = ROUTE_TABLE_COLUMNS
-
 export default function RouteList() {
   const [data, setData] = useState<RouteDetail[]>([])
   const [totalPages, setTotalPages] = useState(0)
@@ -56,6 +65,58 @@ export default function RouteList() {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 })
   const { isMobile } = useContext(ViewportContext)
+  const [routeToDelete, setRouteToDelete] = useState<{ id: string; name: string } | null>(null)
+
+  const handleDeleteConfirm = async () => {
+    if (!routeToDelete) return
+
+    try {
+      await api.delete(`${API.ROUTE.BY_ID}${routeToDelete.id}`)
+      toast.success('Route deleted successfully')
+      // Refetch the current page
+      const response = await getUserRoutes(pagination.pageIndex + 1, pagination.pageSize)
+      setData(response.items)
+      setTotalPages(response.totalPages)
+    } catch {
+      toast.error('Failed to delete route')
+    } finally {
+      setRouteToDelete(null)
+    }
+  }
+
+  const columns = [
+    ...ROUTE_TABLE_COLUMNS,
+    {
+      id: ROUTE_TABLE_ID.ACTIONS,
+      header: '',
+      enableHiding: false,
+      cell: ({ row }: { row: { original: { id: string; name: string } } }) => {
+        const navigate = useNavigate()
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <span className="text-lg">⋮</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuCheckboxItem onClick={() => navigate(`/route/${row.original.id}/edit`)}>
+                Edit
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem
+                onClick={() => setRouteToDelete({ id: row.original.id, name: row.original.name })}
+                className="text-red-600"
+              >
+                Delete
+              </DropdownMenuCheckboxItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )
+      },
+      meta: { className: 'w-12 text-right' },
+    },
+  ]
 
   const table = useReactTable({
     data,
@@ -78,7 +139,7 @@ export default function RouteList() {
     async function fetchRoutes() {
       setLoading(true)
       try {
-        const response = await getRoutes(pagination.pageIndex + 1, pagination.pageSize)
+        const response = await getUserRoutes(pagination.pageIndex + 1, pagination.pageSize)
         setData(response.items)
         setTotalPages(response.totalPages)
       } catch {
@@ -119,132 +180,154 @@ export default function RouteList() {
   }
 
   return (
-    <div className="rounded-md border w-full mx-auto space-y-6 m-6 max-w-5xl p-4">
-      <div className="flex justify-between items-center">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm">
-              <ColumnsIcon className="h-4 w-4 mr-2" />
-              Customize Columns
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => (
-                <DropdownMenuCheckboxItem
-                  key={column.id}
-                  checked={column.getIsVisible()}
-                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                  className="capitalize"
-                >
-                  {column.columnDef.header?.toString() || column.id}
-                </DropdownMenuCheckboxItem>
-              ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+    <>
+      <div className="rounded-md border w-full mx-auto space-y-6 m-6 max-w-5xl p-4">
+        <div className="flex justify-between items-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm">
+                <ColumnsIcon className="h-4 w-4 mr-2" />
+                Customize Columns
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              {table
+                .getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                    className="capitalize"
+                  >
+                    {column.columnDef.header?.toString() || column.id}
+                  </DropdownMenuCheckboxItem>
+                ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
 
-        <div className="flex items-center gap-2">
-          <Label className="text-sm font-medium">Rows</Label>
-          <Select
-            value={`${table.getState().pagination.pageSize}`}
-            onValueChange={(value) => table.setPageSize(Number(value))}
-          >
-            <SelectTrigger className="w-20">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {[5, 10, 20, 50].map((size) => (
-                <SelectItem key={size} value={`${size}`}>
-                  {size}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="flex items-center gap-2">
+            <Label className="text-sm font-medium">Rows</Label>
+            <Select
+              value={`${table.getState().pagination.pageSize}`}
+              onValueChange={(value) => table.setPageSize(Number(value))}
+            >
+              <SelectTrigger className="w-20">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {[5, 10, 20, 50].map((size) => (
+                  <SelectItem key={size} value={`${size}`}>
+                    {size}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
-      </div>
 
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(header.column.columnDef.header, header.getContext())}
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {loading ? (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="text-center py-10">
-                Loading...
-              </TableCell>
-            </TableRow>
-          ) : table.getRowModel().rows.length > 0 ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className={cell.column.columnDef.meta?.className}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(header.column.columnDef.header, header.getContext())}
+                  </TableHead>
                 ))}
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="text-center">
-                No routes found.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {loading ? (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="text-center py-10">
+                  Loading...
+                </TableCell>
+              </TableRow>
+            ) : table.getRowModel().rows.length > 0 ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id} className={cell.column.columnDef.meta?.className}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="text-center">
+                  No routes found.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
 
-      <div className="flex items-center justify-between pt-4">
-        <div className="text-sm text-muted-foreground">
-          Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-        </div>
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <ChevronsLeftIcon className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <ChevronLeftIcon className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            <ChevronRightIcon className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
-          >
-            <ChevronsRightIcon className="h-4 w-4" />
-          </Button>
+        <div className="flex items-center justify-between pt-4">
+          <div className="text-sm text-muted-foreground">
+            Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+          </div>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => table.setPageIndex(0)}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <ChevronsLeftIcon className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <ChevronLeftIcon className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              <ChevronRightIcon className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              disabled={!table.getCanNextPage()}
+            >
+              <ChevronsRightIcon className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
+
+      <Dialog open={routeToDelete !== null} onOpenChange={() => setRouteToDelete(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete Route</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete route "{routeToDelete?.name}"? This action cannot be
+              undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setRouteToDelete(null)}>
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={handleDeleteConfirm}>
+              Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   )
 }
