@@ -213,7 +213,7 @@ export default function RouteDetailPage({ allowEdit }: Props) {
   }
 
   return (
-    <div>
+    <div className="w-full">
       <div className="flex justify-end p-4">
         {!isCreateMode && isEditAllowed && (
           <button
