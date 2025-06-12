@@ -190,6 +190,17 @@ const updateAverages = async (routeId: string, averageStars: number, averageDiff
   })
 }
 
+const isOwner = async (routeId: string, userId: string): Promise<boolean> => {
+  const count = await routeClient.count({
+    where: {
+      createdById: userId,
+      id: routeId,
+      deleted: false,
+    },
+  })
+  return count > 0
+}
+
 export type { RouteWhere, RouteOrder }
 
 export default {
@@ -203,4 +214,5 @@ export default {
   changeApprovalState,
   getReviewsByRouteId,
   updateAverages,
+  isOwner,
 }

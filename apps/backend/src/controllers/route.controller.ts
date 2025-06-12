@@ -13,7 +13,7 @@ import {
 } from '../model/route'
 import requestValidator from '../model/common/validator'
 import { RouteOrder, RouteWhere } from '../repositories/route.repository'
-import { provideUserRefFromToken, returnUnauthorized } from '../auth/authUtils'
+import { checkUserRoles, provideUserRefFromToken, returnUnauthorized } from '../auth/authUtils'
 import { ApprovalState } from '@prisma/client'
 import { getFeatureFlags } from '../utils/featureFlags'
 
@@ -107,6 +107,12 @@ const update = async (req: Request<{ id: string }, object, RouteUpdate>, res: Re
     return
   }
 
+  const isOwner = await RouteRepository.isOwner(routeId, userRef.id)
+  if (!isOwner && !checkUserRoles(req, ['ADMIN'])) {
+    res.status(HTTP_STATUS.UNAUTHORIZED_401).json({ error: 'This user can not change this route' })
+    return
+  }
+
   const route = await RouteRepository.update(routeId, routeData, userRef)
   res.status(HTTP_STATUS.OK_200).json(route)
 }
@@ -122,6 +128,12 @@ const deleteById = async (req: Request, res: Response) => {
   const exists = await RouteRepository.exists(routeId)
   if (!exists) {
     res.status(HTTP_STATUS.NOT_FOUND_404).json({ error: 'Route not found' })
+    return
+  }
+
+  const isOwner = await RouteRepository.isOwner(routeId, userRef.id)
+  if (!isOwner && !checkUserRoles(req, ['ADMIN'])) {
+    res.status(HTTP_STATUS.UNAUTHORIZED_401).json({ error: 'This user can not change this route' })
     return
   }
 
