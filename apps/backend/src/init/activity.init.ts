@@ -19,6 +19,17 @@ export const ACTIVITY_12_JANE_DOE_ID = '66de99a1-2d60-4b23-9c7b-bdf345bd3c27'
 export const ACTIVITY_13_JANE_DOE_ID = '7d0de391-5804-4d17-898f-79a49f3922f3'
 export const ACTIVITY_14_JANE_DOE_ID = '50e00a25-89f5-4ed4-9c6f-8cc265d6b6ef'
 export const ACTIVITY_15_JANE_DOE_ID = '3a3144a0-4037-49a2-abe1-dab9c9e8e6bc'
+export const ACTIVITY_16_SARAH_WILSON_ID = '4b425b1b-5148-5ab3-bcf2-789012345678'
+export const ACTIVITY_17_SARAH_WILSON_ID = '5c536c2c-6259-6bc4-cde3-890123456789'
+export const ACTIVITY_18_DAVID_LEE_ID = '6d647d3d-736a-7cd5-def4-901234567890'
+export const ACTIVITY_19_LISA_TAYLOR_ID = '7e758e4e-847b-8de6-efg5-012345678901'
+export const ACTIVITY_20_JAMES_MILLER_ID = '8f869f5f-958c-9ef7-fgh6-123456789012'
+export const ACTIVITY_21_EMMA_DAVIS_ID = '9g97ag6g-a69d-afg8-ghi7-234567890123'
+export const ACTIVITY_22_JOHN_DOE_ID = 'b1c2d3e4-f5g6-h7i8-j9k0-345678901234'
+export const ACTIVITY_23_JANE_DOE_ID = 'c2d3e4f5-g6h7-i8j9-k0l1-456789012345'
+export const ACTIVITY_24_CHRIS_BROWN_ID = 'd3e4f5g6-h7i8-j9k0-l1m2-567890123456'
+export const ACTIVITY_25_EMILY_JOHNSON_ID = 'e4f5g6h7-i8j9-k0l1-m2n3-678901234567'
+export const ACTIVITY_26_MICHAEL_SMITH_ID = 'f5g6h7i8-j9k0-l1m2-n3o4-789012345678'
 
 const activities = [
   {
@@ -199,6 +210,138 @@ const activities = [
     perceivedDifficulty: Difficulty.ULTRA_HARD,
     notes: 'Didn’t top, but got close.',
     topped: false,
+    routeId: RouteInit.ROUTE_21_ID,
+  },
+  {
+    id: ACTIVITY_16_SARAH_WILSON_ID,
+    createdById: UserInit.USER_SARAH_WILSON_ID,
+    climbedAt: new Date('2025-03-28'),
+    reviewStars: 5,
+    reviewText: 'Perfect balance of technique and strength.',
+    numOfAttempts: 3,
+    perceivedDifficulty: Difficulty.MEDIUM,
+    notes: 'Finally got the heel hook sequence!',
+    topped: true,
+    routeId: RouteInit.ROUTE_2_ID,
+  },
+  {
+    id: ACTIVITY_17_SARAH_WILSON_ID,
+    createdById: UserInit.USER_SARAH_WILSON_ID,
+    climbedAt: new Date('2025-03-29'),
+    reviewStars: 4,
+    reviewText: 'Challenging but rewarding.',
+    numOfAttempts: 2,
+    perceivedDifficulty: Difficulty.HARD,
+    notes: 'The crux move is tricky.',
+    topped: true,
+    routeId: RouteInit.ROUTE_4_ID,
+  },
+  {
+    id: ACTIVITY_18_DAVID_LEE_ID,
+    createdById: UserInit.USER_DAVID_LEE_ID,
+    climbedAt: new Date('2025-03-28'),
+    reviewStars: 5,
+    reviewText: 'Amazing line with interesting moves.',
+    numOfAttempts: 4,
+    perceivedDifficulty: Difficulty.ULTRA_HARD,
+    notes: 'Need to work on the dyno section.',
+    topped: false,
+    routeId: RouteInit.ROUTE_10_ID,
+  },
+  {
+    id: ACTIVITY_19_LISA_TAYLOR_ID,
+    createdById: UserInit.USER_LISA_TAYLOR_ID,
+    climbedAt: new Date('2025-03-27'),
+    reviewStars: 3,
+    reviewText: 'Good warm-up route.',
+    numOfAttempts: 1,
+    perceivedDifficulty: Difficulty.EASY,
+    notes: 'Clean send first try.',
+    topped: true,
+    routeId: RouteInit.ROUTE_1_ID,
+  },
+  {
+    id: ACTIVITY_20_JAMES_MILLER_ID,
+    createdById: UserInit.USER_JAMES_MILLER_ID,
+    climbedAt: new Date('2025-03-26'),
+    reviewStars: 4,
+    reviewText: 'Technical and demanding.',
+    numOfAttempts: 5,
+    perceivedDifficulty: Difficulty.HARD,
+    notes: 'The crimps are brutal!',
+    topped: true,
+    routeId: RouteInit.ROUTE_8_ID,
+  },
+  {
+    id: ACTIVITY_21_EMMA_DAVIS_ID,
+    createdById: UserInit.USER_EMMA_DAVIS_ID,
+    climbedAt: new Date('2025-03-25'),
+    reviewStars: 5,
+    reviewText: 'One of the best routes in the gym.',
+    numOfAttempts: 3,
+    perceivedDifficulty: Difficulty.HARD,
+    notes: 'Took some tries but finally got it clean.',
+    topped: true,
+    routeId: RouteInit.ROUTE_14_ID,
+  },
+  {
+    id: ACTIVITY_22_JOHN_DOE_ID,
+    createdById: UserInit.USER_JOHN_DOE_ID,
+    climbedAt: new Date('2025-04-01'),
+    reviewStars: 5,
+    reviewText: 'Finally sent this project!',
+    numOfAttempts: 8,
+    perceivedDifficulty: Difficulty.ULTRA_HARD,
+    notes: 'The persistence paid off.',
+    topped: true,
+    routeId: RouteInit.ROUTE_12_ID,
+  },
+  {
+    id: ACTIVITY_23_JANE_DOE_ID,
+    createdById: UserInit.USER_JANE_DOE_ID,
+    climbedAt: new Date('2025-04-02'),
+    reviewStars: 4,
+    reviewText: 'Excellent balance required.',
+    numOfAttempts: 3,
+    perceivedDifficulty: Difficulty.HARD,
+    notes: 'Found a creative beta.',
+    topped: true,
+    routeId: RouteInit.ROUTE_15_ID,
+  },
+  {
+    id: ACTIVITY_24_CHRIS_BROWN_ID,
+    createdById: UserInit.USER_CHRIS_BROWN_ID,
+    climbedAt: new Date('2025-04-03'),
+    reviewStars: 3,
+    reviewText: 'Tricky sequence in the middle.',
+    numOfAttempts: 4,
+    perceivedDifficulty: Difficulty.MEDIUM,
+    notes: 'Need to work on slopers.',
+    topped: false,
+    routeId: RouteInit.ROUTE_18_ID,
+  },
+  {
+    id: ACTIVITY_25_EMILY_JOHNSON_ID,
+    createdById: UserInit.USER_EMILY_JOHNSON_ID,
+    climbedAt: new Date('2025-04-04'),
+    reviewStars: 5,
+    reviewText: 'Beautiful line with technical moves.',
+    numOfAttempts: 2,
+    perceivedDifficulty: Difficulty.HARD,
+    notes: 'Second attempt send!',
+    topped: true,
+    routeId: RouteInit.ROUTE_7_ID,
+  },
+  {
+    id: ACTIVITY_26_MICHAEL_SMITH_ID,
+    createdById: UserInit.USER_MICHAEL_SMITH_ID,
+    climbedAt: new Date('2025-04-05'),
+    reviewStars: 4,
+    reviewText: 'Power endurance test piece.',
+    numOfAttempts: 5,
+    perceivedDifficulty: Difficulty.ULTRA_HARD,
+    notes: 'Really had to dig deep for this one.',
+    topped: true,
     routeId: RouteInit.ROUTE_21_ID,
   },
 ]

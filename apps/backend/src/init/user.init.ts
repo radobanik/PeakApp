@@ -11,6 +11,11 @@ export const USER_MICHAEL_SMITH_ID = 'd2d2f7cd-e18b-4935-b075-0a764d0e07c5'
 export const USER_EMILY_JOHNSON_ID = 'b8e8ccf7-b9a9-49b6-9144-0b0a82a6f7a5'
 export const USER_CHRIS_BROWN_ID = 'a7a120d2-facf-4975-8d16-40509ffb86cd'
 export const TOP_LOGGER_USER_ID = '2d25e08e-aa6f-4f37-a8e1-1e3b8a364760'
+export const USER_SARAH_WILSON_ID = 'f4c12e8d-3b5a-4f67-b123-9876543210ab'
+export const USER_DAVID_LEE_ID = 'c8b91a3e-2d4f-4e5c-a678-1234567890cd'
+export const USER_LISA_TAYLOR_ID = 'b7a6c5d4-e3f2-1g9h-i8j7-456789012345'
+export const USER_JAMES_MILLER_ID = 'a1b2c3d4-e5f6-7g8h-i9j0-567890123456'
+export const USER_EMMA_DAVIS_ID = 'd4e5f6g7-h8i9-j0k1-l2m3-678901234567'
 
 const getSampleUsers = async () => [
   {
@@ -78,6 +83,61 @@ const getSampleUsers = async () => [
     roles: [Role.USER, Role.MAINTANER],
     cityId: await geoRepository.getCityIdByName('Vienna'),
     birthday: new Date('1985-06-06'),
+  },
+  {
+    id: USER_SARAH_WILSON_ID,
+    userName: 'sarahwilson',
+    password: bcrypt.hashSync('password123', saltRounds),
+    firstName: 'Sarah',
+    lastName: 'Wilson',
+    email: 'sarah.wilson@password123.com',
+    roles: [Role.USER],
+    cityId: await geoRepository.getCityIdByName('Praha'),
+    birthday: new Date('1991-07-07'),
+  },
+  {
+    id: USER_DAVID_LEE_ID,
+    userName: 'davidlee',
+    password: bcrypt.hashSync('password123', saltRounds),
+    firstName: 'David',
+    lastName: 'Lee',
+    email: 'david.lee@password123.com',
+    roles: [Role.MAINTANER],
+    cityId: await geoRepository.getCityIdByName('Vienna'),
+    birthday: new Date('1987-08-08'),
+  },
+  {
+    id: USER_LISA_TAYLOR_ID,
+    userName: 'lisataylor',
+    password: bcrypt.hashSync('password123', saltRounds),
+    firstName: 'Lisa',
+    lastName: 'Taylor',
+    email: 'lisa.taylor@password123.com',
+    roles: [Role.USER],
+    cityId: await geoRepository.getCityIdByName('Praha'),
+    birthday: new Date('1994-09-09'),
+  },
+  {
+    id: USER_JAMES_MILLER_ID,
+    userName: 'jamesmiller',
+    password: bcrypt.hashSync('password123', saltRounds),
+    firstName: 'James',
+    lastName: 'Miller',
+    email: 'james.miller@password123.com',
+    roles: [Role.USER],
+    cityId: await geoRepository.getCityIdByName('Vienna'),
+    birthday: new Date('1989-10-10'),
+  },
+  {
+    id: USER_EMMA_DAVIS_ID,
+    userName: 'emmadavis',
+    password: bcrypt.hashSync('password123', saltRounds),
+    firstName: 'Emma',
+    lastName: 'Davis',
+    email: 'emma.davis@password123.com',
+    roles: [Role.ADMIN],
+    cityId: await geoRepository.getCityIdByName('Praha'),
+    birthday: new Date('1992-11-11'),
   },
 ]
 
