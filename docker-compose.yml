@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: peak_app_db
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./apps/backend/.env
+
+  pgadmin:
+    image: dpage/pgadmin4
+    env_file:
+      - ./apps/backend/.env
+    ports:
+      - '5050:80'
+
+volumes:
+  postgres_data:

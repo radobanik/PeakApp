@@ -1,0 +1,54 @@
+{
+  "name": "peak-app",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:frontend": "npm --workspace apps/frontend run dev",
+    "dev:backend": "npm --workspace apps/backend run dev",
+    "dev": "concurrently --kill-others-on-fail -n frontend,backend -c blue,green \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "lint": "npx eslint . --max-warnings=0",
+    "lint:fix": "npx eslint . --fix",
+    "prettier": "npx prettier . --check",
+    "prettier:fix": "npx prettier . --write",
+    "format": "npm run prettier:fix && npm run lint:fix",
+    "reinstall": "npm install --legacy-peer-deps && npm --workspace=apps/backend run migrate && npm --workspace=apps/backend run init-data && npm --workspace=apps/backend run import-toplogger",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:e2e": "npx cypress run",
+    "test:unit": "npm --workspace=apps/backend run test"
+  },
+  "devDependencies": {
+    "@tailwindcss/line-clamp": "^0.4.4",
+    "@types/chroma-js": "^3.1.1",
+    "@types/cors": "^2.8.17",
+    "@types/leaflet": "^1.9.17",
+    "@types/leaflet.markercluster": "^1.5.5",
+    "@types/numeral": "^2.0.5",
+    "@typescript-eslint/eslint-plugin": "^8.28.0",
+    "@typescript-eslint/parser": "^8.28.0",
+    "concurrently": "^9.1.2",
+    "cypress": "^14.4.1",
+    "eslint": "^9.23.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.5",
+    "eslint-plugin-react": "^7.37.4",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3"
+  },
+  "dependencies": {
+    "@maptiler/leaflet-maptilersdk": "^4.1.0",
+    "@smastrom/react-rating": "^1.5.0",
+    "aws-sdk": "^2.1692.0",
+    "chroma-js": "^3.1.2",
+    "leaflet": "^1.9.4",
+    "mock-aws-s3": "^4.0.2",
+    "nock": "^14.0.4",
+    "numeral": "^2.0.6",
+    "react-leaflet": "^5.0.0",
+    "react-leaflet-cluster": "^2.1.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  }
+}

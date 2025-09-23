@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@common/*": ["packages/common/src/*"]
+    },
+    "strict": true,
+    "moduleResolution": "node",
+    "target": "ESNext"
+  },
+  "references": [
+    { "path": "apps/frontend" },
+    { "path": "apps/backend" },
+    { "path": "packages/common" }
+  ],
+  "include": ["cypress", "cypress.config.ts"]
+}

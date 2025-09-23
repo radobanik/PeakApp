@@ -1,0 +1,433 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+model User {
+  id                String   @id @default(uuid())
+  userName          String   @unique
+  password          String
+  email             String   @unique
+  firstName         String
+  lastName          String
+  description       String  @default("")
+  roles             Role[]
+
+  birthday          DateTime?
+  height            Int?
+  weight            Float?
+
+  cityId            String?  // Foreign key to City
+  city              City?    @relation(fields: [cityId], references: [id])
+
+  profilePictureId  String?  @unique 
+  profilePicture    PeakFile? @relation(name: "UserProfilePicture", fields: [profilePictureId], references: [id])
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime?
+  deleted           Boolean  @default(false)
+
+  notificationSettings UserNotificationSettings?
+
+  /**
+   * SAVED RELATIONSHIP
+   */
+  savedRoutes       Route[]  @relation("RouteSaves")
+  notifications     Notification[]  
+
+  /**
+   * FOREIGN RELATIONSHIPS
+   */
+  files             PeakFile[] @relation(name: "UserFiles")
+  routeCreatedBy    Route[]    @relation(name: "RouteCreatedBy")
+  routeUpdatedBy    Route[]    @relation(name: "RouteUpdatedBy")
+  climbingStructureCreatedBy ClimbingObject[] @relation(name: "ClimbingObjectCreatedBy")
+  climbingStructureUpdatedBy ClimbingObject[] @relation(name: "ClimbingObjectUpdatedBy")
+  activityCreatedBy Activity[] @relation(name: "ActivityCreatedBy")
+  Session           Session[]  @relation(name: "SessionCreatedBy")
+
+  comments          Comment[]  @relation(name: "UserComments")
+  likes             Like[] @relation(name: "UserLikes")
+  Review Review[] @relation()
+
+  reports Report[] @relation(name: "UserReports")
+  following Follows[] @relation(name:"Follower")
+  followers Follows[] @relation(name: "Followee")
+}
+
+model Follows {
+  followerId  String  
+  follower  User  @relation(name: "Follower", fields: [followerId], references: [id])
+  followeeId  String
+  followee  User  @relation(name: "Followee", fields: [followeeId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@id([followerId, followeeId])
+
+}
+
+model PeakFile {
+  id                String   @id @default(uuid())
+  createdAt         DateTime @default(now())
+  name              String
+  contentType       String
+  identifier        String
+  source            PeakFileSource
+
+  createdById       String
+  createdBy         User   @relation(name: "UserFiles", fields: [createdById], references: [id])
+
+  /**
+   * FOREIGN RELATIONSHIPS
+   */
+  userProfilePicture User?   @relation(name: "UserProfilePicture")
+  routeImage         Route?  @relation(name: "RouteImage")
+  additionalRouteImages RoutePeakFile[] @relation(name: "AdditionalRouteImages")
+  SessionPeakFile    SessionPeakFile[] @relation(name: "SessionImages")
+  sessionid          String?
+  session            Session? @relation(fields: [sessionid], references: [id])
+  achievementIcon    Achievement? @relation(name: "AchievementIcon")
+  climbingObjectImage ClimbingObject?  @relation(name: "ClimbingObjectImage")
+}
+
+enum PeakFileSource {
+  S3_BUCKET
+  GENERIC_URL
+}
+
+model Grade {
+  id      String  @id @default(uuid())
+  deleted Boolean @default(false)
+  rating  Int
+  name    String
+  color   String
+
+  /**
+   * FOREIGN RELATIONSHIPS
+   */
+  routes Route[]
+  reviews Review[]
+  routesUserGradeRating Route[] @relation("UserGradeRating")
+}
+
+enum Role {
+  ADMIN
+  MAINTANER
+  USER
+}
+
+model Route {
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+  deleted   Boolean   @default(false)
+
+  createdById String
+  createdBy   User    @relation(name: "RouteCreatedBy", fields: [createdById], references: [id])
+  updatedById String?
+  updatedBy   User?   @relation(name: "RouteUpdatedBy", fields: [updatedById], references: [id])
+
+  approvalState  ApprovalState @default(PENDING)
+
+  name                  String
+  description           String                @default("")
+  climbingStructureType ClimbingStructureType
+
+  averageStar           Float                   @default(0)
+  userGradeRatingId String
+  userGradeRating Grade @relation(name: "UserGradeRating", fields: [userGradeRatingId], references: [id])
+
+  gradeId String
+  grade   Grade  @relation(fields: [gradeId], references: [id])
+
+  longitude Float
+  latitude  Float
+
+  imageId          String?         @unique
+  image            PeakFile?       @relation(name: "RouteImage", fields: [imageId], references: [id])
+  additionalImages RoutePeakFile[]
+  overlay          Json            @default("[]")
+
+  climbingObjectId String
+  climbingObject   ClimbingObject @relation(fields: [climbingObjectId], references: [id])
+
+  /**
+   * SAVED RELATIONSHIP
+   */
+  savedBy User[] @relation("RouteSaves")
+  Activity Activity[] @relation(name: "RouteActivity")
+
+  reviews Review[] @relation()
+  reports Report[] @relation(name: "RouteReports")
+}
+
+model RoutePeakFile {
+  routeId    String
+  peakFileId String
+
+  route    Route    @relation(fields: [routeId], references: [id])
+  peakFile PeakFile @relation(name: "AdditionalRouteImages", fields: [peakFileId], references: [id])
+
+  @@id([routeId, peakFileId])
+}
+
+enum ClimbingStructureType {
+  TRAVERSE
+  OVERHANG
+  SLAB
+  WALL
+}
+
+enum ApprovalState {
+  APPROVED
+  REJECTED
+  PENDING
+}
+
+model ClimbingObject {
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+  deleted   Boolean   @default(false)
+
+  createdById String
+  createdBy   User    @relation(name: "ClimbingObjectCreatedBy", fields: [createdById], references: [id])
+  updatedById String?
+  updatedBy   User?   @relation(name: "ClimbingObjectUpdatedBy", fields: [updatedById], references: [id])
+
+  approvalState  ApprovalState @default(PENDING)
+
+  name      String
+  longitude Float
+  latitude  Float
+
+  routes Route[]
+  reports Report[] @relation(name: "ClimbingObjectsReports")
+
+  imageId          String?         @unique
+  image            PeakFile?       @relation(name: "ClimbingObjectImage", fields: [imageId], references: [id])
+}
+
+model Country {
+  id   String @id @default(uuid())
+  code String @unique
+  name String
+  long Float
+  lat  Float
+
+  cities City[]
+}
+
+model City {
+  id        String  @id @default(uuid())
+  name      String
+  countryId String
+  country   Country @relation(fields: [countryId], references: [id])
+
+  @@unique([name, countryId], name: "city_name_country_unique")
+
+  /**
+   * FOREIGN RELATIONSHIPS
+   */
+  users User[] @relation
+}
+
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+  ULTRA_HARD
+}
+
+model Activity {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime?
+
+  createdById String
+  createdBy   User     @relation(name: "ActivityCreatedBy", fields: [createdById], references: [id])
+
+  climbedAt   DateTime
+  reviewStars Int     // TODO: ??????
+  reviewText  String  // TODO: ??????
+  numOfAttempts Int
+  perceivedDifficulty Difficulty
+  notes       String
+  topped      Boolean
+
+  /* FOREIGN RELATIONSHIP */
+  sessionid String?
+  session   Session? @relation(name: "SessionActivity", fields: [sessionid], references: [id])
+  routeId   String
+  route     Route @relation(name: "RouteActivity", fields: [routeId], references: [id])
+}
+
+model Session {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime?
+  deleted     Boolean  @default(false)
+
+  createdById String
+  createdBy   User     @relation(name: "SessionCreatedBy", fields: [createdById], references: [id])
+
+  name        String   @default("Session")
+  note        String
+
+  /* FOREIGN RELATIONSHIP */
+  photos              SessionPeakFile[]
+  assignedActivities  Activity[] @relation(name: "SessionActivity")
+
+  PeakFile PeakFile[]
+
+  comments    Comment[] @relation(name: "SessionComments")
+  likes Like[] @relation(name: "SessionLikes")
+}
+
+model SessionPeakFile {
+  sessionId   String
+  peakFileId String
+
+  session     Session    @relation(fields: [sessionId], references: [id])
+  peakFile  PeakFile @relation(name: "SessionImages",fields: [peakFileId], references: [id])
+
+  @@id([sessionId, peakFileId])
+}
+
+model Comment {
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+
+  userId    String
+  user      User      @relation(name: "UserComments", fields: [userId], references: [id])
+
+  sessionId String
+  session   Session   @relation(name: "SessionComments", fields: [sessionId], references: [id])
+
+  deleted   Boolean   @default(false)
+  text      String
+}
+
+model Like {
+  id        String    @id @default(uuid())
+
+  userId    String
+  user      User      @relation(name: "UserLikes", fields: [userId], references: [id])
+
+  sessionId String
+  session   Session   @relation(name: "SessionLikes", fields: [sessionId], references: [id])
+
+  @@unique([userId, sessionId], name: "user_session_unique")
+}
+model Review {
+  createdAt DateTime @default(now())
+  updatedAt DateTime?
+
+  stars Int
+  text  String
+
+  routeId String
+  route Route @relation(fields: [routeId], references: [id])
+  gradeRatingId String
+  gradeRating Grade @relation(fields: [gradeRatingId], references: [id])
+  createdById  String
+  createdBy User @relation(fields: [createdById], references: [id])
+
+  @@id([routeId, createdById])
+}
+enum ReportStatus {
+  PENDING
+  RESOLVED
+}
+
+model Report {
+  id                String    @id @default(uuid())
+  createdAt         DateTime  @default(now())
+  reportStatus      ReportStatus @default(PENDING)
+  resolvedAt        DateTime?
+  
+  createdById       String
+  createdBy         User     @relation(name: "UserReports", fields: [createdById], references: [id])
+
+  routeId           String?
+  climbingObjectId  String?
+
+  route             Route?          @relation(name: "RouteReports", fields: [routeId], references: [id])
+  climbingObject    ClimbingObject? @relation(name: "ClimbingObjectsReports", fields: [climbingObjectId], references: [id])
+
+  title             String
+  reason            String
+
+  resolution        String?
+}
+
+model Notification {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+
+  type        NotificationType
+
+  title       String
+  message     String
+  isRead      Boolean  @default(false)
+  
+  createdAt   DateTime @default(now())
+  updatedAt DateTime?
+}
+
+enum NotificationType {
+  LIKE
+  COMMENT
+  FOLLOW
+  ACHIEVEMENT
+}
+
+model UserNotificationSettings {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id])
+
+  allowedTypes      NotificationType[]
+
+  enableApp         Boolean  @default(false) // disable all notifications
+  enableEmail       Boolean @default(true)
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime?
+}
+
+enum AchievementType {
+  DAYS_REGISTERED
+  COMMENTS_COUNT
+  SESSIONS_COUNT
+  MAX_ACTIVITY_PER_SESSION
+  MAX_LIKE_ON_SESSION
+  ROUTE_TOPPED_COUNT
+  ROUTE_REVIEW_COUNT
+}
+
+model Achievement {
+  id   String @id @default(uuid())
+  name String
+  description String
+  minimumValue Int
+  
+  type AchievementType
+  
+  iconId String? @unique
+  icon PeakFile? @relation(name: "AchievementIcon", fields: [iconId], references: [id])
+}
+
+model FeatureFlag {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  enabled   Boolean  @default(false)
+  updatedAt DateTime?
+}

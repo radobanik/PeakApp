@@ -1,0 +1,17 @@
+image: node:18
+
+stages:
+  - codestyle
+  - test
+
+codestyle:
+  stage: codestyle
+  tags:
+    - shared-fi
+  before_script:
+    - npm install --legacy-peer-deps
+  script:
+    - npm run lint
+    - npm run prettier
+  rules:
+    - if: '$CI_MERGE_REQUEST_ID'

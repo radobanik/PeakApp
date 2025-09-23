@@ -1,0 +1,38 @@
+# Auto normalize all text files to LF
+* text=auto eol=lf
+
+# Explicitly set line endings for common source files to LF
+*.js    text eol=lf
+*.jsx   text eol=lf
+*.ts    text eol=lf
+*.tsx   text eol=lf
+*.json  text eol=lf
+*.css   text eol=lf
+*.scss  text eol=lf
+*.html  text eol=lf
+*.md    text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+*.sh    text eol=lf
+*.env   text eol=lf
+
+# Binary files - don't normalize line endings
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.svg   binary
+*.ico   binary
+*.eot   binary
+*.ttf   binary
+*.woff  binary
+*.woff2 binary
+*.pdf   binary
+*.zip   binary
+*.tar   binary
+*.gz    binary
+*.mp4   binary
+*.mov   binary
+
+# Ensure shell scripts are treated as text (LF) and have executable bit preserved
+*.sh text eol=lf
