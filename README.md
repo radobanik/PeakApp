@@ -31,7 +31,7 @@ A comprehensive climbing and bouldering application that allows climbers to disc
 -   **Report Management** - Handle user-submitted reports
 -   **User Management** - Administer user accounts and roles
 
-## 🚀 Tech Stack
+## Tech Stack
 
 ### Frontend
 
@@ -59,7 +59,7 @@ A comprehensive climbing and bouldering application that allows climbers to disc
 -   **Cypress** for E2E testing
 -   **ESLint** & **Prettier** for code quality
 
-## 📋 Prerequisites
+## Prerequisites
 
 -   Node.js (v18 or higher)
 -   Docker & Docker Compose
